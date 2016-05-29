@@ -19,3 +19,12 @@ def nonincreasing_insertion_sort(A):
             A[i + 1] = A[i]
             i -= 1
         A[i + 1] = key
+
+
+def linear_search(A, v):
+    i = 1
+    while i <= A.length and A[i] != v:
+        i += 1
+    if i <= A.length:
+        return i
+    return None

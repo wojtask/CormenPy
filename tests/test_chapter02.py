@@ -24,3 +24,16 @@ class InsertionSortTest(unittest.TestCase):
         array = Array([6, 1, 4, 2, 6, 7, 2])
         nonincreasing_insertion_sort(array)
         self.assertEqual([7, 6, 6, 4, 2, 2, 1], array.data)
+
+
+class LinearSearchTest(unittest.TestCase):
+    def setUp(self):
+        self.array = Array([2, 3, 1, 5, 4, 2, 4])
+
+    def test_linear_search_positive(self):
+        index = linear_search(self.array, 4)
+        self.assertEqual(5, index)
+
+    def test_linear_search_negative(self):
+        index = linear_search(self.array, 7)
+        self.assertIsNone(index)
