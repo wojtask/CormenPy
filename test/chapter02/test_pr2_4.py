@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.pr2_4 import *
+from chapter02.pr2_4 import count_inversions
 from datastructures.array import Array
 
 

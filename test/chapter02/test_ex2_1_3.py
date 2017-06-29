@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_1_3 import *
+from chapter02.ex2_1_3 import linear_search
 from datastructures.array import Array
 
 

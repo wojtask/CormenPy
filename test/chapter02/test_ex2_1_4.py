@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_1_4 import *
+from chapter02.ex2_1_4 import binary_add
 from datastructures.array import Array
 
 

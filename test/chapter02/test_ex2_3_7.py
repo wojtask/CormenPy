@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_3_7 import *
+from chapter02.ex2_3_7 import sum_search
 from datastructures.array import Array
 
 

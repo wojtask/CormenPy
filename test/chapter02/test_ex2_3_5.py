@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_3_5 import *
+from chapter02.ex2_3_5 import recursive_binary_search, iterative_binary_search
 from datastructures.array import Array
 
 

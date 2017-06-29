@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.pr2_3 import *
+from chapter02.pr2_3 import naive_polynomial_evaluation
 from datastructures.standard_array import StandardArray
 
 

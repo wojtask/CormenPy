@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_3_2 import *
+from chapter02.ex2_3_2 import merge_
 from datastructures.array import Array
 
 

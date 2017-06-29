@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_1_2 import *
+from chapter02.ex2_1_2 import nonincreasing_insertion_sort
 from datastructures.array import Array
 
 

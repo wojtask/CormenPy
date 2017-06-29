@@ -1,6 +1,6 @@
 import unittest
 
-from chapter02.ex2_2_2 import *
+from chapter02.ex2_2_2 import selection_sort
 from datastructures.array import Array
 
 
