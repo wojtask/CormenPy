@@ -1,6 +1,6 @@
 import unittest
 
-from data_structures import Array
+from datastructures.array import Array
 
 
 class ArrayTest(unittest.TestCase):
@@ -16,6 +16,3 @@ class ArrayTest(unittest.TestCase):
     def test_sets_item(self):
         self.array[2] = 3
         self.assertEqual(3, self.array.data[1])
-
-if __name__ == '__main__':
-    unittest.main()
