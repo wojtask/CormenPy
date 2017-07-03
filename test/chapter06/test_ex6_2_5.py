@@ -9,4 +9,4 @@ class IterativeMaxHeapifyTest(unittest.TestCase):
         heap = Heap([16, 4, 10, 14, 7, 9, 3, 2, 8, 1])
         iterative_max_heapify(heap, 2)
         self.assertEqual([16, 14, 10, 8, 7, 9, 3, 2, 4, 1], heap.data)
-        self.assertEqual(10,  heap.heap_size)
+        self.assertEqual(10, heap.heap_size)

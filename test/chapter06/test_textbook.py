@@ -72,6 +72,11 @@ class MaxPriorityQueueTest(unittest.TestCase):
         self.assertEqual([16, 15, 10, 14, 7, 9, 3, 2, 8, 1], heap.data)
         self.assertEqual(10, heap.heap_size)
 
+    def test_increase_key_with_smaller_value(self):
+        heap = Heap([16, 14, 10, 8, 7, 9, 3, 2, 4, 1])
+        with self.assertRaisesRegex(RuntimeError, "new key is smaller than current key"):
+            heap_increase_key(heap, 9, 3)
+
     def test_max_heap_insert(self):
         heap = Heap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
         heap.data.append(None)  # to increase the heap's capacity for the new element
