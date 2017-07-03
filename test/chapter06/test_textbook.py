@@ -2,7 +2,7 @@ import unittest
 
 from chapter06.textbook import *
 from datastructures.array import Array
-from datastructures.max_heap import MaxHeap
+from datastructures.heap import Heap
 
 
 class HeapsortTest(unittest.TestCase):
@@ -23,7 +23,7 @@ class HeapsortTest(unittest.TestCase):
         self.assertEqual(43, right_index)
 
     def test_max_heapify(self):
-        heap = MaxHeap([16, 4, 10, 14, 7, 9, 3, 2, 8, 1])
+        heap = Heap([16, 4, 10, 14, 7, 9, 3, 2, 8, 1])
         max_heapify(heap, 2)
         self.assertEqual([16, 14, 10, 8, 7, 9, 3, 2, 4, 1], heap.data)
         self.assertEqual(10, heap.heap_size)
@@ -53,27 +53,27 @@ class HeapsortTest(unittest.TestCase):
 
 class MaxPriorityQueueTest(unittest.TestCase):
     def test_heap_maximum(self):
-        heap = MaxHeap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
+        heap = Heap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
         max = heap_maximum(heap)
         self.assertEqual(15, max)
         self.assertEqual([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1], heap.data)
         self.assertEqual(12, heap.heap_size)
 
     def test_extract_max(self):
-        heap = MaxHeap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
+        heap = Heap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
         max = heap_extract_max(heap)
         self.assertEqual(15, max)
         self.assertEqual([13, 12, 9, 5, 6, 8, 7, 4, 0, 1, 2], heap.data[0:-1])
         self.assertEqual(11, heap.heap_size)
 
     def test_increase_key(self):
-        heap = MaxHeap([16, 14, 10, 8, 7, 9, 3, 2, 4, 1])
+        heap = Heap([16, 14, 10, 8, 7, 9, 3, 2, 4, 1])
         heap_increase_key(heap, 9, 15)
         self.assertEqual([16, 15, 10, 14, 7, 9, 3, 2, 8, 1], heap.data)
         self.assertEqual(10, heap.heap_size)
 
     def test_max_heap_insert(self):
-        heap = MaxHeap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
+        heap = Heap([15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1])
         heap.data.append(None)  # to increase the heap's capacity for the new element
         max_heap_insert(heap, 10)
         self.assertEqual([15, 13, 10, 5, 12, 9, 7, 4, 0, 6, 2, 1, 8], heap.data)
