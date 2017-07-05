@@ -12,9 +12,10 @@ class InsertionSortTest(unittest.TestCase):
         self.assertEqual([3], array.data)
 
     def test_insertion_sort_array(self):
-        array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
+        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
+        array = Array(data)
         insertion_sort(array)
-        self.assertEqual([1, 2, 3, 5, 6, 6, 6, 7, 7, 8, 8, 9], array.data)
+        self.assertEqual(sorted(data), array.data)
 
 
 class MergeTest(unittest.TestCase):
@@ -31,9 +32,10 @@ class MergeSortTest(unittest.TestCase):
         self.assertEqual([3], array.data)
 
     def test_merge_sort_array(self):
-        array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
+        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
+        array = Array(data)
         merge_sort(array, 1, array.length)
-        self.assertEqual([1, 2, 3, 5, 6, 6, 6, 7, 7, 8, 8, 9], array.data)
+        self.assertEqual(sorted(data), array.data)
 
 
 class BubbleSortTest(unittest.TestCase):
@@ -43,9 +45,10 @@ class BubbleSortTest(unittest.TestCase):
         self.assertEqual([3], array.data)
 
     def test_bubble_sort_array(self):
-        array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
+        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
+        array = Array(data)
         bubble_sort(array)
-        self.assertEqual([1, 2, 3, 5, 6, 6, 6, 7, 7, 8, 8, 9], array.data)
+        self.assertEqual(sorted(data), array.data)
 
 
 class HornerTest(unittest.TestCase):
@@ -53,4 +56,4 @@ class HornerTest(unittest.TestCase):
         coefficients = StandardArray([-1.5, 3.2, 1.6, 3.4, -5.0, 0.0, -1.0, 1.0])
         x = -2.0
         result = horner(coefficients, x)
-        self.assertAlmostEqual(-300.7, result, places=7)
+        self.assertAlmostEqual(-300.7, result)

@@ -11,6 +11,7 @@ class NonincreasingInsertionSortTest(unittest.TestCase):
         self.assertEqual([3], array.data)
 
     def test_nonincreasing_insertion_sort_array(self):
-        array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
+        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
+        array = Array(data)
         nonincreasing_insertion_sort(array)
-        self.assertEqual([9, 8, 8, 7, 7, 6, 6, 6, 5, 3, 2, 1], array.data)
+        self.assertEqual(sorted(data, reverse=True), array.data)
