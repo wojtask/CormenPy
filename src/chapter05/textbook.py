@@ -7,7 +7,7 @@ def permute_by_sorting(A):
     n = A.length
     P = Array.of_length(n)
     for i in scope(1, n):
-        P[i] = random(1, n ^ 3)
+        P[i] = random(1, n ** 3)
     _sort_using_priorities(A, P)
     return A
 
