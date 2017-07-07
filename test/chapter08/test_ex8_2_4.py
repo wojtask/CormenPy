@@ -4,10 +4,10 @@ from chapter08.ex8_2_4 import counting_in_range
 from datastructures.array import Array
 
 
-class Ex8_2_4_Test(unittest.TestCase):
+class Ex8_2_4Test(unittest.TestCase):
     def setUp(self):
-        self.data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
-        self.array = Array(self.data)
+        data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
+        self.array = Array(data)
 
     def test_counting_in_range_entirely_outside_array(self):
         cnt = counting_in_range(self.array, 6, -2, -1)

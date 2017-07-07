@@ -4,7 +4,7 @@ from chapter06.pr6_3 import *
 from datastructures.array import Array
 
 
-class YoungTest(unittest.TestCase):
+class Problem6_3Test(unittest.TestCase):
     def test_young_extract_min(self):
         young = Array([
             Array([2, 3, 14, 16]),
@@ -58,7 +58,8 @@ class YoungTest(unittest.TestCase):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8, 6, 3, 7, 8]
         array = Array(data)
         young_sort(array)
-        self.assertEqual(sorted(data), array.data)
+        expected_array = Array(sorted(data))
+        self.assertEqual(expected_array, array)
 
     def test_young_search_positive(self):
         young = Array([

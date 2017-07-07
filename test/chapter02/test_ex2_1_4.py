@@ -4,7 +4,7 @@ from chapter02.ex2_1_4 import binary_add
 from datastructures.array import Array
 
 
-class BinaryAddTest(unittest.TestCase):
+class Ex2_1_4Test(unittest.TestCase):
     def test_binary_add(self):
         bits1 = Array([0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1])
         bits2 = Array([0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1])

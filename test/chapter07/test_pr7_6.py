@@ -12,7 +12,7 @@ class Interval:
         self.b = b
 
 
-class FuzzySortTest(unittest.TestCase):
+class Problem7_6Test(unittest.TestCase):
     def setUp(self):
         self.data = [
             Interval(5, 7),
@@ -28,7 +28,7 @@ class FuzzySortTest(unittest.TestCase):
         fuzzy_sort(self.array, 1, self.array.length)
         for i in scope(2, self.array.length):
             if self.array[i].a < self.array[i - 1].a:
-                self.assertTrue(self.array[i].b >= self.array[i - 1].b)
+                self.assertTrue(self.array[i].b >= self.array[i - 1].a)
 
     def test_fuzzy_partition(self):
         pivot1, pivot2 = fuzzy_partition(self.array, 1, self.array.length)

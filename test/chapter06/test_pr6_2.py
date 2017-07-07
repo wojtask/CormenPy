@@ -6,7 +6,7 @@ from datastructures.heap import Heap
 from util import scope
 
 
-class MultiaryHeapTest(unittest.TestCase):
+class Problem6_2Test(unittest.TestCase):
     def test_multiary_parent(self):
         self.assertEqual(4, multiary_parent(5, 21))
         self.assertEqual(5, multiary_parent(5, 22))
@@ -23,18 +23,19 @@ class MultiaryHeapTest(unittest.TestCase):
     def test_multiary_max_heapify(self):
         heap = Heap([1, 7, 30, 38, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 35, 18])
         multiary_max_heapify(heap, 4, 1)
-        self.assertEqual([38, 7, 30, 35, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18], heap.data)
-        self.assertEqual(16, heap.heap_size)
+        expected_heap = Heap([38, 7, 30, 35, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18])
+        self.assertEqual(expected_heap, heap)
 
     def test_multiary_max_heap_insert(self):
         heap = Heap([38, 7, 30, 35, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18])
         heap.data.append(None)  # to increase the heap's capacity for the new element
+        heap.length += 1
         multiary_max_heap_insert(heap, 4, 40)
-        self.assertEqual([40, 7, 30, 38, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18, 35], heap.data)
-        self.assertEqual(17, heap.heap_size)
+        expected_heap = Heap([40, 7, 30, 38, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18, 35])
+        self.assertEqual(expected_heap, heap)
 
     def test_multiary_heap_increase_key(self):
         heap = Heap([38, 7, 30, 35, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 1, 18])
         multiary_heap_increase_key(heap, 4, 15, 40)
-        self.assertEqual([40, 7, 30, 38, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 35, 18], heap.data)
-        self.assertEqual(16, heap.heap_size)
+        expected_heap = Heap([40, 7, 30, 38, 22, 6, 3, 2, 5, 14, 29, 25, 24, 31, 35, 18])
+        self.assertEqual(expected_heap, heap)

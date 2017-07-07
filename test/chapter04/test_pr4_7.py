@@ -4,7 +4,7 @@ from chapter04.pr4_7 import monge_minimums
 from datastructures.array import Array
 
 
-class MongeTest(unittest.TestCase):
+class Problem4_7Test(unittest.TestCase):
     def test_monge_minimums(self):
         monge = Array([
             Array([10, 17, 13, 28, 23]),

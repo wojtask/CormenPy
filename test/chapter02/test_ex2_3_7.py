@@ -4,7 +4,7 @@ from chapter02.ex2_3_7 import sum_search
 from datastructures.array import Array
 
 
-class SumSearchTest(unittest.TestCase):
+class Ex2_3_7Test(unittest.TestCase):
     def setUp(self):
         self.array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
 

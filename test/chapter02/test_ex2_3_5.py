@@ -4,7 +4,7 @@ from chapter02.ex2_3_5 import recursive_binary_search, iterative_binary_search
 from datastructures.array import Array
 
 
-class BinarySearchTest(unittest.TestCase):
+class Ex2_3_5Test(unittest.TestCase):
     def setUp(self):
         self.array = Array([1, 2, 3, 5, 6, 6, 6, 7, 7, 8, 8, 9])
 
