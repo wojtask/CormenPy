@@ -22,9 +22,9 @@ class Chapter07Test(unittest.TestCase):
 
     def test_randomized_partition(self):
         pivot = randomized_partition(self.array, 1, self.array.length)
-        for i in scope(1, pivot):
+        for i in between(1, pivot):
             self.assertTrue(self.array[i] <= self.array[pivot])
-        for i in scope(pivot + 1, self.array.length):
+        for i in between(pivot + 1, self.array.length):
             self.assertTrue(self.array[i] >= self.array[pivot])
 
     def test_randomized_quicksort(self):
@@ -55,7 +55,7 @@ class Chapter07Test(unittest.TestCase):
 
     def test_median_of_3_partition(self):
         pivot = median_of_3_partition(self.array, 1, self.array.length)
-        for i in scope(1, pivot):
+        for i in between(1, pivot):
             self.assertTrue(self.array[i] <= self.array[pivot])
-        for i in scope(pivot + 1, self.array.length):
+        for i in between(pivot + 1, self.array.length):
             self.assertTrue(self.array[i] >= self.array[pivot])

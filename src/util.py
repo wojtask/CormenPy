@@ -1,9 +1,9 @@
 from builtins import range
 
 
-def scope(start, end):
+def between(start, end):
     return range(start, end + 1)
 
 
-def rscope(start, end):
+def rbetween(start, end):
     return range(start, end - 1, -1)

@@ -1,7 +1,7 @@
 import math
 
 from datastructures.array import Array
-from util import scope
+from util import between
 
 
 def count_inversions(A, p, r):
@@ -19,14 +19,14 @@ def merge_inversions(A, p, q, r):
     n2 = r - q
     L = Array.of_length(n1 + 1)
     R = Array.of_length(n2 + 1)
-    for i in scope(1, n1):
+    for i in between(1, n1):
         L[i] = A[p + i - 1]
-    for j in scope(1, n2):
+    for j in between(1, n2):
         R[j] = A[q + j]
     L[n1 + 1] = R[n2 + 1] = math.inf
     i = j = 1
     inversions = 0
-    for k in scope(p, r):
+    for k in between(p, r):
         if L[i] <= R[j]:
             A[k] = L[i]
             i = i + 1

@@ -1,6 +1,6 @@
 import math
 
-from util import rscope, scope
+from util import rbetween, between
 
 
 def parent(i):
@@ -31,13 +31,13 @@ def max_heapify(A, i):
 
 def build_max_heap(A):
     A.heap_size = A.length
-    for i in rscope(A.length // 2, 1):
+    for i in rbetween(A.length // 2, 1):
         max_heapify(A, i)
 
 
 def heapsort(A):
     build_max_heap(A)
-    for i in rscope(A.length, 2):
+    for i in rbetween(A.length, 2):
         A[1], A[i] = A[i], A[1]
         A.heap_size = A.heap_size - 1
         max_heapify(A, 1)
@@ -74,5 +74,5 @@ def max_heap_insert(A, key):
 
 def build_max_heap_(A):
     A.heap_size = 1
-    for i in scope(2, A.length):
+    for i in between(2, A.length):
         max_heap_insert(A, A[i])

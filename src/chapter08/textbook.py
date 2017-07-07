@@ -1,37 +1,37 @@
 import math
 
 from datastructures.standard_array import StandardArray
-from util import scope, rscope
+from util import between, rbetween
 
 
 def counting_sort(A, B, k):
     C = StandardArray.of_length(k + 1)
-    for i in scope(0, k):
+    for i in between(0, k):
         C[i] = 0
-    for j in scope(1, A.length):
+    for j in between(1, A.length):
         C[A[j]] = C[A[j]] + 1
-    for i in scope(1, k):
+    for i in between(1, k):
         C[i] = C[i] + C[i - 1]
-    for j in rscope(A.length, 1):
+    for j in rbetween(A.length, 1):
         B[C[A[j]]] = A[j]
         C[A[j]] = C[A[j]] - 1
 
 
 def unstable_counting_sort(A, B, k):
     C = StandardArray.of_length(k + 1)
-    for i in scope(0, k):
+    for i in between(0, k):
         C[i] = 0
-    for j in scope(1, A.length):
+    for j in between(1, A.length):
         C[A[j]] = C[A[j]] + 1
-    for i in scope(1, k):
+    for i in between(1, k):
         C[i] = C[i] + C[i - 1]
-    for j in scope(1, A.length):
+    for j in between(1, A.length):
         B[C[A[j]]] = A[j]
         C[A[j]] = C[A[j]] - 1
 
 
 def radix_sort(A, d):
-    for i in scope(1, d):
+    for i in between(1, d):
         _stable_sort_on_digit(A, i)
 
 
@@ -48,9 +48,9 @@ def bucket_sort(A):
     n = A.length
     B = StandardArray.of_length(n)
     B.data = [[] for _ in range(n)]
-    for i in scope(1, n):
+    for i in between(1, n):
         B[math.floor(n * A[i])].append(A[i])
-    for i in scope(0, n - 1):
+    for i in between(0, n - 1):
         _insertion_sort_list(B[i])
     _concatenate_lists(B, A)
 
@@ -66,4 +66,4 @@ def _insertion_sort_list(L):
 
 
 def _concatenate_lists(B, A):
-    A.data = sum((x for x in (B[i] for i in scope(0, B.length - 1))), [])
+    A.data = sum((x for x in (B[i] for i in between(0, B.length - 1))), [])

@@ -1,7 +1,7 @@
 import math
 
 from datastructures.array import Array
-from util import scope
+from util import between
 
 
 def young_extract_min(Y, m, n, i, j):
@@ -36,15 +36,15 @@ def young_insert(Y, m, n, key):
 def young_sort(A):
     n = int(math.sqrt(A.length))
     Y = _init_young(n)
-    for i in scope(1, n ** 2):
+    for i in between(1, n ** 2):
         young_insert(Y, n, n, A[i])
-    for i in scope(1, n ** 2):
+    for i in between(1, n ** 2):
         A[i] = young_extract_min(Y, n, n, 1, 1)
 
 
 def _init_young(n):
     Y = Array.of_length(n)
-    for i in scope(1, n):
+    for i in between(1, n):
         Y[i] = Array([math.inf] * n)
     return Y
 

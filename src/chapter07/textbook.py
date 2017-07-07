@@ -1,7 +1,7 @@
 from chapter02.textbook import insertion_sort
 from chapter05.ex5_1_2 import random
 from datastructures.array import Array
-from util import scope
+from util import between
 
 
 def quicksort(A, p, r):
@@ -14,7 +14,7 @@ def quicksort(A, p, r):
 def partition(A, p, r):
     x = A[r]
     i = p - 1
-    for j in scope(p, r - 1):
+    for j in between(p, r - 1):
         if A[j] <= x:
             i = i + 1
             A[i], A[j] = A[j], A[i]

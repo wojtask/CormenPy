@@ -3,7 +3,7 @@ import unittest
 from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_max_heap_insert, \
     multiary_heap_increase_key
 from datastructures.heap import Heap
-from util import scope
+from util import between
 
 
 class Problem6_2Test(unittest.TestCase):
@@ -17,7 +17,7 @@ class Problem6_2Test(unittest.TestCase):
 
     def test_multiary_parent_child(self):
         d, i = 8, 6
-        for k in scope(1, d):
+        for k in between(1, d):
             self.assertEqual(i, multiary_parent(d, multiary_child(d, i, k)))
 
     def test_multiary_max_heapify(self):

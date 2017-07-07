@@ -3,7 +3,7 @@ import unittest
 from chapter07.pr7_6 import fuzzy_sort, fuzzy_partition
 from datastructures.array import Array
 
-from util import scope
+from util import between
 
 
 class Interval:
@@ -26,14 +26,14 @@ class Problem7_6Test(unittest.TestCase):
 
     def test_fuzzy_sort(self):
         fuzzy_sort(self.array, 1, self.array.length)
-        for i in scope(2, self.array.length):
+        for i in between(2, self.array.length):
             if self.array[i].a < self.array[i - 1].a:
                 self.assertTrue(self.array[i].b >= self.array[i - 1].a)
 
     def test_fuzzy_partition(self):
         pivot1, pivot2 = fuzzy_partition(self.array, 1, self.array.length)
-        for mid in scope(pivot1, pivot2):
-            for left in scope(1, pivot1 - 1):
+        for mid in between(pivot1, pivot2):
+            for left in between(1, pivot1 - 1):
                 self.assertTrue(self.array[left].b < self.array[mid].b)
-            for right in scope(pivot2 + 1, self.array.length):
+            for right in between(pivot2 + 1, self.array.length):
                 self.assertTrue(self.array[right].a > self.array[mid].a)

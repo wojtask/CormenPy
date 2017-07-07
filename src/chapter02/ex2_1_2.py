@@ -1,8 +1,8 @@
-from util import scope
+from util import between
 
 
 def nonincreasing_insertion_sort(A):
-    for j in scope(2, A.length):
+    for j in between(2, A.length):
         key = A[j]
         i = j - 1
         while i > 0 and A[i] < key:

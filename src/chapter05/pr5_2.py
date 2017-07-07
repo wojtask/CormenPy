@@ -1,12 +1,12 @@
 from chapter05.ex5_1_2 import random
 from datastructures.array import Array
-from util import scope
+from util import between
 
 
 def random_search(A, x):
     n = A.length
     B = Array.of_length(n)
-    for k in scope(1, n):
+    for k in between(1, n):
         B[k] = False
     checked = 0
     while checked < n:
