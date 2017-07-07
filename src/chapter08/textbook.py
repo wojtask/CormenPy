@@ -66,4 +66,4 @@ def _insertion_sort_list(L):
 
 
 def _concatenate_lists(B, A):
-    A.data = sum((x for x in (B[i] for i in between(0, B.length - 1))), [])
+    A.data = [x for L in B for x in L]
