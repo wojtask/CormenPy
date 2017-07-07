@@ -4,7 +4,7 @@ from builtins import len
 # a 0-based indexed (standard) array
 class StandardArray:
     def __init__(self, data):
-        self.data = data
+        self.data = list(data)
         self.length = len(data)
 
     @classmethod

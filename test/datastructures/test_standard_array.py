@@ -16,3 +16,8 @@ class StandardArrayTest(unittest.TestCase):
     def test_sets_item(self):
         self.array[2] = 3
         self.assertEqual(3, self.array.data[2])
+
+    def test_data_is_copied(self):
+        another_array = StandardArray(self.array.data)
+        another_array[2] = 100
+        self.assertEqual(1, self.array[2])

@@ -4,7 +4,7 @@ from builtins import len
 # a 1-based indexed array
 class Array:
     def __init__(self, data):
-        self.data = data
+        self.data = list(data)
         self.length = len(data)
 
     @classmethod
