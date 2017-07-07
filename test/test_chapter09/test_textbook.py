@@ -36,3 +36,11 @@ class Chapter09Test(unittest.TestCase):
         array = Array(data)
         x = select(array, 1, array.length, 5)
         self.assertEqual(6, x)
+
+    def test_partition_around(self):
+        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
+        array = Array(data)
+        pivot = partition_around(array, 1, array.length, 3)
+        self.assertEqual(3, pivot)
+        expected_array = Array([2, 1, 3, 5, 6, 8, 6, 6, 8, 7, 7, 9])
+        self.assertEqual(expected_array, array)

@@ -60,7 +60,7 @@ def select(A, p, r, i):
         insertion_sort(group)
     medians = Array([group[(group.length + 1) // 2] for group in fives])
     x = select(medians, 1, medians.length, (medians.length + 1) // 2)
-    q = _partition_around(A, p, r, x)
+    q = partition_around(A, p, r, x)
     k = q - p + 1
     if i == k:
         return x
@@ -70,7 +70,7 @@ def select(A, p, r, i):
         return select(A, q + 1, r, i - k)
 
 
-def _partition_around(A, p, r, x):
+def partition_around(A, p, r, x):
     q = p
     while A[q] != x:
         q += 1
