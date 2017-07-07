@@ -1,0 +1,22 @@
+from datastructures.standard_array import StandardArray
+from util import scope
+
+
+def counting_in_range(A, k, a, b):
+    C = StandardArray.of_length(k + 1)
+    for i in scope(0, k):
+        C[i] = 0
+    for j in scope(1, A.length):
+        C[A[j]] = C[A[j]] + 1
+    for i in scope(1, k):
+        C[i] = C[i] + C[i - 1]
+    if 0 < a <= b <= k:
+        return C[b] - C[a - 1]
+    if 0 < a <= k < b:
+        return C[k] - C[a - 1]
+    if a <= 0 <= b <= k:
+        return C[b]
+    if a <= 0 <= k < b:
+        return C[k]
+    if a > k or b < 0:
+        return 0
