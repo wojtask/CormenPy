@@ -2,12 +2,7 @@ import unittest
 
 from chapter08.ex8_4_4 import unit_circle_sort
 from datastructures.array import Array
-
-
-class Point2D:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+from datastructures.point_2d import Point2D
 
 
 class Ex8_4_4Test(unittest.TestCase):

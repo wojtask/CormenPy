@@ -6,8 +6,7 @@ from util import between
 
 def unit_circle_sort(A):
     n = A.length
-    B = StandardArray.of_length(n)
-    B.data = [[] for _ in range(n)]
+    B = StandardArray([[] for _ in range(n)])
     for i in between(1, n):
         d = math.sqrt(A[i].x ** 2 + A[i].y ** 2)
         B[math.floor(d * d * n)].append((A[i], d))  # store distances with points; we'll sort by them later

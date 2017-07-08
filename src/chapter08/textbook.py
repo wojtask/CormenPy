@@ -46,8 +46,7 @@ def _get_digit(number, digit):
 
 def bucket_sort(A):
     n = A.length
-    B = StandardArray.of_length(n)
-    B.data = [[] for _ in range(n)]
+    B = StandardArray([[] for _ in range(n)])
     for i in between(1, n):
         B[math.floor(n * A[i])].append(A[i])
     for i in between(0, n - 1):

@@ -21,3 +21,7 @@ class StandardArrayTest(unittest.TestCase):
         another_array = StandardArray(self.array.data)
         another_array[2] = 100
         self.assertEqual(1, self.array[2])
+
+    def test_gets_all_items(self):
+        elements = [x for x in self.array]
+        self.assertEqual([4, 5, 1, 0, 2], elements)

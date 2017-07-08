@@ -29,3 +29,6 @@ class StandardArray:
 
     def __hash__(self):
         return hash(tuple(sorted(self.__dict__.items())))
+
+    def __iter__(self):
+        return (x for x in self.data)
