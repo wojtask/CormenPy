@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 
 from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_max_heap_insert, \
     multiary_heap_increase_key
@@ -6,7 +6,7 @@ from datastructures.heap import Heap
 from util import between
 
 
-class Problem6_2Test(unittest.TestCase):
+class Problem6_2Test(TestCase):
     def test_multiary_parent(self):
         self.assertEqual(4, multiary_parent(5, 21))
         self.assertEqual(5, multiary_parent(5, 22))

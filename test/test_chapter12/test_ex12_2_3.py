@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.ex12_2_3 import tree_predecessor
 from datastructures.binary_tree import BinaryTree, Node
 
 
-class Ex12_2_3Test(unittest.TestCase):
+class Ex12_2_3Test(TestCase):
     def test_tree_predecessor(self):
         tree = BinaryTree(Node(10,
                                left=Node(4,

@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter08.pr8_4 import jugs_group, jugs_match, jugs_partition
 from datastructures.array import Array
 from util import between
 
 
-class Problem8_4Test(unittest.TestCase):
+class Problem8_4Test(TestCase):
     def test_jugs_group(self):
         red_jugs = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         blue_jugs = [6, 5, 9, 7, 3, 8, 2, 6, 8, 6, 7, 1]

@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter06.pr6_3 import *
 from datastructures.array import Array
 
 
-class Problem6_3Test(unittest.TestCase):
+class Problem6_3Test(TestCase):
     def test_young_extract_min(self):
         young = Array([
             Array([2, 3, 14, 16]),

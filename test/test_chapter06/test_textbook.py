@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter06.textbook import *
 from datastructures.array import Array
 from datastructures.heap import Heap
 
 
-class Chapter06Test(unittest.TestCase):
+class Chapter06Test(TestCase):
     def test_parent_even(self):
         parent_index = parent(42)
         self.assertEqual(21, parent_index)

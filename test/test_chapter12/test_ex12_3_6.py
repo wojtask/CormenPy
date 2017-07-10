@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.ex12_3_6 import fair_tree_delete
 from datastructures.binary_tree import BinaryTree, Node
 from test.test_datastructures.test_binary_tree import BinaryTreeTest, binary_tree_to_list
 
 
-class Ex12_3_6Test(unittest.TestCase):
+class Ex12_3_6Test(TestCase):
     def setUp(self):
         self.tree = BinaryTree(Node(10,
                                     left=Node(4,

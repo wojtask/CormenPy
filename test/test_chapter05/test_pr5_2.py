@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter05.pr5_2 import random_search
 from datastructures.array import Array
 
 
-class Problem5_2Test(unittest.TestCase):
+class Problem5_2Test(TestCase):
     def setUp(self):
         self.array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
 

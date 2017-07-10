@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter07.textbook import *
 from datastructures.array import Array
 
 
-class Chapter07Test(unittest.TestCase):
+class Chapter07Test(TestCase):
     def setUp(self):
         self.data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         self.array = Array(self.data)

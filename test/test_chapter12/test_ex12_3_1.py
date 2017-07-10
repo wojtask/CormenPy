@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.ex12_3_1 import recursive_tree_insert_wrapper
 from datastructures.binary_tree import Node, BinaryTree
 from test.test_datastructures.test_binary_tree import binary_tree_to_list, BinaryTreeTest
 
 
-class Ex12_3_1Test(unittest.TestCase):
+class Ex12_3_1Test(TestCase):
     def setUp(self):
         self.btt = BinaryTreeTest()
 

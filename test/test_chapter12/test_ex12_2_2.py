@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.ex12_2_2 import recursive_tree_minimum, recursive_tree_maximum
 from datastructures.binary_tree import BinaryTree, Node
 
 
-class Ex12_2_2Test(unittest.TestCase):
+class Ex12_2_2Test(TestCase):
     def setUp(self):
         self.tree = BinaryTree(Node(10, data='ten',
                                left=Node(4, data='four',

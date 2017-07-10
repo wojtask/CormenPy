@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter02.textbook import *
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
 
 
-class Chapter02Test(unittest.TestCase):
+class Chapter02Test(TestCase):
     def test_insertion_sort_singleton(self):
         array = Array([3])
         insertion_sort(array)

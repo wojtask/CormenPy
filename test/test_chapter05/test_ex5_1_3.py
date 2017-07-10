@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from chapter05.ex5_1_3 import unbiased_random
 
 
-class Ex5_1_3Test(unittest.TestCase):
+class Ex5_1_3Test(TestCase):
     def test_unbiased_random_correct_values(self):
         x = unbiased_random()
         self.assertTrue(x in [0, 1])

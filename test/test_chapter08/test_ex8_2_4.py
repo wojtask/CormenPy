@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter08.ex8_2_4 import counting_in_range
 from datastructures.array import Array
 
 
-class Ex8_2_4Test(unittest.TestCase):
+class Ex8_2_4Test(TestCase):
     def setUp(self):
         data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
         self.array = Array(data)

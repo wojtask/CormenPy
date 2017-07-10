@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter07.pr7_1 import hoare_quicksort
 from datastructures.array import Array
 
 
-class Problem7_1Test(unittest.TestCase):
+class Problem7_1Test(TestCase):
     def test_hoare_quicksort(self):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         array = Array(data)

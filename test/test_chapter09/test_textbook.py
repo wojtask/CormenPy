@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter09.textbook import *
 from datastructures.array import Array
 
 
-class Chapter09Test(unittest.TestCase):
+class Chapter09Test(TestCase):
     def test_minimum(self):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         array = Array(data)

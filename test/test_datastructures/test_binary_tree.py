@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from datastructures.binary_tree import BinaryTree, Node
 
 
-class BinaryTreeTest(unittest.TestCase):
+class BinaryTreeTest(TestCase):
     def test_create_empty_binary_tree(self):
         tree = BinaryTree()
         self.assertIsNone(tree.root)

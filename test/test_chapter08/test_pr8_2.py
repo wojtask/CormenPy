@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter08.pr8_2 import bitwise_sort, counting_sort_in_place
 from datastructures.array import Array
 
 
-class Problem8_2Test(unittest.TestCase):
+class Problem8_2Test(TestCase):
     def test_bitwise_sort(self):
         data = [1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0]
         array = Array(data)

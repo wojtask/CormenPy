@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter02.ex2_2_2 import selection_sort
 from datastructures.array import Array
 
 
-class Ex2_2_2Test(unittest.TestCase):
+class Ex2_2_2Test(TestCase):
     def test_selection_sort_singleton(self):
         array = Array([3])
         selection_sort(array)

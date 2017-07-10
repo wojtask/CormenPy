@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter05.textbook import permute_by_sorting, randomize_in_place
 from datastructures.array import Array
 
 
-class Chapter05Test(unittest.TestCase):
+class Chapter05Test(TestCase):
     def setUp(self):
         self.data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         self.array = Array(self.data)

@@ -1,6 +1,6 @@
 import io
-import unittest
 from contextlib import redirect_stdout
+from unittest import TestCase
 
 from chapter12.textbook import *
 from datastructures.array import Array
@@ -8,7 +8,7 @@ from datastructures.binary_tree import BinaryTree, Node
 from test.test_datastructures.test_binary_tree import BinaryTreeTest, binary_tree_to_list
 
 
-class Chapter12Test(unittest.TestCase):
+class Chapter12Test(TestCase):
     def setUp(self):
         self.tree = BinaryTree(Node(10,
                                left=Node(4,

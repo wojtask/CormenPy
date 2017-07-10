@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter06.ex6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
 from datastructures.heap import Heap
 
 
-class Ex6_5_3Test(unittest.TestCase):
+class Ex6_5_3Test(TestCase):
     def setUp(self):
         self.heap = Heap([0, 1, 7, 3, 4, 8, 17, 12, 10, 5, 13, 9, 16, 27])
 

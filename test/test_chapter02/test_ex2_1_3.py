@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter02.ex2_1_3 import linear_search
 from datastructures.array import Array
 
 
-class Ex2_1_3Test(unittest.TestCase):
+class Ex2_1_3Test(TestCase):
     def setUp(self):
         self.array = Array([5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8])
 

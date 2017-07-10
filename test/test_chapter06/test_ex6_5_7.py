@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter06.ex6_5_7 import max_heap_delete
 from datastructures.heap import Heap
 
 
-class Ex6_5_7Test(unittest.TestCase):
+class Ex6_5_7Test(TestCase):
     def setUp(self):
         self.heap = Heap([27, 7, 20, 4, 6, 13, 17, 0, 3, 2, 1, 5, 11, 10])
 

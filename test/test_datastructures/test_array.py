@@ -1,9 +1,9 @@
-import unittest
+from unittest import TestCase
 
 from datastructures.array import Array
 
 
-class ArrayTest(unittest.TestCase):
+class ArrayTest(TestCase):
     def setUp(self):
         self.array = Array([4, 5, 1, 0, 2])
 

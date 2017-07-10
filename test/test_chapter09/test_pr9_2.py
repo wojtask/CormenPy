@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 
 from chapter09.pr9_2 import weighted_median_using_sorting, weighted_median, post_office_manhattan
 from datastructures.array import Array
@@ -9,7 +9,7 @@ def get_distance_sum(origin, locations):
     return sum(abs(origin.x - loc.x) + abs(origin.y - loc.y) for loc in locations)
 
 
-class Problem9_2Test(unittest.TestCase):
+class Problem9_2Test(TestCase):
     def test_weighted_median_using_sorting(self):
         data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         array = Array(data)

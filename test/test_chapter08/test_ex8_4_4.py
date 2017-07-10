@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from chapter08.ex8_4_4 import unit_circle_sort
 from datastructures.array import Array
 from datastructures.point_2d import Point2D
 
 
-class Ex8_4_4Test(unittest.TestCase):
+class Ex8_4_4Test(TestCase):
     def test_unit_circle_sort(self):
         data = [
             Point2D(.15, .79),

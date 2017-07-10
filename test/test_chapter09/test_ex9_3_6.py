@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter09.ex9_3_6 import quantiles
 from datastructures.array import Array
 
 
-class Ex9_3_6Test(unittest.TestCase):
+class Ex9_3_6Test(TestCase):
     def setUp(self):
         self.data = [5, 0, 7, 9, 4, 2, 6, 8, 3, 1]
         self.array = Array(self.data)

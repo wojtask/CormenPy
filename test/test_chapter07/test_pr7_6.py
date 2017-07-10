@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 
 from chapter07.pr7_6 import fuzzy_sort, fuzzy_partition
 from datastructures.array import Array
@@ -12,7 +12,7 @@ class Interval:
         self.b = b
 
 
-class Problem7_6Test(unittest.TestCase):
+class Problem7_6Test(TestCase):
     def setUp(self):
         self.data = [
             Interval(5, 7),

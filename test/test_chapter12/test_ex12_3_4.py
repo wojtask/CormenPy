@@ -1,4 +1,4 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.ex12_3_4 import safe_tree_delete
 from datastructures.binary_tree import BinaryTree, Node
@@ -6,7 +6,7 @@ from test.test_chapter12.test_ex12_3_1 import binary_tree_to_list
 from test.test_datastructures.test_binary_tree import BinaryTreeTest
 
 
-class Ex12_3_4Test(unittest.TestCase):
+class Ex12_3_4Test(TestCase):
     def setUp(self):
         self.tree = BinaryTree(Node(10,
                                left=Node(4,

@@ -1,10 +1,10 @@
-import unittest
+from unittest import TestCase
 
 from chapter12.pr12_3 import randomly_built_tree_quicksort
 from datastructures.array import Array
 
 
-class Problem12_3Test(unittest.TestCase):
+class Problem12_3Test(TestCase):
     def test_bit_strings_sort(self):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         array = Array(data)
