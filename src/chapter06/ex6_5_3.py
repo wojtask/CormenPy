@@ -10,7 +10,7 @@ def heap_minimum(A):
 
 def heap_extract_min(A):
     if A.heap_size < 1:
-        raise RuntimeError("heap underflow")
+        raise RuntimeError('heap underflow')
     min = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1
@@ -20,7 +20,7 @@ def heap_extract_min(A):
 
 def heap_decrease_key(A, i, key):
     if key > A[i]:
-        raise RuntimeError("new key is larger than current key")
+        raise RuntimeError('new key is larger than current key')
     A[i] = key
     while i > 1 and A[parent(i)] > A[i]:
         A[i], A[parent(i)] = A[parent(i)], A[i]

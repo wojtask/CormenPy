@@ -1,3 +1,5 @@
+import math
+
 from chapter09.textbook import select
 from datastructures.array import Array
 from datastructures.point_2d import Point2D
@@ -27,7 +29,7 @@ def weighted_median(A, w, p, r):
         else:
             return A[r]
     _partition_around_median(A, w, p, r)
-    q = (p + r) // 2
+    q = math.floor((p + r) / 2)
     WL = 0.0
     for i in between(p, q - 1):
         WL = WL + w[i]

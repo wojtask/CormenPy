@@ -1,3 +1,5 @@
+import math
+
 from chapter02.textbook import insertion_sort
 from chapter05.ex5_1_2 import random
 from datastructures.array import Array
@@ -71,7 +73,7 @@ def stooge_sort(A, i, j):
         A[i], A[j] = A[j], A[i]
     if i + 1 >= j:
         return
-    k = (j - i + 1) // 3
+    k = math.floor((j - i + 1) / 3)
     stooge_sort(A, i, j - k)
     stooge_sort(A, i + k, j)
     stooge_sort(A, i, j - k)

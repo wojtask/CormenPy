@@ -4,7 +4,7 @@ from util import rbetween, between
 
 
 def parent(i):
-    return i // 2
+    return math.floor(i / 2)
 
 
 def left(i):
@@ -31,7 +31,7 @@ def max_heapify(A, i):
 
 def build_max_heap(A):
     A.heap_size = A.length
-    for i in rbetween(A.length // 2, 1):
+    for i in rbetween(math.floor(A.length / 2), 1):
         max_heapify(A, i)
 
 
@@ -49,7 +49,7 @@ def heap_maximum(A):
 
 def heap_extract_max(A):
     if A.heap_size < 1:
-        raise RuntimeError("heap underflow")
+        raise RuntimeError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1
@@ -59,7 +59,7 @@ def heap_extract_max(A):
 
 def heap_increase_key(A, i, key):
     if key < A[i]:
-        raise RuntimeError("new key is smaller than current key")
+        raise RuntimeError('new key is smaller than current key')
     A[i] = key
     while i > 1 and A[parent(i)] < A[i]:
         A[i], A[parent(i)] = A[parent(i)], A[i]
