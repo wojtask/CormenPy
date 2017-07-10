@@ -12,7 +12,9 @@ class Array:
         return cls([None] * length)
 
     def __getitem__(self, index):
-        return self.data[index - 1]
+        if isinstance(index, int):
+            return self.data[index - 1]
+        return Array(self.data[index.start - 1:index.stop])
 
     def __setitem__(self, index, item):
         self.data[index - 1] = item

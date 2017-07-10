@@ -12,7 +12,9 @@ class StandardArray:
         return cls([None] * length)
 
     def __getitem__(self, index):
-        return self.data[index]
+        if isinstance(index, int):
+            return self.data[index]
+        return StandardArray(self.data[index.start:index.stop + 1])
 
     def __setitem__(self, index, item):
         self.data[index] = item

@@ -25,3 +25,7 @@ class StandardArrayTest(unittest.TestCase):
     def test_gets_all_items(self):
         elements = [x for x in self.array]
         self.assertEqual([4, 5, 1, 0, 2], elements)
+
+    def test_gets_subarray(self):
+        subarray = self.array[1:3]
+        self.assertEqual(StandardArray([5, 1, 0]), subarray)
