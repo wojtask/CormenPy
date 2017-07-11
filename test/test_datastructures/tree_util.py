@@ -6,20 +6,20 @@ tc = TestCase()
 
 
 def binary_tree_to_list(tree, sentinel=None):
-    return _binary_tree_to_list(tree.root, sentinel)
+    return _binary_subtree_to_list(tree.root, sentinel)
 
 
-def _binary_tree_to_list(node, sentinel):
+def _binary_subtree_to_list(node, sentinel):
     if node is sentinel:
         return []
-    return [node.key] + _binary_tree_to_list(node.left, sentinel) + _binary_tree_to_list(node.right, sentinel)
+    return [node.key] + _binary_subtree_to_list(node.left, sentinel) + _binary_subtree_to_list(node.right, sentinel)
 
 
 def assert_binary_search_tree(tree, sentinel=None):
     if tree.root is not sentinel:
         tc.assertIs(sentinel, tree.root.p)
         _assert_parent_pointers_consistent(tree.root, sentinel)
-        _assert_binary_search_tree_subtree(tree.root, sentinel)
+        _assert_binary_search_subtree(tree.root, sentinel)
 
 
 def _assert_parent_pointers_consistent(node, sentinel):
@@ -31,17 +31,17 @@ def _assert_parent_pointers_consistent(node, sentinel):
         _assert_parent_pointers_consistent(node.right, sentinel)
 
 
-def _assert_binary_search_tree_subtree(node, sentinel):
+def _assert_binary_search_subtree(node, sentinel):
     if node.left is not sentinel:
-        left_keys = _binary_tree_to_list(node.left, sentinel)
+        left_keys = _binary_subtree_to_list(node.left, sentinel)
         for left_key in left_keys:
             tc.assertTrue(left_key <= node.key)
-        _assert_binary_search_tree_subtree(node.left, sentinel)
+        _assert_binary_search_subtree(node.left, sentinel)
     if node.right is not sentinel:
-        right_keys = _binary_tree_to_list(node.right, sentinel)
+        right_keys = _binary_subtree_to_list(node.right, sentinel)
         for right_key in right_keys:
             tc.assertTrue(right_key >= node.key)
-        _assert_binary_search_tree_subtree(node.right, sentinel)
+        _assert_binary_search_subtree(node.right, sentinel)
 
 
 def assert_red_black_tree(tree):
@@ -73,16 +73,31 @@ def _assert_red_black_property_5(node, nil):
     return left_bh
 
 
+def assert_avl_tree(tree):
+    assert_binary_search_tree(tree)
+    _assert_avl_subtree(tree.root)
+
+
+def _assert_avl_subtree(node):
+    if node is None:
+        return -1
+    hl = _assert_avl_subtree(node.left)
+    hr = _assert_avl_subtree(node.right)
+    tc.assertEqual(node.h, max(hl, hr) + 1)
+    tc.assertTrue(abs(hr - hl) <= 1)
+    return node.h
+
+
 def assert_treap(tree):
     assert_binary_search_tree(tree)
     if tree.root is not None:
-        _assert_treap(tree.root)
+        _assert_subtreap(tree.root)
 
 
-def _assert_treap(node):
+def _assert_subtreap(node):
     if node.left is not None:
         tc.assertTrue(node.priority < node.left.priority)
-        _assert_treap(node.left)
+        _assert_subtreap(node.left)
     if node.right is not None:
         tc.assertTrue(node.priority < node.right.priority)
-        _assert_treap(node.right)
+        _assert_subtreap(node.right)
