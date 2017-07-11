@@ -6,13 +6,13 @@ from datastructures.binary_tree import BinaryTree, Node
 
 class Ex12_2_2Test(TestCase):
     def setUp(self):
-        self.tree = BinaryTree(Node(10, data='ten',
-                               left=Node(4, data='four',
-                                         left=Node(1, data='one')),
-                               right=Node(14, data='fourteen',
-                                          left=Node(11, data='eleven'),
-                                          right=Node(19, data='nineteen',
-                                                     right=Node(20, data='twenty')))))
+        self.tree = BinaryTree(Node(10,
+                               left=Node(4,
+                                         left=Node(1)),
+                               right=Node(14,
+                                          left=Node(11),
+                                          right=Node(19,
+                                                     right=Node(20)))))
 
     def test_recursive_tree_minimum(self):
         x = recursive_tree_minimum(self.tree.root)
