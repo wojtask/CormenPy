@@ -64,7 +64,7 @@ def _assert_red_black_property_4(x, nil):
 
 
 def _assert_red_black_property_5(x, nil):
-    left_bh, right_bh = 0, 0
+    left_bh = right_bh = 0
     if x.left is not nil:
         left_bh = _assert_red_black_property_5(x.left, nil) + x.left.color.value
     if x.right is not nil:

@@ -1,7 +1,6 @@
 from enum import Enum
 
 from datastructures import binary_tree
-from datastructures.binary_tree import BinaryTree
 
 
 class Color(Enum):
@@ -9,7 +8,7 @@ class Color(Enum):
     BLACK = 1
 
 
-class RedBlackTree(BinaryTree):
+class RedBlackTree(binary_tree.BinaryTree):
     def __init__(self, root=None):
         super().__init__(root)
         self.nil = Node(None)

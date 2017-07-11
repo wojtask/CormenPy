@@ -1,6 +1,8 @@
-class RadixTree:
-    def __init__(self, root=None):
-        self.root = root
+from datastructures import binary_tree
+
+
+class RadixTree(binary_tree.BinaryTree):
+    pass
 
 
 class Node:
