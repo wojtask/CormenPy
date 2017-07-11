@@ -2,6 +2,7 @@ from unittest import TestCase
 
 from datastructures.red_black_tree import RedBlackTree, Color, Node
 from test.test_datastructures.test_binary_tree import BinaryTreeTest
+from test.test_datastructures.tree_util import assert_parent_pointers_consistent
 
 
 class RedBlackTreeTest(TestCase):
@@ -19,12 +20,6 @@ class RedBlackTreeTest(TestCase):
         root = Node(17, left=left, right=right)
         tree = RedBlackTree(root)
         self.assertEqual(tree.root, root)
-        self.assertIs(tree.nil, root.p)
         self.assertEqual(left, root.left)
-        self.assertEqual(root, left.p)
         self.assertEqual(right, root.right)
-        self.assertEqual(root, right.p)
-        self.assertIs(tree.nil, left.left)
-        self.assertIs(tree.nil, left.right)
-        self.assertIs(tree.nil, right.left)
-        self.assertIs(tree.nil, right.right)
+        assert_parent_pointers_consistent(tree, sentinel=tree.nil)

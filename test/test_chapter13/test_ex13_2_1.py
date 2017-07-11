@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from chapter13.ex13_2_1 import right_rotate
-from test.test_datastructures.tree_util import assert_binary_search_tree
+from test.test_datastructures.tree_util import assert_binary_search_tree, assert_parent_pointers_consistent
 
 
 class Ex13_2_1Test(TestCase):
@@ -19,6 +19,7 @@ class Ex13_2_1Test(TestCase):
         self.assertIs(beta, y.left)
         self.assertIs(gamma, y.right)
         assert_binary_search_tree(tree)
+        assert_parent_pointers_consistent(tree)
 
     def test_left_rotate_red_black_tree(self):
         from datastructures.red_black_tree import RedBlackTree, Node
@@ -34,3 +35,4 @@ class Ex13_2_1Test(TestCase):
         self.assertIs(beta, y.left)
         self.assertIs(gamma, y.right)
         assert_binary_search_tree(tree, sentinel=tree.nil)
+        assert_parent_pointers_consistent(tree, sentinel=tree.nil)

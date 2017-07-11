@@ -19,15 +19,15 @@ class RedBlackTree(binary_tree.BinaryTree):
             self.root.p = self.nil
             self._assign_sentinel_to_empty_children(root)
 
-    def _assign_sentinel_to_empty_children(self, x):
-        if x.left is None:
-            x.left = self.nil
+    def _assign_sentinel_to_empty_children(self, node):
+        if node.left is None:
+            node.left = self.nil
         else:
-            self._assign_sentinel_to_empty_children(x.left)
-        if x.right is None:
-            x.right = self.nil
+            self._assign_sentinel_to_empty_children(node.left)
+        if node.right is None:
+            node.right = self.nil
         else:
-            self._assign_sentinel_to_empty_children(x.right)
+            self._assign_sentinel_to_empty_children(node.right)
 
 
 class Node(binary_tree.Node):

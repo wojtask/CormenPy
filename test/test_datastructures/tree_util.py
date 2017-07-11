@@ -15,11 +15,10 @@ def _binary_subtree_to_list(node, sentinel):
     return [node.key] + _binary_subtree_to_list(node.left, sentinel) + _binary_subtree_to_list(node.right, sentinel)
 
 
-def assert_binary_search_tree(tree, sentinel=None):
+def assert_parent_pointers_consistent(tree, sentinel=None):
     if tree.root is not sentinel:
         tc.assertIs(sentinel, tree.root.p)
         _assert_parent_pointers_consistent(tree.root, sentinel)
-        _assert_binary_search_subtree(tree.root, sentinel)
 
 
 def _assert_parent_pointers_consistent(node, sentinel):
@@ -29,6 +28,11 @@ def _assert_parent_pointers_consistent(node, sentinel):
     if node.right is not sentinel:
         tc.assertIs(node, node.right.p)
         _assert_parent_pointers_consistent(node.right, sentinel)
+
+
+def assert_binary_search_tree(tree, sentinel=None):
+    if tree.root is not sentinel:
+        _assert_binary_search_subtree(tree.root, sentinel)
 
 
 def _assert_binary_search_subtree(node, sentinel):

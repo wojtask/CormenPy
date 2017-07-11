@@ -5,7 +5,8 @@ from unittest import TestCase
 from chapter12.textbook import *
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree, Node
-from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree
+from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree, \
+    assert_parent_pointers_consistent
 
 
 class Chapter12Test(TestCase):
@@ -75,12 +76,14 @@ class Chapter12Test(TestCase):
         keys = binary_tree_to_list(tree)
         self.assertEqual([12], keys)
         assert_binary_search_tree(tree)
+        assert_parent_pointers_consistent(tree)
 
     def test_tree_insert(self):
         tree_insert(self.tree, Node(12))
         keys = binary_tree_to_list(self.tree)
         self.assertEqual([1, 4, 10, 11, 12, 14, 19, 20], sorted(keys))
         assert_binary_search_tree(self.tree)
+        assert_parent_pointers_consistent(self.tree)
 
     def test_tree_delete_leaf(self):
         node = self.tree.root.right.left  # a leaf
@@ -89,6 +92,7 @@ class Chapter12Test(TestCase):
         keys = binary_tree_to_list(self.tree)
         self.assertEqual([1, 4, 10, 14, 19, 20], sorted(keys))
         assert_binary_search_tree(self.tree)
+        assert_parent_pointers_consistent(self.tree)
 
     def test_tree_delete_node_with_one_child(self):
         node = self.tree.root.left  # a node with one child
@@ -97,6 +101,7 @@ class Chapter12Test(TestCase):
         keys = binary_tree_to_list(self.tree)
         self.assertEqual([1, 10, 11, 14, 19, 20], sorted(keys))
         assert_binary_search_tree(self.tree)
+        assert_parent_pointers_consistent(self.tree)
 
     def test_tree_delete_node_with_two_children(self):
         node = self.tree.root.right  # a node with two children (successor's key = 19)
@@ -105,6 +110,7 @@ class Chapter12Test(TestCase):
         keys = binary_tree_to_list(self.tree)
         self.assertEqual([1, 4, 10, 11, 19, 20], sorted(keys))
         assert_binary_search_tree(self.tree)
+        assert_parent_pointers_consistent(self.tree)
 
     def test_tree_delete_from_single_node_tree(self):
         tree = BinaryTree(Node(10))
