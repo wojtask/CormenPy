@@ -19,8 +19,8 @@ class Problem6_3Test(TestCase):
             Array([5, math.inf, math.inf, math.inf]),
             Array([9, math.inf, math.inf, math.inf])
         ])
-        self.assertEqual(2, min)
-        self.assertEqual(expected_young, young)
+        self.assertEqual(min, 2)
+        self.assertEqual(young, expected_young)
 
     def test_youngify(self):
         young = Array([
@@ -36,7 +36,7 @@ class Problem6_3Test(TestCase):
             Array([5, 8, math.inf, math.inf]),
             Array([9, math.inf, math.inf, math.inf])
         ])
-        self.assertEqual(expected_young, young)
+        self.assertEqual(young, expected_young)
 
     def test_young_insert(self):
         young = Array([
@@ -52,14 +52,14 @@ class Problem6_3Test(TestCase):
             Array([5, 12, math.inf, math.inf]),
             Array([9, math.inf, math.inf, math.inf])
         ])
-        self.assertEqual(expected_young, young)
+        self.assertEqual(young, expected_young)
 
     def test_young_sort(self):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8, 6, 3, 7, 8]
         array = Array(data)
         young_sort(array)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)
 
     def test_young_search_positive(self):
         young = Array([

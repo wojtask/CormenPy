@@ -11,4 +11,4 @@ class Ex5_3_1Test(TestCase):
         randomize_in_place_(array)
         expected_sorted_array = Array(sorted(data))
         actual_sorted_array = Array(sorted(array.data))
-        self.assertEqual(expected_sorted_array, actual_sorted_array)
+        self.assertEqual(actual_sorted_array, expected_sorted_array)

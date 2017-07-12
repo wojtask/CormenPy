@@ -18,9 +18,9 @@ class Ex12_3_6Test(TestCase):
 
     def test_fair_tree_delete_leaf(self):
         y = fair_tree_delete(self.tree, self.tree.root.right.left)  # a leaf
-        self.assertEqual(11, y.key)
+        self.assertEqual(y.key, 11)
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 4, 10, 14, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 4, 10, 14, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)
 
@@ -29,7 +29,7 @@ class Ex12_3_6Test(TestCase):
         y = fair_tree_delete(self.tree, node)
         self.assertEqual(4, y.key)
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 10, 11, 14, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 10, 11, 14, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)
 
@@ -38,6 +38,6 @@ class Ex12_3_6Test(TestCase):
         y = fair_tree_delete(self.tree, node)
         self.assertIn(y.key, [11, 19])
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 4, 10, 11, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 4, 10, 11, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)

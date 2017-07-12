@@ -17,4 +17,4 @@ class Problem4_7Test(TestCase):
         ])
         actual_minimums = monge_minimums(monge)
         expected_minimums = Array([10, 16, 22, 6, 23, 6, 34])
-        self.assertEqual(expected_minimums, actual_minimums)
+        self.assertEqual(actual_minimums, expected_minimums)

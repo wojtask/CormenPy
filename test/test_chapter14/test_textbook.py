@@ -16,7 +16,7 @@ class Chapter14Test(TestCase):
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
         actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
-        self.assertEqual(sorted(keys), sorted(actual_keys))
+        self.assertEqual(sorted(actual_keys), sorted(keys))
 
     def test_os_delete(self):
         # first we build an order statistic tree using os_insert
@@ -38,7 +38,7 @@ class Chapter14Test(TestCase):
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
             actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
-            self.assertEqual(tree_size - i - 1, len(actual_keys))
+            self.assertEqual(len(actual_keys), tree_size - i - 1)
             self.assertTrue(all(x in keys for x in actual_keys))
 
     def test_os_select(self):
@@ -50,7 +50,7 @@ class Chapter14Test(TestCase):
         sorted_keys = sorted(keys)
         for i in range(tree_size):
             x = os_select(tree.root, i + 1)
-            self.assertEqual(sorted_keys[i], x.key)
+            self.assertEqual(x.key, sorted_keys[i])
 
     def test_os_rank(self):
         tree_size = 20
@@ -61,4 +61,4 @@ class Chapter14Test(TestCase):
         sorted_nodes = sorted(nodes, key=lambda x: x.key)
         for i in range(tree_size):
             rank = os_rank(tree, sorted_nodes[i])
-            self.assertEqual(i + 1, rank)
+            self.assertEqual(rank, i + 1)

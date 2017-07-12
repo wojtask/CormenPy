@@ -9,4 +9,4 @@ class Problem9_3Test(TestCase):
         data = [5, 12, 1, 0, 13, 12, 0, 10, 9, 1, 4, 3, 16, 15, 19, 6, 11, 20, 2]
         array = Array(data)
         x = small_order_select(array, 3)
-        self.assertEqual(1, x)
+        self.assertEqual(x, 1)

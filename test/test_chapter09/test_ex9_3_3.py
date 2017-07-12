@@ -10,4 +10,4 @@ class Ex9_3_3Test(TestCase):
         array = Array(data)
         best_case_quicksort(array, 1, array.length)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

@@ -16,4 +16,4 @@ class Ex14_1_3Test(TestCase):
         sorted_keys = sorted(keys)
         for i in range(tree_size):
             x = iterative_os_select(tree.root, i + 1)
-            self.assertEqual(sorted_keys[i], x.key)
+            self.assertEqual(x.key, sorted_keys[i])

@@ -9,10 +9,10 @@ class Ex9_3_7Test(TestCase):
         data = [5, 0, 15, 17, 4, 2, 6, 16, 3, 1]
         array = Array(data)
         neighbors = median_neighbors(array, 1)
-        self.assertEqual({4}, neighbors)
+        self.assertEqual(neighbors, {4})
 
     def test_median_neighbors_4th_order(self):
         data = [5, 0, 15, 17, 4, 2, 6, 16, 3, 1]
         array = Array(data)
         neighbors = median_neighbors(array, 4)
-        self.assertTrue(neighbors == {2, 3, 4, 5} or neighbors == {3, 4, 5, 6})
+        self.assertIn(neighbors, [{2, 3, 4, 5}, {3, 4, 5, 6}])

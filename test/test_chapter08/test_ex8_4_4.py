@@ -28,4 +28,4 @@ class Ex8_4_4Test(TestCase):
         array = Array(data)
         unit_circle_sort(array)
         expected_sorted_array = Array(sorted(data, key=lambda p: p.x ** 2 + p.y ** 2))
-        self.assertEqual(expected_sorted_array, array)
+        self.assertEqual(array, expected_sorted_array)

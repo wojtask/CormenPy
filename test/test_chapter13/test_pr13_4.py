@@ -16,4 +16,4 @@ class Problem13_4Test(TestCase):
             assert_treap(treap)
             assert_parent_pointers_consistent(treap)
         actual_keys = binary_tree_to_list(treap)
-        self.assertEqual(sorted(keys), sorted(actual_keys))
+        self.assertEqual(sorted(actual_keys), sorted(keys))

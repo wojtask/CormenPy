@@ -13,4 +13,4 @@ class Problem12_2Test(TestCase):
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             bit_strings_sort(array)
-        self.assertEqual(['0', '011', '10', '100', '1011'], captured_output.getvalue().splitlines())
+        self.assertEqual(captured_output.getvalue().splitlines(), ['0', '011', '10', '100', '1011'])

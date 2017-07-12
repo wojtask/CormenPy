@@ -16,6 +16,6 @@ class Problem13_1Test(TestCase):
             assert_binary_search_tree(new_tree)
             actual_keys_before_insertion = binary_tree_to_list(tree)
             actual_keys_after_insertion = binary_tree_to_list(new_tree)
-            self.assertEqual(sorted(keys[:i]), sorted(actual_keys_before_insertion))
-            self.assertEqual(sorted(keys[:i + 1]), sorted(actual_keys_after_insertion))
+            self.assertEqual(sorted(actual_keys_before_insertion), sorted(keys[:i]))
+            self.assertEqual(sorted(actual_keys_after_insertion), sorted(keys[:i + 1]))
             tree = new_tree

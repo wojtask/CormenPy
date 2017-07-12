@@ -13,6 +13,6 @@ class Problem8_5Test(TestCase):
         average_sort(array, k, 1, array.length)
         expected_sorted_array = Array(sorted(data))
         actual_sorted_array = Array(sorted(data))
-        self.assertEqual(expected_sorted_array, actual_sorted_array)
+        self.assertEqual(actual_sorted_array, expected_sorted_array)
         for i in between(1, array.length - k):
             self.assertTrue(array[i] <= array[i + k])

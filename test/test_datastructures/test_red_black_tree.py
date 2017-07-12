@@ -20,6 +20,6 @@ class RedBlackTreeTest(TestCase):
         root = Node(17, left=left, right=right)
         tree = RedBlackTree(root)
         self.assertEqual(tree.root, root)
-        self.assertEqual(left, root.left)
-        self.assertEqual(right, root.right)
+        self.assertEqual(root.left, left)
+        self.assertEqual(root.right, right)
         assert_parent_pointers_consistent(tree, sentinel=tree.nil)

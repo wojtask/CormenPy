@@ -17,16 +17,16 @@ def _binary_subtree_to_list(node, sentinel):
 
 def assert_parent_pointers_consistent(tree, sentinel=None):
     if tree.root is not sentinel:
-        tc.assertIs(sentinel, tree.root.p)
+        tc.assertIs(tree.root.p, sentinel)
         _assert_parent_pointers_consistent(tree.root, sentinel)
 
 
 def _assert_parent_pointers_consistent(node, sentinel):
     if node.left is not sentinel:
-        tc.assertIs(node, node.left.p)
+        tc.assertIs(node.left.p, node)
         _assert_parent_pointers_consistent(node.left, sentinel)
     if node.right is not sentinel:
-        tc.assertIs(node, node.right.p)
+        tc.assertIs(node.right.p, node)
         _assert_parent_pointers_consistent(node.right, sentinel)
 
 
@@ -49,8 +49,8 @@ def _assert_binary_search_subtree(node, sentinel):
 
 
 def assert_red_black_tree(tree):
-    tc.assertEqual(Color.BLACK, tree.root.color)
-    tc.assertEqual(Color.BLACK, tree.nil.color)
+    tc.assertEqual(tree.root.color, Color.BLACK)
+    tc.assertEqual(tree.nil.color, Color.BLACK)
     if tree.root is not tree.nil:
         assert_binary_search_tree(tree, sentinel=tree.nil)
         _assert_red_black_property_4(tree.root, tree.nil)
@@ -59,8 +59,8 @@ def assert_red_black_tree(tree):
 
 def _assert_red_black_property_4(node, nil):
     if node.color == Color.RED:
-        tc.assertEqual(Color.BLACK, node.left.color)
-        tc.assertEqual(Color.BLACK, node.right.color)
+        tc.assertEqual(node.left.color, Color.BLACK)
+        tc.assertEqual(node.right.color, Color.BLACK)
     if node.left is not nil:
         _assert_red_black_property_4(node.left, nil)
     if node.right is not nil:

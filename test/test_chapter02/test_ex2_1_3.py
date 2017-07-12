@@ -10,8 +10,8 @@ class Ex2_1_3Test(TestCase):
 
     def test_linear_search_positive(self):
         index = linear_search(self.array, 3)
-        self.assertEqual(9, index)
+        self.assertEqual(index, 9)
 
     def test_linear_search_negative(self):
         index = linear_search(self.array, 4)
-        self.assertIsNone(index)
+        self.assertIsNone(index, 9)

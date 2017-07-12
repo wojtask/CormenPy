@@ -14,4 +14,4 @@ class Ex14_1_4Test(TestCase):
             os_insert(tree, OSNode(key))
         for i, key in enumerate(sorted(keys)):
             rank = os_key_rank(tree.root, key)
-            self.assertEqual(i + 1, rank)
+            self.assertEqual(rank, i + 1)

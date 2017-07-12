@@ -16,4 +16,4 @@ class Problem13_3Test(TestCase):
             assert_avl_tree(tree)
             assert_parent_pointers_consistent(tree)
         actual_keys = binary_tree_to_list(tree)
-        self.assertEqual(sorted(keys), sorted(actual_keys))
+        self.assertEqual(sorted(actual_keys), sorted(keys))

@@ -9,4 +9,4 @@ class Ex2_3_2Test(TestCase):
         array = Array([3, 5, 6, 8, 8, 9] + [1, 2, 6, 6, 7, 7])
         merge_(array, 1, array.length // 2, array.length)
         expected_array = Array([1, 2, 3, 5, 6, 6, 6, 7, 7, 8, 8, 9])
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

@@ -13,10 +13,10 @@ class Ex12_2_3Test(TestCase):
                                           left=Node(11),
                                           right=Node(19,
                                                      right=Node(20)))))
-        self.assertEqual(4, tree_predecessor(tree.root).key)
-        self.assertEqual(1, tree_predecessor(tree.root.left).key)
+        self.assertEqual(tree_predecessor(tree.root).key, 4)
+        self.assertEqual(tree_predecessor(tree.root.left).key, 1)
         self.assertIsNone(tree_predecessor(tree.root.left.left))
-        self.assertEqual(11, tree_predecessor(tree.root.right).key)
-        self.assertEqual(10, tree_predecessor(tree.root.right.left).key)
-        self.assertEqual(14, tree_predecessor(tree.root.right.right).key)
-        self.assertEqual(19, tree_predecessor(tree.root.right.right.right).key)
+        self.assertEqual(tree_predecessor(tree.root.right).key, 11)
+        self.assertEqual(tree_predecessor(tree.root.right.left).key, 10)
+        self.assertEqual(tree_predecessor(tree.root.right.right).key, 14)
+        self.assertEqual(tree_predecessor(tree.root.right.right.right).key, 19)

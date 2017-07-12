@@ -10,4 +10,4 @@ class Problem12_3Test(TestCase):
         array = Array(data)
         randomly_built_tree_quicksort(array, 1, array.length)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

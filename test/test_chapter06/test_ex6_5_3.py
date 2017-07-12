@@ -12,22 +12,22 @@ class Ex6_5_3Test(TestCase):
         min = heap_minimum(self.heap)
         self.assertEqual(0, min)
         expected_heap = Heap([0, 1, 7, 3, 4, 8, 17, 12, 10, 5, 13, 9, 16, 27])
-        self.assertEqual(expected_heap, self.heap)
+        self.assertEqual(self.heap, expected_heap)
 
     def test_extract_min(self):
         min = heap_extract_min(self.heap)
         self.assertEqual(0, min)
         expected_heap = Heap([1, 3, 7, 10, 4, 8, 17, 12, 27, 5, 13, 9, 16])
         actual_heap = Heap(self.heap.data[0:-1])  # because the last element is not actually removed from the heap
-        self.assertEqual(expected_heap, actual_heap)
+        self.assertEqual(actual_heap, expected_heap)
 
     def test_decrease_key(self):
         heap_decrease_key(self.heap, 13, 2)
         expected_heap = Heap([0, 1, 2, 3, 4, 7, 17, 12, 10, 5, 13, 9, 8, 27])
-        self.assertEqual(expected_heap, self.heap)
+        self.assertEqual(self.heap, expected_heap)
 
     def test_decrease_key_with_larger_value(self):
-        with self.assertRaisesRegex(RuntimeError, "new key is larger than current key"):
+        with self.assertRaisesRegex(RuntimeError, 'new key is larger than current key'):
             heap_decrease_key(self.heap, 13, 20)
 
     def test_min_heap_insert(self):
@@ -35,4 +35,4 @@ class Ex6_5_3Test(TestCase):
         self.heap.length += 1
         min_heap_insert(self.heap, 6)
         expected_heap = Heap([0, 1, 6, 3, 4, 8, 7, 12, 10, 5, 13, 9, 16, 27, 17])
-        self.assertEqual(expected_heap, self.heap)
+        self.assertEqual(self.heap, expected_heap)

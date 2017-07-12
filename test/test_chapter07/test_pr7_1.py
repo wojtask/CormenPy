@@ -10,4 +10,4 @@ class Problem7_1Test(TestCase):
         array = Array(data)
         hoare_quicksort(array, 1, array.length)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

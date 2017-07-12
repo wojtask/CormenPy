@@ -13,10 +13,10 @@ class Chapter05Test(TestCase):
         self.array = permute_by_sorting(self.array)
         expected_sorted_array = Array(sorted(self.data))
         actual_sorted_array = Array(sorted(self.array.data))
-        self.assertEqual(expected_sorted_array, actual_sorted_array)
+        self.assertEqual(actual_sorted_array, expected_sorted_array)
 
     def test_randomize_in_place(self):
         randomize_in_place(self.array)
         expected_sorted_array = Array(sorted(self.data))
         actual_sorted_array = Array(sorted(self.array.data))
-        self.assertEqual(expected_sorted_array, actual_sorted_array)
+        self.assertEqual(actual_sorted_array, expected_sorted_array)

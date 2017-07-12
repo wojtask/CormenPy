@@ -20,7 +20,7 @@ class Ex12_3_4Test(TestCase):
         node = self.tree.root.right.left  # a leaf
         safe_tree_delete(self.tree, node)
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 4, 10, 14, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 4, 10, 14, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)
 
@@ -28,7 +28,7 @@ class Ex12_3_4Test(TestCase):
         node = self.tree.root.left  # a node with one child
         safe_tree_delete(self.tree, node)
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 10, 11, 14, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 10, 11, 14, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)
 
@@ -36,6 +36,6 @@ class Ex12_3_4Test(TestCase):
         node = self.tree.root.right  # a node with two children
         safe_tree_delete(self.tree, node)
         keys = binary_tree_to_list(self.tree)
-        self.assertEqual([1, 4, 10, 11, 19, 20], sorted(keys))
+        self.assertEqual(sorted(keys), [1, 4, 10, 11, 19, 20])
         assert_binary_search_tree(self.tree)
         assert_parent_pointers_consistent(self.tree)

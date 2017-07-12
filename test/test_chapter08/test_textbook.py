@@ -11,7 +11,7 @@ class Chapter08Test(TestCase):
         sorted_array = Array.of_length(array.length)
         counting_sort(array, sorted_array, 6)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, sorted_array)
+        self.assertEqual(sorted_array, expected_array)
 
     def test_unstable_counting_sort(self):
         data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
@@ -19,14 +19,14 @@ class Chapter08Test(TestCase):
         sorted_array = Array.of_length(array.length)
         unstable_counting_sort(array, sorted_array, 6)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, sorted_array)
+        self.assertEqual(sorted_array, expected_array)
 
     def test_radix_sort(self):
         data = [24015, 44036, 14014, 62027, 55033, 19012, 63032]
         array = Array(data)
         radix_sort(array, 5)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)
 
     def test_bucket_sort(self):
         data = [.15, .92, .56, .25, .66, .23, .9, .2, .45, .7, .39,
@@ -34,4 +34,4 @@ class Chapter08Test(TestCase):
         array = Array(data)
         bucket_sort(array)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

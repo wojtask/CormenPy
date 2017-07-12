@@ -11,4 +11,4 @@ class Ex9_3_8Test(TestCase):
         array1 = Array(data1)
         array2 = Array(data2)
         median = two_arrays_median(array1, 1, array1.length, array2, 1, array2.length)
-        self.assertEqual(7, median)
+        self.assertEqual(median, 7)

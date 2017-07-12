@@ -10,7 +10,7 @@ class Problem5_2Test(TestCase):
 
     def test_random_search_positive(self):
         index = random_search(self.array, 3)
-        self.assertEqual(9, index)
+        self.assertEqual(index, 9)
 
     def test_random_search_negative(self):
         index = random_search(self.array, 4)

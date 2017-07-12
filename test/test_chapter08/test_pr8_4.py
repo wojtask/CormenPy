@@ -14,7 +14,7 @@ class Problem8_4Test(TestCase):
         jugs_group(red, blue)
         sorted_expected_reds = Array(sorted(red_jugs))
         sorted_actual_reds = Array(sorted(red.data))
-        self.assertEqual(sorted_expected_reds, sorted_actual_reds)
+        self.assertEqual(sorted_actual_reds, sorted_expected_reds)
         self.assertEqual(red, blue)
 
     def test_jugs_match(self):
@@ -25,7 +25,7 @@ class Problem8_4Test(TestCase):
         jugs_match(red, blue, 1, red.length)
         sorted_expected_reds = Array(sorted(red_jugs))
         sorted_actual_reds = Array(sorted(red.data))
-        self.assertEqual(sorted_expected_reds, sorted_actual_reds)
+        self.assertEqual(sorted_actual_reds, sorted_expected_reds)
         self.assertEqual(red, blue)
 
     def test_jugs_partition(self):
@@ -36,7 +36,7 @@ class Problem8_4Test(TestCase):
         pivot = jugs_partition(red, blue, 1, red.length)
         sorted_expected_reds = Array(sorted(red_jugs))
         sorted_actual_reds = Array(sorted(red.data))
-        self.assertEqual(sorted_expected_reds, sorted_actual_reds)
+        self.assertEqual(sorted_actual_reds, sorted_expected_reds)
         for i in between(1, pivot - 1):
             self.assertTrue(red[i] <= red[pivot])
             self.assertTrue(blue[i] <= blue[pivot])

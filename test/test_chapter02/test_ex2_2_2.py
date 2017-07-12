@@ -9,11 +9,11 @@ class Ex2_2_2Test(TestCase):
         array = Array([3])
         selection_sort(array)
         expected_array = Array([3])
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)
 
     def test_selection_sort_array(self):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         array = Array(data)
         selection_sort(array)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

@@ -10,4 +10,4 @@ class Ex8_3_4Test(TestCase):
         array = Array(data)
         below_square_sort(array)
         expected_array = Array(sorted(data))
-        self.assertEqual(expected_array, array)
+        self.assertEqual(array, expected_array)

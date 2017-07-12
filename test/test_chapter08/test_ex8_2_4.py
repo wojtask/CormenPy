@@ -11,20 +11,20 @@ class Ex8_2_4Test(TestCase):
 
     def test_counting_in_range_entirely_outside_array(self):
         cnt = counting_in_range(self.array, 6, -2, -1)
-        self.assertEqual(0, cnt)
+        self.assertEqual(cnt, 0)
 
     def test_counting_in_range_entirely_inside_array(self):
         cnt = counting_in_range(self.array, 6, 1, 5)
-        self.assertEqual(7, cnt)
+        self.assertEqual(cnt, 7)
 
     def test_counting_in_range_left_outside_array(self):
         cnt = counting_in_range(self.array, 6, -2, 3)
-        self.assertEqual(8, cnt)
+        self.assertEqual(cnt, 8)
 
     def test_counting_in_range_right_outside_array(self):
         cnt = counting_in_range(self.array, 6, 3, 12)
-        self.assertEqual(5, cnt)
+        self.assertEqual(cnt, 5)
 
     def test_counting_in_range_surrounding_array(self):
         cnt = counting_in_range(self.array, 6, -4, 16)
-        self.assertEqual(11, cnt)
+        self.assertEqual(cnt, 11)

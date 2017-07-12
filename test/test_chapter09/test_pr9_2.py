@@ -16,7 +16,7 @@ class Problem9_2Test(TestCase):
         weights = [.05, .05, .1, .2, .02, .1, .03, .05, .3, .1]
         w = Array(weights)
         median = weighted_median_using_sorting(array, w)
-        self.assertEqual(5, median)
+        self.assertEqual(median, 5)
 
     def test_weighted_median(self):
         data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -24,7 +24,7 @@ class Problem9_2Test(TestCase):
         weights = [.05, .05, .1, .2, .02, .1, .03, .05, .3, .1]
         w = Array(weights)
         median = weighted_median(array, w, 1, array.length)
-        self.assertEqual(5, median)
+        self.assertEqual(median, 5)
 
     def test_post_office_manhattan(self):
         data = [

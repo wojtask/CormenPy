@@ -16,8 +16,8 @@ class Ex12_2_2Test(TestCase):
 
     def test_recursive_tree_minimum(self):
         x = recursive_tree_minimum(self.tree.root)
-        self.assertEqual(1, x.key)
+        self.assertEqual(x.key, 1)
 
     def test_recursive_tree_maximum(self):
         x = recursive_tree_maximum(self.tree.root)
-        self.assertEqual(20, x.key)
+        self.assertEqual(x.key, 20)

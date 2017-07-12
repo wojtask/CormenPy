@@ -11,16 +11,16 @@ class Ex9_3_6Test(TestCase):
 
     def test_quantiles_1st_order(self):
         q = quantiles(self.array, 1, self.array.length, 1)
-        self.assertEqual(set(), q)
+        self.assertEqual(q, set())
 
     def test_quantiles_2nd_order(self):
         q = quantiles(self.array, 1, self.array.length, 2)
-        self.assertTrue(q == {4} or q == {5})
+        self.assertIn(q, [{4}, {5}])
 
     def test_quantiles_5th_order(self):
         q = quantiles(self.array, 1, self.array.length, 5)
-        self.assertTrue(q == {1, 3, 5, 7} or q == {2, 4, 6, 8})
+        self.assertIn(q, [{1, 3, 5, 7}, {2, 4, 6, 8}])
 
     def test_quantiles_maximum_order(self):
         q = quantiles(self.array, 1, self.array.length, self.array.length + 1)
-        self.assertEqual(set(self.data), q)
+        self.assertEqual(q, set(self.data))

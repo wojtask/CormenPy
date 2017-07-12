@@ -67,7 +67,7 @@ def heap_increase_key(A, i, key):
 
 
 def max_heap_insert(A, key):
-    A.heap_size = A.heap_size + 1
+    A.heap_size += 1
     A[A.heap_size] = -math.inf
     heap_increase_key(A, A.heap_size, key)
 

@@ -9,4 +9,4 @@ class Ex9_3_5Test(TestCase):
         data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
         array = Array(data)
         x = randomized_blackbox_select(array, 1, array.length, 5)
-        self.assertEqual(6, x)
+        self.assertEqual(x, 6)
