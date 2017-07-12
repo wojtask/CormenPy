@@ -56,12 +56,11 @@ def balance(x):
             avl_left_rotate(x.left)
         avl_right_rotate(x)
         return x.p
-    else:
-        if balance_factor(x) == 2:
-            if balance_factor(x.right) == -1:
-                avl_right_rotate(x.right)
-            avl_left_rotate(x)
-            return x.p
+    if balance_factor(x) == 2:
+        if balance_factor(x.right) == -1:
+            avl_right_rotate(x.right)
+        avl_left_rotate(x)
+        return x.p
     return x
 
 
