@@ -1,47 +1,32 @@
-from chapter13.ex13_2_1 import right_rotate
-from datastructures.red_black_tree import Color, RedBlackTree
+from chapter13.textbook import rb_tree_successor
+from datastructures.red_black_tree import Color
 
 
-def rb_tree_minimum(T, x):
-    while x.left != T.nil:
-        x = x.left
-    return x
-
-
-def rb_tree_successor(T, x):
-    if x.right != T.nil:
-        return rb_tree_minimum(T, x.right)
-    y = x.p
-    while y != T.nil and x == y.right:
-        x = y
-        y = y.p
-    return y
-
-
-def left_rotate(T, x):
-    # make sure the function works correctly for binary search trees and for red-black trees
-    sentinel = T.nil if isinstance(T, RedBlackTree) else None
-
-    y = x.right
-    x.right = y.left
-    if y.left is not sentinel:
-        y.left.p = x
-    y.p = x.p
-    if x.p is sentinel:
-        T.root = y
+def os_select(x, i):
+    r = x.left.size + 1
+    if i == r:
+        return x
+    elif i < r:
+        return os_select(x.left, i)
     else:
-        if x == x.p.left:
-            x.p.left = y
-        else:
-            x.p.right = y
-    y.left = x
-    x.p = y
+        return os_select(x.right, i - r)
 
 
-def rb_insert(T, z):
+def os_rank(T, x):
+    r = x.left.size + 1
+    y = x
+    while y != T.root:
+        if y == y.p.right:
+            r += y.p.left.size + 1
+        y = y.p
+    return r
+
+
+def os_insert(T, z):
     y = T.nil
     x = T.root
     while x != T.nil:
+        x.size += 1
         y = x
         if z.key < x.key:
             x = x.left
@@ -58,10 +43,11 @@ def rb_insert(T, z):
     z.left = T.nil
     z.right = T.nil
     z.color = Color.RED
-    rb_insert_fixup(T, z)
+    z.size = 1
+    os_insert_fixup(T, z)
 
 
-def rb_insert_fixup(T, z):
+def os_insert_fixup(T, z):
     while z.p.color == Color.RED:
         if z.p == z.p.p.left:
             y = z.p.p.right
@@ -73,10 +59,10 @@ def rb_insert_fixup(T, z):
             else:
                 if z == z.p.right:
                     z = z.p
-                    left_rotate(T, z)
+                    os_left_rotate(T, z)
                 z.p.color = Color.BLACK
                 z.p.p.color = Color.RED
-                right_rotate(T, z.p.p)
+                os_right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
             if y.color == Color.RED:
@@ -87,14 +73,52 @@ def rb_insert_fixup(T, z):
             else:
                 if z == z.p.left:
                     z = z.p
-                    right_rotate(T, z)
+                    os_right_rotate(T, z)
                 z.p.color = Color.BLACK
                 z.p.p.color = Color.RED
-                left_rotate(T, z.p.p)
+                os_left_rotate(T, z.p.p)
     T.root.color = Color.BLACK
 
 
-def rb_delete(T, z):
+def os_left_rotate(T, x):
+    y = x.right
+    x.right = y.left
+    if y.left is not T.nil:
+        y.left.p = x
+    y.p = x.p
+    if x.p is T.nil:
+        T.root = y
+    else:
+        if x == x.p.left:
+            x.p.left = y
+        else:
+            x.p.right = y
+    y.left = x
+    x.p = y
+    y.size = x.size
+    x.size = x.left.size + x.right.size + 1
+
+
+def os_right_rotate(T, x):
+    y = x.left
+    x.left = y.right
+    if y.right is not T.nil:
+        y.right.p = x
+    y.p = x.p
+    if x.p is T.nil:
+        T.root = y
+    else:
+        if x == x.p.right:
+            x.p.right = y
+        else:
+            x.p.left = y
+    y.right = x
+    x.p = y
+    y.size = x.size
+    x.size = x.left.size + x.right.size + 1
+
+
+def os_delete(T, z):
     if z.left == T.nil or z.right == T.nil:
         y = z
     else:
@@ -114,19 +138,26 @@ def rb_delete(T, z):
     if y != z:
         z.key = y.key
         z.data = y.data
+    _update_size_fields(T, y)
     if y.color == Color.BLACK:
-        rb_delete_fixup(T, x)
+        os_delete_fixup(T, x)
     return y
 
 
-def rb_delete_fixup(T, x):
+def _update_size_fields(tree, y):
+    while y is not tree.nil:
+        y.size -= 1
+        y = y.p
+
+
+def os_delete_fixup(T, x):
     while x != T.root and x.color == Color.BLACK:
         if x == x.p.left:
             w = x.p.right
             if w.color == Color.RED:
                 w.color = Color.BLACK
                 x.p.color = Color.RED
-                left_rotate(T, x.p)
+                os_left_rotate(T, x.p)
                 w = x.p.right
             if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
                 w.color = Color.RED
@@ -135,19 +166,19 @@ def rb_delete_fixup(T, x):
                 if w.right.color == Color.BLACK:
                     w.left.color = Color.BLACK
                     w.color = Color.RED
-                    right_rotate(T, w)
+                    os_right_rotate(T, w)
                     w = x.p.right
                 w.color = x.p.color
                 x.p.color = Color.BLACK
                 w.right.color = Color.BLACK
-                left_rotate(T, x.p)
+                os_left_rotate(T, x.p)
                 x = T.root
         else:
             w = x.p.left
             if w.color == Color.RED:
                 w.color = Color.BLACK
                 x.p.color = Color.RED
-                right_rotate(T, x.p)
+                os_right_rotate(T, x.p)
                 w = x.p.left
             if w.right.color == Color.BLACK and w.left.color == Color.BLACK:
                 w.color = Color.RED
@@ -156,11 +187,25 @@ def rb_delete_fixup(T, x):
                 if w.left.color == Color.BLACK:
                     w.right.color = Color.BLACK
                     w.color = Color.RED
-                    left_rotate(T, w)
+                    os_left_rotate(T, w)
                     w = x.p.left
                 w.color = x.p.color
                 x.p.color = Color.BLACK
                 w.left.color = Color.BLACK
-                right_rotate(T, x.p)
+                os_right_rotate(T, x.p)
                 x = T.root
     x.color = Color.BLACK
+
+
+def _overlap(i, i_):
+    return i.low <= i_.high and i_.low <= i.high
+
+
+def interval_search(T, i):
+    x = T.root
+    while x != T.nil and not _overlap(i, x.int):
+        if x.left != T.nil and x.left.max >= i.low:
+            x = x.left
+        else:
+            x = x.right
+    return x

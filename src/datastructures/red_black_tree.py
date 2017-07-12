@@ -1,3 +1,4 @@
+import math
 from enum import Enum
 
 from datastructures import binary_tree
@@ -8,10 +9,16 @@ class Color(Enum):
     BLACK = 1
 
 
+class Node(binary_tree.Node):
+    def __init__(self, key, data=None, left=None, right=None):
+        super().__init__(key, data, left, right)
+        self.color = Color.BLACK
+
+
 class RedBlackTree(binary_tree.BinaryTree):
-    def __init__(self, root=None):
+    def __init__(self, root=None, nil=Node(None)):
         super().__init__(root)
-        self.nil = Node(None)
+        self.nil = nil
         self.nil.left = self.nil.right = self.nil.p = self.nil
         if root is None:
             self.root = self.nil
@@ -30,7 +37,14 @@ class RedBlackTree(binary_tree.BinaryTree):
             self._assign_sentinel_to_empty_children(node.right)
 
 
-class Node(binary_tree.Node):
-    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
+class OSNode(Node):
+    def __init__(self, key, data=None, left=None, right=None):
         super().__init__(key, data, left, right)
-        self.color = color
+        self.size = 0
+
+
+class IntervalNode(Node):
+    def __init__(self, key, interval, data=None, left=None, right=None):
+        super().__init__(key, data, left, right)
+        self.int = interval
+        self.max = -math.inf

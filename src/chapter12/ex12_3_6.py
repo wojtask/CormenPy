@@ -26,9 +26,5 @@ def fair_tree_delete(T, z):
             y.p.right = x
     if y != z:
         z.key = y.key
-        _copy_satellite_data(y, z)
+        z.data = y.data
     return y
-
-
-def _copy_satellite_data(y, z):
-    z.data = y.data

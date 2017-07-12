@@ -105,3 +105,17 @@ def _assert_subtreap(node):
     if node.right is not None:
         tc.assertTrue(node.priority < node.right.priority)
         _assert_subtreap(node.right)
+
+
+def assert_os_tree(tree):
+    assert_red_black_tree(tree)
+    if tree.root is not tree.nil:
+        _assert_os_subtree(tree.root, tree.nil)
+
+
+def _assert_os_subtree(node, nil):
+    tc.assertEqual(node.size, node.left.size + node.right.size + 1)
+    if node.left is not nil:
+        _assert_os_subtree(node.left, nil)
+    if node.right is not nil:
+        _assert_os_subtree(node.right, nil)
