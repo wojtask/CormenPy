@@ -11,12 +11,21 @@ def merge_(A, p, q, r):
         L[i] = A[p + i - 1]
     for j in between(1, n2):
         R[j] = A[q + j]
-    i = 1
-    j = 1
-    for k in between(p, r):
-        if j > n2 or L[i] <= R[j]:
+    i = j = 1
+    k = p
+    while i <= n1 and j <= n2:
+        if L[i] <= R[j]:
             A[k] = L[i]
             i = i + 1
         else:
             A[k] = R[j]
             j = j + 1
+        k = k + 1
+    while i <= n1:
+        A[k] = L[i]
+        i = i + 1
+        k = k + 1
+    while j <= n2:
+        A[k] = R[j]
+        j = j + 1
+        k = k + 1
