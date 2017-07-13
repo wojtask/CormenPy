@@ -1,7 +1,7 @@
 from util import between
 
 
-def naive_polynomial_evaluation(a, x):
+def polynomial_evaluate(a, x):
     y = 0.0
     n = a.length - 1
     for i in between(0, n):

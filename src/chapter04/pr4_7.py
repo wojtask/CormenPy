@@ -6,22 +6,20 @@ from util import between
 
 def monge_minimums(A):
     m = A.length
-    minimums_indices = monge_minimums_indices(A)
+    minimums_indices = _monge_minimums_indices(A)
     minimums = Array.of_length(m)
     for i in between(1, m):
         minimums[i] = A[i][minimums_indices[i]]
     return minimums
 
 
-def monge_minimums_indices(A):
+def _monge_minimums_indices(A):
     m = A.length
     if m == 0:
         return Array([])
     n = A[1].length
-    A_ = Array.of_length(m // 2)
-    for j in between(1, m // 2):
-        A_[j] = A[2 * j]
-    minimums_indices_even_rows = monge_minimums_indices(A_)
+    A_ = Array([A[2 * j] for j in between(1, m // 2)])
+    minimums_indices_even_rows = _monge_minimums_indices(A_)
     minimums_indices = Array.of_length(m)
     for j in between(1, m // 2):
         minimums_indices[2 * j] = minimums_indices_even_rows[j]
