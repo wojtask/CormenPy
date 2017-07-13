@@ -44,10 +44,10 @@ def _permutation_producing_select(A, p, r, i):
     q = _permutation_changing_partition_around(A, p, r, x, permutation)
     k = q - p + 1
     if i < k:
-        permutation_changes = select(A, p, q - 1, i)
+        permutation_changes = _permutation_producing_select(A, p, q - 1, i)
         _apply_permutation_changes(permutation, permutation_changes, 0)
     elif i > k:
-        permutation_changes = select(A, q + 1, r, i - k)
+        permutation_changes = _permutation_producing_select(A, q + 1, r, i - k)
         _apply_permutation_changes(permutation, permutation_changes, k)
     return permutation
 
