@@ -9,7 +9,7 @@ def unit_circle_sort(A):
     B = StandardArray([[] for _ in range(n)])
     for i in between(1, n):
         d = math.sqrt(A[i].x ** 2 + A[i].y ** 2)
-        B[math.floor(d * d * n)].append((A[i], d))  # store distances with points; we'll sort by them later
+        B[math.ceil(d ** 2 * n) - 1].append((A[i], d))  # store distances with points; we'll sort by them later
     for i in between(0, n - 1):
         _insertion_sort_list_by_distance(B[i])
     _concatenate_lists_of_points(B, A)
