@@ -60,7 +60,7 @@ def _permutation_changing_partition_around(A, p, r, x, permutation):
     permutation[q - p], permutation[r - p] = permutation[r - p], permutation[q - p]
     i = p - 1
     for j in between(p, r - 1):
-        if A[j] < x:
+        if A[j] <= x:
             i += 1
             A[i], A[j] = A[j], A[i]
             permutation[i - p], permutation[j - p] = permutation[j - p], permutation[i - p]
