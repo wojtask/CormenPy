@@ -1,47 +1,55 @@
+import random
 from unittest import TestCase
 
 from chapter09.pr9_2 import weighted_median_using_sorting, weighted_median, post_office_manhattan
 from datastructures.array import Array
 from datastructures.point_2d import Point2D
+from test.test_datastructures.array_util import random_int_array
 
 
-def get_distance_sum(origin, locations):
-    return sum(abs(origin.x - loc.x) + abs(origin.y - loc.y) for loc in locations)
+def _get_weighted_distance_sum(origin, locations, weights):
+    return sum(w * (abs(origin.x - loc.x) + abs(origin.y - loc.y)) for loc, w in zip(locations, weights))
 
 
 class Problem9_2Test(TestCase):
     def test_weighted_median_using_sorting(self):
-        data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        array = Array(data)
-        weights = [.05, .05, .1, .2, .02, .1, .03, .05, .3, .1]
-        w = Array(weights)
-        median = weighted_median_using_sorting(array, w)
-        self.assertEqual(median, 5)
+        array, data = random_int_array()
+        weights_not_normalized = [random.randrange(1000) for _ in range(array.length)]
+        weights = [w / sum(weights_not_normalized) for w in weights_not_normalized]
+        weights_array = Array(weights)
+
+        actual_weighted_median = weighted_median_using_sorting(array, weights_array)
+
+        self.assert_weighted_median(actual_weighted_median, data, weights)
+
+    def assert_weighted_median(self, wm, data, weights):
+        left_sum = sum([weights[i] for i, x in enumerate(data) if x < wm])
+        right_sum = sum([weights[i] for i, x in enumerate(data) if x > wm])
+        self.assertTrue(left_sum < .5)
+        self.assertTrue(right_sum <= .5)
 
     def test_weighted_median(self):
-        data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        array = Array(data)
-        weights = [.05, .05, .1, .2, .02, .1, .03, .05, .3, .1]
-        w = Array(weights)
-        median = weighted_median(array, w, 1, array.length)
-        self.assertEqual(median, 5)
+        array, data = random_int_array()
+        weights_not_normalized = [random.randrange(1000) for _ in range(array.length)]
+        weights = [w / sum(weights_not_normalized) for w in weights_not_normalized]
+        weights_array = Array(weights)
+
+        actual_weighted_median = weighted_median(array, weights_array, 1, array.length)
+
+        self.assert_weighted_median(actual_weighted_median, data, weights)
 
     def test_post_office_manhattan(self):
-        data = [
-            Point2D(1.0, 1.0),
-            Point2D(1.0, 3.0),
-            Point2D(1.0, 5.0),
-            Point2D(3.0, 1.0),
-            Point2D(3.0, 5.0),
-            Point2D(5.0, 1.0),
-            Point2D(5.0, 3.0),
-            Point2D(5.0, 5.0)
-        ]
+        n = random.randint(1, 20)
+        data = [Point2D(random.uniform(-5.0, 5.0), random.uniform(-5.0, 5.0)) for _ in range(n)]
         array = Array(data)
-        weights = [.1, .1, .2, .02, .2, .3, .05, .03]
-        w = Array(weights)
-        post_office = post_office_manhattan(array, w)
-        post_office_distance_sum = get_distance_sum(post_office, data)
+
+        weights_not_normalized = [random.randrange(1000) for _ in range(n)]
+        weights = [w / sum(weights_not_normalized) for w in weights_not_normalized]
+        weights_array = Array(weights)
+
+        actual_post_office = post_office_manhattan(array, weights_array)
+
+        post_office_distance_sum = _get_weighted_distance_sum(actual_post_office, data, weights)
         for point in data:
-            point_distance_sum = get_distance_sum(point, data)
+            point_distance_sum = _get_weighted_distance_sum(point, data, weights)
             self.assertTrue(post_office_distance_sum <= point_distance_sum)

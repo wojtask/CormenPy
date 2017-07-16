@@ -1,26 +1,25 @@
+import random
 from unittest import TestCase
 
 from chapter09.ex9_3_6 import quantiles
-from datastructures.array import Array
+from test.test_datastructures.array_util import random_unique_int_array
 
 
 class Ex9_3_6Test(TestCase):
-    def setUp(self):
-        self.data = [5, 0, 7, 9, 4, 2, 6, 8, 3, 1]
-        self.array = Array(self.data)
+    def test_quantiles(self):
+        array, data = random_unique_int_array()
+        k = random.randint(1, array.length + 1)
+        actual_quantiles = quantiles(array, 1, array.length, k)
+        self.assertEqual(len(actual_quantiles), k - 1)
+        if k > 1:
+            self._assert_quantiles(actual_quantiles, data)
 
-    def test_quantiles_1st_order(self):
-        q = quantiles(self.array, 1, self.array.length, 1)
-        self.assertEqual(q, set())
-
-    def test_quantiles_2nd_order(self):
-        q = quantiles(self.array, 1, self.array.length, 2)
-        self.assertIn(q, [{4}, {5}])
-
-    def test_quantiles_5th_order(self):
-        q = quantiles(self.array, 1, self.array.length, 5)
-        self.assertIn(q, [{1, 3, 5, 7}, {2, 4, 6, 8}])
-
-    def test_quantiles_maximum_order(self):
-        q = quantiles(self.array, 1, self.array.length, self.array.length + 1)
-        self.assertEqual(q, set(self.data))
+    def _assert_quantiles(self, actual_quantiles, data):
+        quantiles_count = len(actual_quantiles)
+        sorted_data = sorted(data)
+        quantiles_indexes = sorted([sorted_data.index(quantile) for quantile in actual_quantiles])
+        subarray_lengths = {quantiles_indexes[0]}
+        for i in range(1, quantiles_count):
+            subarray_lengths.add(quantiles_indexes[i] - quantiles_indexes[i - 1] - 1)
+        # the subarrays can differ at most 1 so their lengths can be one of 2 possible values
+        self.assertTrue(len(subarray_lengths) <= 2)

@@ -5,7 +5,7 @@ from datastructures.heap import Heap
 
 
 class Ex6_2_5Test(TestCase):
-    def test_min_heapify(self):
+    def test_iterative_max_heapify(self):
         heap = Heap([16, 4, 10, 14, 7, 9, 3, 2, 8, 1])
         iterative_max_heapify(heap, 2)
         expected_heap = Heap([16, 14, 10, 8, 7, 9, 3, 2, 4, 1])

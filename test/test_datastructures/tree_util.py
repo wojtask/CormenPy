@@ -1,6 +1,11 @@
+import random
 from unittest import TestCase
 
-from datastructures.red_black_tree import Color
+from chapter12.textbook import tree_insert
+from chapter13.textbook import rb_insert
+from datastructures import binary_tree as bt, red_black_tree as rb
+from datastructures.binary_tree import BinaryTree
+from datastructures.red_black_tree import Color, RedBlackTree
 
 tc = TestCase()
 
@@ -13,6 +18,26 @@ def _binary_subtree_to_list(node, sentinel):
     if node is sentinel:
         return []
     return [node.key] + _binary_subtree_to_list(node.left, sentinel) + _binary_subtree_to_list(node.right, sentinel)
+
+
+def build_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
+    tree_size = random.randint(min_size, max_size)
+    keys = [random.randint(0, max_value) for _ in range(tree_size)]
+    nodes = [bt.Node(key) for key in keys]
+    tree = BinaryTree()
+    for node in nodes:
+        tree_insert(tree, node)
+    return tree, nodes, keys
+
+
+def build_random_red_black_tree(min_size=1, max_size=20, max_value=999):
+    tree_size = random.randint(min_size, max_size)
+    keys = [random.randint(0, max_value) for _ in range(tree_size)]
+    nodes = [rb.Node(key) for key in keys]
+    tree = RedBlackTree()
+    for node in nodes:
+        rb_insert(tree, node)
+    return tree, nodes, keys
 
 
 def assert_parent_pointers_consistent(tree, sentinel=None):

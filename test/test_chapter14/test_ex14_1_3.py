@@ -8,12 +8,12 @@ from datastructures.red_black_tree import RedBlackTree, OSNode
 
 class Ex14_1_3Test(TestCase):
     def test_iterative_os_select(self):
-        tree_size = 20
+        n = 20
+        keys = [random.randrange(1000) for _ in range(n)]
         tree = RedBlackTree(nil=OSNode(None))
-        keys = [random.randrange(1000) for _ in range(tree_size)]
-        for i in range(tree_size):
-            os_insert(tree, OSNode(keys[i]))
+        for key in keys:
+            os_insert(tree, OSNode(key))
         sorted_keys = sorted(keys)
-        for i in range(tree_size):
+        for i in range(n):
             x = iterative_os_select(tree.root, i + 1)
             self.assertEqual(x.key, sorted_keys[i])

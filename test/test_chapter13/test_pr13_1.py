@@ -8,11 +8,10 @@ from test.test_datastructures.tree_util import assert_binary_search_tree, binary
 
 class Problem13_1Test(TestCase):
     def test_persistent_tree_insert(self):
-        tree_size = 20
+        keys = [random.randrange(1000) for _ in range(20)]
         tree = BinaryTree()
-        keys = [random.randrange(1000) for _ in range(tree_size)]
-        for i in range(tree_size):
-            new_tree = persistent_tree_insert(tree, keys[i])
+        for i, key in enumerate(keys):
+            new_tree = persistent_tree_insert(tree, key)
             assert_binary_search_tree(new_tree)
             actual_keys_before_insertion = binary_tree_to_list(tree)
             actual_keys_after_insertion = binary_tree_to_list(new_tree)

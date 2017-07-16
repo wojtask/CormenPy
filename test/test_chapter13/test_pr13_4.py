@@ -8,11 +8,10 @@ from test.test_datastructures.tree_util import assert_treap, binary_tree_to_list
 
 class Problem13_4Test(TestCase):
     def test_treap_insert(self):
-        treap_size = 20
+        keys = [random.randrange(1000) for _ in range(20)]
         treap = Treap()
-        keys = [random.randrange(1000) for _ in range(treap_size)]
-        for i in range(treap_size):
-            treap_insert(treap, Node(keys[i]))
+        for key in keys:
+            treap_insert(treap, Node(key))
             assert_treap(treap)
             assert_parent_pointers_consistent(treap)
         actual_keys = binary_tree_to_list(treap)

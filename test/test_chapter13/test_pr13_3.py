@@ -8,11 +8,10 @@ from test.test_datastructures.tree_util import assert_avl_tree, binary_tree_to_l
 
 class Problem13_3Test(TestCase):
     def test_avl_insert(self):
-        tree_size = 20
+        keys = [random.randrange(1000) for _ in range(20)]
         tree = AVLTree()
-        keys = [random.randrange(1000) for _ in range(tree_size)]
-        for i in range(tree_size):
-            avl_insert_wrapper(tree, Node(keys[i]))
+        for key in keys:
+            avl_insert_wrapper(tree, Node(key))
             assert_avl_tree(tree)
             assert_parent_pointers_consistent(tree)
         actual_keys = binary_tree_to_list(tree)

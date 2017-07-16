@@ -1,22 +1,24 @@
+import random
 from unittest import TestCase
 
 from chapter02.ex2_1_4 import binary_add
-from datastructures.array import Array
+from test.test_datastructures.array_util import random_int_array
 
 
-def bits_to_number(bits):
+def _bits_to_number(bits):
     number = 0
-    for bit in reversed(bits.data):
+    for bit in reversed(bits):
         number = 2 * number + bit
     return number
 
 
 class Ex2_1_4Test(TestCase):
     def test_binary_add(self):
-        bits1 = Array([0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1])
-        bits2 = Array([0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1])
-        number1 = bits_to_number(bits1)
-        number2 = bits_to_number(bits2)
-        sum_bits = binary_add(bits1, bits2)
-        sum = bits_to_number(sum_bits)
-        self.assertEqual(sum, number1 + number2)
+        n = random.randint(1, 20)
+        array1, data1 = random_int_array(min_size=n, max_size=n, max_value=1)
+        array2, data2 = random_int_array(min_size=n, max_size=n, max_value=1)
+        number1 = _bits_to_number(data1)
+        number2 = _bits_to_number(data2)
+        actual_sum_bits = binary_add(array1, array2)
+        actual_sum = _bits_to_number(actual_sum_bits.data)
+        self.assertEqual(actual_sum, number1 + number2)

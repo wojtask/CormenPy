@@ -1,12 +1,14 @@
 import io
+import random
 from contextlib import redirect_stdout
 from unittest import TestCase
 
-from chapter12.textbook import *
-from datastructures.array import Array
+from chapter12.textbook import inorder_tree_walk, tree_search, iterative_tree_search, tree_minimum, tree_maximum, \
+    tree_successor, inorder_tree_walk_, tree_insert, tree_delete, inorder_sort
 from datastructures.binary_tree import BinaryTree, Node
+from test.test_datastructures.array_util import random_int_array
 from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree, \
-    assert_parent_pointers_consistent
+    assert_parent_pointers_consistent, build_random_binary_search_tree
 
 
 class Chapter12Test(TestCase):
@@ -19,33 +21,30 @@ class Chapter12Test(TestCase):
                                           right=Node(19,
                                                      right=Node(20)))))
 
-    def test_inorder_tree_walk_empty_tree(self):
-        captured_output = io.StringIO()
-        with redirect_stdout(captured_output):
-            inorder_tree_walk(None)
-        self.assertEqual(captured_output.getvalue(), '')
-
     def test_inorder_tree_walk(self):
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             inorder_tree_walk(self.tree.root)
-        self.assertEqual(captured_output.getvalue().splitlines(), ['1', '4', '10', '11', '14', '19', '20'])
+        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
+        self.assertEqual(actual_output, [1, 4, 10, 11, 14, 19, 20])
 
-    def test_tree_search_positive(self):
-        x = tree_search(self.tree.root, 11)
-        self.assertEqual(x.key, 11)
+    def test_tree_search(self):
+        keys = binary_tree_to_list(self.tree)
+        key = random.randint(0, 25)
+        x = tree_search(self.tree.root, key)
+        if key in keys:
+            self.assertEqual(key, x.key)
+        else:
+            self.assertIsNone(x)
 
-    def test_tree_search_negative(self):
-        x = tree_search(self.tree.root, 17)
-        self.assertIsNone(x)
-
-    def test_iterative_tree_search_positive(self):
-        x = iterative_tree_search(self.tree.root, 11)
-        self.assertEqual(x.key, 11)
-
-    def test_iterative_tree_search_negative(self):
-        x = iterative_tree_search(self.tree.root, 17)
-        self.assertIsNone(x)
+    def test_iterative_tree_search(self):
+        keys = binary_tree_to_list(self.tree)
+        key = random.randint(0, 25)
+        x = iterative_tree_search(self.tree.root, key)
+        if key in keys:
+            self.assertEqual(key, x.key)
+        else:
+            self.assertIsNone(x)
 
     def test_tree_minimum(self):
         x = tree_minimum(self.tree.root)
@@ -56,72 +55,50 @@ class Chapter12Test(TestCase):
         self.assertEqual(x.key, 20)
 
     def test_tree_successor(self):
-        x = tree_successor(self.tree.root)
-        self.assertEqual(x.key, 11)
-
-    def test_tree_successor_nonexistent(self):
-        max_node = self.tree.root.right.right.right  # a node with maximum value in the tree
-        x = tree_successor(max_node)
-        self.assertIsNone(x)
+        self.assertEqual(tree_successor(self.tree.root).key, 11)
+        self.assertEqual(tree_successor(self.tree.root.left).key, 10)
+        self.assertEqual(tree_successor(self.tree.root.left.left).key, 4)
+        self.assertEqual(tree_successor(self.tree.root.right).key, 19)
+        self.assertEqual(tree_successor(self.tree.root.right.left).key, 14)
+        self.assertEqual(tree_successor(self.tree.root.right.right).key, 20)
+        self.assertIsNone(tree_successor(self.tree.root.right.right.right))
 
     def test_inorder_tree_walk_(self):
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             inorder_tree_walk_(self.tree)
-        self.assertEqual(captured_output.getvalue().splitlines(), ['1', '4', '10', '11', '14', '19', '20'])
-
-    def test_tree_insert_to_empty_tree(self):
-        tree = BinaryTree()
-        tree_insert(tree, Node(12))
-        keys = binary_tree_to_list(tree)
-        self.assertEqual(keys, [12])
-        assert_binary_search_tree(tree)
-        assert_parent_pointers_consistent(tree)
+        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
+        self.assertEqual(actual_output, [1, 4, 10, 11, 14, 19, 20])
 
     def test_tree_insert(self):
-        tree_insert(self.tree, Node(12))
-        keys = binary_tree_to_list(self.tree)
-        self.assertEqual(sorted(keys), [1, 4, 10, 11, 12, 14, 19, 20])
-        assert_binary_search_tree(self.tree)
-        assert_parent_pointers_consistent(self.tree)
+        keys = [random.randrange(1000) for _ in range(20)]
+        tree = BinaryTree()
+        for key in keys:
+            tree_insert(tree, Node(key))
+            assert_binary_search_tree(tree)
+            assert_parent_pointers_consistent(tree)
+        actual_keys = binary_tree_to_list(tree)
+        self.assertEqual(sorted(actual_keys), sorted(keys))
 
-    def test_tree_delete_leaf(self):
-        node = self.tree.root.right.left  # a leaf
-        y = tree_delete(self.tree, node)
-        self.assertEqual(y.key, 11)
-        keys = binary_tree_to_list(self.tree)
-        self.assertEqual(sorted(keys), [1, 4, 10, 14, 19, 20])
-        assert_binary_search_tree(self.tree)
-        assert_parent_pointers_consistent(self.tree)
-
-    def test_tree_delete_node_with_one_child(self):
-        node = self.tree.root.left  # a node with one child
-        y = tree_delete(self.tree, node)
-        self.assertEqual(y.key, 4)
-        keys = binary_tree_to_list(self.tree)
-        self.assertEqual(sorted(keys), [1, 10, 11, 14, 19, 20])
-        assert_binary_search_tree(self.tree)
-        assert_parent_pointers_consistent(self.tree)
-
-    def test_tree_delete_node_with_two_children(self):
-        node = self.tree.root.right  # a node with two children (successor's key = 19)
-        y = tree_delete(self.tree, node)
-        self.assertEqual(y.key, 19)
-        keys = binary_tree_to_list(self.tree)
-        self.assertEqual(sorted(keys), [1, 4, 10, 11, 19, 20])
-        assert_binary_search_tree(self.tree)
-        assert_parent_pointers_consistent(self.tree)
-
-    def test_tree_delete_from_single_node_tree(self):
-        tree = BinaryTree(Node(10))
-        y = tree_delete(tree, tree.root)
-        self.assertEqual(y.key, 10)
-        self.assertIsNone(tree.root)
+    def test_tree_delete(self):
+        tree, nodes, keys = build_random_binary_search_tree()
+        random.shuffle(nodes)
+        for i, node in enumerate(nodes):
+            y = tree_delete(tree, node)
+            if y != node:
+                # this means that tree_delete actually removed the node's successor so we need to swap them in the list
+                j = nodes.index(y)
+                nodes[i], nodes[j] = nodes[j], nodes[i]
+            assert_binary_search_tree(tree)
+            assert_parent_pointers_consistent(tree)
+            actual_keys = binary_tree_to_list(tree)
+            self.assertEqual(len(actual_keys), len(nodes) - i - 1)
+            self.assertTrue(all(x in keys for x in actual_keys))
 
     def test_inorder_sort(self):
-        data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
-        array = Array(data)
+        array, data = random_int_array()
         captured_output = io.StringIO()
         with redirect_stdout(captured_output):
             inorder_sort(array)
-        self.assertEqual(captured_output.getvalue().splitlines(), sorted([str(x) for x in data]))
+        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
+        self.assertEqual(actual_output, sorted(data))

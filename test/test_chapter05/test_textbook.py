@@ -2,21 +2,20 @@ from unittest import TestCase
 
 from chapter05.textbook import permute_by_sorting, randomize_in_place
 from datastructures.array import Array
+from test.test_datastructures.array_util import random_int_array
 
 
 class Chapter05Test(TestCase):
-    def setUp(self):
-        self.data = [5, 7, 9, 2, 6, 8, 6, 6, 3, 1, 7, 8]
-        self.array = Array(self.data)
-
     def test_permute_by_sorting(self):
-        self.array = permute_by_sorting(self.array)
-        expected_sorted_array = Array(sorted(self.data))
-        actual_sorted_array = Array(sorted(self.array.data))
-        self.assertEqual(actual_sorted_array, expected_sorted_array)
+        array, data = random_int_array()
+        array = permute_by_sorting(array)
+        sorted_expected_array = Array(sorted(data))
+        sorted_actual_array = Array(sorted(array.data))
+        self.assertEqual(sorted_actual_array, sorted_expected_array)
 
     def test_randomize_in_place(self):
-        randomize_in_place(self.array)
-        expected_sorted_array = Array(sorted(self.data))
-        actual_sorted_array = Array(sorted(self.array.data))
-        self.assertEqual(actual_sorted_array, expected_sorted_array)
+        array, data = random_int_array()
+        randomize_in_place(array)
+        sorted_expected_array = Array(sorted(data))
+        sorted_actual_array = Array(sorted(array.data))
+        self.assertEqual(sorted_actual_array, sorted_expected_array)

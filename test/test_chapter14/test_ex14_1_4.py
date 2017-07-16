@@ -8,8 +8,8 @@ from datastructures.red_black_tree import RedBlackTree, OSNode
 
 class Ex14_1_4Test(TestCase):
     def test_os_key_rank(self):
-        tree = RedBlackTree(nil=OSNode(None))
         keys = random.sample(range(1000), 20)
+        tree = RedBlackTree(nil=OSNode(None))
         for key in keys:
             os_insert(tree, OSNode(key))
         for i, key in enumerate(sorted(keys)):

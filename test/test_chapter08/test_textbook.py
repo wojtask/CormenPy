@@ -1,36 +1,38 @@
+import random
 from unittest import TestCase
 
-from chapter08.textbook import *
+from chapter08.textbook import counting_sort, unstable_counting_sort, radix_sort, bucket_sort
 from datastructures.array import Array
+from test.test_datastructures.array_util import random_int_array
 
 
 class Chapter08Test(TestCase):
     def test_counting_sort(self):
-        data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
-        array = Array(data)
-        sorted_array = Array.of_length(array.length)
-        counting_sort(array, sorted_array, 6)
+        k = 20
+        array, data = random_int_array(max_value=k)
+        actual_sorted_array = Array.of_length(array.length)
+        counting_sort(array, actual_sorted_array, k)
         expected_array = Array(sorted(data))
-        self.assertEqual(sorted_array, expected_array)
+        self.assertEqual(actual_sorted_array, expected_array)
 
     def test_unstable_counting_sort(self):
-        data = [6, 0, 2, 0, 1, 3, 4, 6, 1, 3, 2]
-        array = Array(data)
-        sorted_array = Array.of_length(array.length)
-        unstable_counting_sort(array, sorted_array, 6)
+        k = 20
+        array, data = random_int_array(max_value=k)
+        actual_sorted_array = Array.of_length(array.length)
+        unstable_counting_sort(array, actual_sorted_array, k)
         expected_array = Array(sorted(data))
-        self.assertEqual(sorted_array, expected_array)
+        self.assertEqual(actual_sorted_array, expected_array)
 
     def test_radix_sort(self):
-        data = [24015, 44036, 14014, 62027, 55033, 19012, 63032]
-        array = Array(data)
-        radix_sort(array, 5)
+        d = 5
+        array, data = random_int_array(max_value=10 ** d - 1)
+        radix_sort(array, d)
         expected_array = Array(sorted(data))
         self.assertEqual(array, expected_array)
 
     def test_bucket_sort(self):
-        data = [.15, .92, .56, .25, .66, .23, .9, .2, .45, .7, .39,
-                .99, .3, .01, .33, .91, .65, .33, .21, .67, .16, .22]
+        n = random.randint(1, 20)
+        data = [random.random() for _ in range(n)]
         array = Array(data)
         bucket_sort(array)
         expected_array = Array(sorted(data))
