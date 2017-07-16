@@ -3,14 +3,19 @@ from chapter12.textbook import tree_delete
 
 def safe_tree_delete(T, z):
     y = tree_delete(T, z)
-    if y != z:
-        z.left.p = z.right.p = y
+    if y is not z:
+        if z.left is not None:
+            z.left.p = y
+        if z.right is not None:
+            z.right.p = y
         if z.p is not None:
-            if z == z.p.left:
+            if z is z.p.left:
                 z.p.left = y
             else:
                 z.p.right = y
         _copy_all_fields(z, y)
+        if T.root is z:
+            T.root = y
 
 
 def _copy_all_fields(z, y):
