@@ -30,7 +30,7 @@ def weighted_median(A, w, p, r):
             return A[r]
     _partition_around_median(A, w, p, r)
     q = math.floor((p + r) / 2)
-    WL = 0.0
+    WL = 0
     for i in between(p, q - 1):
         WL = WL + w[i]
     WR = 1 - WL - w[q]
@@ -45,7 +45,8 @@ def weighted_median(A, w, p, r):
 
 
 def _partition_around_median(A, w, p, r):
-    median = select(Array(A.data), p, r, (p + r) // 2)  # we pass a copy of A because it will be modified in select
+    n = r - p + 1
+    median = select(Array(A.data), p, r, (n + 1) // 2)  # we pass a copy of A because it will be modified in select
     q = p
     while A[q] != median:
         q += 1
@@ -53,7 +54,7 @@ def _partition_around_median(A, w, p, r):
     w[q], w[r] = w[r], w[q]
     i = p - 1
     for j in between(p, r - 1):
-        if A[j] < median:
+        if A[j] <= median:
             i = i + 1
             A[i], A[j] = A[j], A[i]
             w[i], w[j] = w[j], w[i]
