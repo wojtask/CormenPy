@@ -7,13 +7,14 @@ from util import between
 
 def median_neighbors(A, k):
     n = A.length
-    left = select(A, 1, n, math.floor((n + 1) / 2) - math.floor((k - 1) / 2))
-    right = select(A, 1, n, math.floor((n + 1) / 2) + math.ceil((k - 1) / 2))
-    M = set()
+    m = math.floor((n + 1) / 2)
+    leftmost = select(A, 1, n, m - math.floor((k - 1) / 2))
+    rightmost = select(A, 1, n, m + math.ceil((k - 1) / 2))
+    N = set()
     for i in between(1, n):
-        if left <= A[i] <= right:
-            M.add(A[i])
-    return M
+        if leftmost <= A[i] <= rightmost:
+            N.add(A[i])
+    return N
 
 
 def median_nearest(A, k):
@@ -23,10 +24,10 @@ def median_nearest(A, k):
     for i in between(1, n):
         dist[i] = abs(A[i] - x)
     y = select(dist, 1, n, k)
-    M = set()
+    N = set()
     for i in between(1, n):
         if abs(A[i] - x) <= y:
-            M.add(A[i])
-    if len(M) == k + 1:
-        M.remove(x + y)
-    return M
+            N.add(A[i])
+    if len(N) == k + 1:
+        N.remove(x + y)
+    return N
