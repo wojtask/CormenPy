@@ -8,14 +8,14 @@ def safe_tree_delete(T, z):
             z.left.p = y
         if z.right is not None:
             z.right.p = y
-        if z.p is not None:
+        if z.p is None:
+            T.root = y
+        else:
             if z is z.p.left:
                 z.p.left = y
             else:
                 z.p.right = y
         _copy_all_fields(z, y)
-        if T.root is z:
-            T.root = y
 
 
 def _copy_all_fields(z, y):
