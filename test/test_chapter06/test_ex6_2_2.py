@@ -1,12 +1,18 @@
+import random
 from unittest import TestCase
 
 from chapter06.ex6_2_2 import min_heapify
-from datastructures.heap import Heap
+from test_datastructures.heap_util import random_min_heap, assert_min_heap
 
 
 class Ex6_2_2Test(TestCase):
     def test_min_heapify(self):
-        heap = Heap([0, 1, 16, 3, 4, 7, 17, 12, 10, 5, 13, 9, 8, 27])
-        min_heapify(heap, 3)
-        expected_heap = Heap([0, 1, 7, 3, 4, 8, 17, 12, 10, 5, 13, 9, 16, 27])
-        self.assertEqual(heap, expected_heap)
+        heap, data = random_min_heap()
+        i = random.randint(1, heap.heap_size)
+        heap[i] = data[i - 1] = random.randint(heap[i], 999)  # randomly increase value of randomly chosen element
+
+        min_heapify(heap, i)
+
+        self.assertEqual(heap.heap_size, len(data))
+        self.assertEqual(sorted(heap.data), sorted(data))
+        assert_min_heap(heap)
