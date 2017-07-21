@@ -8,7 +8,7 @@ from chapter12.textbook import inorder_tree_walk, tree_search, iterative_tree_se
 from datastructures.binary_tree import BinaryTree, Node
 from test.test_datastructures.array_util import random_int_array
 from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree, \
-    assert_parent_pointers_consistent, build_random_binary_search_tree
+    assert_parent_pointers_consistent, random_binary_search_tree
 
 
 class Chapter12Test(TestCase):
@@ -81,7 +81,7 @@ class Chapter12Test(TestCase):
         self.assertEqual(sorted(actual_keys), sorted(keys))
 
     def test_tree_delete(self):
-        tree, nodes, keys = build_random_binary_search_tree()
+        tree, nodes, keys = random_binary_search_tree()
         random.shuffle(nodes)
         for i, node in enumerate(nodes):
             y = tree_delete(tree, node)

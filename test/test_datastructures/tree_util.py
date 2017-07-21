@@ -1,7 +1,6 @@
 import random
 from unittest import TestCase
 
-from chapter12.textbook import tree_insert
 from chapter13.textbook import rb_insert
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.binary_tree import BinaryTree
@@ -20,14 +19,30 @@ def _binary_subtree_to_list(node, sentinel):
     return [node.key] + _binary_subtree_to_list(node.left, sentinel) + _binary_subtree_to_list(node.right, sentinel)
 
 
-def build_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
+def random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value) for _ in range(tree_size)]
-    nodes = [bt.Node(key) for key in keys]
-    tree = BinaryTree()
-    for node in nodes:
-        tree_insert(tree, node)
+    nodes = []
+    tree = BinaryTree(_random_binary_search_subtree(tree_size, nodes, min_value=0, max_value=max_value))
+    keys = [node.key for node in nodes]
     return tree, nodes, keys
+
+
+def _random_binary_search_subtree(tree_size, nodes, min_value, max_value):
+    root_key = random.randint(min_value, max_value)
+    left_subtree_size = random.randint(0, tree_size - 1)
+    right_subtree_size = tree_size - 1 - left_subtree_size
+    left_subtree_root = right_subtree_root = None
+    if left_subtree_size > 0:
+        left_subtree_root = _random_binary_search_subtree(
+            left_subtree_size, nodes, min_value=min_value, max_value=root_key
+        )
+    if right_subtree_size > 0:
+        right_subtree_root = _random_binary_search_subtree(
+            right_subtree_size, nodes, min_value=root_key, max_value=max_value
+        )
+    root = bt.Node(root_key, left=left_subtree_root, right=right_subtree_root)
+    nodes.append(root)
+    return root
 
 
 def build_random_red_black_tree(min_size=1, max_size=20, max_value=999):

@@ -3,12 +3,12 @@ from unittest import TestCase
 
 from chapter12.ex12_3_6 import fair_tree_delete
 from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree, \
-    assert_parent_pointers_consistent, build_random_binary_search_tree
+    assert_parent_pointers_consistent, random_binary_search_tree
 
 
 class Ex12_3_6Test(TestCase):
     def test_fair_tree_delete(self):
-        tree, nodes, keys = build_random_binary_search_tree()
+        tree, nodes, keys = random_binary_search_tree()
         random.shuffle(nodes)
         for i, node in enumerate(nodes):
             y = fair_tree_delete(tree, node)
