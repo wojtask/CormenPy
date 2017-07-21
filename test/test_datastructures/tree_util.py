@@ -1,7 +1,6 @@
 import random
 from unittest import TestCase
 
-from chapter13.textbook import rb_insert
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.binary_tree import BinaryTree
 from datastructures.red_black_tree import Color, RedBlackTree
@@ -45,16 +44,6 @@ def _random_binary_search_subtree(tree_size, nodes, min_value, max_value):
     return root
 
 
-def build_random_red_black_tree(min_size=1, max_size=20, max_value=999):
-    tree_size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value) for _ in range(tree_size)]
-    nodes = [rb.Node(key) for key in keys]
-    tree = RedBlackTree()
-    for node in nodes:
-        rb_insert(tree, node)
-    return tree, nodes, keys
-
-
 def assert_parent_pointers_consistent(tree, sentinel=None):
     if tree.root is not sentinel:
         tc.assertIs(tree.root.p, sentinel)
@@ -86,6 +75,58 @@ def _assert_binary_search_subtree(node, sentinel):
         for right_key in right_keys:
             tc.assertTrue(right_key >= node.key)
         _assert_binary_search_subtree(node.right, sentinel)
+
+
+def random_red_black_tree(black_height=3, max_value=999):
+    nodes = []
+    tree = RedBlackTree(_random_red_black_subtree(black_height, nodes, min_value=0, max_value=max_value))
+    keys = [node.key for node in nodes]
+    return tree, nodes, keys
+
+
+def _random_red_black_subtree(black_height, nodes, min_value, max_value):
+    if black_height == 0:
+        return None
+
+    root_key = random.randint(min_value, max_value)
+
+    # at each level of the tree we try to create an extra red node in the left subtree
+    if random.choice([Color.BLACK, Color.RED]) == Color.RED:
+        left_subtree_root = _create_red_node_in_subtree(black_height, nodes, min_value, root_key)
+    else:
+        left_subtree_root = _random_red_black_subtree(
+            black_height - 1, nodes, min_value=min_value, max_value=root_key
+        )
+
+    # ...and we repeat the same for the right subtree
+    if random.choice([Color.BLACK, Color.RED]) == Color.RED:
+        right_subtree_root = _create_red_node_in_subtree(black_height, nodes, root_key, max_value)
+    else:
+        right_subtree_root = _random_red_black_subtree(
+            black_height - 1, nodes, min_value=root_key, max_value=max_value
+        )
+
+    root = rb.Node(root_key, left=left_subtree_root, right=right_subtree_root)
+    nodes.append(root)
+    return root
+
+
+def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
+    subtree_root_key = random.randint(min_value, max_value)
+    left_subtree_root = _random_red_black_subtree(
+        black_height - 1, nodes, min_value=min_value, max_value=subtree_root_key
+    )
+    right_subtree_root = _random_red_black_subtree(
+        black_height - 1, nodes, min_value=subtree_root_key, max_value=max_value
+    )
+    subtree_root = rb.Node(
+        subtree_root_key,
+        left=left_subtree_root,
+        right=right_subtree_root,
+        color=Color.RED
+    )
+    nodes.append(subtree_root)
+    return subtree_root
 
 
 def assert_red_black_tree(tree):
