@@ -1,7 +1,7 @@
 class Matrix:
     def __init__(self, data):
         self.data = list(list(row) for row in data)
-        if len(data) >= 0:
+        if len(data) > 0:
             self.rows = len(data)
             self.columns = len(data[0])
         else:
@@ -12,8 +12,10 @@ class Matrix:
         return cls([[None] * columns] * rows)
 
     def __getitem__(self, indexes):
-        i, j = indexes
-        return self.data[i - 1][j - 1]
+        if isinstance(indexes, tuple):
+            i, j = indexes
+            return self.data[i - 1][j - 1]
+        return self.data[indexes - 1]
 
     def __setitem__(self, indexes, item):
         i, j = indexes
