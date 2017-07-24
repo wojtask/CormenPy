@@ -95,16 +95,22 @@ class Solutions09Test(TestCase):
         assert_that(expected_neighbors, is_(equal_to(actual_neighbors)))
 
     def test_median_nearest(self):
-        array, data = random_int_array()
+        array, data = random_unique_int_array(max_value=30)
         k = random.randint(1, array.length)
 
         actual_nearest = median_nearest(array, k)
 
         median_index = (len(data) - 1) // 2
         median = sorted(data)[median_index]
-        differences = [(x, abs(x - median)) for x in data]
-        expected_nearest = {p[0] for p in sorted(differences, key=lambda p: p[1])[:k]}
-        assert_that(actual_nearest, is_(equal_to(expected_nearest)))
+        distances = [(x, abs(x - median)) for x in data]
+        sorted_distances = sorted(distances, key=lambda p: p[1])
+        expected_nearest = {p[0] for p in sorted_distances[:k]}
+        # also add (k+1)-th number if its distance to median is equal to one of k elements already taken
+        if k < len(data) and sorted_distances[k][1] == sorted_distances[k - 1][1]:
+            expected_nearest |= {sorted_distances[k][0]}
+
+        assert_that(actual_nearest, has_length(k))
+        assert_that(actual_nearest.issubset(expected_nearest))
 
     def test_two_arrays_median(self):
         n = random.randint(1, 20)
