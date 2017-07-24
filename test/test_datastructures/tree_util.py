@@ -1,11 +1,10 @@
 import random
-from unittest import TestCase
+
+from hamcrest import *
 
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.binary_tree import BinaryTree
 from datastructures.red_black_tree import Color, RedBlackTree
-
-tc = TestCase()
 
 
 def binary_tree_to_list(tree, sentinel=None):
@@ -46,16 +45,16 @@ def _random_binary_search_subtree(tree_size, nodes, min_value, max_value):
 
 def assert_parent_pointers_consistent(tree, sentinel=None):
     if tree.root is not sentinel:
-        tc.assertIs(tree.root.p, sentinel)
+        assert_that(tree.root.p, is_(sentinel))
         _assert_parent_pointers_consistent(tree.root, sentinel)
 
 
 def _assert_parent_pointers_consistent(node, sentinel):
     if node.left is not sentinel:
-        tc.assertIs(node.left.p, node)
+        assert_that(node.left.p, is_(node))
         _assert_parent_pointers_consistent(node.left, sentinel)
     if node.right is not sentinel:
-        tc.assertIs(node.right.p, node)
+        assert_that(node.right.p, is_(node))
         _assert_parent_pointers_consistent(node.right, sentinel)
 
 
@@ -68,12 +67,12 @@ def _assert_binary_search_subtree(node, sentinel):
     if node.left is not sentinel:
         left_keys = _binary_subtree_to_list(node.left, sentinel)
         for left_key in left_keys:
-            tc.assertTrue(left_key <= node.key)
+            assert_that(left_key, is_(less_than_or_equal_to(node.key)))
         _assert_binary_search_subtree(node.left, sentinel)
     if node.right is not sentinel:
         right_keys = _binary_subtree_to_list(node.right, sentinel)
         for right_key in right_keys:
-            tc.assertTrue(right_key >= node.key)
+            assert_that(right_key, is_(greater_than_or_equal_to(node.key)))
         _assert_binary_search_subtree(node.right, sentinel)
 
 
@@ -130,8 +129,8 @@ def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
 
 
 def assert_red_black_tree(tree):
-    tc.assertEqual(tree.root.color, Color.BLACK)
-    tc.assertEqual(tree.nil.color, Color.BLACK)
+    assert_that(tree.root.color, is_(Color.BLACK))
+    assert_that(tree.nil.color, is_(Color.BLACK))
     if tree.root is not tree.nil:
         assert_binary_search_tree(tree, sentinel=tree.nil)
         _assert_red_black_property_4(tree.root, tree.nil)
@@ -140,8 +139,8 @@ def assert_red_black_tree(tree):
 
 def _assert_red_black_property_4(node, nil):
     if node.color == Color.RED:
-        tc.assertEqual(node.left.color, Color.BLACK)
-        tc.assertEqual(node.right.color, Color.BLACK)
+        assert_that(node.left.color, is_(Color.BLACK))
+        assert_that(node.right.color, is_(Color.BLACK))
     if node.left is not nil:
         _assert_red_black_property_4(node.left, nil)
     if node.right is not nil:
@@ -154,7 +153,7 @@ def _assert_red_black_property_5(node, nil):
         left_bh = _assert_red_black_property_5(node.left, nil) + node.left.color.value
     if node.right is not nil:
         right_bh = _assert_red_black_property_5(node.right, nil) + node.right.color.value
-    tc.assertEqual(left_bh, right_bh)
+    assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
 
 
@@ -168,8 +167,8 @@ def _assert_avl_subtree(node):
         return -1
     hl = _assert_avl_subtree(node.left)
     hr = _assert_avl_subtree(node.right)
-    tc.assertEqual(node.h, max(hl, hr) + 1)
-    tc.assertTrue(abs(hr - hl) <= 1)
+    assert_that(node.h, is_(equal_to(max(hl, hr) + 1)))
+    assert_that(abs(hr - hl), is_(less_than_or_equal_to(1)))
     return node.h
 
 
@@ -181,11 +180,33 @@ def assert_treap(tree):
 
 def _assert_subtreap(node):
     if node.left is not None:
-        tc.assertTrue(node.priority < node.left.priority)
+        assert_that(node.priority, is_(less_than(node.left.priority)))
         _assert_subtreap(node.left)
     if node.right is not None:
-        tc.assertTrue(node.priority < node.right.priority)
+        assert_that(node.priority, is_(less_than(node.right.priority)))
         _assert_subtreap(node.right)
+
+
+def random_os_tree(black_height=3, max_value=999):
+    tree, nodes, keys = random_red_black_tree(black_height, max_value)
+    _initialize_sizes_in_os_tree(tree)
+    return tree, nodes, keys
+
+
+def _initialize_sizes_in_os_tree(tree):
+    tree.nil.size = 0
+    if tree.root is not tree.nil:
+        _initialize_sizes_in_os_subtree(tree.root, tree.nil)
+
+
+def _initialize_sizes_in_os_subtree(node, sentinel):
+    left_size = right_size = 0
+    if node.left is not sentinel:
+        left_size = _initialize_sizes_in_os_subtree(node.left, sentinel)
+    if node.right is not sentinel:
+        right_size = _initialize_sizes_in_os_subtree(node.right, sentinel)
+    node.size = left_size + right_size + 1
+    return node.size
 
 
 def assert_os_tree(tree):
@@ -195,7 +216,7 @@ def assert_os_tree(tree):
 
 
 def _assert_os_subtree(node, nil):
-    tc.assertEqual(node.size, node.left.size + node.right.size + 1)
+    assert_that(node.size, is_(equal_to(node.left.size + node.right.size + 1)))
     if node.left is not nil:
         _assert_os_subtree(node.left, nil)
     if node.right is not nil:

@@ -1,26 +1,30 @@
 from unittest import TestCase
 
+from hamcrest import *
+
 from datastructures.binary_tree import BinaryTree, Node, ParentlessNode
 from test.test_datastructures.tree_util import assert_parent_pointers_consistent
 
 
 class BinaryTreeTest(TestCase):
+
     def test_create_empty_binary_tree(self):
         tree = BinaryTree()
-        self.assertIsNone(tree.root)
+        assert_that(tree.root, is_(none()))
 
     def test_create_binary_tree(self):
         left = Node(3)
         right = Node(20)
         root = Node(17, left=left, right=right)
         tree = BinaryTree(root)
-        self.assertEqual(tree.root, root)
-        self.assertEqual(root.left, left)
-        self.assertEqual(root.right, right)
-        self.assertIsNone(left.left)
-        self.assertIsNone(left.right)
-        self.assertIsNone(right.left)
-        self.assertIsNone(right.right)
+
+        assert_that(tree.root, is_(root))
+        assert_that(root.left, is_(left))
+        assert_that(root.right, is_(right))
+        assert_that(left.left, is_(none()))
+        assert_that(left.right, is_(none()))
+        assert_that(right.left, is_(none()))
+        assert_that(right.right, is_(none()))
         assert_parent_pointers_consistent(tree)
 
     def test_create_parentless_binary_tree(self):
@@ -28,10 +32,11 @@ class BinaryTreeTest(TestCase):
         right = ParentlessNode(20)
         root = ParentlessNode(17, left=left, right=right)
         tree = BinaryTree(root)
-        self.assertEqual(tree.root, root)
-        self.assertEqual(root.left, left)
-        self.assertEqual(root.right, right)
-        self.assertIsNone(left.left)
-        self.assertIsNone(left.right)
-        self.assertIsNone(right.left)
-        self.assertIsNone(right.right)
+
+        assert_that(tree.root, is_(root))
+        assert_that(root.left, is_(left))
+        assert_that(root.right, is_(right))
+        assert_that(left.left, is_(none()))
+        assert_that(left.right, is_(none()))
+        assert_that(right.left, is_(none()))
+        assert_that(right.right, is_(none()))

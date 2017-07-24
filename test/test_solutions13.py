@@ -1,0 +1,61 @@
+import random
+from unittest import TestCase
+
+from hamcrest import *
+
+from chapter13.pr13_1 import persistent_tree_insert
+from chapter13.pr13_3 import avl_insert_wrapper
+from chapter13.pr13_4 import treap_insert
+from datastructures import avl_tree as avl, treap as tp
+from datastructures.avl_tree import AVLTree
+from datastructures.binary_tree import BinaryTree
+from datastructures.treap import Treap
+from test_datastructures.tree_util import assert_binary_search_tree, binary_tree_to_list, assert_avl_tree, \
+    assert_parent_pointers_consistent, assert_treap
+
+
+class Solutions13Test(TestCase):
+
+    def test_persistent_tree_insert(self):
+        keys = [random.randrange(1000) for _ in range(20)]
+        tree = BinaryTree()
+
+        for i, key in enumerate(keys):
+
+            new_tree = persistent_tree_insert(tree, key)
+
+            assert_binary_search_tree(new_tree)
+            actual_keys_before_insertion = binary_tree_to_list(tree)
+            actual_keys_after_insertion = binary_tree_to_list(new_tree)
+            assert_that(actual_keys_before_insertion, contains_inanyorder(*keys[:i]))
+            assert_that(actual_keys_after_insertion, contains_inanyorder(*keys[:i + 1]))
+            tree = new_tree
+
+    def test_avl_insert(self):
+
+        keys = [random.randrange(1000) for _ in range(20)]
+        tree = AVLTree()
+
+        for key in keys:
+
+            avl_insert_wrapper(tree, avl.Node(key))
+
+            assert_avl_tree(tree)
+            assert_parent_pointers_consistent(tree)
+
+        actual_keys = binary_tree_to_list(tree)
+        assert_that(actual_keys, contains_inanyorder(*keys))
+
+    def test_treap_insert(self):
+        keys = [random.randrange(1000) for _ in range(20)]
+        treap = Treap()
+
+        for key in keys:
+
+            treap_insert(treap, tp.Node(key))
+
+            assert_treap(treap)
+            assert_parent_pointers_consistent(treap)
+
+        actual_keys = binary_tree_to_list(treap)
+        assert_that(actual_keys, contains_inanyorder(*keys))
