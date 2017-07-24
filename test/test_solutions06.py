@@ -8,8 +8,8 @@ from chapter06.ex6_2_2 import min_heapify
 from chapter06.ex6_2_5 import iterative_max_heapify
 from chapter06.ex6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
 from chapter06.ex6_5_7 import max_heap_delete
-from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_max_heap_insert, \
-    multiary_heap_increase_key
+from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_heap_extract_max, \
+    multiary_max_heap_insert, multiary_heap_increase_key
 from chapter06.pr6_3 import young_extract_min, youngify, young_insert, young_sort, young_search
 from datastructures.array import Array
 from datastructures.matrix import Matrix
@@ -154,6 +154,18 @@ class Solutions06Test(TestCase):
         assert_that(heap.heap_size, is_(equal_to(len(data))))
         assert_max_heap(heap, ary=ary)
         assert_that(heap.data, contains_inanyorder(*data))
+
+    def test_multiary_heap_extract_max(self):
+        ary = random.randint(2, 7)
+        heap, data = random_max_heap(ary=ary)
+
+        actual_max = multiary_heap_extract_max(heap, ary)
+
+        assert_that(actual_max, is_(equal_to(max(data))))
+        assert_max_heap(heap, ary=ary)
+        actual_heap_keys = heap[1:heap.heap_size]
+        expected_heap_keys = sorted(data)[:-1]  # all but maximum
+        assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
     def test_multiary_max_heap_insert(self):
         ary = random.randint(2, 7)
