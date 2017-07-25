@@ -6,6 +6,7 @@ from hamcrest import *
 from chapter10.ex10_1_2 import left_stack_push, left_stack_pop, right_stack_push, right_stack_pop
 from chapter10.ex10_1_4 import queue_empty, enqueue_, dequeue_
 from chapter10.ex10_1_5 import head_enqueue, head_dequeue, tail_enqueue, tail_dequeue
+from chapter10.ex10_1_6 import stack_enqueue, stack_dequeue
 from test_datastructures.array_util import random_int_array
 
 
@@ -200,3 +201,27 @@ class Solutions10Test(TestCase):
         assert_that(deque.head, is_(equal_to(head_before_delete)))
         assert_that(deque.tail, is_(equal_to(expected_tail)))
         assert_that(actual_deleted, deque[deque.tail])
+
+    def test_stack_enqueue(self):
+        size = 5
+        stack, _ = random_int_array(min_size=size, max_size=size)
+        top_before_insert = stack.top = random.randint(0, size - 1)
+        x = random.randint(0, 999)
+
+        stack_enqueue(stack, x)
+
+        assert_that(stack.top, is_(equal_to(top_before_insert + 1)))
+        assert_that(stack[stack.top], is_(equal_to(x)))
+
+    def test_stack_dequeue(self):
+        size = 5
+        stack, data = random_int_array(min_size=size, max_size=size)
+        top_before_delete = stack.top = random.randint(0, size)
+
+        if top_before_delete == 0:
+            assert_that(calling(stack_dequeue).with_args(stack), raises(RuntimeError, 'underflow'))
+        else:
+            actual_deleted = stack_dequeue(stack)
+
+            assert_that(stack.top, is_(equal_to(top_before_delete - 1)))
+            assert_that(actual_deleted, is_(equal_to(data[0])))
