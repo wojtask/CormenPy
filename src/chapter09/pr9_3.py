@@ -22,6 +22,7 @@ def _small_order_select(A, p, r, i):
             swaps.append((p + j, p + m + j))
 
     swaps_performed = _small_order_select(A, p + m, r, i)
+    swaps += swaps_performed
     for j, k in swaps_performed:
         if p + m <= j < k <= p + 2 * m - 1:
             A[j - m], A[k - m] = A[k - m], A[j - m]
@@ -37,21 +38,21 @@ def _small_order_select(A, p, r, i):
 
 
 def _select_with_swaps_registration(A, p, r, i):
-    swaps = []
     n = r - p + 1
     if n == 1:
-        return swaps
+        return []
     fives = [Array(A.data[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
     for group in fives:
         insertion_sort(group)
     medians = Array([group[(group.length + 1) // 2] for group in fives])
     x = select(medians, 1, medians.length, (medians.length + 1) // 2)
+    swaps = []
     q = _partition_around_with_swaps_registration(A, p, r, x, swaps)
     k = q - p + 1
     if i < k:
-        return _select_with_swaps_registration(A, p, q - 1, i)
+        return swaps + _select_with_swaps_registration(A, p, q - 1, i)
     elif i > k:
-        return _select_with_swaps_registration(A, q + 1, r, i - k)
+        return swaps + _select_with_swaps_registration(A, q + 1, r, i - k)
     return swaps
 
 
