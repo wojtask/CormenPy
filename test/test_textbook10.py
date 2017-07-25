@@ -15,8 +15,9 @@ from test_datastructures.list_util import random_int_doubly_linked_list, doubly_
 class Textbook10Test(TestCase):
 
     def test_stack_empty(self):
-        stack, _ = random_int_array(min_size=3, max_size=3)
-        stack.top = random.randint(0, 3)
+        size = 3
+        stack, _ = random_int_array(min_size=size, max_size=size)
+        stack.top = random.randint(0, size)
 
         actual_empty = stack_empty(stack)
 
@@ -26,8 +27,9 @@ class Textbook10Test(TestCase):
             assert_that(actual_empty, is_(False))
 
     def test_push(self):
-        stack, _ = random_int_array(min_size=10, max_size=10)
-        top_before_insert = stack.top = random.randint(0, 9)
+        size = 10
+        stack, _ = random_int_array(min_size=size, max_size=size)
+        top_before_insert = stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
 
         push(stack, x)
@@ -36,8 +38,9 @@ class Textbook10Test(TestCase):
         assert_that(stack[stack.top], is_(equal_to(x)))
 
     def test_pop(self):
-        stack, _ = random_int_array(min_size=10, max_size=10)
-        top_before_delete = stack.top = random.randint(0, 10)
+        size = 10
+        stack, _ = random_int_array(min_size=size, max_size=size)
+        top_before_delete = stack.top = random.randint(0, size)
 
         if top_before_delete == 0:
             assert_that(calling(pop).with_args(stack), raises(RuntimeError, 'underflow'))
@@ -49,11 +52,12 @@ class Textbook10Test(TestCase):
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
 
     def test_enqueue(self):
-        queue, _ = random_int_array(min_size=10, max_size=10)
-        queue.head = random.randint(1, 10)
-        queue.tail = random.randint(1, 10)
+        size = 10
+        queue, _ = random_int_array(min_size=size, max_size=size)
+        queue.head = random.randint(1, size)
+        queue.tail = random.randint(1, size)
 
-        # if Q is full then make it empty
+        # if queue is full then make it empty
         if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail - 1:
             queue.tail = queue.head
 
@@ -69,11 +73,12 @@ class Textbook10Test(TestCase):
         assert_that(queue[tail_before_insert], is_(equal_to(x)))
 
     def test_dequeue(self):
-        queue, _ = random_int_array(min_size=10, max_size=10)
-        queue.head = random.randint(1, 10)
-        queue.tail = random.randint(1, 10)
+        size = 10
+        queue, _ = random_int_array(min_size=size, max_size=size)
+        queue.head = random.randint(1, size)
+        queue.tail = random.randint(1, size)
 
-        # if Q is empty then make it full
+        # if queue is empty then make it full
         if queue.head == queue.tail:
             queue.tail = queue.tail - 1 if queue.tail > 1 else queue.length
 
