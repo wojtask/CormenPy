@@ -15,6 +15,7 @@ from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
 from chapter10.ex10_2_7 import singly_linked_list_reverse
 from chapter10.ex10_4_3 import iterative_preorder_tree_walk
+from chapter10.ex10_4_5 import stackless_inorder_tree_walk
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
@@ -389,4 +390,15 @@ class Solutions10Test(TestCase):
 
         actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
         expected_output = binary_tree_to_list(tree)
+        assert_that(actual_output, is_(equal_to(expected_output)))
+
+    def test_stackless_inorder_tree_walk(self):
+        tree, _, keys = random_binary_search_tree()
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            stackless_inorder_tree_walk(tree)
+
+        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
+        expected_output = sorted(keys)
         assert_that(actual_output, is_(equal_to(expected_output)))
