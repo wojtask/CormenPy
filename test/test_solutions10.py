@@ -13,12 +13,14 @@ from chapter10.ex10_1_7 import queue_push, queue_pop
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
+from chapter10.ex10_2_5 import circular_list_insert, circular_list_delete, circular_list_search
 from chapter10.ex10_2_7 import singly_linked_list_reverse
 from chapter10.ex10_4_3 import iterative_preorder_tree_walk
 from chapter10.ex10_4_5 import stackless_inorder_tree_walk
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
-from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
+from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys, random_int_circular_list, \
+    circular_list_keys
 from test_datastructures.queue_util import get_queue_keys, get_stack_keys
 from test_datastructures.tree_util import random_binary_search_tree, binary_tree_to_list
 
@@ -371,6 +373,43 @@ class Solutions10Test(TestCase):
             assert_that(actual_keys, is_(equal_to(expected_keys)))
             if list_.head is None:
                 assert_that(list_.tail, is_(none()))
+
+    def test_circular_list_insert(self):
+        list_, nodes, keys = random_int_circular_list(min_size=0, max_size=5)
+        new_key = random.randint(0, 999)
+        new_node = SNode(new_key)
+
+        circular_list_insert(list_, new_node)
+
+        actual_keys = circular_list_keys(list_)
+        if len(nodes) == 0:
+            expected_keys = [new_key]
+        else:
+            expected_keys = [keys[0]] + [new_key] + keys[1:]
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_circular_list_delete(self):
+        list_, nodes, keys = random_int_circular_list(min_size=1, max_size=5)
+        node_idx = random.randrange(len(nodes))
+        node_to_delete = nodes[node_idx]
+
+        circular_list_delete(list_, node_to_delete)
+
+        actual_keys = circular_list_keys(list_)
+        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_circular_list_search(self):
+        list_, nodes, keys = random_int_circular_list(min_size=10, max_size=20, max_value=20)
+        k = random.randint(1, 20)
+
+        actual_node = circular_list_search(list_, k)
+
+        if k in keys:
+            assert_that(actual_node, is_in(nodes))
+            assert_that(actual_node.key, is_(equal_to(k)))
+        else:
+            assert_that(actual_node, is_(none()))
 
     def test_singly_linked_list_reverse(self):
         list_, nodes, keys = random_int_singly_linked_list()

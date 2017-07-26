@@ -92,3 +92,21 @@ def random_int_singly_linked_list(min_size=1, max_size=20, max_value=999):
             prev_node.next = node
         prev_node = node
     return L, nodes, keys
+
+
+def random_int_circular_list(min_size=1, max_size=20, max_value=999):
+    list_, nodes, keys = random_int_singly_linked_list(min_size, max_size, max_value)
+    if list_.head is not None:
+        nodes[-1].next = list_.head
+    return list_, nodes, keys
+
+
+def circular_list_keys(L):
+    if L.head is None:
+        return []
+    keys = [L.head.key]
+    node = L.head.next
+    while node is not L.head:
+        keys.append(node.key)
+        node = node.next
+    return keys
