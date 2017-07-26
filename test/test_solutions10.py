@@ -14,6 +14,7 @@ from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_del
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
 from chapter10.ex10_2_5 import circular_list_insert, circular_list_delete, circular_list_search
+from chapter10.ex10_2_6 import circular_lists_union
 from chapter10.ex10_2_7 import singly_linked_list_reverse
 from chapter10.ex10_4_3 import iterative_preorder_tree_walk
 from chapter10.ex10_4_5 import stackless_inorder_tree_walk
@@ -410,6 +411,16 @@ class Solutions10Test(TestCase):
             assert_that(actual_node.key, is_(equal_to(k)))
         else:
             assert_that(actual_node, is_(none()))
+
+    def test_circular_lists_union(self):
+        list1, _, keys1 = random_int_circular_list()
+        list2, _, keys2 = random_int_circular_list()
+
+        actual_union = circular_lists_union(list1, list2)
+
+        actual_keys = circular_list_keys(actual_union)
+        expected_keys = keys1 + keys2
+        assert_that(actual_keys, contains_inanyorder(*expected_keys))
 
     def test_singly_linked_list_reverse(self):
         list_, nodes, keys = random_int_singly_linked_list()
