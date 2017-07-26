@@ -10,6 +10,7 @@ from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_doubly_linked_list, doubly_linked_list_keys, \
     random_int_doubly_linked_list_with_sentinel, doubly_linked_list_with_sentinel_keys, \
     assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel
+from test_datastructures.queue_util import get_stack_keys, get_queue_keys
 
 
 class Textbook10Test(TestCase):
@@ -29,27 +30,32 @@ class Textbook10Test(TestCase):
     def test_push(self):
         size = 10
         stack, _ = random_int_array(min_size=size, max_size=size)
-        top_before_insert = stack.top = random.randint(0, size - 1)
+        stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
+        expected_keys = get_stack_keys(stack) + [x]
 
         push(stack, x)
 
-        assert_that(stack.top, is_(equal_to(top_before_insert + 1)))
-        assert_that(stack[stack.top], is_(equal_to(x)))
+        actual_keys = get_stack_keys(stack)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_pop(self):
         size = 10
         stack, _ = random_int_array(min_size=size, max_size=size)
-        top_before_delete = stack.top = random.randint(0, size)
+        stack.top = random.randint(0, size)
 
-        if top_before_delete == 0:
+        if stack.top == 0:
             assert_that(calling(pop).with_args(stack), raises(RuntimeError, 'underflow'))
         else:
+            expected_keys = get_stack_keys(stack)
+            del expected_keys[-1]
+            expected_deleted = stack[stack.top]
+
             actual_deleted = pop(stack)
 
-            expected_deleted = stack[top_before_delete]
-            assert_that(stack.top, is_(equal_to(top_before_delete - 1)))
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
+            actual_keys = get_stack_keys(stack)
+            assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_enqueue(self):
         size = 10
@@ -58,19 +64,16 @@ class Textbook10Test(TestCase):
         queue.tail = random.randint(1, size)
 
         # if queue is full then make it empty
-        if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail - 1:
+        if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
             queue.tail = queue.head
 
-        head_before_insert = queue.head
-        tail_before_insert = queue.tail
         x = random.randint(0, 999)
+        expected_keys = get_queue_keys(queue) + [x]
 
         enqueue(queue, x)
 
-        expected_tail = tail_before_insert + 1 if tail_before_insert != queue.length else 1
-        assert_that(queue.head, is_(equal_to(head_before_insert)))
-        assert_that(queue.tail, is_(equal_to(expected_tail)))
-        assert_that(queue[tail_before_insert], is_(equal_to(x)))
+        actual_keys = get_queue_keys(queue)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_dequeue(self):
         size = 10
@@ -82,15 +85,15 @@ class Textbook10Test(TestCase):
         if queue.head == queue.tail:
             queue.tail = queue.tail - 1 if queue.tail > 1 else queue.length
 
-        head_before_delete = queue.head
-        tail_before_delete = queue.tail
+        expected_keys = get_queue_keys(queue)
+        del expected_keys[0]
+        expected_deleted = queue[queue.head]
 
         actual_deleted = dequeue(queue)
 
-        expected_head = head_before_delete + 1 if head_before_delete != queue.length else 1
-        assert_that(queue.head, is_(equal_to(expected_head)))
-        assert_that(queue.tail, is_(equal_to(tail_before_delete)))
-        assert_that(actual_deleted, is_(equal_to(queue[head_before_delete])))
+        assert_that(actual_deleted, is_(equal_to(expected_deleted)))
+        actual_keys = get_queue_keys(queue)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_list_search(self):
         list_, nodes, keys = random_int_doubly_linked_list(min_size=10, max_size=20, max_value=20)
