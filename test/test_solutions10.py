@@ -11,6 +11,7 @@ from chapter10.ex10_1_7 import queue_push, queue_pop
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
+from chapter10.ex10_2_7 import singly_linked_list_reverse
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
@@ -365,3 +366,12 @@ class Solutions10Test(TestCase):
             assert_that(actual_keys, is_(equal_to(expected_keys)))
             if list_.head is None:
                 assert_that(list_.tail, is_(none()))
+
+    def test_singly_linked_list_reverse(self):
+        list_, nodes, keys = random_int_singly_linked_list()
+
+        singly_linked_list_reverse(list_)
+
+        actual_keys = linked_list_keys(list_)
+        expected_keys = list(reversed(keys))
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
