@@ -9,6 +9,7 @@ from chapter10.ex10_1_5 import head_enqueue, head_dequeue, tail_enqueue, tail_de
 from chapter10.ex10_1_6 import stack_enqueue, stack_dequeue
 from chapter10.ex10_1_7 import queue_push, queue_pop
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
+from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
@@ -313,4 +314,24 @@ class Solutions10Test(TestCase):
 
         actual_keys = linked_list_keys(list_)
         expected_keys = keys[:node_idx] + keys[node_idx + 1:]
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_push(self):
+        list_, nodes, keys = random_int_singly_linked_list()
+        x = random.randint(0, 999)
+
+        singly_linked_list_push(list_, x)
+
+        actual_keys = linked_list_keys(list_)
+        expected_keys = [x] + keys
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_pop(self):
+        list_, nodes, keys = random_int_singly_linked_list(max_size=5)
+
+        actual_deleted = singly_linked_list_pop(list_)
+
+        assert_that(actual_deleted, is_(equal_to(keys[0])))
+        actual_keys = linked_list_keys(list_)
+        expected_keys = keys[1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
