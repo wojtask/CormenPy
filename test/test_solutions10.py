@@ -10,6 +10,7 @@ from chapter10.ex10_1_6 import stack_enqueue, stack_dequeue
 from chapter10.ex10_1_7 import queue_push, queue_pop
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
+from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
@@ -335,3 +336,32 @@ class Solutions10Test(TestCase):
         actual_keys = linked_list_keys(list_)
         expected_keys = keys[1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_enqueue(self):
+        list_, nodes, keys = random_int_singly_linked_list()
+        list_.tail = nodes[-1]
+        x = random.randint(0, 999)
+
+        singly_linked_list_enqueue(list_, x)
+
+        actual_keys = linked_list_keys(list_)
+        expected_keys = keys + [x]
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_dequeue(self):
+        list_, nodes, keys = random_int_singly_linked_list(min_size=0, max_size=5)
+
+        if list_.head is None:
+            list_.tail = None
+            assert_that(calling(singly_linked_list_dequeue).with_args(list_), raises(RuntimeError, 'underflow'))
+        else:
+            list_.tail = nodes[-1]
+
+            actual_deleted = singly_linked_list_dequeue(list_)
+
+            assert_that(actual_deleted, is_(equal_to(keys[0])))
+            actual_keys = linked_list_keys(list_)
+            expected_keys = keys[1:]
+            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            if list_.head is None:
+                assert_that(list_.tail, is_(none()))
