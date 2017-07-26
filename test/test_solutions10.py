@@ -1,4 +1,6 @@
+import io
 import random
+from contextlib import redirect_stdout
 from unittest import TestCase
 
 from hamcrest import *
@@ -12,10 +14,12 @@ from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_del
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
 from chapter10.ex10_2_7 import singly_linked_list_reverse
+from chapter10.ex10_4_3 import iterative_preorder_tree_walk
 from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
 from test_datastructures.queue_util import get_queue_keys, get_stack_keys
+from test_datastructures.tree_util import random_binary_search_tree, binary_tree_to_list
 
 
 class Solutions10Test(TestCase):
@@ -375,3 +379,14 @@ class Solutions10Test(TestCase):
         actual_keys = linked_list_keys(list_)
         expected_keys = list(reversed(keys))
         assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_iterative_preorder_tree_walk(self):
+        tree, _, _ = random_binary_search_tree()
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            iterative_preorder_tree_walk(tree)
+
+        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
+        expected_output = binary_tree_to_list(tree)
+        assert_that(actual_output, is_(equal_to(expected_output)))
