@@ -8,7 +8,10 @@ from chapter10.ex10_1_4 import queue_empty, enqueue_, dequeue_
 from chapter10.ex10_1_5 import head_enqueue, head_dequeue, tail_enqueue, tail_dequeue
 from chapter10.ex10_1_6 import stack_enqueue, stack_dequeue
 from chapter10.ex10_1_7 import queue_push, queue_pop
+from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
+from datastructures.list import SNode
 from test_datastructures.array_util import random_int_array
+from test_datastructures.list_util import random_int_singly_linked_list, linked_list_keys
 from test_datastructures.queue_util import get_queue_keys, get_stack_keys
 
 
@@ -289,3 +292,25 @@ class Solutions10Test(TestCase):
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
             actual_keys = get_queue_keys(queue)
             assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_insert(self):
+        list_, nodes, keys = random_int_singly_linked_list()
+        new_key = random.randint(0, 999)
+        new_node = SNode(new_key)
+
+        singly_linked_list_insert(list_, new_node)
+
+        actual_keys = linked_list_keys(list_)
+        expected_keys = [new_key] + keys
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_singly_linked_list_delete(self):
+        list_, nodes, keys = random_int_singly_linked_list(max_size=5)
+        node_idx = random.randrange(len(nodes))
+        node_to_delete = nodes[node_idx]
+
+        singly_linked_list_delete(list_, node_to_delete)
+
+        actual_keys = linked_list_keys(list_)
+        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
+        assert_that(actual_keys, is_(equal_to(expected_keys)))

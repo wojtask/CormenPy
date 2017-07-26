@@ -7,7 +7,7 @@ from chapter10.textbook import stack_empty, push, pop, enqueue, dequeue, list_se
     list_delete_, list_search_, list_insert_
 from datastructures.list import Node
 from test_datastructures.array_util import random_int_array
-from test_datastructures.list_util import random_int_doubly_linked_list, doubly_linked_list_keys, \
+from test_datastructures.list_util import random_int_doubly_linked_list, linked_list_keys, \
     random_int_doubly_linked_list_with_sentinel, doubly_linked_list_with_sentinel_keys, \
     assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel
 from test_datastructures.queue_util import get_stack_keys, get_queue_keys
@@ -114,32 +114,32 @@ class Textbook10Test(TestCase):
 
         list_insert(list_, new_node)
 
-        actual_keys = doubly_linked_list_keys(list_)
+        actual_keys = linked_list_keys(list_)
         expected_keys = [new_key] + keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent(list_)
 
     def test_list_delete(self):
         list_, nodes, keys = random_int_doubly_linked_list(max_size=5)
-        node_to_delete = random.choice(nodes)
+        node_idx = random.randrange(len(nodes))
+        node_to_delete = nodes[node_idx]
 
         list_delete(list_, node_to_delete)
 
-        actual_keys = doubly_linked_list_keys(list_)
-        expected_keys = keys
-        expected_keys.remove(node_to_delete.key)
+        actual_keys = linked_list_keys(list_)
+        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent(list_)
 
     def test_list_delete_(self):
         list_, nodes, keys = random_int_doubly_linked_list_with_sentinel(max_size=5)
-        node_to_delete = random.choice(nodes)
+        node_idx = random.randrange(len(nodes))
+        node_to_delete = nodes[node_idx]
 
         list_delete_(list_, node_to_delete)
 
         actual_keys = doubly_linked_list_with_sentinel_keys(list_)
-        expected_keys = keys
-        expected_keys.remove(node_to_delete.key)
+        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent_with_sentinel(list_)
 

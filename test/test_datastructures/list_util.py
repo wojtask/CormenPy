@@ -2,7 +2,7 @@ import random
 
 from hamcrest import *
 
-from datastructures.list import List, Node
+from datastructures.list import List, Node, SNode
 
 
 def random_int_doubly_linked_list(min_size=1, max_size=20, max_value=999):
@@ -21,7 +21,7 @@ def random_int_doubly_linked_list(min_size=1, max_size=20, max_value=999):
     return L, nodes, keys
 
 
-def doubly_linked_list_keys(L):
+def linked_list_keys(L):
     keys = []
     node = L.head
     while node is not None:
@@ -77,3 +77,18 @@ def assert_prev_next_pointers_consistent_with_sentinel(L):
         assert_that(node.prev.next, is_(node))
         assert_that(node.next.prev, is_(node))
         node = node.next
+
+
+def random_int_singly_linked_list(min_size=1, max_size=20, max_value=999):
+    size = random.randint(min_size, max_size)
+    keys = [random.randint(0, max_value) for _ in range(size)]
+    nodes = [SNode(key) for key in keys]
+    L = List()
+    prev_node = L.head
+    for node in nodes:
+        if prev_node is None:
+            L.head = node
+        else:
+            prev_node.next = node
+        prev_node = node
+    return L, nodes, keys
