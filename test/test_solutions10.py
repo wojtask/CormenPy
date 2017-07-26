@@ -7,6 +7,7 @@ from chapter10.ex10_1_2 import left_stack_push, left_stack_pop, right_stack_push
 from chapter10.ex10_1_4 import queue_empty, enqueue_, dequeue_
 from chapter10.ex10_1_5 import head_enqueue, head_dequeue, tail_enqueue, tail_dequeue
 from chapter10.ex10_1_6 import stack_enqueue, stack_dequeue
+from chapter10.ex10_1_7 import queue_push, queue_pop
 from test_datastructures.array_util import random_int_array
 from test_datastructures.queue_util import get_queue_keys, get_stack_keys
 
@@ -250,4 +251,41 @@ class Solutions10Test(TestCase):
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
             actual_keys = get_stack_keys(stack)
+            assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_queue_push(self):
+        size = 5
+        queue, _ = random_int_array(min_size=size, max_size=size)
+        queue.head = random.randint(1, size)
+        queue.tail = random.randint(1, size)
+
+        # if queue is full then make it empty
+        if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
+            queue.tail = queue.head
+
+        x = random.randint(0, 999)
+        expected_keys = get_queue_keys(queue) + [x]
+
+        queue_push(queue, x)
+
+        actual_keys = get_queue_keys(queue)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+
+    def test_queue_pop(self):
+        size = 5
+        queue, _ = random_int_array(min_size=size, max_size=size)
+        queue.head = random.randint(1, size)
+        queue.tail = random.randint(1, size)
+
+        if queue.head == queue.tail:
+            assert_that(calling(queue_pop).with_args(queue), raises(RuntimeError, 'underflow'))
+        else:
+            expected_keys = get_queue_keys(queue)
+            del expected_keys[-1]
+            expected_deleted = queue[queue.tail - 1]
+
+            actual_deleted = queue_pop(queue)
+
+            assert_that(actual_deleted, is_(equal_to(expected_deleted)))
+            actual_keys = get_queue_keys(queue)
             assert_that(actual_keys, is_(equal_to(expected_keys)))
