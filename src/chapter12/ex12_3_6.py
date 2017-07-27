@@ -20,11 +20,11 @@ def fair_tree_delete(T, z):
     if y.p is None:
         T.root = x
     else:
-        if y == y.p.left:
+        if y is y.p.left:
             y.p.left = x
         else:
             y.p.right = x
-    if y != z:
+    if y is not z:
         z.key = y.key
         z.data = y.data
     return y

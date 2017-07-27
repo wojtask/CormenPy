@@ -15,8 +15,8 @@ def os_select(x, i):
 def os_rank(T, x):
     r = x.left.size + 1
     y = x
-    while y != T.root:
-        if y == y.p.right:
+    while y is not T.root:
+        if y is y.p.right:
             r += y.p.left.size + 1
         y = y.p
     return r
@@ -25,7 +25,7 @@ def os_rank(T, x):
 def os_insert(T, z):
     y = T.nil
     x = T.root
-    while x != T.nil:
+    while x is not T.nil:
         x.size += 1
         y = x
         if z.key < x.key:
@@ -33,7 +33,7 @@ def os_insert(T, z):
         else:
             x = x.right
     z.p = y
-    if y == T.nil:
+    if y is T.nil:
         T.root = z
     else:
         if z.key < y.key:
@@ -49,7 +49,7 @@ def os_insert(T, z):
 
 def os_insert_fixup(T, z):
     while z.p.color == Color.RED:
-        if z.p == z.p.p.left:
+        if z.p is z.p.p.left:
             y = z.p.p.right
             if y.color == Color.RED:
                 z.p.color = Color.BLACK
@@ -57,7 +57,7 @@ def os_insert_fixup(T, z):
                 z.p.p.color = Color.RED
                 z = z.p.p
             else:
-                if z == z.p.right:
+                if z is z.p.right:
                     z = z.p
                     os_left_rotate(T, z)
                 z.p.color = Color.BLACK
@@ -71,7 +71,7 @@ def os_insert_fixup(T, z):
                 z.p.p.color = Color.RED
                 z = z.p.p
             else:
-                if z == z.p.left:
+                if z is z.p.left:
                     z = z.p
                     os_right_rotate(T, z)
                 z.p.color = Color.BLACK
@@ -89,7 +89,7 @@ def os_left_rotate(T, x):
     if x.p is T.nil:
         T.root = y
     else:
-        if x == x.p.left:
+        if x is x.p.left:
             x.p.left = y
         else:
             x.p.right = y
@@ -108,7 +108,7 @@ def os_right_rotate(T, x):
     if x.p is T.nil:
         T.root = y
     else:
-        if x == x.p.right:
+        if x is x.p.right:
             x.p.right = y
         else:
             x.p.left = y
@@ -119,23 +119,23 @@ def os_right_rotate(T, x):
 
 
 def os_delete(T, z):
-    if z.left == T.nil or z.right == T.nil:
+    if z.left is T.nil or z.right is T.nil:
         y = z
     else:
         y = rb_tree_successor(T, z)
-    if y.left != T.nil:
+    if y.left is not T.nil:
         x = y.left
     else:
         x = y.right
     x.p = y.p
-    if y.p == T.nil:
+    if y.p is T.nil:
         T.root = x
     else:
-        if y == y.p.left:
+        if y is y.p.left:
             y.p.left = x
         else:
             y.p.right = x
-    if y != z:
+    if y is not z:
         z.key = y.key
         z.data = y.data
     _update_size_fields(T, y)
@@ -151,8 +151,8 @@ def _update_size_fields(tree, y):
 
 
 def os_delete_fixup(T, x):
-    while x != T.root and x.color == Color.BLACK:
-        if x == x.p.left:
+    while x is not T.root and x.color == Color.BLACK:
+        if x is x.p.left:
             w = x.p.right
             if w.color == Color.RED:
                 w.color = Color.BLACK
@@ -203,8 +203,8 @@ def _overlap(i, i_):
 
 def interval_search(T, i):
     x = T.root
-    while x != T.nil and not _overlap(i, x.int):
-        if x.left != T.nil and x.left.max >= i.low:
+    while x is not T.nil and not _overlap(i, x.int):
+        if x.left is not T.nil and x.left.max >= i.low:
             x = x.left
         else:
             x = x.right

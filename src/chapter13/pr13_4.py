@@ -5,8 +5,8 @@ from chapter13.textbook import left_rotate
 
 def treap_insert(T, x):
     tree_insert(T, x)
-    while x != T.root and x.priority < x.p.priority:
-        if x == x.p.left:
+    while x is not T.root and x.priority < x.p.priority:
+        if x is x.p.left:
             right_rotate(T, x.p)
         else:
             left_rotate(T, x.p)

@@ -13,7 +13,7 @@ def right_rotate(T, x):
     if x.p is sentinel:
         T.root = y
     else:
-        if x == x.p.right:
+        if x is x.p.right:
             x.p.right = y
         else:
             x.p.left = y

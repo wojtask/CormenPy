@@ -23,7 +23,7 @@ def avl_left_rotate(x):
         y.left.p = x
     y.p = x.p
     if x.p is not None:
-        if x == x.p.left:
+        if x is x.p.left:
             x.p.left = y
         else:
             x.p.right = y
@@ -40,7 +40,7 @@ def avl_right_rotate(x):
         y.right.p = x
     y.p = x.p
     if x.p is not None:
-        if x == x.p.right:
+        if x is x.p.right:
             x.p.right = y
         else:
             x.p.left = y

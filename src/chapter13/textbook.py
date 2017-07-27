@@ -3,16 +3,16 @@ from datastructures.red_black_tree import Color, RedBlackTree
 
 
 def rb_tree_minimum(T, x):
-    while x.left != T.nil:
+    while x.left is not T.nil:
         x = x.left
     return x
 
 
 def rb_tree_successor(T, x):
-    if x.right != T.nil:
+    if x.right is not T.nil:
         return rb_tree_minimum(T, x.right)
     y = x.p
-    while y != T.nil and x == y.right:
+    while y is not T.nil and x is y.right:
         x = y
         y = y.p
     return y
@@ -30,7 +30,7 @@ def left_rotate(T, x):
     if x.p is sentinel:
         T.root = y
     else:
-        if x == x.p.left:
+        if x is x.p.left:
             x.p.left = y
         else:
             x.p.right = y
@@ -41,14 +41,14 @@ def left_rotate(T, x):
 def rb_insert(T, z):
     y = T.nil
     x = T.root
-    while x != T.nil:
+    while x is not T.nil:
         y = x
         if z.key < x.key:
             x = x.left
         else:
             x = x.right
     z.p = y
-    if y == T.nil:
+    if y is T.nil:
         T.root = z
     else:
         if z.key < y.key:
@@ -63,7 +63,7 @@ def rb_insert(T, z):
 
 def rb_insert_fixup(T, z):
     while z.p.color == Color.RED:
-        if z.p == z.p.p.left:
+        if z.p is z.p.p.left:
             y = z.p.p.right
             if y.color == Color.RED:
                 z.p.color = Color.BLACK
@@ -71,7 +71,7 @@ def rb_insert_fixup(T, z):
                 z.p.p.color = Color.RED
                 z = z.p.p
             else:
-                if z == z.p.right:
+                if z is z.p.right:
                     z = z.p
                     left_rotate(T, z)
                 z.p.color = Color.BLACK
@@ -85,7 +85,7 @@ def rb_insert_fixup(T, z):
                 z.p.p.color = Color.RED
                 z = z.p.p
             else:
-                if z == z.p.left:
+                if z is z.p.left:
                     z = z.p
                     right_rotate(T, z)
                 z.p.color = Color.BLACK
@@ -95,23 +95,23 @@ def rb_insert_fixup(T, z):
 
 
 def rb_delete(T, z):
-    if z.left == T.nil or z.right == T.nil:
+    if z.left is T.nil or z.right is T.nil:
         y = z
     else:
         y = rb_tree_successor(T, z)
-    if y.left != T.nil:
+    if y.left is not T.nil:
         x = y.left
     else:
         x = y.right
     x.p = y.p
-    if y.p == T.nil:
+    if y.p is T.nil:
         T.root = x
     else:
-        if y == y.p.left:
+        if y is y.p.left:
             y.p.left = x
         else:
             y.p.right = x
-    if y != z:
+    if y is not z:
         z.key = y.key
         z.data = y.data
     if y.color == Color.BLACK:
@@ -120,8 +120,8 @@ def rb_delete(T, z):
 
 
 def rb_delete_fixup(T, x):
-    while x != T.root and x.color == Color.BLACK:
-        if x == x.p.left:
+    while x is not T.root and x.color == Color.BLACK:
+        if x is x.p.left:
             w = x.p.right
             if w.color == Color.RED:
                 w.color = Color.BLACK
