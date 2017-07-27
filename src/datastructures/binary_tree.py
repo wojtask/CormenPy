@@ -1,6 +1,8 @@
-class BinaryTree:
-    def __init__(self, root=None):
-        self.root = root
+from datastructures.rooted_tree import RootedTree
+
+
+class BinaryTree(RootedTree):
+    pass
 
 
 class Node:
