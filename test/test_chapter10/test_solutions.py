@@ -20,6 +20,7 @@ from chapter10.ex10_2_8 import xor_linked_list_search, xor_linked_list_insert, x
     xor_linked_list_reverse
 from chapter10.ex10_3_2 import single_array_allocate_object, single_array_free_object
 from chapter10.ex10_3_4 import compact_list_allocate_object, compact_list_free_object
+from chapter10.ex10_3_5 import compactify_list
 from chapter10.ex10_4_3 import iterative_preorder_tree_walk
 from chapter10.ex10_4_4 import tree_walk
 from chapter10.ex10_4_5 import stackless_inorder_tree_walk
@@ -31,7 +32,7 @@ from test_datastructures.list_util import random_int_singly_linked_list, linked_
     circular_list_keys, random_int_xor_linked_list, xor_linked_list_keys, random_single_array_list, \
     single_array_list_keys, single_array_list_free_cells, assert_single_array_list_consistent, \
     multiple_array_list_keys, multiple_array_list_free_cells, assert_multiple_array_list_consistent, \
-    random_compact_list, assert_compact_list
+    random_compact_list, assert_compact_list, random_multiple_array_list
 from test_datastructures.queue_util import get_queue_keys, get_stack_keys
 from test_datastructures.tree_util import random_binary_search_tree, binary_tree_to_list
 
@@ -45,6 +46,15 @@ def _get_rooted_tree():
     nodes[3].left_child = nodes[5]
     nodes[5].right_sibling = nodes[6]
     return RootedTree(nodes[0])
+
+
+def _make_free_list_doubly_linked(list_):
+    if list_.free is None:
+        return
+    x = list_.free
+    while list_.next[x] is not None:
+        list_.prev[list_.next[x]] = x
+        x = list_.next[x]
 
 
 class Solutions10Test(TestCase):
@@ -576,6 +586,19 @@ class Solutions10Test(TestCase):
         actual_keys = multiple_array_list_keys(list_)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         actual_free_cells = multiple_array_list_free_cells(list_)
+        assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))
+
+    def test_compactify_list(self):
+        list_ = random_multiple_array_list()
+        _make_free_list_doubly_linked(list_)
+        expected_keys = multiple_array_list_keys(list_)
+        expected_free_cells = multiple_array_list_free_cells(list_)
+
+        compactify_list(list_)
+
+        actual_keys = multiple_array_list_keys(list_)
+        actual_free_cells = multiple_array_list_free_cells(list_)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))
 
     def test_iterative_preorder_tree_walk(self):
