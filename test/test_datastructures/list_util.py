@@ -3,7 +3,7 @@ import random
 from hamcrest import *
 
 from datastructures.array import Array
-from datastructures.array_list import MultipleArrayList
+from datastructures.array_list import MultipleArrayList, SingleArrayList
 from datastructures.list import List, Node, SNode, XorNode, XorList
 
 
@@ -149,7 +149,7 @@ def xor_linked_list_keys(list_):
     return keys
 
 
-def random_multi_array_list(min_size=1, max_size=10, max_value=999):
+def random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
     key = Array([random.randint(0, max_value) for _ in range(array_size)])
@@ -182,7 +182,7 @@ def random_multi_array_list(min_size=1, max_size=10, max_value=999):
     return MultipleArrayList(key, next, prev, head, free)
 
 
-def multi_array_list_keys(list_):
+def multiple_array_list_keys(list_):
     idx = list_.head
     keys = []
     while idx is not None:
@@ -191,7 +191,7 @@ def multi_array_list_keys(list_):
     return keys
 
 
-def multi_array_list_free_cells(list_):
+def multiple_array_list_free_cells(list_):
     idx = list_.free
     free_cells = 0
     while idx is not None:
@@ -200,10 +200,69 @@ def multi_array_list_free_cells(list_):
     return free_cells
 
 
-def assert_multi_array_list_consistent(list_):
+def assert_multiple_array_list_consistent(list_):
     prev_idx = None
     idx = list_.head
     while idx is not None:
         assert_that(list_.prev[idx] == prev_idx)
         prev_idx = idx
         idx = list_.next[idx]
+
+
+def random_single_array_list(min_size=1, max_size=10, max_value=999):
+    list_size = random.randint(min_size, max_size)
+    array_size = 3 * random.randint(list_size, max_size)
+    A = Array.of_length(array_size)
+    list_indexes = random.sample(range(1, array_size + 1, 3), list_size)
+
+    head = None
+    prev_index = None
+    for index in list_indexes:
+        A[index] = random.randint(0, max_value)
+        if prev_index is None:
+            head = index
+        else:
+            A[prev_index + 1] = index
+            A[index + 2] = prev_index
+        prev_index = index
+
+    free_indexes = [i for i in range(1, array_size + 1, 3) if i not in list_indexes]
+    random.shuffle(free_indexes)
+
+    free = None
+    prev_free_index = None
+    for free_index in free_indexes:
+        if prev_free_index is None:
+            free = free_index
+        else:
+            A[prev_free_index + 1] = free_index
+        prev_free_index = free_index
+
+    return SingleArrayList(A, head, free)
+
+
+def single_array_list_keys(list_):
+    idx = list_.head
+    keys = []
+    while idx is not None:
+        keys.append(list_.A[idx])
+        idx = list_.A[idx + 1]
+    return keys
+
+
+def single_array_list_free_cells(list_):
+    idx = list_.free
+    free_cells = 0
+    while idx is not None:
+        free_cells += 1
+        idx = list_.A[idx + 1]
+    return free_cells
+
+
+def assert_single_array_list_consistent(list_):
+    prev_idx = None
+    idx = list_.head
+    while idx is not None:
+        assert_that(list_.A[idx + 2] == prev_idx)
+        prev_idx = idx
+        idx = list_.A[idx + 1]
