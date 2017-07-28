@@ -4,14 +4,27 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.textbook import stack_empty, push, pop, enqueue, dequeue, list_search, list_insert, list_delete, \
-    list_delete_, list_search_, list_insert_, allocate_object, free_object
+    list_delete_, list_search_, list_insert_, allocate_object, free_object, compact_list_search
 from datastructures.list import Node
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_doubly_linked_list, linked_list_keys, \
     random_int_doubly_linked_list_with_sentinel, doubly_linked_list_with_sentinel_keys, \
-    assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel, random_multiple_array_list, \
-    assert_multiple_array_list_consistent, multiple_array_list_keys, multiple_array_list_free_cells
+    assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel, \
+    random_multiple_array_list, assert_multiple_array_list_consistent, multiple_array_list_keys, \
+    multiple_array_list_free_cells, random_compact_list
 from test_datastructures.queue_util import get_stack_keys, get_queue_keys
+
+
+def _make_sorted_keys_in_multiple_array_list(list_):
+    array_length = list_.key.length
+    sorted_keys = sorted([random.randint(0, 999) for _ in range(array_length)])
+    x = list_.head
+    i = 0
+    while x is not None:
+        list_.key[x] = sorted_keys[i]
+        x = list_.next[x]
+        i += 1
+    return sorted_keys[:i]
 
 
 class Textbook10Test(TestCase):
@@ -207,3 +220,15 @@ class Textbook10Test(TestCase):
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         actual_free_cells = multiple_array_list_free_cells(list_)
         assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))
+
+    def test_compact_list_search(self):
+        list_ = random_compact_list(min_size=10, max_size=20, max_value=20)
+        keys = _make_sorted_keys_in_multiple_array_list(list_)
+        key_to_find = random.randint(0, 20)
+
+        actual_index = compact_list_search(list_, len(keys), key_to_find)
+
+        if key_to_find in keys:
+            assert_that(list_.key[actual_index], is_(equal_to(key_to_find)))
+        else:
+            assert_that(actual_index, is_(none()))
