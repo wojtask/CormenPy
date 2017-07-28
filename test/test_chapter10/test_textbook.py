@@ -4,12 +4,13 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.textbook import stack_empty, push, pop, enqueue, dequeue, list_search, list_insert, list_delete, \
-    list_delete_, list_search_, list_insert_
+    list_delete_, list_search_, list_insert_, allocate_object, free_object
 from datastructures.list import Node
 from test_datastructures.array_util import random_int_array
 from test_datastructures.list_util import random_int_doubly_linked_list, linked_list_keys, \
     random_int_doubly_linked_list_with_sentinel, doubly_linked_list_with_sentinel_keys, \
-    assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel
+    assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel, random_multi_array_list, \
+    assert_multi_array_list_consistent, multi_array_list_keys, multi_array_list_free_cells
 from test_datastructures.queue_util import get_stack_keys, get_queue_keys
 
 
@@ -166,3 +167,43 @@ class Textbook10Test(TestCase):
         expected_keys = [new_key] + keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent_with_sentinel(list_)
+
+    def test_allocate_object(self):
+        list_ = random_multi_array_list()
+
+        if list_.free is None:
+            assert_that(calling(allocate_object).with_args(list_), raises(RuntimeError, 'out of space'))
+        else:
+            expected_free = list_.free
+            expected_keys = multi_array_list_keys(list_)
+            expected_free_cells = multi_array_list_free_cells(list_) - 1
+
+            actual_allocated = allocate_object(list_)
+
+            assert_that(actual_allocated, is_(equal_to(expected_free)))
+            assert_multi_array_list_consistent(list_)
+            actual_keys = multi_array_list_keys(list_)
+            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            actual_free_cells = multi_array_list_free_cells(list_)
+            assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))
+
+    def test_free_object(self):
+        list_ = random_multi_array_list()
+
+        # the list is nonempty so let's delete the head element and prepare it for freeing
+        cell_to_free = list_.head
+        if list_.next[list_.head] is not None:
+            list_.prev[list_.next[list_.head]] = None
+        list_.head = list_.next[list_.head]
+
+        expected_keys = multi_array_list_keys(list_)
+        expected_free_cells = multi_array_list_free_cells(list_) + 1
+
+        free_object(list_, cell_to_free)
+
+        assert_that(list_.free, is_(equal_to(cell_to_free)))
+        assert_multi_array_list_consistent(list_)
+        actual_keys = multi_array_list_keys(list_)
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_free_cells = multi_array_list_free_cells(list_)
+        assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))

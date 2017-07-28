@@ -86,12 +86,12 @@ def allocate_object(L):
         raise RuntimeError('out of space')
     else:
         x = L.free
-        L.free = x.next
+        L.free = L.next[x]
         return x
 
 
 def free_object(L, x):
-    x.next = L.free
+    L.next[x] = L.free
     L.free = x
 
 
