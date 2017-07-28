@@ -152,14 +152,13 @@ def xor_linked_list_keys(list_):
 def random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
-    key = Array([random.randint(0, max_value) for _ in range(array_size)])
-    next = Array.of_length(array_size)
-    prev = Array.of_length(array_size)
+    key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
     list_indexes = random.sample(range(1, array_size + 1), list_size)
 
     head = None
     prev_index = None
     for index in list_indexes:
+        key[index] = random.randint(0, max_value)
         if prev_index is None:
             head = index
         else:
@@ -266,3 +265,38 @@ def assert_single_array_list_consistent(list_):
         assert_that(list_.A[idx + 2] == prev_idx)
         prev_idx = idx
         idx = list_.A[idx + 1]
+
+
+def random_compact_list(min_size=1, max_size=10, max_value=999):
+    list_size = random.randint(min_size, max_size)
+    array_size = random.randint(list_size, max_size)
+    key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
+    list_indexes = random.sample(range(1, list_size + 1), list_size)
+
+    head = None
+    prev_index = None
+    for index in list_indexes:
+        key[index] = random.randint(0, max_value)
+        if prev_index is None:
+            head = index
+        else:
+            next[prev_index] = index
+            prev[index] = prev_index
+        prev_index = index
+
+    free = list_size + 1 if list_size < array_size else None
+    for free_index in range(list_size + 2, array_size + 1):
+        next[free_index - 1] = free_index
+
+    return MultipleArrayList(key, next, prev, head, free)
+
+
+def assert_compact_list(list_):
+    idx = list_.head
+    elements = 0
+    max_idx = 0
+    while idx is not None:
+        elements += 1
+        max_idx = max(max_idx, idx)
+        idx = list_.next[idx]
+    assert_that(max_idx == elements)
