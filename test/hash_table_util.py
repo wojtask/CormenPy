@@ -1,6 +1,7 @@
 import random
 
 from chapter11.ex11_4_2 import Deleted
+from datastructures.array import Array
 from datastructures.hash_table import Element, ChainedElement
 from datastructures.standard_array import StandardArray
 
@@ -52,6 +53,22 @@ def random_chained_hash_table(max_value=999):
         element.next = list_
         table[h(element.key, table_size)] = element
     return table, elements, h
+
+
+def random_huge_array(max_value=999):
+    table_size = max_value
+    table_capacity = random.randint(1, min(20, max_value))
+    nelements = random.randint(0, table_capacity)
+    table = StandardArray.of_length(table_size)
+    stack = Array.of_length(table_capacity)
+    keys = random.sample(range(max_value), nelements)
+
+    for i, key in enumerate(keys):
+        table[key] = i + 1
+        stack[i + 1] = Element(key)
+    stack.top = len(keys)
+
+    return table, stack, keys
 
 
 def _modular_hash(k, m):
