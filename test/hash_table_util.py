@@ -6,7 +6,7 @@ from datastructures.standard_array import StandardArray
 
 
 def random_direct_address_table():
-    table_size = random.randint(1, 20)
+    table_size = random.randint(1, 10)
     nelements = random.randint(0, table_size)
     elements = [Element(key) for key in random.sample(range(table_size), nelements)]
     table = StandardArray.of_length(table_size)
