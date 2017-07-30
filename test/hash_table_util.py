@@ -23,6 +23,21 @@ def random_bit_vector():
     return bit_vector, keys
 
 
+def random_chained_direct_address_table():
+    table_size = random.randint(1, 10)
+    nelements = random.randint(0, table_size)
+    elements = [ChainedElement(random.randint(0, table_size - 1)) for _ in range(nelements)]
+    table = StandardArray.of_length(table_size)
+
+    for element in elements:
+        list_ = table[element.key]
+        if list_:
+            list_.prev = element
+        element.next = list_
+        table[element.key] = element
+    return table, elements
+
+
 def random_chained_hash_table(max_value=999):
     table_size = random.randint(1, 10)
     nelements = random.randint(0, 3 * table_size)
