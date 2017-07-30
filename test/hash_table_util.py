@@ -15,6 +15,14 @@ def random_direct_address_table():
     return table, elements
 
 
+def random_bit_vector():
+    bit_vector_size = random.randint(1, 10)
+    nelements = random.randint(0, bit_vector_size)
+    keys = random.sample(range(bit_vector_size), nelements)
+    bit_vector = StandardArray([1 if i in keys else 0 for i in range(bit_vector_size)])
+    return bit_vector, keys
+
+
 def random_chained_hash_table(max_value=999):
     table_size = random.randint(1, 10)
     nelements = random.randint(0, 3 * table_size)
