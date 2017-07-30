@@ -6,9 +6,10 @@ from hamcrest import *
 from chapter11.ex11_1_1 import direct_address_maximum
 from chapter11.ex11_1_2 import bit_vector_search, bit_vector_insert, bit_vector_delete
 from chapter11.ex11_1_3 import direct_address_search_, direct_address_insert_, direct_address_delete_
+from chapter11.ex11_4_2 import hash_delete, hash_insert_
 from datastructures.hash_table import ChainedElement
 from hash_table_util import random_direct_address_table, random_bit_vector, random_chained_direct_address_table, \
-    get_chained_hash_table_elements
+    get_chained_hash_table_elements, random_hash_table_linear_probing, get_hash_table_keys
 
 
 class Solutions11Test(TestCase):
@@ -88,3 +89,33 @@ class Solutions11Test(TestCase):
 
         actual_elements = get_chained_hash_table_elements(table)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
+
+    def test_hash_delete(self):
+        table, keys, h = random_hash_table_linear_probing()
+        # make sure the table is not empty
+        if not keys:
+            key = random.randint(0, 999)
+            keys.append(key)
+            table[h(key, 0, table.length)] = key
+        key_to_delete = random.choice(keys)
+        keys.remove(key_to_delete)
+
+        hash_delete(table, key_to_delete, h)
+
+        actual_keys = get_hash_table_keys(table)
+        assert_that(actual_keys, contains_inanyorder(*keys))
+
+    def test_hash_insert_(self):
+        table, keys, h = random_hash_table_linear_probing()
+        new_key = random.randint(0, 999)
+
+        if len(keys) == table.length:
+            assert_that(calling(hash_insert_).with_args(table, new_key, h),
+                        raises(RuntimeError, 'hash table overflow'))
+        else:
+            expected_keys = get_hash_table_keys(table) + [new_key]
+
+            hash_insert_(table, new_key, h)
+
+            actual_keys = get_hash_table_keys(table)
+            assert_that(actual_keys, contains_inanyorder(*expected_keys))
