@@ -1,7 +1,4 @@
-class Element:
-    def __init__(self, key, data=None):
-        self.key = key
-        self.data = data
+from util import Element
 
 
 class ChainedElement(Element):

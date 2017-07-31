@@ -8,10 +8,12 @@ from chapter11.ex11_1_2 import bit_vector_search, bit_vector_insert, bit_vector_
 from chapter11.ex11_1_3 import direct_address_search_, direct_address_insert_, direct_address_delete_
 from chapter11.ex11_1_4 import huge_array_search, huge_array_insert, huge_array_delete
 from chapter11.ex11_4_2 import hash_delete, hash_insert_
-from datastructures.hash_table import ChainedElement, Element
-from hash_table_util import get_random_direct_address_table, get_random_bit_vector, get_random_chained_direct_address_table, \
-    get_chained_hash_table_elements, get_random_hash_table_linear_probing, get_hash_table_keys, get_random_huge_array
+from datastructures.hash_table import ChainedElement
+from hash_table_util import get_random_direct_address_table, get_random_bit_vector, \
+    get_random_chained_direct_address_table, get_chained_hash_table_elements, get_random_hash_table_linear_probing, \
+    get_hash_table_keys, get_random_huge_array
 from queue_util import get_stack_elements
+from util import Element
 
 
 class Solutions11Test(TestCase):

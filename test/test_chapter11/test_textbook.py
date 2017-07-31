@@ -3,11 +3,13 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter11.textbook import direct_address_search, direct_address_insert, direct_address_delete, chained_hash_insert, \
-    chained_hash_search, chained_hash_delete, hash_insert, hash_search, quadratic_probing_search
-from datastructures.hash_table import Element, ChainedElement
-from hash_table_util import get_random_direct_address_table, get_chained_hash_table_elements, get_random_chained_hash_table, \
-    get_random_hash_table_linear_probing, get_hash_table_keys, get_random_hash_table_quadratic_probing
+from chapter11.textbook import direct_address_search, direct_address_insert, direct_address_delete, \
+    chained_hash_insert, chained_hash_search, chained_hash_delete, hash_insert, hash_search, quadratic_probing_search
+from datastructures.hash_table import ChainedElement
+from hash_table_util import get_random_direct_address_table, get_chained_hash_table_elements, \
+    get_random_chained_hash_table, get_random_hash_table_linear_probing, get_hash_table_keys, \
+    get_random_hash_table_quadratic_probing
+from util import Element
 
 
 class Textbook11Test(TestCase):

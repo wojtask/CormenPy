@@ -8,6 +8,7 @@ from array_util import get_random_array
 from chapter06.ex6_2_2 import min_heapify
 from chapter06.ex6_2_5 import iterative_max_heapify
 from chapter06.ex6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
+from chapter06.ex6_5_6 import priority_enqueue, priority_dequeue, priority_push, priority_pop
 from chapter06.ex6_5_7 import max_heap_delete
 from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_heap_extract_max, \
     multiary_max_heap_insert, multiary_heap_increase_key
@@ -15,6 +16,7 @@ from chapter06.pr6_3 import young_extract_min, youngify, young_insert, young_sor
 from datastructures.array import Array
 from datastructures.matrix import Matrix
 from heap_util import get_random_min_heap, assert_min_heap, get_random_max_heap, assert_max_heap
+from util import Element
 
 
 def random_young_tableau(max_rows=5, max_columns=5, max_value=999):
@@ -121,6 +123,70 @@ class Solutions06Test(TestCase):
         assert_min_heap(heap)
         expected_heap_keys = elements + [new_key]
         assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
+
+    def test_priority_enqueue(self):
+        size = random.randint(5, 20)
+        heap = Array.of_length(size)
+        heap.heap_size = 0
+        heap.rank = 1
+        nelements = random.randint(1, size)
+
+        for i in range(1, nelements + 1):
+            new_element = Element(None, "element " + str(i))
+            priority_enqueue(heap, new_element)
+
+        for element in heap[1:heap.heap_size]:
+            assert_that(element.data, is_(equal_to("element " + str(element.key))))
+
+    def test_priority_dequeue(self):
+        # create a random min heap of numbers
+        heap, elements = get_random_min_heap()
+        # and then transform the numbers to elements with keys and data
+        expected_elements = []
+        for i in range(1, heap.heap_size + 1):
+            heap[i] = Element(heap[i], "element " + str(heap[i]))
+            expected_elements.append(heap[i])
+
+        expected_deleted = min([element for element in heap[1:heap.heap_size]], key=lambda e: e.key)
+        expected_elements.remove(expected_deleted)
+
+        actual_deleted = priority_dequeue(heap)
+
+        assert_that(actual_deleted, is_(equal_to(expected_deleted)))
+        actual_elements = heap[1:heap.heap_size].elements
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+
+    def test_priority_push(self):
+        size = random.randint(5, 20)
+        heap = Array.of_length(size)
+        heap.heap_size = 0
+        heap.rank = 1
+        nelements = random.randint(1, size)
+
+        for i in range(1, nelements + 1):
+            new_element = Element(None, "element " + str(i))
+            priority_push(heap, new_element)
+
+        for element in heap[1:heap.heap_size]:
+            assert_that(element.data, is_(equal_to("element " + str(element.key))))
+
+    def test_priority_pop(self):
+        # create a random max heap of numbers
+        heap, elements = get_random_max_heap()
+        # and then transform the numbers to elements with keys and data
+        expected_elements = []
+        for i in range(1, heap.heap_size + 1):
+            heap[i] = Element(heap[i], "element " + str(heap[i]))
+            expected_elements.append(heap[i])
+
+        expected_deleted = max([element for element in heap[1:heap.heap_size]], key=lambda e: e.key)
+        expected_elements.remove(expected_deleted)
+
+        actual_deleted = priority_pop(heap)
+
+        assert_that(actual_deleted, is_(equal_to(expected_deleted)))
+        actual_elements = heap[1:heap.heap_size].elements
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_max_heap_delete(self):
         heap, elements = get_random_max_heap()
