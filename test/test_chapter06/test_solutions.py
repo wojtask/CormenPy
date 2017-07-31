@@ -22,20 +22,20 @@ def random_young_tableau(max_rows=5, max_columns=5, max_value=999):
     rows = random.randint(1, max_rows)
     columns = random.randint(1, max_columns)
     row = [random.randint(0, max_value) for _ in range(columns)]  # the first row
-    data = [sorted([x if x <= threshold else math.inf for x in row])]
+    elements = [sorted([x if x <= threshold else math.inf for x in row])]
     for i in range(1, rows):
-        if data[i - 1][0] < math.inf:
-            row = [random.randint(data[i - 1][0], max_value)]
+        if elements[i - 1][0] < math.inf:
+            row = [random.randint(elements[i - 1][0], max_value)]
         else:
             row = [math.inf]
         for j in range(1, columns):
-            bound = max(row[j - 1], data[i - 1][j])
+            bound = max(row[j - 1], elements[i - 1][j])
             if bound < math.inf:
                 row.append(random.randint(bound, max_value))
             else:
                 row.append(math.inf)
-        data.append(sorted([x if x <= threshold else math.inf for x in row]))
-    return Matrix(data), data
+        elements.append(sorted([x if x <= threshold else math.inf for x in row]))
+    return Matrix(elements), elements
 
 
 def assert_young_tableau(matrix):
@@ -52,47 +52,47 @@ def assert_young_tableau(matrix):
 class Solutions06Test(TestCase):
 
     def test_min_heapify(self):
-        heap, data = get_random_min_heap()
+        heap, elements = get_random_min_heap()
         i = random.randint(1, heap.heap_size)
-        heap[i] = data[i - 1] = random.randint(heap[i], 999)  # randomly increase value of randomly chosen element
+        heap[i] = elements[i - 1] = random.randint(heap[i], 999)  # randomly increase value of randomly chosen element
 
         min_heapify(heap, i)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data))))
+        assert_that(heap.heap_size, is_(equal_to(len(elements))))
         assert_min_heap(heap)
-        assert_that(heap.data, contains_inanyorder(*data))
+        assert_that(heap.elements, contains_inanyorder(*elements))
 
     def test_iterative_max_heapify(self):
-        heap, data = get_random_max_heap()
+        heap, elements = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
-        heap[i] = data[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
+        heap[i] = elements[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
 
         iterative_max_heapify(heap, i)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data))))
+        assert_that(heap.heap_size, is_(equal_to(len(elements))))
         assert_max_heap(heap)
-        assert_that(heap.data, contains_inanyorder(*data))
+        assert_that(heap.elements, contains_inanyorder(*elements))
 
     def test_heap_minimum(self):
-        heap, data = get_random_min_heap()
+        heap, elements = get_random_min_heap()
 
         actual_min = heap_minimum(heap)
 
-        assert_that(actual_min, is_(equal_to(min(data))))
+        assert_that(actual_min, is_(equal_to(min(elements))))
 
     def test_extract_min(self):
-        heap, data = get_random_min_heap()
+        heap, elements = get_random_min_heap()
 
         actual_min = heap_extract_min(heap)
 
-        assert_that(actual_min, is_(equal_to(min(data))))
+        assert_that(actual_min, is_(equal_to(min(elements))))
         assert_min_heap(heap)
         actual_heap_keys = heap[1:heap.heap_size]
-        expected_heap_keys = sorted(data)[1:]  # all but minimum
+        expected_heap_keys = sorted(elements)[1:]  # all but minimum
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
     def test_heap_decrease_key(self):
-        heap, data = get_random_min_heap()
+        heap, elements = get_random_min_heap()
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randrange(1000)
@@ -103,27 +103,27 @@ class Solutions06Test(TestCase):
         else:
             heap_decrease_key(heap, i, new_key)
 
-            assert_that(heap.heap_size, is_(equal_to(len(data))))
-            expected_heap_keys = list(data)
+            assert_that(heap.heap_size, is_(equal_to(len(elements))))
+            expected_heap_keys = list(elements)
             expected_heap_keys.remove(old_key)
             expected_heap_keys.append(new_key)
-            assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+            assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_min_heap_insert(self):
-        heap, data = get_random_min_heap()
-        heap.data.append(None)  # to increase the heap's capacity for the new element
+        heap, elements = get_random_min_heap()
+        heap.elements.append(None)  # to increase the heap's capacity for the new element
         heap.length += 1
         new_key = random.randrange(1000)
 
         min_heap_insert(heap, new_key)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data) + 1)))
+        assert_that(heap.heap_size, is_(equal_to(len(elements) + 1)))
         assert_min_heap(heap)
-        expected_heap_keys = data + [new_key]
-        assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+        expected_heap_keys = elements + [new_key]
+        assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_max_heap_delete(self):
-        heap, data = get_random_max_heap()
+        heap, elements = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
         key_to_delete = heap[i]
 
@@ -132,7 +132,7 @@ class Solutions06Test(TestCase):
         assert_that(actual_deleted_key, is_(equal_to(key_to_delete)))
         assert_max_heap(heap)
         actual_heap_keys = heap[1:heap.heap_size]
-        expected_heap_keys = list(data)
+        expected_heap_keys = list(elements)
         expected_heap_keys.remove(key_to_delete)
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
@@ -145,45 +145,45 @@ class Solutions06Test(TestCase):
 
     def test_multiary_max_heapify(self):
         ary = random.randint(2, 7)
-        heap, data = get_random_max_heap(ary=ary)
+        heap, elements = get_random_max_heap(ary=ary)
         i = random.randint(1, heap.heap_size)
-        heap[i] = data[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
+        heap[i] = elements[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
 
         multiary_max_heapify(heap, ary, i)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data))))
+        assert_that(heap.heap_size, is_(equal_to(len(elements))))
         assert_max_heap(heap, ary=ary)
-        assert_that(heap.data, contains_inanyorder(*data))
+        assert_that(heap.elements, contains_inanyorder(*elements))
 
     def test_multiary_heap_extract_max(self):
         ary = random.randint(2, 7)
-        heap, data = get_random_max_heap(ary=ary)
+        heap, elements = get_random_max_heap(ary=ary)
 
         actual_max = multiary_heap_extract_max(heap, ary)
 
-        assert_that(actual_max, is_(equal_to(max(data))))
+        assert_that(actual_max, is_(equal_to(max(elements))))
         assert_max_heap(heap, ary=ary)
         actual_heap_keys = heap[1:heap.heap_size]
-        expected_heap_keys = sorted(data)[:-1]  # all but maximum
+        expected_heap_keys = sorted(elements)[:-1]  # all but maximum
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
     def test_multiary_max_heap_insert(self):
         ary = random.randint(2, 7)
-        heap, data = get_random_max_heap(ary=ary)
-        heap.data.append(None)  # to increase the heap's capacity for the new element
+        heap, elements = get_random_max_heap(ary=ary)
+        heap.elements.append(None)  # to increase the heap's capacity for the new element
         heap.length += 1
         new_key = random.randrange(1000)
 
         multiary_max_heap_insert(heap, ary, new_key)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data) + 1)))
+        assert_that(heap.heap_size, is_(equal_to(len(elements) + 1)))
         assert_max_heap(heap, ary=ary)
-        expected_heap_keys = data + [new_key]
-        assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+        expected_heap_keys = elements + [new_key]
+        assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_multiary_heap_increase_key(self):
         ary = random.randint(2, 7)
-        heap, data = get_random_max_heap(ary=ary)
+        heap, elements = get_random_max_heap(ary=ary)
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randrange(1000)
@@ -191,85 +191,85 @@ class Solutions06Test(TestCase):
 
         multiary_heap_increase_key(heap, ary, i, new_key)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data))))
+        assert_that(heap.heap_size, is_(equal_to(len(elements))))
         assert_max_heap(heap, ary=ary)
-        expected_heap_keys = list(data)
+        expected_heap_keys = list(elements)
         expected_heap_keys.remove(old_key)
         expected_heap_keys.append(real_new_key)
-        assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+        assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_young_extract_min(self):
-        young, data = random_young_tableau()
+        young, elements = random_young_tableau()
         m, n = young.rows, young.columns
         # make sure the young tableau is not empty
         if young[1, 1] == math.inf:
-            young[1, 1] = data[0][0] = random.randrange(1000)
+            young[1, 1] = elements[0][0] = random.randrange(1000)
 
         actual_min = young_extract_min(young, m, n, 1, 1)
 
         assert_young_tableau(young)
-        assert_that(actual_min, is_(equal_to(min(min(row for row in data)))))
-        actual_data = [x for row in young.data for x in row]
-        expected_data = [x for row in data for x in row]
-        expected_data.remove(actual_min)
-        expected_data.append(math.inf)
-        assert_that(actual_data, contains_inanyorder(*expected_data))
+        assert_that(actual_min, is_(equal_to(min(min(row for row in elements)))))
+        actual_elements = [x for row in young.elements for x in row]
+        expected_elements = [x for row in elements for x in row]
+        expected_elements.remove(actual_min)
+        expected_elements.append(math.inf)
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_youngify(self):
-        young, data = random_young_tableau()
+        young, elements = random_young_tableau()
         m, n = young.rows, young.columns
         # make sure the young tableau is not full
         if young[m, n] < math.inf:
-            young[m, n] = data[m - 1][n - 1] = math.inf
+            young[m, n] = elements[m - 1][n - 1] = math.inf
 
         # randomly decrease value of randomly chosen element
         i = random.randint(1, m)
         j = random.randint(1, n)
         if young[i, j] < math.inf:
-            young[i, j] = data[i - 1][j - 1] = random.randint(0, young[i, j])
+            young[i, j] = elements[i - 1][j - 1] = random.randint(0, young[i, j])
 
         youngify(young, i, j)
 
         assert_young_tableau(young)
-        actual_data = [x for row in young.data for x in row]
-        expected_data = [x for row in data for x in row]
-        assert_that(actual_data, contains_inanyorder(*expected_data))
+        actual_elements = [x for row in young.elements for x in row]
+        expected_elements = [x for row in elements for x in row]
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_young_insert(self):
-        young, data = random_young_tableau()
+        young, elements = random_young_tableau()
         m, n = young.rows, young.columns
         # make sure the young tableau is not full
         if young[m, n] < math.inf:
-            young[m, n] = data[m - 1][n - 1] = math.inf
+            young[m, n] = elements[m - 1][n - 1] = math.inf
 
         new_key = random.randint(0, 999)
 
         young_insert(young, m, n, new_key)
 
         assert_young_tableau(young)
-        actual_data = [x for row in young.data for x in row]
-        expected_data = [x for row in data for x in row]
-        expected_data.remove(math.inf)
-        expected_data.append(new_key)
-        assert_that(actual_data, contains_inanyorder(*expected_data))
+        actual_elements = [x for row in young.elements for x in row]
+        expected_elements = [x for row in elements for x in row]
+        expected_elements.remove(math.inf)
+        expected_elements.append(new_key)
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_young_sort(self):
         n = random.randint(1, 5)
-        array, data = get_random_array(min_size=n * n, max_size=n * n)
+        array, elements = get_random_array(min_size=n * n, max_size=n * n)
 
         young_sort(array)
 
-        expected_array = Array(sorted(data))
+        expected_array = Array(sorted(elements))
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_young_search(self):
-        young, data = random_young_tableau(max_value=20)
+        young, elements = random_young_tableau(max_value=20)
         m, n = young.rows, young.columns
         v = random.randint(0, 20)
 
         actual_found = young_search(young, m, n, v)
 
-        if v in [x for row in data for x in row]:
+        if v in [x for row in elements for x in row]:
             assert_that(actual_found, is_(True))
         else:
             assert_that(actual_found, is_(False))

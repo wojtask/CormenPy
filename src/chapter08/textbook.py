@@ -36,7 +36,7 @@ def radix_sort(A, d):
 
 
 def _stable_sort_on_digit(A, digit):
-    A.data.sort(key=lambda x: _get_digit(x, digit))
+    A.elements.sort(key=lambda x: _get_digit(x, digit))
 
 
 def _get_digit(number, digit):
@@ -65,4 +65,4 @@ def _insertion_sort_list(L):
 
 
 def _concatenate_lists(B, A):
-    A.data = [x for L in B for x in L]
+    A.elements = [x for L in B for x in L]

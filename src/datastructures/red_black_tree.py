@@ -1,16 +1,13 @@
 import math
-from enum import Enum
 
 from datastructures import binary_tree as bt
 
-
-class Color(Enum):
-    RED = 0
-    BLACK = 1
+Red = 0
+Black = 1
 
 
 class Node(bt.Node):
-    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
+    def __init__(self, key, data=None, left=None, right=None, color=Black):
         super().__init__(key, data, left, right)
         self.color = color
 

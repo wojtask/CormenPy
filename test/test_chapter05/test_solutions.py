@@ -31,21 +31,21 @@ class Solutions05Test(TestCase):
         assert_that(count[0], is_(close_to(count[1], samples // 10)))
 
     def test_randomize_in_place_(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         randomize_in_place_(array)
 
-        assert_that(array.data, contains_inanyorder(*data))
+        assert_that(array.elements, contains_inanyorder(*elements))
 
     def test_random_search(self):
         import random
 
-        array, data = get_random_array(min_size=10, max_size=20, max_value=20)
+        array, elements = get_random_array(min_size=10, max_size=20, max_value=20)
         v = random.randint(0, 20)
 
         actual_index = random_search(array, v)
 
-        expected_indexes = [i + 1 for i, x in enumerate(data) if x == v]
+        expected_indexes = [i + 1 for i, x in enumerate(elements) if x == v]
         if expected_indexes:
             assert_that(actual_index, is_in(expected_indexes))
         else:

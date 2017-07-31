@@ -4,7 +4,7 @@ from hamcrest import *
 
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.binary_tree import BinaryTree
-from datastructures.red_black_tree import Color, RedBlackTree
+from datastructures.red_black_tree import RedBlackTree, Red, Black
 
 
 def get_binary_tree_keys(tree, sentinel=None):
@@ -90,7 +90,7 @@ def _get_random_red_black_subtree(black_height, nodes, min_value, max_value):
     root_key = random.randint(min_value, max_value)
 
     # at each level of the tree we try to create an extra red node in the left subtree
-    if random.choice([Color.BLACK, Color.RED]) == Color.RED:
+    if random.choice([Black, Red]) == Red:
         left_subtree_root = _create_red_node_in_subtree(black_height, nodes, min_value, root_key)
     else:
         left_subtree_root = _get_random_red_black_subtree(
@@ -98,7 +98,7 @@ def _get_random_red_black_subtree(black_height, nodes, min_value, max_value):
         )
 
     # ...and we repeat the same for the right subtree
-    if random.choice([Color.BLACK, Color.RED]) == Color.RED:
+    if random.choice([Black, Red]) == Red:
         right_subtree_root = _create_red_node_in_subtree(black_height, nodes, root_key, max_value)
     else:
         right_subtree_root = _get_random_red_black_subtree(
@@ -122,15 +122,15 @@ def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
         subtree_root_key,
         left=left_subtree_root,
         right=right_subtree_root,
-        color=Color.RED
+        color=Red
     )
     nodes.append(subtree_root)
     return subtree_root
 
 
 def assert_red_black_tree(tree):
-    assert_that(tree.root.color, is_(Color.BLACK))
-    assert_that(tree.nil.color, is_(Color.BLACK))
+    assert_that(tree.root.color, is_(Black))
+    assert_that(tree.nil.color, is_(Black))
     if tree.root is not tree.nil:
         assert_binary_search_tree(tree, sentinel=tree.nil)
         _assert_red_black_property_4(tree.root, tree.nil)
@@ -138,9 +138,9 @@ def assert_red_black_tree(tree):
 
 
 def _assert_red_black_property_4(node, nil):
-    if node.color == Color.RED:
-        assert_that(node.left.color, is_(Color.BLACK))
-        assert_that(node.right.color, is_(Color.BLACK))
+    if node.color == Red:
+        assert_that(node.left.color, is_(Black))
+        assert_that(node.right.color, is_(Black))
     if node.left is not nil:
         _assert_red_black_property_4(node.left, nil)
     if node.right is not nil:
@@ -150,9 +150,9 @@ def _assert_red_black_property_4(node, nil):
 def _assert_red_black_property_5(node, nil):
     left_bh = right_bh = 0
     if node.left is not nil:
-        left_bh = _assert_red_black_property_5(node.left, nil) + node.left.color.value
+        left_bh = _assert_red_black_property_5(node.left, nil) + node.left.color
     if node.right is not nil:
-        right_bh = _assert_red_black_property_5(node.right, nil) + node.right.color.value
+        right_bh = _assert_red_black_property_5(node.right, nil) + node.right.color
     assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
 

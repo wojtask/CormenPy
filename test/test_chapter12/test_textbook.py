@@ -124,11 +124,11 @@ class Textbook12Test(TestCase):
             assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_inorder_sort(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
             inorder_sort(array)
 
         actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
-        assert_that(actual_output, is_(equal_to(sorted(data))))
+        assert_that(actual_output, is_(equal_to(sorted(elements))))

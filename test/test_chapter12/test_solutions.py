@@ -88,7 +88,6 @@ class Solutions12Test(TestCase):
         tree = BinaryTree()
 
         for key in keys:
-
             recursive_tree_insert_wrapper(tree, Node(key))
 
             assert_binary_search_tree(tree)
@@ -145,9 +144,9 @@ class Solutions12Test(TestCase):
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_randomly_built_tree_quicksort(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         randomly_built_tree_quicksort(array, 1, array.length)
 
-        expected_array = Array(sorted(data))
+        expected_array = Array(sorted(elements))
         assert_that(array, is_(equal_to(expected_array)))

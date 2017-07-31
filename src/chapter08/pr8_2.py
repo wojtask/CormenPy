@@ -22,7 +22,7 @@ def counting_sort_in_place(A, k):
         C[A[j]] = C[A[j]] + 1
     for i in between(1, k):
         C[i] = C[i] + C[i - 1]
-    C_ = StandardArray(C.data)
+    C_ = StandardArray(C.elements)
     i = 1
     while i <= A.length - 1:
         key = A[i]

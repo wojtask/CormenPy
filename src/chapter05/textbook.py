@@ -14,7 +14,7 @@ def permute_by_sorting(A):
 
 def _sort_using_priorities(A, P):
     sorted_list_with_priorities = sorted(zip(A, P), key=lambda x: x[1])
-    A.data = [x[0] for x in sorted_list_with_priorities]
+    A.elements = [x[0] for x in sorted_list_with_priorities]
 
 
 def randomize_in_place(A):

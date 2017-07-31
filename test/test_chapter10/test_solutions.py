@@ -33,7 +33,7 @@ from list_util import get_random_singly_linked_list, get_linked_list_keys, get_r
     get_single_array_list_keys, get_single_array_list_free_cells, assert_single_array_list_consistent, \
     get_multiple_array_list_keys, get_multiple_array_list_free_cells, assert_multiple_array_list_consistent, \
     get_random_compact_list, assert_compact_list, get_random_multiple_array_list
-from queue_util import get_queue_keys, get_stack_keys
+from queue_util import get_queue_elements, get_stack_elements
 from tree_util import get_random_binary_search_tree, get_binary_tree_keys
 
 
@@ -69,15 +69,15 @@ class Solutions10Test(TestCase):
         if array.left_top == array.right_top - 1:
             assert_that(calling(left_stack_push).with_args(array, x), raises(RuntimeError, 'overflow'))
         else:
-            expected_left_keys = array[1:array.left_top].data + [x]
-            expected_right_keys = array[array.right_top:array.length].data
+            expected_left_keys = array[1:array.left_top].elements + [x]
+            expected_right_keys = array[array.right_top:array.length].elements
 
             left_stack_push(array, x)
 
-            actual_left_keys = array[1:array.left_top].data
-            actual_right_keys = array[array.right_top:array.length].data
-            assert_that(actual_left_keys, is_(equal_to(expected_left_keys)))
-            assert_that(actual_right_keys, is_(equal_to(expected_right_keys)))
+            actual_left_elements = array[1:array.left_top].elements
+            actual_right_elements = array[array.right_top:array.length].elements
+            assert_that(actual_left_elements, is_(equal_to(expected_left_keys)))
+            assert_that(actual_right_elements, is_(equal_to(expected_right_keys)))
 
     def test_left_stack_pop(self):
         size = 10
@@ -88,18 +88,18 @@ class Solutions10Test(TestCase):
         if array.left_top == 0:
             assert_that(calling(left_stack_pop).with_args(array), raises(RuntimeError, 'underflow'))
         else:
-            expected_left_keys = array[1:array.left_top - 1].data
-            expected_right_keys = array[array.right_top:array.length].data
+            expected_left_elements = array[1:array.left_top - 1].elements
+            expected_right_elements = array[array.right_top:array.length].elements
             expected_deleted = array[array.left_top]
 
             actual_deleted = left_stack_pop(array)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
 
-            actual_left_keys = array[1:array.left_top].data
-            actual_right_keys = array[array.right_top:array.length].data
-            assert_that(actual_left_keys, is_(equal_to(expected_left_keys)))
-            assert_that(actual_right_keys, is_(equal_to(expected_right_keys)))
+            actual_left_elements = array[1:array.left_top].elements
+            actual_right_elements = array[array.right_top:array.length].elements
+            assert_that(actual_left_elements, is_(equal_to(expected_left_elements)))
+            assert_that(actual_right_elements, is_(equal_to(expected_right_elements)))
 
     def test_right_stack_push(self):
         size = 10
@@ -111,15 +111,15 @@ class Solutions10Test(TestCase):
         if array.left_top == array.right_top - 1:
             assert_that(calling(right_stack_push).with_args(array, x), raises(RuntimeError, 'overflow'))
         else:
-            expected_left_keys = array[1:array.left_top].data
-            expected_right_keys = [x] + array[array.right_top:array.length].data
+            expected_left_elements = array[1:array.left_top].elements
+            expected_right_elements = [x] + array[array.right_top:array.length].elements
 
             right_stack_push(array, x)
 
-            actual_left_keys = array[1:array.left_top].data
-            actual_right_keys = array[array.right_top:array.length].data
-            assert_that(actual_left_keys, is_(equal_to(expected_left_keys)))
-            assert_that(actual_right_keys, is_(equal_to(expected_right_keys)))
+            actual_left_elements = array[1:array.left_top].elements
+            actual_right_elements = array[array.right_top:array.length].elements
+            assert_that(actual_left_elements, is_(equal_to(expected_left_elements)))
+            assert_that(actual_right_elements, is_(equal_to(expected_right_elements)))
 
     def test_right_stack_pop(self):
         size = 10
@@ -130,18 +130,18 @@ class Solutions10Test(TestCase):
         if array.right_top == array.length + 1:
             assert_that(calling(right_stack_pop).with_args(array), raises(RuntimeError, 'underflow'))
         else:
-            expected_left_keys = array[1:array.left_top].data
-            expected_right_keys = array[array.right_top + 1:array.length].data
+            expected_left_elements = array[1:array.left_top].elements
+            expected_right_elements = array[array.right_top + 1:array.length].elements
             expected_deleted = array[array.right_top]
 
             actual_deleted = right_stack_pop(array)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
 
-            actual_left_keys = array[1:array.left_top].data
-            actual_right_keys = array[array.right_top:array.length].data
-            assert_that(actual_left_keys, is_(equal_to(expected_left_keys)))
-            assert_that(actual_right_keys, is_(equal_to(expected_right_keys)))
+            actual_left_elements = array[1:array.left_top].elements
+            actual_right_elements = array[array.right_top:array.length].elements
+            assert_that(actual_left_elements, is_(equal_to(expected_left_elements)))
+            assert_that(actual_right_elements, is_(equal_to(expected_right_elements)))
 
     def test_queue_empty(self):
         size = 5
@@ -166,12 +166,12 @@ class Solutions10Test(TestCase):
         if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
             assert_that(calling(enqueue_).with_args(queue, x), raises(RuntimeError, 'overflow'))
         else:
-            expected_keys = get_queue_keys(queue) + [x]
+            expected_elements = get_queue_elements(queue) + [x]
 
             enqueue_(queue, x)
 
-            actual_keys = get_queue_keys(queue)
-            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            actual_elements = get_queue_elements(queue)
+            assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_dequeue_(self):
         size = 5
@@ -182,15 +182,15 @@ class Solutions10Test(TestCase):
         if queue.head == queue.tail:
             assert_that(calling(dequeue_).with_args(queue), raises(RuntimeError, 'underflow'))
         else:
-            expected_keys = get_queue_keys(queue)
-            del expected_keys[0]
+            expected_elements = get_queue_elements(queue)
+            del expected_elements[0]
             expected_deleted = queue[queue.head]
 
             actual_deleted = dequeue_(queue)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-            actual_keys = get_queue_keys(queue)
-            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            actual_elements = get_queue_elements(queue)
+            assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_head_enqueue(self):
         size = 5
@@ -203,12 +203,12 @@ class Solutions10Test(TestCase):
             deque.tail = deque.head
 
         x = random.randint(0, 999)
-        expected_keys = [x] + get_queue_keys(deque)
+        expected_elements = [x] + get_queue_elements(deque)
 
         head_enqueue(deque, x)
 
-        actual_keys = get_queue_keys(deque)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_queue_elements(deque)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_head_dequeue(self):
         size = 5
@@ -220,15 +220,15 @@ class Solutions10Test(TestCase):
         if deque.head == deque.tail:
             deque.tail = deque.tail - 1 if deque.tail > 1 else deque.length
 
-        expected_keys = get_queue_keys(deque)
-        del expected_keys[0]
+        expected_elements = get_queue_elements(deque)
+        del expected_elements[0]
         expected_deleted = deque[deque.head]
 
         actual_deleted = head_dequeue(deque)
 
         assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-        actual_keys = get_queue_keys(deque)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_queue_elements(deque)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_tail_enqueue(self):
         size = 5
@@ -241,12 +241,12 @@ class Solutions10Test(TestCase):
             deque.tail = deque.head
 
         x = random.randint(0, 999)
-        expected_keys = get_queue_keys(deque) + [x]
+        expected_elements = get_queue_elements(deque) + [x]
 
         tail_enqueue(deque, x)
 
-        actual_keys = get_queue_keys(deque)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_queue_elements(deque)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_tail_dequeue(self):
         size = 5
@@ -258,27 +258,27 @@ class Solutions10Test(TestCase):
         if deque.head == deque.tail:
             deque.tail = deque.tail - 1 if deque.tail > 1 else deque.length
 
-        expected_keys = get_queue_keys(deque)
-        del expected_keys[-1]
+        expected_elements = get_queue_elements(deque)
+        del expected_elements[-1]
         expected_deleted = deque[deque.tail - 1]
 
         actual_deleted = tail_dequeue(deque)
 
         assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-        actual_keys = get_queue_keys(deque)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_queue_elements(deque)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_stack_enqueue(self):
         size = 5
         stack, _ = get_random_array(min_size=size, max_size=size)
         stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
-        expected_keys = get_stack_keys(stack) + [x]
+        expected_elements = get_stack_elements(stack) + [x]
 
         stack_enqueue(stack, x)
 
-        actual_keys = get_stack_keys(stack)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_stack_elements(stack)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_stack_dequeue(self):
         size = 5
@@ -288,15 +288,15 @@ class Solutions10Test(TestCase):
         if stack.top == 0:
             assert_that(calling(stack_dequeue).with_args(stack), raises(RuntimeError, 'underflow'))
         else:
-            expected_keys = get_stack_keys(stack)
-            del expected_keys[0]
+            expected_elements = get_stack_elements(stack)
+            del expected_elements[0]
             expected_deleted = stack[1]
 
             actual_deleted = stack_dequeue(stack)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-            actual_keys = get_stack_keys(stack)
-            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            actual_elements = get_stack_elements(stack)
+            assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_queue_push(self):
         size = 5
@@ -309,12 +309,12 @@ class Solutions10Test(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_keys = get_queue_keys(queue) + [x]
+        expected_elements = get_queue_elements(queue) + [x]
 
         queue_push(queue, x)
 
-        actual_keys = get_queue_keys(queue)
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        actual_elements = get_queue_elements(queue)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_queue_pop(self):
         size = 5
@@ -325,15 +325,15 @@ class Solutions10Test(TestCase):
         if queue.head == queue.tail:
             assert_that(calling(queue_pop).with_args(queue), raises(RuntimeError, 'underflow'))
         else:
-            expected_keys = get_queue_keys(queue)
-            del expected_keys[-1]
+            expected_elements = get_queue_elements(queue)
+            del expected_elements[-1]
             expected_deleted = queue[queue.tail - 1]
 
             actual_deleted = queue_pop(queue)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-            actual_keys = get_queue_keys(queue)
-            assert_that(actual_keys, is_(equal_to(expected_keys)))
+            actual_elements = get_queue_elements(queue)
+            assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_singly_linked_list_insert(self):
         list_, nodes, keys = get_random_singly_linked_list()

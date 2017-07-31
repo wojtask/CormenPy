@@ -12,7 +12,7 @@ from list_util import get_random_doubly_linked_list, get_linked_list_keys, \
     assert_prev_next_pointers_consistent, assert_prev_next_pointers_consistent_with_sentinel, \
     get_random_multiple_array_list, assert_multiple_array_list_consistent, get_multiple_array_list_keys, \
     get_multiple_array_list_free_cells, get_random_compact_list
-from queue_util import get_stack_keys, get_queue_keys
+from queue_util import get_stack_elements, get_queue_elements
 
 
 def _make_sorted_keys_in_multiple_array_list(list_):
@@ -46,11 +46,11 @@ class Textbook10Test(TestCase):
         stack, _ = get_random_array(min_size=size, max_size=size)
         stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
-        expected_keys = get_stack_keys(stack) + [x]
+        expected_keys = get_stack_elements(stack) + [x]
 
         push(stack, x)
 
-        actual_keys = get_stack_keys(stack)
+        actual_keys = get_stack_elements(stack)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_pop(self):
@@ -61,14 +61,14 @@ class Textbook10Test(TestCase):
         if stack.top == 0:
             assert_that(calling(pop).with_args(stack), raises(RuntimeError, 'underflow'))
         else:
-            expected_keys = get_stack_keys(stack)
+            expected_keys = get_stack_elements(stack)
             del expected_keys[-1]
             expected_deleted = stack[stack.top]
 
             actual_deleted = pop(stack)
 
             assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-            actual_keys = get_stack_keys(stack)
+            actual_keys = get_stack_elements(stack)
             assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_enqueue(self):
@@ -82,11 +82,11 @@ class Textbook10Test(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_keys = get_queue_keys(queue) + [x]
+        expected_keys = get_queue_elements(queue) + [x]
 
         enqueue(queue, x)
 
-        actual_keys = get_queue_keys(queue)
+        actual_keys = get_queue_elements(queue)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_dequeue(self):
@@ -99,14 +99,14 @@ class Textbook10Test(TestCase):
         if queue.head == queue.tail:
             queue.tail = queue.tail - 1 if queue.tail > 1 else queue.length
 
-        expected_keys = get_queue_keys(queue)
+        expected_keys = get_queue_elements(queue)
         del expected_keys[0]
         expected_deleted = queue[queue.head]
 
         actual_deleted = dequeue(queue)
 
         assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-        actual_keys = get_queue_keys(queue)
+        actual_keys = get_queue_elements(queue)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_list_search(self):

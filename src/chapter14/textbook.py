@@ -1,5 +1,5 @@
 from chapter13.textbook import rb_tree_successor
-from datastructures.red_black_tree import Color
+from datastructures.red_black_tree import Red, Black
 
 
 def os_select(x, i):
@@ -42,42 +42,42 @@ def os_insert(T, z):
             y.right = z
     z.left = T.nil
     z.right = T.nil
-    z.color = Color.RED
+    z.color = Red
     z.size = 1
     os_insert_fixup(T, z)
 
 
 def os_insert_fixup(T, z):
-    while z.p.color == Color.RED:
+    while z.p.color == Red:
         if z.p is z.p.p.left:
             y = z.p.p.right
-            if y.color == Color.RED:
-                z.p.color = Color.BLACK
-                y.color = Color.BLACK
-                z.p.p.color = Color.RED
+            if y.color == Red:
+                z.p.color = Black
+                y.color = Black
+                z.p.p.color = Red
                 z = z.p.p
             else:
                 if z is z.p.right:
                     z = z.p
                     os_left_rotate(T, z)
-                z.p.color = Color.BLACK
-                z.p.p.color = Color.RED
+                z.p.color = Black
+                z.p.p.color = Red
                 os_right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
-            if y.color == Color.RED:
-                z.p.color = Color.BLACK
-                y.color = Color.BLACK
-                z.p.p.color = Color.RED
+            if y.color == Red:
+                z.p.color = Black
+                y.color = Black
+                z.p.p.color = Red
                 z = z.p.p
             else:
                 if z is z.p.left:
                     z = z.p
                     os_right_rotate(T, z)
-                z.p.color = Color.BLACK
-                z.p.p.color = Color.RED
+                z.p.color = Black
+                z.p.p.color = Red
                 os_left_rotate(T, z.p.p)
-    T.root.color = Color.BLACK
+    T.root.color = Black
 
 
 def os_left_rotate(T, x):
@@ -139,7 +139,7 @@ def os_delete(T, z):
         z.key = y.key
         z.data = y.data
     _update_size_fields(T, y)
-    if y.color == Color.BLACK:
+    if y.color == Black:
         os_delete_fixup(T, x)
     return y
 
@@ -151,50 +151,50 @@ def _update_size_fields(tree, y):
 
 
 def os_delete_fixup(T, x):
-    while x is not T.root and x.color == Color.BLACK:
+    while x is not T.root and x.color == Black:
         if x is x.p.left:
             w = x.p.right
-            if w.color == Color.RED:
-                w.color = Color.BLACK
-                x.p.color = Color.RED
+            if w.color == Red:
+                w.color = Black
+                x.p.color = Red
                 os_left_rotate(T, x.p)
                 w = x.p.right
-            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
-                w.color = Color.RED
+            if w.left.color == Black and w.right.color == Black:
+                w.color = Red
                 x = x.p
             else:
-                if w.right.color == Color.BLACK:
-                    w.left.color = Color.BLACK
-                    w.color = Color.RED
+                if w.right.color == Black:
+                    w.left.color = Black
+                    w.color = Red
                     os_right_rotate(T, w)
                     w = x.p.right
                 w.color = x.p.color
-                x.p.color = Color.BLACK
-                w.right.color = Color.BLACK
+                x.p.color = Black
+                w.right.color = Black
                 os_left_rotate(T, x.p)
                 x = T.root
         else:
             w = x.p.left
-            if w.color == Color.RED:
-                w.color = Color.BLACK
-                x.p.color = Color.RED
+            if w.color == Red:
+                w.color = Black
+                x.p.color = Red
                 os_right_rotate(T, x.p)
                 w = x.p.left
-            if w.right.color == Color.BLACK and w.left.color == Color.BLACK:
-                w.color = Color.RED
+            if w.right.color == Black and w.left.color == Black:
+                w.color = Red
                 x = x.p
             else:
-                if w.left.color == Color.BLACK:
-                    w.right.color = Color.BLACK
-                    w.color = Color.RED
+                if w.left.color == Black:
+                    w.right.color = Black
+                    w.color = Red
                     os_left_rotate(T, w)
                     w = x.p.left
                 w.color = x.p.color
-                x.p.color = Color.BLACK
-                w.left.color = Color.BLACK
+                x.p.color = Black
+                w.left.color = Black
                 os_right_rotate(T, x.p)
                 x = T.root
-    x.color = Color.BLACK
+    x.color = Black
 
 
 def _overlap(i, i_):

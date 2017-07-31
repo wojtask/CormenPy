@@ -18,10 +18,10 @@ class StandardArrayTest(TestCase):
 
     def test_sets_element(self):
         self.array[2] = 3
-        assert_that(self.array.data[2], is_(equal_to(3)))
+        assert_that(self.array.elements[2], is_(equal_to(3)))
 
-    def test_data_is_copied(self):
-        another_array = StandardArray(self.array.data)
+    def test_elements_are_copied(self):
+        another_array = StandardArray(self.array.elements)
         another_array[2] = 100
         assert_that(self.array[2], is_(equal_to(1)))
 

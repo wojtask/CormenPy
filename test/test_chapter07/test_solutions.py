@@ -14,26 +14,26 @@ from datastructures.interval import Interval
 class Solutions07Test(TestCase):
 
     def test_hoare_quicksort(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         hoare_quicksort(array, 1, array.length)
 
-        expected_array = Array(sorted(data))
+        expected_array = Array(sorted(elements))
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_quicksort__(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         quicksort__(array, 1, array.length)
 
-        expected_array = Array(sorted(data))
+        expected_array = Array(sorted(elements))
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_fuzzy_sort(self):
         n = random.randint(1, 20)
         endpoints_list = [sorted([random.randint(0, 20), random.randint(0, 20)]) for _ in range(n)]
-        data = [Interval(*endpoints) for endpoints in endpoints_list]
-        array = Array(data)
+        elements = [Interval(*endpoints) for endpoints in endpoints_list]
+        array = Array(elements)
 
         fuzzy_sort(array, 1, array.length)
 

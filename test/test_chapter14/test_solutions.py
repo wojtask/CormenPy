@@ -51,9 +51,9 @@ class Solutions14Test(TestCase):
         assert_that(actual_successor, is_(expected_successor))
 
     def test_os_count_inversions(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         actual_inversions = os_count_inversions(array)
 
-        expected_inversions = sum(len([y for y in data[i + 1:] if y < x]) for i, x in enumerate(data))
+        expected_inversions = sum(len([y for y in elements[i + 1:] if y < x]) for i, x in enumerate(elements))
         assert_that(actual_inversions, is_(equal_to(expected_inversions)))

@@ -3,9 +3,9 @@ from builtins import len
 
 # a 1-based indexed array
 class Array:
-    def __init__(self, data):
-        self.data = list(data)
-        self.length = len(data)
+    def __init__(self, elements):
+        self.elements = list(elements)
+        self.length = len(elements)
 
     @classmethod
     def of_length(cls, length):
@@ -13,15 +13,15 @@ class Array:
 
     def __getitem__(self, index):
         if isinstance(index, int):
-            return self.data[index - 1]
-        return Array(self.data[index.start - 1:index.stop])
+            return self.elements[index - 1]
+        return Array(self.elements[index.start - 1:index.stop])
 
     def __setitem__(self, index, item):
-        self.data[index - 1] = item
+        self.elements[index - 1] = item
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.length == other.length and self.data == other.data
+            return self.length == other.length and self.elements == other.elements
         return NotImplemented
 
     def __ne__(self, other):
@@ -30,7 +30,7 @@ class Array:
         return NotImplemented
 
     def __hash__(self):
-        return hash((self.length, self.data))
+        return hash((self.length, self.elements))
 
     def __iter__(self):
-        return (x for x in self.data)
+        return (x for x in self.elements)

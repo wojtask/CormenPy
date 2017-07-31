@@ -13,33 +13,33 @@ from heap_util import assert_max_heap, get_random_max_heap
 class Textbook06Test(TestCase):
 
     def test_heapsort(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         heapsort(array)
 
-        expected_array = Array(sorted(data))
+        expected_array = Array(sorted(elements))
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_heap_maximum(self):
-        heap, data = get_random_max_heap()
+        heap, elements = get_random_max_heap()
 
         actual_max = heap_maximum(heap)
 
-        assert_that(actual_max, is_(equal_to(max(data))))
+        assert_that(actual_max, is_(equal_to(max(elements))))
 
     def test_extract_max(self):
-        heap, data = get_random_max_heap()
+        heap, elements = get_random_max_heap()
 
         actual_max = heap_extract_max(heap)
 
-        assert_that(actual_max, is_(equal_to(max(data))))
+        assert_that(actual_max, is_(equal_to(max(elements))))
         assert_max_heap(heap)
         actual_heap_keys = heap[1:heap.heap_size]
-        expected_heap_keys = sorted(data)[:-1]  # all but maximum
+        expected_heap_keys = sorted(elements)[:-1]  # all but maximum
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
     def test_heap_increase_key(self):
-        heap, data = get_random_max_heap()
+        heap, elements = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randrange(1000)
@@ -50,28 +50,28 @@ class Textbook06Test(TestCase):
         else:
             heap_increase_key(heap, i, new_key)
 
-            assert_that(heap.heap_size, is_(equal_to(len(data))))
+            assert_that(heap.heap_size, is_(equal_to(len(elements))))
             assert_max_heap(heap)
-            expected_heap_keys = list(data)
+            expected_heap_keys = list(elements)
             expected_heap_keys.remove(old_key)
             expected_heap_keys.append(new_key)
-            assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+            assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_max_heap_insert(self):
-        heap, data = get_random_max_heap()
-        heap.data.append(None)  # to increase the heap's capacity for the new element
+        heap, elements = get_random_max_heap()
+        heap.elements.append(None)  # to increase the heap's capacity for the new element
         heap.length += 1
         new_key = random.randrange(1000)
 
         max_heap_insert(heap, new_key)
 
-        assert_that(heap.heap_size, is_(equal_to(len(data) + 1)))
+        assert_that(heap.heap_size, is_(equal_to(len(elements) + 1)))
         assert_max_heap(heap)
-        expected_heap_keys = data + [new_key]
-        assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
+        expected_heap_keys = elements + [new_key]
+        assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
 
     def test_build_max_heap_(self):
-        array, data = get_random_array()
+        array, elements = get_random_array()
 
         build_max_heap_(array)
 

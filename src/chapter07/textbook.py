@@ -44,9 +44,9 @@ def insertion_quicksort(A, p, r, k):
             insertion_quicksort(A, p, q - 1, k)
             insertion_quicksort(A, q + 1, r, k)
         else:
-            nearly_sorted = Array(A.data[p - 1:r])
+            nearly_sorted = Array(A.elements[p - 1:r])
             insertion_sort(nearly_sorted)
-            A.data[p - 1:r] = nearly_sorted.data
+            A.elements[p - 1:r] = nearly_sorted.elements
 
 
 def hoare_partition(A, p, r):

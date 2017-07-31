@@ -11,7 +11,7 @@ from chapter11.ex11_4_2 import hash_delete, hash_insert_
 from datastructures.hash_table import ChainedElement, Element
 from hash_table_util import get_random_direct_address_table, get_random_bit_vector, get_random_chained_direct_address_table, \
     get_chained_hash_table_elements, get_random_hash_table_linear_probing, get_hash_table_keys, get_random_huge_array
-from queue_util import get_stack_keys
+from queue_util import get_stack_elements
 
 
 class Solutions11Test(TestCase):
@@ -113,15 +113,15 @@ class Solutions11Test(TestCase):
             table[y.key] = table[new_key]
         # also make sure there is a space in stack for the new element
         if stack.top == stack.length:
-            stack.data.append(None)
+            stack.elements.append(None)
             stack.length += 1
         new_element = Element(new_key)
 
-        expected_elements = get_stack_keys(stack) + [new_element]
+        expected_elements = get_stack_elements(stack) + [new_element]
 
         huge_array_insert(table, stack, new_element)
 
-        actual_elements = get_stack_keys(stack)
+        actual_elements = get_stack_elements(stack)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_huge_array_delete(self):
@@ -132,13 +132,13 @@ class Solutions11Test(TestCase):
             keys.append(key)
             stack[1] = Element(key)
             table[key] = stack.top = 1
-        expected_elements = get_stack_keys(stack)
+        expected_elements = get_stack_elements(stack)
         element_to_delete = random.choice(expected_elements)
         expected_elements.remove(element_to_delete)
 
         huge_array_delete(table, stack, element_to_delete)
 
-        actual_elements = get_stack_keys(stack)
+        actual_elements = get_stack_elements(stack)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_hash_delete(self):

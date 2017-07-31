@@ -26,4 +26,4 @@ def _insertion_sort_list_by_distance(L):
 
 
 def _concatenate_lists_of_points(B, A):
-    A.data = [t[0] for L in B for t in L]
+    A.elements = [t[0] for L in B for t in L]

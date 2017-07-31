@@ -1,9 +1,9 @@
 class Matrix:
-    def __init__(self, data):
-        self.data = list(list(row) for row in data)
-        if len(data) > 0:
-            self.rows = len(data)
-            self.columns = len(data[0])
+    def __init__(self, elements):
+        self.elements = list(list(row) for row in elements)
+        if len(elements) > 0:
+            self.rows = len(elements)
+            self.columns = len(elements[0])
         else:
             self.rows = self.columns = 0
 
@@ -14,9 +14,9 @@ class Matrix:
     def __getitem__(self, indexes):
         if isinstance(indexes, tuple):
             i, j = indexes
-            return self.data[i - 1][j - 1]
-        return self.data[indexes - 1]
+            return self.elements[i - 1][j - 1]
+        return self.elements[indexes - 1]
 
     def __setitem__(self, indexes, item):
         i, j = indexes
-        self.data[i - 1][j - 1] = item
+        self.elements[i - 1][j - 1] = item

@@ -18,8 +18,8 @@ def weighted_median_using_sorting(A, w):
 
 def _sort_array_with_weights(A, w):
     array_with_weights = sorted(zip(A, w), key=lambda x: x[0])
-    A.data = [x[0] for x in array_with_weights]
-    w.data = [x[1] for x in array_with_weights]
+    A.elements = [x[0] for x in array_with_weights]
+    w.elements = [x[1] for x in array_with_weights]
 
 
 def weighted_median(A, w, p, r):
@@ -46,7 +46,7 @@ def weighted_median(A, w, p, r):
 
 def _partition_around_median(A, w, p, r):
     n = r - p + 1
-    median = select(Array(A.data), p, r, (n + 1) // 2)  # we pass a copy of A because it will be modified in select
+    median = select(Array(A.elements), p, r, (n + 1) // 2)  # we pass a copy of A because it will be modified in select
     q = p
     while A[q] != median:
         q += 1
@@ -66,6 +66,6 @@ def _partition_around_median(A, w, p, r):
 def post_office_manhattan(A, w):
     X = Array([p.x for p in A])
     Y = Array([p.y for p in A])
-    post_office_x = weighted_median(X, Array(w.data), 1, X.length)
-    post_office_y = weighted_median(Y, Array(w.data), 1, Y.length)
+    post_office_x = weighted_median(X, Array(w.elements), 1, X.length)
+    post_office_y = weighted_median(Y, Array(w.elements), 1, Y.length)
     return Point2D(post_office_x, post_office_y)
