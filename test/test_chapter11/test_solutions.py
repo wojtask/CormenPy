@@ -69,12 +69,12 @@ class Solutions11Test(TestCase):
         table, elements = random_chained_direct_address_table()
         new_key = random.randint(0, table.length - 1)
         new_element = ChainedElement(new_key)
-        expected_elements = get_chained_hash_table_elements(table) + [new_element]
 
         direct_address_insert_(table, new_element)
 
         actual_elements = get_chained_hash_table_elements(table)
-        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        elements.append(new_element)
+        assert_that(actual_elements, contains_inanyorder(*elements))
 
     def test_chained_hash_delete_(self):
         table, elements = random_chained_direct_address_table()
@@ -84,13 +84,12 @@ class Solutions11Test(TestCase):
             elements.append(ChainedElement(key))
             table[key] = elements[0]
         element_to_delete = random.choice(elements)
-        expected_elements = get_chained_hash_table_elements(table)
-        expected_elements.remove(element_to_delete)
 
         direct_address_delete_(table, element_to_delete)
 
         actual_elements = get_chained_hash_table_elements(table)
-        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        elements.remove(element_to_delete)
+        assert_that(actual_elements, contains_inanyorder(*elements))
 
     def test_huge_array_search(self):
         table, stack, keys = random_huge_array(max_value=20)
@@ -150,11 +149,11 @@ class Solutions11Test(TestCase):
             keys.append(key)
             table[h(key, 0, table.length)] = key
         key_to_delete = random.choice(keys)
-        keys.remove(key_to_delete)
 
         hash_delete(table, key_to_delete, h)
 
         actual_keys = get_hash_table_keys(table)
+        keys.remove(key_to_delete)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_hash_insert_(self):
@@ -165,9 +164,8 @@ class Solutions11Test(TestCase):
             assert_that(calling(hash_insert_).with_args(table, new_key, h),
                         raises(RuntimeError, 'hash table overflow'))
         else:
-            expected_keys = get_hash_table_keys(table) + [new_key]
-
             hash_insert_(table, new_key, h)
 
             actual_keys = get_hash_table_keys(table)
-            assert_that(actual_keys, contains_inanyorder(*expected_keys))
+            keys.append(new_key)
+            assert_that(actual_keys, contains_inanyorder(*keys))

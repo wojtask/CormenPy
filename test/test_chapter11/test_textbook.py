@@ -49,12 +49,12 @@ class Textbook11Test(TestCase):
         table, elements, h = random_chained_hash_table()
         new_key = random.randint(0, 999)
         new_element = ChainedElement(new_key)
-        expected_elements = get_chained_hash_table_elements(table) + [new_element]
 
         chained_hash_insert(table, new_element, h)
 
         actual_elements = get_chained_hash_table_elements(table)
-        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        elements.append(new_element)
+        assert_that(actual_elements, contains_inanyorder(*elements))
 
     def test_chained_hash_search(self):
         table, elements, h = random_chained_hash_table(max_value=10)
@@ -75,13 +75,12 @@ class Textbook11Test(TestCase):
             elements.append(ChainedElement(key))
             table[h(key, table.length)] = elements[0]
         element_to_delete = random.choice(elements)
-        expected_elements = get_chained_hash_table_elements(table)
-        expected_elements.remove(element_to_delete)
 
         chained_hash_delete(table, element_to_delete, h)
 
         actual_elements = get_chained_hash_table_elements(table)
-        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        elements.remove(element_to_delete)
+        assert_that(actual_elements, contains_inanyorder(*elements))
 
     def test_hash_insert(self):
         table, keys, h = random_hash_table_linear_probing()
@@ -91,12 +90,11 @@ class Textbook11Test(TestCase):
             assert_that(calling(hash_insert).with_args(table, new_key, h),
                         raises(RuntimeError, 'hash table overflow'))
         else:
-            expected_keys = get_hash_table_keys(table) + [new_key]
-
             hash_insert(table, new_key, h)
 
             actual_keys = get_hash_table_keys(table)
-            assert_that(actual_keys, contains_inanyorder(*expected_keys))
+            keys.append(new_key)
+            assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_hash_search(self):
         table, keys, h = random_hash_table_linear_probing(max_value=10)
