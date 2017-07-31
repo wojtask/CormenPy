@@ -4,6 +4,7 @@ from unittest import TestCase
 import numpy
 from hamcrest import *
 
+from array_util import get_random_array, get_random_unique_array
 from chapter02.ex2_1_2 import nonincreasing_insertion_sort
 from chapter02.ex2_1_3 import linear_search
 from chapter02.ex2_1_4 import binary_add
@@ -15,7 +16,6 @@ from chapter02.pr2_3 import polynomial_evaluate
 from chapter02.pr2_4 import count_inversions
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
-from test_datastructures.array_util import random_int_array, random_unique_int_array
 
 
 def bits_to_number(bits):
@@ -25,7 +25,7 @@ def bits_to_number(bits):
 class Solutions02Test(TestCase):
 
     def test_nonincreasing_insertion_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         nonincreasing_insertion_sort(array)
 
@@ -33,7 +33,7 @@ class Solutions02Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_linear_search(self):
-        array, data = random_int_array(min_size=10, max_size=20, max_value=20)
+        array, data = get_random_array(min_size=10, max_size=20, max_value=20)
         v = random.randint(0, 20)
 
         actual_index = linear_search(array, v)
@@ -46,8 +46,8 @@ class Solutions02Test(TestCase):
 
     def test_binary_add(self):
         n = random.randint(1, 20)
-        array1, data1 = random_int_array(min_size=n, max_size=n, max_value=1)
-        array2, data2 = random_int_array(min_size=n, max_size=n, max_value=1)
+        array1, data1 = get_random_array(min_size=n, max_size=n, max_value=1)
+        array2, data2 = get_random_array(min_size=n, max_size=n, max_value=1)
 
         actual_sum_bits = binary_add(array1, array2)
 
@@ -58,7 +58,7 @@ class Solutions02Test(TestCase):
         assert_that(expected_sum, is_(equal_to(actual_sum)))
 
     def test_selection_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         selection_sort(array)
 
@@ -106,7 +106,7 @@ class Solutions02Test(TestCase):
             assert_that(actual_index, is_(none()))
 
     def test_sum_search(self):
-        array, data = random_unique_int_array(max_value=20)
+        array, data = get_random_unique_array(max_value=20)
         sum_to_find = random.randint(0, 40)
 
         actual_found = sum_search(array, sum_to_find)
@@ -127,7 +127,7 @@ class Solutions02Test(TestCase):
         assert_that(actual_result, is_(close_to(expected_result, 1e-7)))
 
     def test_count_inversions(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         actual_inversions = count_inversions(array, 1, array.length)
 

@@ -4,16 +4,16 @@ from unittest import TestCase
 import numpy
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter02.textbook import insertion_sort, merge_sort, bubble_sort, horner
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
-from test.test_datastructures.array_util import random_int_array
 
 
 class Textbook02Test(TestCase):
 
     def test_insertion_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         insertion_sort(array)
 
@@ -21,7 +21,7 @@ class Textbook02Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_merge_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         merge_sort(array, 1, array.length)
 
@@ -29,7 +29,7 @@ class Textbook02Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_bubble_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         bubble_sort(array)
 

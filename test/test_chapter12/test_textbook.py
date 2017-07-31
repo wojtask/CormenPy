@@ -5,18 +5,18 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter12.textbook import inorder_tree_walk, tree_search, iterative_tree_search, tree_minimum, tree_maximum, \
     tree_successor, inorder_tree_walk_, tree_insert, tree_delete, inorder_sort
 from datastructures.binary_tree import BinaryTree, Node
-from test.test_datastructures.array_util import random_int_array
-from test.test_datastructures.tree_util import binary_tree_to_list, assert_binary_search_tree, \
-    assert_parent_pointers_consistent, random_binary_search_tree
+from tree_util import get_binary_tree_keys, assert_binary_search_tree, \
+    assert_parent_pointers_consistent, get_random_binary_search_tree
 
 
 class Textbook12Test(TestCase):
 
     def test_inorder_tree_walk(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -27,7 +27,7 @@ class Textbook12Test(TestCase):
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_tree_search(self):
-        tree, nodes, keys = random_binary_search_tree(min_size=10, max_size=20, max_value=20)
+        tree, nodes, keys = get_random_binary_search_tree(min_size=10, max_size=20, max_value=20)
         key_to_find = random.randint(0, 20)
 
         actual_node = tree_search(tree.root, key_to_find)
@@ -39,7 +39,7 @@ class Textbook12Test(TestCase):
             assert_that(actual_node, is_(none()))
 
     def test_iterative_tree_search(self):
-        tree, nodes, keys = random_binary_search_tree(min_size=10, max_size=20, max_value=20)
+        tree, nodes, keys = get_random_binary_search_tree(min_size=10, max_size=20, max_value=20)
         key_to_find = random.randint(0, 20)
 
         actual_node = iterative_tree_search(tree.root, key_to_find)
@@ -51,7 +51,7 @@ class Textbook12Test(TestCase):
             assert_that(actual_node, is_(none()))
 
     def test_tree_minimum(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
 
         actual_minimum = tree_minimum(tree.root)
 
@@ -59,7 +59,7 @@ class Textbook12Test(TestCase):
         assert_that(actual_minimum.key, is_(equal_to(min(keys))))
 
     def test_tree_maximum(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
 
         actual_maximum = tree_maximum(tree.root)
 
@@ -67,7 +67,7 @@ class Textbook12Test(TestCase):
         assert_that(actual_maximum.key, is_(equal_to(max(keys))))
 
     def test_tree_successor(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         given_node = random.choice(nodes)
 
         actual_successor = tree_successor(given_node)
@@ -81,7 +81,7 @@ class Textbook12Test(TestCase):
                 assert_that(node.key, is_not(all_of(greater_than(given_node.key), less_than(actual_successor.key))))
 
     def test_inorder_tree_walk_(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -102,11 +102,11 @@ class Textbook12Test(TestCase):
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = binary_tree_to_list(tree)
+        actual_keys = get_binary_tree_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_tree_delete(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         random.shuffle(nodes)
 
         for i, node in enumerate(nodes):
@@ -120,11 +120,11 @@ class Textbook12Test(TestCase):
                 nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
-            actual_keys = binary_tree_to_list(tree)
+            actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_inorder_sort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):

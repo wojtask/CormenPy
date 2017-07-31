@@ -10,7 +10,7 @@ from datastructures import avl_tree as avl, treap as tp
 from datastructures.avl_tree import AVLTree
 from datastructures.binary_tree import BinaryTree
 from datastructures.treap import Treap
-from test_datastructures.tree_util import assert_binary_search_tree, binary_tree_to_list, assert_avl_tree, \
+from tree_util import assert_binary_search_tree, get_binary_tree_keys, assert_avl_tree, \
     assert_parent_pointers_consistent, assert_treap
 
 
@@ -25,8 +25,8 @@ class Solutions13Test(TestCase):
             new_tree = persistent_tree_insert(tree, key)
 
             assert_binary_search_tree(new_tree)
-            actual_keys_before_insertion = binary_tree_to_list(tree)
-            actual_keys_after_insertion = binary_tree_to_list(new_tree)
+            actual_keys_before_insertion = get_binary_tree_keys(tree)
+            actual_keys_after_insertion = get_binary_tree_keys(new_tree)
             assert_that(actual_keys_before_insertion, contains_inanyorder(*keys[:i]))
             assert_that(actual_keys_after_insertion, contains_inanyorder(*keys[:i + 1]))
             tree = new_tree
@@ -43,7 +43,7 @@ class Solutions13Test(TestCase):
             assert_avl_tree(tree)
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = binary_tree_to_list(tree)
+        actual_keys = get_binary_tree_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_treap_insert(self):
@@ -57,5 +57,5 @@ class Solutions13Test(TestCase):
             assert_treap(treap)
             assert_parent_pointers_consistent(treap)
 
-        actual_keys = binary_tree_to_list(treap)
+        actual_keys = get_binary_tree_keys(treap)
         assert_that(actual_keys, contains_inanyorder(*keys))

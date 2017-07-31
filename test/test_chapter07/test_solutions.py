@@ -3,18 +3,18 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter07.pr7_1 import hoare_quicksort
 from chapter07.pr7_4 import quicksort__
 from chapter07.pr7_6 import fuzzy_sort
 from datastructures.array import Array
 from datastructures.interval import Interval
-from test_datastructures.array_util import random_int_array
 
 
 class Solutions07Test(TestCase):
 
     def test_hoare_quicksort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         hoare_quicksort(array, 1, array.length)
 
@@ -22,7 +22,7 @@ class Solutions07Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_quicksort__(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         quicksort__(array, 1, array.length)
 

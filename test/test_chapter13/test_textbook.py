@@ -5,8 +5,8 @@ from hamcrest import *
 
 from chapter13.textbook import rb_insert, rb_delete
 from datastructures.red_black_tree import RedBlackTree, Node
-from test.test_datastructures.tree_util import binary_tree_to_list, assert_red_black_tree, \
-    assert_parent_pointers_consistent, random_red_black_tree
+from tree_util import get_binary_tree_keys, assert_red_black_tree, \
+    assert_parent_pointers_consistent, get_random_red_black_tree
 
 
 class Textbook13Test(TestCase):
@@ -22,11 +22,11 @@ class Textbook13Test(TestCase):
             assert_red_black_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
 
-        actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
+        actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_rb_delete(self):
-        tree, nodes, keys = random_red_black_tree()
+        tree, nodes, keys = get_random_red_black_tree()
         random.shuffle(nodes)
 
         for i, node in enumerate(nodes):
@@ -40,5 +40,5 @@ class Textbook13Test(TestCase):
                 nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_red_black_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
-            actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
+            actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))

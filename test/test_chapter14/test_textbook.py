@@ -5,14 +5,14 @@ from hamcrest import *
 
 from chapter14.textbook import os_insert, os_delete, os_select, os_rank
 from datastructures.red_black_tree import RedBlackTree, OSNode
-from test.test_datastructures.tree_util import assert_parent_pointers_consistent, binary_tree_to_list, assert_os_tree, \
-    random_os_tree
+from tree_util import assert_parent_pointers_consistent, get_binary_tree_keys, assert_os_tree, \
+    get_random_os_tree
 
 
 class Textbook14Test(TestCase):
 
     def test_os_select(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         i = random.randint(1, len(keys))
 
         actual_order_statistic = os_select(tree.root, i)
@@ -22,7 +22,7 @@ class Textbook14Test(TestCase):
         assert_that(actual_order_statistic.key, is_(equal_to(expected_order_statistic)))
 
     def test_os_rank(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         node_to_find = random.choice(nodes)
 
         actual_rank = os_rank(tree, node_to_find)
@@ -42,11 +42,11 @@ class Textbook14Test(TestCase):
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
 
-        actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
+        actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_os_delete(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         random.shuffle(nodes)
 
         for i, node in enumerate(nodes):
@@ -60,5 +60,5 @@ class Textbook14Test(TestCase):
                 nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
-            actual_keys = binary_tree_to_list(tree, sentinel=tree.nil)
+            actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))

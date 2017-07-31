@@ -3,7 +3,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from datastructures.binary_tree import BinaryTree, Node, ParentlessNode
-from test.test_datastructures.tree_util import assert_parent_pointers_consistent
+from tree_util import assert_parent_pointers_consistent
 
 
 class BinaryTreeTest(TestCase):

@@ -3,12 +3,12 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter14.ex14_1_3 import iterative_os_select
 from chapter14.ex14_1_4 import os_key_rank
 from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
-from test_datastructures.array_util import random_int_array
-from test_datastructures.tree_util import random_os_tree
+from tree_util import get_random_os_tree
 
 
 def inorder_rb_tree_nodes(x, sentinel):
@@ -20,7 +20,7 @@ def inorder_rb_tree_nodes(x, sentinel):
 class Solutions14Test(TestCase):
 
     def test_iterative_os_select(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         i = random.randint(1, len(keys))
 
         actual_order_statistic = iterative_os_select(tree.root, i)
@@ -30,7 +30,7 @@ class Solutions14Test(TestCase):
         assert_that(actual_order_statistic.key, is_(equal_to(expected_order_statistic)))
 
     def test_os_key_rank(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         key_to_find = random.choice(keys)
 
         actual_rank = os_key_rank(tree.root, key_to_find)
@@ -40,7 +40,7 @@ class Solutions14Test(TestCase):
         assert_that(actual_rank, is_in(expected_ranks))
 
     def test_os_successor(self):
-        tree, nodes, keys = random_os_tree()
+        tree, nodes, keys = get_random_os_tree()
         inorder_nodes = inorder_rb_tree_nodes(tree.root, tree.nil)
         j = random.randrange(len(inorder_nodes))
         i = random.randrange(0, len(nodes) - j)
@@ -51,7 +51,7 @@ class Solutions14Test(TestCase):
         assert_that(actual_successor, is_(expected_successor))
 
     def test_os_count_inversions(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         actual_inversions = os_count_inversions(array)
 

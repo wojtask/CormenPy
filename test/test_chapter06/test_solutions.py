@@ -4,6 +4,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter06.ex6_2_2 import min_heapify
 from chapter06.ex6_2_5 import iterative_max_heapify
 from chapter06.ex6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
@@ -13,8 +14,7 @@ from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapif
 from chapter06.pr6_3 import young_extract_min, youngify, young_insert, young_sort, young_search
 from datastructures.array import Array
 from datastructures.matrix import Matrix
-from test_datastructures.array_util import random_int_array
-from test_datastructures.heap_util import random_min_heap, assert_min_heap, random_max_heap, assert_max_heap
+from heap_util import get_random_min_heap, assert_min_heap, get_random_max_heap, assert_max_heap
 
 
 def random_young_tableau(max_rows=5, max_columns=5, max_value=999):
@@ -52,7 +52,7 @@ def assert_young_tableau(matrix):
 class Solutions06Test(TestCase):
 
     def test_min_heapify(self):
-        heap, data = random_min_heap()
+        heap, data = get_random_min_heap()
         i = random.randint(1, heap.heap_size)
         heap[i] = data[i - 1] = random.randint(heap[i], 999)  # randomly increase value of randomly chosen element
 
@@ -63,7 +63,7 @@ class Solutions06Test(TestCase):
         assert_that(heap.data, contains_inanyorder(*data))
 
     def test_iterative_max_heapify(self):
-        heap, data = random_max_heap()
+        heap, data = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
         heap[i] = data[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
 
@@ -74,14 +74,14 @@ class Solutions06Test(TestCase):
         assert_that(heap.data, contains_inanyorder(*data))
 
     def test_heap_minimum(self):
-        heap, data = random_min_heap()
+        heap, data = get_random_min_heap()
 
         actual_min = heap_minimum(heap)
 
         assert_that(actual_min, is_(equal_to(min(data))))
 
     def test_extract_min(self):
-        heap, data = random_min_heap()
+        heap, data = get_random_min_heap()
 
         actual_min = heap_extract_min(heap)
 
@@ -92,7 +92,7 @@ class Solutions06Test(TestCase):
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
 
     def test_heap_decrease_key(self):
-        heap, data = random_min_heap()
+        heap, data = get_random_min_heap()
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randrange(1000)
@@ -110,7 +110,7 @@ class Solutions06Test(TestCase):
             assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
 
     def test_min_heap_insert(self):
-        heap, data = random_min_heap()
+        heap, data = get_random_min_heap()
         heap.data.append(None)  # to increase the heap's capacity for the new element
         heap.length += 1
         new_key = random.randrange(1000)
@@ -123,7 +123,7 @@ class Solutions06Test(TestCase):
         assert_that(heap.data, contains_inanyorder(*expected_heap_keys))
 
     def test_max_heap_delete(self):
-        heap, data = random_max_heap()
+        heap, data = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
         key_to_delete = heap[i]
 
@@ -145,7 +145,7 @@ class Solutions06Test(TestCase):
 
     def test_multiary_max_heapify(self):
         ary = random.randint(2, 7)
-        heap, data = random_max_heap(ary=ary)
+        heap, data = get_random_max_heap(ary=ary)
         i = random.randint(1, heap.heap_size)
         heap[i] = data[i - 1] = random.randint(0, heap[i])  # randomly decrease value of randomly chosen element
 
@@ -157,7 +157,7 @@ class Solutions06Test(TestCase):
 
     def test_multiary_heap_extract_max(self):
         ary = random.randint(2, 7)
-        heap, data = random_max_heap(ary=ary)
+        heap, data = get_random_max_heap(ary=ary)
 
         actual_max = multiary_heap_extract_max(heap, ary)
 
@@ -169,7 +169,7 @@ class Solutions06Test(TestCase):
 
     def test_multiary_max_heap_insert(self):
         ary = random.randint(2, 7)
-        heap, data = random_max_heap(ary=ary)
+        heap, data = get_random_max_heap(ary=ary)
         heap.data.append(None)  # to increase the heap's capacity for the new element
         heap.length += 1
         new_key = random.randrange(1000)
@@ -183,7 +183,7 @@ class Solutions06Test(TestCase):
 
     def test_multiary_heap_increase_key(self):
         ary = random.randint(2, 7)
-        heap, data = random_max_heap(ary=ary)
+        heap, data = get_random_max_heap(ary=ary)
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randrange(1000)
@@ -255,7 +255,7 @@ class Solutions06Test(TestCase):
 
     def test_young_sort(self):
         n = random.randint(1, 5)
-        array, data = random_int_array(min_size=n * n, max_size=n * n)
+        array, data = get_random_array(min_size=n * n, max_size=n * n)
 
         young_sort(array)
 

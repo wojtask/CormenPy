@@ -5,6 +5,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter12.ex12_1_4 import preorder_tree_walk, postorder_tree_walk
 from chapter12.ex12_2_2 import recursive_tree_minimum, recursive_tree_maximum
 from chapter12.ex12_2_3 import tree_predecessor
@@ -15,9 +16,8 @@ from chapter12.pr12_2 import bit_strings_sort
 from chapter12.pr12_3 import randomly_built_tree_quicksort
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree, Node
-from test_datastructures.array_util import random_int_array
-from test_datastructures.tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, \
-    binary_tree_to_list, random_binary_search_tree
+from tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, \
+    get_binary_tree_keys, get_random_binary_search_tree
 
 
 def random_bit_string():
@@ -54,7 +54,7 @@ class Solutions12Test(TestCase):
         assert_that(actual_output, is_(equal_to([1, 4, 11, 20, 19, 14, 10])))
 
     def test_recursive_tree_minimum(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
 
         actual_minimum = recursive_tree_minimum(tree.root)
 
@@ -62,7 +62,7 @@ class Solutions12Test(TestCase):
         assert_that(actual_minimum.key, is_(equal_to(min(keys))))
 
     def test_recursive_tree_maximum(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
 
         actual_maximum = recursive_tree_maximum(tree.root)
 
@@ -70,7 +70,7 @@ class Solutions12Test(TestCase):
         assert_that(actual_maximum.key, is_(equal_to(max(keys))))
 
     def test_tree_predecessor(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         given_node = random.choice(nodes)
 
         actual_predecessor = tree_predecessor(given_node)
@@ -94,11 +94,11 @@ class Solutions12Test(TestCase):
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = binary_tree_to_list(tree)
+        actual_keys = get_binary_tree_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_safe_tree_delete(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         random.shuffle(nodes)
 
         for node in nodes:
@@ -108,11 +108,11 @@ class Solutions12Test(TestCase):
 
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
-            actual_keys = binary_tree_to_list(tree)
+            actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_fair_tree_delete(self):
-        tree, nodes, keys = random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree()
         random.shuffle(nodes)
 
         for i, node in enumerate(nodes):
@@ -127,7 +127,7 @@ class Solutions12Test(TestCase):
 
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
-            actual_keys = binary_tree_to_list(tree)
+            actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_bit_strings_sort(self):
@@ -145,7 +145,7 @@ class Solutions12Test(TestCase):
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_randomly_built_tree_quicksort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         randomly_built_tree_quicksort(array, 1, array.length)
 

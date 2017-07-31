@@ -3,6 +3,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array, get_random_unique_array
 from chapter09.ex9_2_3 import iterative_randomized_select
 from chapter09.ex9_3_3 import best_case_quicksort
 from chapter09.ex9_3_5 import randomized_blackbox_select
@@ -13,7 +14,6 @@ from chapter09.pr9_2 import weighted_median_using_sorting, weighted_median, post
 from chapter09.pr9_3 import small_order_select
 from datastructures.array import Array
 from datastructures.point_2d import Point2D
-from test_datastructures.array_util import random_int_array, random_unique_int_array
 
 
 def assert_quantiles(actual_quantiles, data):
@@ -50,16 +50,16 @@ def get_weighted_distance_sum(origin, locations, weights):
 class Solutions09Test(TestCase):
 
     def test_iterative_randomized_select(self):
-        array, data = random_int_array()
-        k = random.randint(1, array.length)
+        array, data = get_random_array()
+        i = random.randint(1, array.length)
 
-        actual_order_statistic = iterative_randomized_select(array, 1, array.length, k)
+        actual_order_statistic = iterative_randomized_select(array, 1, array.length, i)
 
-        expected_order_statistic = sorted(data)[k - 1]
+        expected_order_statistic = sorted(data)[i - 1]
         assert_that(actual_order_statistic, is_(equal_to(expected_order_statistic)))
 
     def test_best_case_quicksort(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         best_case_quicksort(array, 1, array.length)
 
@@ -67,7 +67,7 @@ class Solutions09Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_randomized_blackbox_select(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
         k = random.randint(1, array.length)
 
         actual_order_statistic = randomized_blackbox_select(array, 1, array.length, k)
@@ -76,7 +76,7 @@ class Solutions09Test(TestCase):
         assert_that(actual_order_statistic, is_(equal_to(expected_order_statistic)))
 
     def test_quantiles(self):
-        array, data = random_unique_int_array()
+        array, data = get_random_unique_array()
         k = random.randint(1, array.length + 1)
 
         actual_quantiles = quantiles(array, 1, array.length, k)
@@ -86,7 +86,7 @@ class Solutions09Test(TestCase):
             assert_quantiles(actual_quantiles, data)
 
     def test_median_neighbors(self):
-        array, data = random_unique_int_array()
+        array, data = get_random_unique_array()
         k = random.randint(1, array.length)
 
         actual_neighbors = median_neighbors(array, k)
@@ -95,7 +95,7 @@ class Solutions09Test(TestCase):
         assert_that(expected_neighbors, is_(equal_to(actual_neighbors)))
 
     def test_median_nearest(self):
-        array, data = random_unique_int_array(max_value=30)
+        array, data = get_random_unique_array(max_value=30)
         k = random.randint(1, array.length)
 
         actual_nearest = median_nearest(array, k)
@@ -125,7 +125,7 @@ class Solutions09Test(TestCase):
         assert_that(actual_median, is_(equal_to(expected_median)))
 
     def test_weighted_median_using_sorting(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
         weights_not_normalized = [random.randrange(1000) for _ in range(array.length)]
         weights = [w / sum(weights_not_normalized) for w in weights_not_normalized]
         weights_array = Array(weights)
@@ -135,7 +135,7 @@ class Solutions09Test(TestCase):
         assert_weighted_median(actual_weighted_median, data, weights)
 
     def test_weighted_median(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
         weights_not_normalized = [random.randrange(1000) for _ in range(array.length)]
         weights = [w / sum(weights_not_normalized) for w in weights_not_normalized]
         weights_array = Array(weights)
@@ -160,10 +160,10 @@ class Solutions09Test(TestCase):
             assert_that(post_office_distance_sum, is_(less_than_or_equal_to(point_distance_sum)))
 
     def test_small_order_select(self):
-        array, data = random_unique_int_array()
-        k = random.randint(1, array.length // 5 + 1)  # pick small k
+        array, data = get_random_unique_array()
+        i = random.randint(1, array.length // 5 + 1)  # pick small i
 
-        actual_order_statistic = small_order_select(array, k)
+        actual_order_statistic = small_order_select(array, i)
 
-        expected_order_statistic = sorted(data)[k - 1]
+        expected_order_statistic = sorted(data)[i - 1]
         assert_that(actual_order_statistic, is_(equal_to(expected_order_statistic)))

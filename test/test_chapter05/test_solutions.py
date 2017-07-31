@@ -2,11 +2,11 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter05.ex5_1_2 import random
 from chapter05.ex5_1_3 import unbiased_random
 from chapter05.ex5_3_1 import randomize_in_place_
 from chapter05.pr5_2 import random_search
-from test_datastructures.array_util import random_int_array
 
 
 class Solutions05Test(TestCase):
@@ -31,7 +31,7 @@ class Solutions05Test(TestCase):
         assert_that(count[0], is_(close_to(count[1], samples // 10)))
 
     def test_randomize_in_place_(self):
-        array, data = random_int_array()
+        array, data = get_random_array()
 
         randomize_in_place_(array)
 
@@ -40,7 +40,7 @@ class Solutions05Test(TestCase):
     def test_random_search(self):
         import random
 
-        array, data = random_int_array(min_size=10, max_size=20, max_value=20)
+        array, data = get_random_array(min_size=10, max_size=20, max_value=20)
         v = random.randint(0, 20)
 
         actual_index = random_search(array, v)

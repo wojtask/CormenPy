@@ -7,35 +7,35 @@ from datastructures.binary_tree import BinaryTree
 from datastructures.red_black_tree import Color, RedBlackTree
 
 
-def binary_tree_to_list(tree, sentinel=None):
-    return _binary_subtree_to_list(tree.root, sentinel)
+def get_binary_tree_keys(tree, sentinel=None):
+    return _get_binary_subtree_keys(tree.root, sentinel)
 
 
-def _binary_subtree_to_list(node, sentinel):
+def _get_binary_subtree_keys(node, sentinel):
     if node is sentinel:
         return []
-    return [node.key] + _binary_subtree_to_list(node.left, sentinel) + _binary_subtree_to_list(node.right, sentinel)
+    return [node.key] + _get_binary_subtree_keys(node.left, sentinel) + _get_binary_subtree_keys(node.right, sentinel)
 
 
-def random_binary_search_tree(min_size=1, max_size=20, max_value=999):
+def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
     nodes = []
-    tree = BinaryTree(_random_binary_search_subtree(tree_size, nodes, min_value=0, max_value=max_value))
+    tree = BinaryTree(_get_random_binary_search_subtree(tree_size, nodes, min_value=0, max_value=max_value))
     keys = [node.key for node in nodes]
     return tree, nodes, keys
 
 
-def _random_binary_search_subtree(tree_size, nodes, min_value, max_value):
+def _get_random_binary_search_subtree(tree_size, nodes, min_value, max_value):
     root_key = random.randint(min_value, max_value)
     left_subtree_size = random.randint(0, tree_size - 1)
     right_subtree_size = tree_size - 1 - left_subtree_size
     left_subtree_root = right_subtree_root = None
     if left_subtree_size > 0:
-        left_subtree_root = _random_binary_search_subtree(
+        left_subtree_root = _get_random_binary_search_subtree(
             left_subtree_size, nodes, min_value=min_value, max_value=root_key
         )
     if right_subtree_size > 0:
-        right_subtree_root = _random_binary_search_subtree(
+        right_subtree_root = _get_random_binary_search_subtree(
             right_subtree_size, nodes, min_value=root_key, max_value=max_value
         )
     root = bt.Node(root_key, left=left_subtree_root, right=right_subtree_root)
@@ -65,25 +65,25 @@ def assert_binary_search_tree(tree, sentinel=None):
 
 def _assert_binary_search_subtree(node, sentinel):
     if node.left is not sentinel:
-        left_keys = _binary_subtree_to_list(node.left, sentinel)
+        left_keys = _get_binary_subtree_keys(node.left, sentinel)
         for left_key in left_keys:
             assert_that(left_key, is_(less_than_or_equal_to(node.key)))
         _assert_binary_search_subtree(node.left, sentinel)
     if node.right is not sentinel:
-        right_keys = _binary_subtree_to_list(node.right, sentinel)
+        right_keys = _get_binary_subtree_keys(node.right, sentinel)
         for right_key in right_keys:
             assert_that(right_key, is_(greater_than_or_equal_to(node.key)))
         _assert_binary_search_subtree(node.right, sentinel)
 
 
-def random_red_black_tree(black_height=3, max_value=999):
+def get_random_red_black_tree(black_height=3, max_value=999):
     nodes = []
-    tree = RedBlackTree(_random_red_black_subtree(black_height, nodes, min_value=0, max_value=max_value))
+    tree = RedBlackTree(_get_random_red_black_subtree(black_height, nodes, min_value=0, max_value=max_value))
     keys = [node.key for node in nodes]
     return tree, nodes, keys
 
 
-def _random_red_black_subtree(black_height, nodes, min_value, max_value):
+def _get_random_red_black_subtree(black_height, nodes, min_value, max_value):
     if black_height == 0:
         return None
 
@@ -93,7 +93,7 @@ def _random_red_black_subtree(black_height, nodes, min_value, max_value):
     if random.choice([Color.BLACK, Color.RED]) == Color.RED:
         left_subtree_root = _create_red_node_in_subtree(black_height, nodes, min_value, root_key)
     else:
-        left_subtree_root = _random_red_black_subtree(
+        left_subtree_root = _get_random_red_black_subtree(
             black_height - 1, nodes, min_value=min_value, max_value=root_key
         )
 
@@ -101,7 +101,7 @@ def _random_red_black_subtree(black_height, nodes, min_value, max_value):
     if random.choice([Color.BLACK, Color.RED]) == Color.RED:
         right_subtree_root = _create_red_node_in_subtree(black_height, nodes, root_key, max_value)
     else:
-        right_subtree_root = _random_red_black_subtree(
+        right_subtree_root = _get_random_red_black_subtree(
             black_height - 1, nodes, min_value=root_key, max_value=max_value
         )
 
@@ -112,10 +112,10 @@ def _random_red_black_subtree(black_height, nodes, min_value, max_value):
 
 def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
     subtree_root_key = random.randint(min_value, max_value)
-    left_subtree_root = _random_red_black_subtree(
+    left_subtree_root = _get_random_red_black_subtree(
         black_height - 1, nodes, min_value=min_value, max_value=subtree_root_key
     )
-    right_subtree_root = _random_red_black_subtree(
+    right_subtree_root = _get_random_red_black_subtree(
         black_height - 1, nodes, min_value=subtree_root_key, max_value=max_value
     )
     subtree_root = rb.Node(
@@ -187,8 +187,8 @@ def _assert_subtreap(node):
         _assert_subtreap(node.right)
 
 
-def random_os_tree(black_height=3, max_value=999):
-    tree, nodes, keys = random_red_black_tree(black_height, max_value)
+def get_random_os_tree(black_height=3, max_value=999):
+    tree, nodes, keys = get_random_red_black_tree(black_height, max_value)
     _initialize_sizes_in_os_tree(tree)
     return tree, nodes, keys
 

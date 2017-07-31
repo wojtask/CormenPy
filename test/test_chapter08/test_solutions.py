@@ -5,6 +5,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter08.ex8_2_4 import counting_in_range
 from chapter08.ex8_3_4 import below_square_sort
 from chapter08.ex8_4_4 import unit_circle_sort
@@ -13,7 +14,6 @@ from chapter08.pr8_4 import jugs_group, jugs_match
 from chapter08.pr8_5 import average_sort
 from datastructures.array import Array
 from datastructures.point_2d import Point2D
-from test_datastructures.array_util import random_int_array
 
 
 def assert_average_sorted(data, k):
@@ -25,7 +25,7 @@ class Solutions08Test(TestCase):
 
     def test_counting_in_range(self):
         k = 20
-        array, data = random_int_array(max_value=k)
+        array, data = get_random_array(max_value=k)
         a, b = sorted([random.randint(-10, 30), random.randint(-10, 30)])
 
         actual_count = counting_in_range(array, k, a, b)
@@ -55,7 +55,7 @@ class Solutions08Test(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_bitwise_sort(self):
-        array, data = random_int_array(max_value=1)
+        array, data = get_random_array(max_value=1)
 
         bitwise_sort(array)
 
@@ -98,7 +98,7 @@ class Solutions08Test(TestCase):
         assert_that(reds_array, is_(equal_to(blues_array)))
 
     def test_average_sort(self):
-        array, data = random_int_array(min_size=2)
+        array, data = get_random_array(min_size=2)
         k = random.randint(1, array.length - 1)
 
         average_sort(array, k, 1, array.length)

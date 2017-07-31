@@ -7,7 +7,7 @@ from datastructures.array_list import MultipleArrayList, SingleArrayList
 from datastructures.list import List, Node, SNode, XorNode, XorList
 
 
-def random_int_doubly_linked_list(min_size=1, max_size=20, max_value=999):
+def get_random_doubly_linked_list(min_size=1, max_size=20, max_value=999):
     size = random.randint(min_size, max_size)
     keys = [random.randint(0, max_value) for _ in range(size)]
     nodes = [Node(key) for key in keys]
@@ -23,7 +23,7 @@ def random_int_doubly_linked_list(min_size=1, max_size=20, max_value=999):
     return list_, nodes, keys
 
 
-def linked_list_keys(list_):
+def get_linked_list_keys(list_):
     keys = []
     node = list_.head
     while node is not None:
@@ -45,7 +45,7 @@ def assert_prev_next_pointers_consistent(list_):
         node = node.next
 
 
-def random_int_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_value=999):
+def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_value=999):
     size = random.randint(min_size, max_size)
     keys = [random.randint(0, max_value) for _ in range(size)]
     nodes = [Node(key) for key in keys]
@@ -62,7 +62,7 @@ def random_int_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_val
     return list_, nodes, keys
 
 
-def doubly_linked_list_with_sentinel_keys(list_):
+def get_doubly_linked_list_with_sentinel_keys(list_):
     keys = []
     node = list_.nil.next
     while node is not list_.nil:
@@ -81,7 +81,7 @@ def assert_prev_next_pointers_consistent_with_sentinel(list_):
         node = node.next
 
 
-def random_int_singly_linked_list(min_size=1, max_size=20, max_value=999):
+def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
     size = random.randint(min_size, max_size)
     keys = [random.randint(0, max_value) for _ in range(size)]
     nodes = [SNode(key) for key in keys]
@@ -96,14 +96,14 @@ def random_int_singly_linked_list(min_size=1, max_size=20, max_value=999):
     return list_, nodes, keys
 
 
-def random_int_circular_list(min_size=1, max_size=20, max_value=999):
-    list_, nodes, keys = random_int_singly_linked_list(min_size, max_size, max_value)
+def get_random_circular_list(min_size=1, max_size=20, max_value=999):
+    list_, nodes, keys = get_random_singly_linked_list(min_size, max_size, max_value)
     if list_.head is not None:
         nodes[-1].next = list_.head
     return list_, nodes, keys
 
 
-def circular_list_keys(list_):
+def get_circular_list_keys(list_):
     if list_.head is None:
         return []
     keys = [list_.head.key]
@@ -114,7 +114,7 @@ def circular_list_keys(list_):
     return keys
 
 
-def random_int_xor_linked_list(min_size=1, max_size=20, max_value=999):
+def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
     list_ = XorList()
     size = random.randint(min_size, max_size)
     if size == 0:
@@ -136,7 +136,7 @@ def random_int_xor_linked_list(min_size=1, max_size=20, max_value=999):
     return list_, nodes, keys
 
 
-def xor_linked_list_keys(list_):
+def get_xor_linked_list_keys(list_):
     keys = []
     prev_node = None
     curr_node = list_.head
@@ -149,7 +149,7 @@ def xor_linked_list_keys(list_):
     return keys
 
 
-def random_multiple_array_list(min_size=1, max_size=10, max_value=999):
+def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
     key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
@@ -181,7 +181,7 @@ def random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     return MultipleArrayList(key, next, prev, head, free)
 
 
-def multiple_array_list_keys(list_):
+def get_multiple_array_list_keys(list_):
     idx = list_.head
     keys = []
     while idx is not None:
@@ -190,7 +190,7 @@ def multiple_array_list_keys(list_):
     return keys
 
 
-def multiple_array_list_free_cells(list_):
+def get_multiple_array_list_free_cells(list_):
     idx = list_.free
     free_cells = 0
     while idx is not None:
@@ -208,7 +208,7 @@ def assert_multiple_array_list_consistent(list_):
         idx = list_.next[idx]
 
 
-def random_single_array_list(min_size=1, max_size=10, max_value=999):
+def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = 3 * random.randint(list_size, max_size)
     A = Array.of_length(array_size)
@@ -240,7 +240,7 @@ def random_single_array_list(min_size=1, max_size=10, max_value=999):
     return SingleArrayList(A, head, free)
 
 
-def single_array_list_keys(list_):
+def get_single_array_list_keys(list_):
     idx = list_.head
     keys = []
     while idx is not None:
@@ -249,7 +249,7 @@ def single_array_list_keys(list_):
     return keys
 
 
-def single_array_list_free_cells(list_):
+def get_single_array_list_free_cells(list_):
     idx = list_.free
     free_cells = 0
     while idx is not None:
@@ -267,7 +267,7 @@ def assert_single_array_list_consistent(list_):
         idx = list_.A[idx + 1]
 
 
-def random_compact_list(min_size=1, max_size=10, max_value=999):
+def get_random_compact_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
     key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
