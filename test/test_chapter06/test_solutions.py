@@ -10,19 +10,37 @@ from chapter06.ex6_2_5 import iterative_max_heapify
 from chapter06.ex6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
 from chapter06.ex6_5_6 import priority_enqueue, priority_dequeue, priority_push, priority_pop
 from chapter06.ex6_5_7 import max_heap_delete
+from chapter06.ex6_5_8 import merge_sorted_lists
 from chapter06.pr6_2 import multiary_parent, multiary_child, multiary_max_heapify, multiary_heap_extract_max, \
     multiary_max_heap_insert, multiary_heap_increase_key
 from chapter06.pr6_3 import young_extract_min, youngify, young_insert, young_sort, young_search
 from datastructures.array import Array
+from datastructures.list import SNode, List
 from datastructures.matrix import Matrix
 from heap_util import get_random_min_heap, assert_min_heap, get_random_max_heap, assert_max_heap
+from list_util import get_linked_list_keys
 from util import Element
 
 
-def random_young_tableau(max_rows=5, max_columns=5, max_value=999):
+def get_random_sorted_singly_linked_list():
+    size = random.randint(1, 5)
+    keys = sorted([random.randint(0, 999) for _ in range(size)])
+    nodes = [SNode(key) for key in keys]
+    list_ = List()
+    prev_node = list_.head
+    for node in nodes:
+        if prev_node is None:
+            list_.head = node
+        else:
+            prev_node.next = node
+        prev_node = node
+    return list_, nodes, keys
+
+
+def random_young_tableau(max_value=999):
     threshold = 0.95 * max_value  # all numbers greater than threshold will be transformed to math.inf
-    rows = random.randint(1, max_rows)
-    columns = random.randint(1, max_columns)
+    rows = random.randint(1, 5)
+    columns = random.randint(1, 5)
     row = [random.randint(0, max_value) for _ in range(columns)]  # the first row
     elements = [sorted([x if x <= threshold else math.inf for x in row])]
     for i in range(1, rows):
@@ -201,6 +219,17 @@ class Solutions06Test(TestCase):
         expected_heap_keys = list(elements)
         expected_heap_keys.remove(key_to_delete)
         assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
+
+    def test_merge_sorted_lists(self):
+        size = random.randint(1, 10)
+        lists = Array([get_random_sorted_singly_linked_list()[0] for _ in range(size)])
+        expected_lists = [get_linked_list_keys(list_) for list_ in lists]
+        expected_elements = sorted([element for list_ in expected_lists for element in list_])
+
+        actual_merged = merge_sorted_lists(lists)
+
+        actual_elements = get_linked_list_keys(actual_merged)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
 
     def test_multiary_parent_child(self):
         d = random.randint(2, 7)
