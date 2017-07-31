@@ -86,7 +86,8 @@ def _modular_hash(k, m):
 
 
 def get_random_hash_table_linear_probing(max_value=999):
-    table, keys = _random_hash_table(_linear_hash, max_value)
+    table_size = random.randint(1, 10)
+    table, keys = _random_hash_table(_linear_hash, table_size, max_value)
     return table, keys, _linear_hash
 
 
@@ -95,7 +96,9 @@ def _linear_hash(k, i, m):
 
 
 def get_random_hash_table_quadratic_probing(max_value=999):
-    table, keys = _random_hash_table(_quadratic_hash, max_value)
+    # make sure the table size is a power of 2
+    table_size = random.choice([2 ** n for n in range(6)])
+    table, keys = _random_hash_table(_quadratic_hash, table_size, max_value)
     return table, keys, _quadratic_hash, _modular_hash
 
 
@@ -103,8 +106,7 @@ def _quadratic_hash(k, i, m):
     return (_modular_hash(k, m) + i * (i + 1) // 2) % m
 
 
-def _random_hash_table(h, max_value):
-    table_size = random.randint(1, 10)
+def _random_hash_table(h, table_size, max_value):
     table = StandardArray.of_length(table_size)
     nelements = random.randint(0, table.length)
     keys = [random.randint(0, max_value) for _ in range(nelements)]
