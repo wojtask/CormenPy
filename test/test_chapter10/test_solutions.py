@@ -5,7 +5,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_array
+from array_util import get_random_array, get_random_unique_array
 from chapter10.ex10_1_2 import left_stack_push, left_stack_pop, right_stack_push, right_stack_pop
 from chapter10.ex10_1_4 import queue_empty, enqueue_, dequeue_
 from chapter10.ex10_1_5 import head_enqueue, head_dequeue, tail_enqueue, tail_dequeue
@@ -25,6 +25,9 @@ from chapter10.ex10_3_5 import compactify_list
 from chapter10.ex10_4_3 import iterative_preorder_tree_walk
 from chapter10.ex10_4_4 import tree_walk
 from chapter10.ex10_4_5 import stackless_inorder_tree_walk
+from chapter10.pr10_2 import sorted_list_make_min_heap, sorted_list_min_heap_insert, sorted_list_heap_minimum, \
+    sorted_list_heap_extract_min, sorted_list_min_heap_union, list_make_min_heap, list_min_heap_insert, \
+    list_heap_minimum, list_heap_extract_min, list_min_heap_union, list_min_heap_disjoint_union
 from datastructures.binary_tree import RootedTree
 from datastructures.list import SNode, XorNode
 from datastructures.rooted_tree import Node
@@ -55,6 +58,15 @@ def _make_free_list_doubly_linked(list_):
     while list_.next[x] is not None:
         list_.prev[list_.next[x]] = x
         x = list_.next[x]
+
+
+def assert_sorted_list(list_):
+    if list_.head is None:
+        return
+    x = list_.head
+    while x.next is not None:
+        assert_that(x.key < x.next.key)
+        x = x.next
 
 
 class Solutions10Test(TestCase):
@@ -633,3 +645,105 @@ class Solutions10Test(TestCase):
         actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
         expected_output = sorted(keys)
         assert_that(actual_output, is_(equal_to(expected_output)))
+
+    def test_mergeable_heap_on_sorted_list(self):
+        _, elements1 = get_random_unique_array(min_size=0)
+        _, elements2 = get_random_unique_array(min_size=0)
+
+        heap1 = sorted_list_make_min_heap()
+        heap2 = sorted_list_make_min_heap()
+
+        for element in elements1:
+            sorted_list_min_heap_insert(heap1, element)
+        for element in elements2:
+            sorted_list_min_heap_insert(heap2, element)
+        assert_sorted_list(heap1)
+        assert_sorted_list(heap2)
+
+        expected_elements = list(sorted(set(elements1 + elements2)))
+
+        if elements1:
+            actual_min = sorted_list_heap_minimum(heap1)
+            actual_extracted_min = sorted_list_heap_extract_min(heap1)
+            expected_min = min(elements1)
+            expected_elements.remove(expected_min)
+            assert_that(actual_min, is_(equal_to(expected_min)))
+            assert_that(actual_extracted_min, is_(equal_to(expected_min)))
+            assert_sorted_list(heap1)
+        else:
+            assert_that(calling(sorted_list_heap_extract_min).with_args(heap1), raises(RuntimeError, 'heap underflow'))
+
+        if elements2:
+            actual_min = sorted_list_heap_minimum(heap2)
+            actual_extracted_min = sorted_list_heap_extract_min(heap2)
+            expected_min = min(elements2)
+            expected_elements.remove(expected_min)
+            assert_that(actual_min, is_(equal_to(expected_min)))
+            assert_that(actual_extracted_min, is_(equal_to(expected_min)))
+            assert_sorted_list(heap2)
+        else:
+            assert_that(calling(sorted_list_heap_extract_min).with_args(heap2), raises(RuntimeError, 'heap underflow'))
+
+        merged_heap = sorted_list_min_heap_union(heap1, heap2)
+
+        actual_elements = get_linked_list_keys(merged_heap)
+        assert_that(actual_elements, is_(equal_to(expected_elements)))
+        assert_sorted_list(merged_heap)
+
+    def test_mergeable_heap_on_unsorted_list(self):
+        _, elements1 = get_random_unique_array(min_size=0)
+        _, elements2 = get_random_unique_array(min_size=0)
+
+        heap1 = list_make_min_heap()
+        heap2 = list_make_min_heap()
+
+        for element in elements1:
+            list_min_heap_insert(heap1, element)
+        for element in elements2:
+            list_min_heap_insert(heap2, element)
+
+        expected_elements = list(sorted(set(elements1 + elements2)))
+
+        if elements1:
+            actual_min = list_heap_minimum(heap1)
+            actual_extracted_min = list_heap_extract_min(heap1)
+            expected_min = min(elements1)
+            expected_elements.remove(expected_min)
+            assert_that(actual_min, is_(equal_to(expected_min)))
+            assert_that(actual_extracted_min, is_(equal_to(expected_min)))
+        else:
+            assert_that(calling(list_heap_extract_min).with_args(heap1), raises(RuntimeError, 'heap underflow'))
+
+        if elements2:
+            actual_min = list_heap_minimum(heap2)
+            actual_extracted_min = list_heap_extract_min(heap2)
+            expected_min = min(elements2)
+            expected_elements.remove(expected_min)
+            assert_that(actual_min, is_(equal_to(expected_min)))
+            assert_that(actual_extracted_min, is_(equal_to(expected_min)))
+        else:
+            assert_that(calling(list_heap_extract_min).with_args(heap2), raises(RuntimeError, 'heap underflow'))
+
+        merged_heap = list_min_heap_union(heap1, heap2)
+
+        actual_elements = get_linked_list_keys(merged_heap)
+        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+
+    def test_list_min_heap_disjoint_union(self):
+        array, elements = get_random_unique_array(min_size=0)
+        heap1_size = random.randint(0, len(elements))
+        elements1 = array[1:heap1_size].elements
+        elements2 = array[heap1_size + 1:array.length].elements
+
+        heap1 = list_make_min_heap()
+        heap2 = list_make_min_heap()
+
+        for element in elements1:
+            list_min_heap_insert(heap1, element)
+        for element in elements2:
+            list_min_heap_insert(heap2, element)
+
+        merged_heap = list_min_heap_disjoint_union(heap1, heap2)
+
+        actual_elements = get_linked_list_keys(merged_heap)
+        assert_that(actual_elements, contains_inanyorder(*elements))
