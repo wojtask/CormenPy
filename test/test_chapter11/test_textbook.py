@@ -3,8 +3,10 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_unique_array
 from chapter11.textbook import direct_address_search, direct_address_insert, direct_address_delete, \
-    chained_hash_insert, chained_hash_search, chained_hash_delete, hash_insert, hash_search, quadratic_probing_search
+    chained_hash_insert, chained_hash_search, chained_hash_delete, hash_insert, hash_search, quadratic_probing_search, \
+    perfect_hashing_init, perfect_hashing_search
 from datastructures.hash_table import ChainedElement
 from hash_table_util import get_random_direct_address_table, get_chained_hash_table_elements, \
     get_random_chained_hash_table, get_random_hash_table_linear_probing, get_hash_table_keys, \
@@ -119,3 +121,17 @@ class Textbook11Test(TestCase):
             assert_that(table[actual_index], is_(equal_to(key_to_find)))
         else:
             assert_that(actual_index, is_(none()))
+
+    def test_perfect_hashing(self):
+        keys, _ = get_random_unique_array(max_value=99)
+
+        table, h = perfect_hashing_init(keys)
+
+        for key in range(100):
+            actual_found = perfect_hashing_search(table, key, h)
+            if key in keys:
+                assert_that(actual_found, is_(not_none()))
+                j, j_ = actual_found
+                assert_that(table[j][1][j_], is_(equal_to(key)))
+            else:
+                assert_that(actual_found, is_(none()))
