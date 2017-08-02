@@ -14,6 +14,7 @@ from chapter10.ex10_1_7 import queue_push, queue_pop
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter10.ex10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from chapter10.ex10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
+from chapter10.ex10_2_4 import list_search__
 from chapter10.ex10_2_5 import circular_list_insert, circular_list_delete, circular_list_search
 from chapter10.ex10_2_6 import circular_lists_union
 from chapter10.ex10_2_7 import singly_linked_list_reverse
@@ -35,7 +36,8 @@ from list_util import get_random_singly_linked_list, get_linked_list_keys, get_r
     get_circular_list_keys, get_random_xor_linked_list, get_xor_linked_list_keys, get_random_single_array_list, \
     get_single_array_list_keys, get_single_array_list_free_cells, assert_single_array_list_consistent, \
     get_multiple_array_list_keys, get_multiple_array_list_free_cells, assert_multiple_array_list_consistent, \
-    get_random_compact_list, assert_compact_list, get_random_multiple_array_list
+    get_random_compact_list, assert_compact_list, get_random_multiple_array_list, \
+    get_random_doubly_linked_list_with_sentinel
 from queue_util import get_queue_elements, get_stack_elements
 from tree_util import get_random_binary_search_tree, get_binary_tree_keys
 
@@ -417,6 +419,18 @@ class Solutions10Test(TestCase):
             assert_that(actual_keys, is_(equal_to(expected_keys)))
             if list_.head is None:
                 assert_that(list_.tail, is_(none()))
+
+    def test_list_search__(self):
+        list_, nodes, keys = get_random_doubly_linked_list_with_sentinel(min_size=10, max_size=20, max_value=20)
+        k = random.randint(1, 20)
+
+        actual_node = list_search__(list_, k)
+
+        if k in keys:
+            assert_that(actual_node, is_in(nodes))
+            assert_that(actual_node.key, is_(equal_to(k)))
+        else:
+            assert_that(actual_node, is_(list_.nil))
 
     def test_circular_list_insert(self):
         list_, nodes, keys = get_random_circular_list(min_size=0, max_size=5)
