@@ -1,10 +1,8 @@
 from chapter06.ex6_5_8 import merge_sorted_lists
 from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
-from chapter11.textbook import chained_hash_insert, chained_hash_search
+from chapter11.textbook import perfect_hashing_search, perfect_hashing_init
 from datastructures.array import Array
-from datastructures.hash_table import ChainedElement
 from datastructures.list import List, SNode
-from datastructures.standard_array import StandardArray
 
 
 def sorted_list_make_min_heap():
@@ -100,18 +98,17 @@ def list_min_heap_union(heap1, heap2):
         new_min = heap1.head
     else:
         new_min = heap2.head
-    # according to the textbook, 701 is a 'good' value for hash table size when using the division method
-    hash_table = StandardArray.of_length(701)
-    h = lambda k, m: k % m
+    heap1_keys = []
     x = heap1.head
     while x is not None:
-        y = ChainedElement(x.key)
-        chained_hash_insert(hash_table, y, h)
+        heap1_keys.append(x.key)
         x = x.next
+    if heap1_keys:
+        hash_table, h = perfect_hashing_init(Array(heap1_keys))
     x = heap2.head
     while x is not None:
         y = x.next
-        if chained_hash_search(hash_table, x.key, h) is None:
+        if heap1_keys == [] or perfect_hashing_search(hash_table, x.key, h) is None:
             singly_linked_list_insert(heap1, x)
         x = y
     singly_linked_list_delete(heap1, new_min)
