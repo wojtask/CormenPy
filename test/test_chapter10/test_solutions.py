@@ -23,7 +23,7 @@ from chapter10.ex10_2_8 import xor_linked_list_search, xor_linked_list_insert, x
 from chapter10.ex10_3_2 import single_array_allocate_object, single_array_free_object
 from chapter10.ex10_3_4 import compact_list_allocate_object, compact_list_free_object
 from chapter10.ex10_3_5 import compactify_list
-from chapter10.ex10_4_3 import iterative_preorder_tree_walk
+from chapter10.ex10_4_3 import iterative_inorder_tree_walk
 from chapter10.ex10_4_4 import tree_walk
 from chapter10.ex10_4_5 import stackless_inorder_tree_walk
 from chapter10.pr10_2 import sorted_list_make_min_heap, sorted_list_min_heap_insert, sorted_list_heap_minimum, \
@@ -39,7 +39,7 @@ from list_util import get_random_singly_linked_list, get_linked_list_keys, get_r
     get_random_compact_list, assert_compact_list, get_random_multiple_array_list, \
     get_random_doubly_linked_list_with_sentinel
 from queue_util import get_queue_elements, get_stack_elements
-from tree_util import get_random_binary_search_tree, get_binary_tree_keys
+from tree_util import get_random_binary_search_tree
 
 
 def _get_rooted_tree():
@@ -627,15 +627,15 @@ class Solutions10Test(TestCase):
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_that(actual_free_cells, is_(equal_to(expected_free_cells)))
 
-    def test_iterative_preorder_tree_walk(self):
-        tree, _, _ = get_random_binary_search_tree()
+    def test_iterative_inorder_tree_walk(self):
+        tree, _, keys = get_random_binary_search_tree(min_size=0)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
-            iterative_preorder_tree_walk(tree)
+            iterative_inorder_tree_walk(tree)
 
         actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
-        expected_output = get_binary_tree_keys(tree)
+        expected_output = sorted(keys)
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_tree_walk(self):

@@ -19,6 +19,8 @@ def _get_binary_subtree_keys(node, sentinel):
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
+    if tree_size == 0:
+        return BinaryTree(), [], []
     nodes = []
     tree = BinaryTree(_get_random_binary_search_subtree(tree_size, nodes, min_value=0, max_value=max_value))
     keys = [node.key for node in nodes]
