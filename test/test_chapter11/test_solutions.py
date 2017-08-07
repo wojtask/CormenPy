@@ -3,17 +3,33 @@ from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_unique_array
 from chapter11.ex11_1_1 import direct_address_maximum
 from chapter11.ex11_1_2 import bit_vector_search, bit_vector_insert, bit_vector_delete
 from chapter11.ex11_1_3 import direct_address_search_, direct_address_insert_, direct_address_delete_
 from chapter11.ex11_1_4 import huge_array_search, huge_array_insert, huge_array_delete
+from chapter11.ex11_2_4 import in_place_chained_hash_insert, in_place_chained_hash_search, in_place_chained_hash_delete
 from chapter11.ex11_4_2 import hash_delete, hash_insert_
-from datastructures.hash_table import ChainedElement
+from datastructures.hash_table import ChainedElement, FreePosition
+from datastructures.standard_array import StandardArray
 from hash_table_util import get_random_direct_address_table, get_random_bit_vector, \
     get_random_chained_direct_address_table, get_chained_hash_table_elements, get_random_hash_table_linear_probing, \
     get_hash_table_keys, get_random_huge_array
 from queue_util import get_stack_elements
 from util import Element
+
+
+def assert_in_place_hash_table_clear(table):
+    i = table.free
+    assert_that(table[i].prev, is_(equal_to(-1)))
+    free_positions = 0
+    while i != -1:
+        assert_that(table[i], not_(has_property('element')))
+        free_positions += 1
+        if table[i].next != -1:
+            assert_that(table[table[i].next].prev, is_(equal_to(i)))
+        i = table[i].next
+    assert_that(free_positions, is_(equal_to(table.length)))
 
 
 class Solutions11Test(TestCase):
@@ -142,6 +158,31 @@ class Solutions11Test(TestCase):
 
         actual_elements = get_stack_elements(stack)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
+
+    def test_in_place_chained_hash_table(self):
+        table_size = random.randint(1, 20)
+        keys, _ = get_random_unique_array(max_size=table_size, max_value=99)
+        elements = [Element(key) for key in keys]
+        table = StandardArray.of_length(table_size)
+        table.free = 0
+        for i in range(table_size):
+            table[i] = FreePosition(i - 1, i + 1)
+        table[table_size - 1].next = -1
+        h = lambda k, m: k % m
+
+        for element in elements:
+            in_place_chained_hash_insert(table, element, h)
+
+        for key in range(100):
+            actual_element = in_place_chained_hash_search(table, key, h)
+
+            if key in keys:
+                assert_that(actual_element.key, is_(equal_to(key)))
+                in_place_chained_hash_delete(table, actual_element, h)
+            else:
+                assert_that(actual_element, is_(none()))
+
+        assert_in_place_hash_table_clear(table)
 
     def test_hash_delete(self):
         table, keys, h = get_random_hash_table_linear_probing()
