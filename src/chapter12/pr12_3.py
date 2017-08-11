@@ -12,7 +12,7 @@ def _randomly_built_tree_partition(A, p, r):
     x = A[p]
     i = p
     for j in between(p + 1, r):
-        if A[j] <= x:
+        if A[j] < x:
             i = i + 1
             A[i], A[j] = A[j], A[i]
     A[i], A[p] = A[p], A[i]
