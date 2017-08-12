@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter13.ex13_3_6 import rb_parentless_insert
+from chapter13.ex13_3_6 import parentless_rb_insert
 from chapter13.pr13_1 import persistent_tree_insert
 from chapter13.pr13_2 import rb_join, joinable_rb_delete, joinable_rb_insert
 from chapter13.pr13_3 import avl_insert_wrapper
@@ -34,7 +34,7 @@ class Solutions13Test(TestCase):
 
         for key in keys:
 
-            rb_parentless_insert(tree, Node(key))
+            parentless_rb_insert(tree, Node(key))
 
             assert_red_black_tree(tree, sentinel=tree.nil)
 

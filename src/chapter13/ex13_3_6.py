@@ -3,7 +3,7 @@ from datastructures.array import Array
 from datastructures.red_black_tree import Red, Black
 
 
-def rb_parentless_insert(T, z):
+def parentless_rb_insert(T, z):
     y = T.nil
     x = T.root
     path_length = _get_path_length_from_root_to_leaf(T, z)
@@ -27,7 +27,7 @@ def rb_parentless_insert(T, z):
     z.left = T.nil
     z.right = T.nil
     z.color = Red
-    rb_parentless_insert_fixup(T, S, z)
+    parentless_rb_insert_fixup(T, S, z)
 
 
 def _get_path_length_from_root_to_leaf(T, z):
@@ -42,7 +42,7 @@ def _get_path_length_from_root_to_leaf(T, z):
     return path_length
 
 
-def rb_parentless_insert_fixup(T, S, z):
+def parentless_rb_insert_fixup(T, S, z):
     p = pop(S)
     while p.color == Red:
         r = pop(S)
@@ -56,10 +56,10 @@ def rb_parentless_insert_fixup(T, S, z):
             else:
                 if z is p.right:
                     z, p = p, z
-                    rb_parentless_left_rotate(T, z, r)
+                    parentless_rb_left_rotate(T, z, r)
                 p.color = Black
                 r.color = Red
-                rb_parentless_right_rotate(T, r, pop(S))
+                parentless_rb_right_rotate(T, r, pop(S))
         else:
             y = r.left
             if y.color is Red:
@@ -70,14 +70,14 @@ def rb_parentless_insert_fixup(T, S, z):
             else:
                 if z is p.left:
                     z, p = p, z
-                    rb_parentless_right_rotate(T, z, r)
+                    parentless_rb_right_rotate(T, z, r)
                 p.color = Black
                 r.color = Red
-                rb_parentless_left_rotate(T, r, pop(S))
+                parentless_rb_left_rotate(T, r, pop(S))
     T.root.color = Black
 
 
-def rb_parentless_left_rotate(T, x, p):
+def parentless_rb_left_rotate(T, x, p):
     y = x.right
     x.right = y.left
     if p is T.nil:
@@ -90,7 +90,7 @@ def rb_parentless_left_rotate(T, x, p):
     y.left = x
 
 
-def rb_parentless_right_rotate(T, x, p):
+def parentless_rb_right_rotate(T, x, p):
     y = x.left
     x.left = y.right
     if p is T.nil:
