@@ -33,7 +33,7 @@ class Textbook14Test(TestCase):
 
     def test_os_insert(self):
         keys = [random.randrange(1000) for _ in range(20)]
-        tree = RedBlackTree(nil=OSNode(None))
+        tree = RedBlackTree(sentinel=OSNode(None))
 
         for key in keys:
 

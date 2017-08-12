@@ -75,9 +75,10 @@ def _assert_binary_search_subtree(node, sentinel):
         _assert_binary_search_subtree(node.right, sentinel)
 
 
-def get_random_red_black_tree(black_height=3, max_value=999):
+def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentinel=rb.Node(None)):
     nodes = []
-    tree = RedBlackTree(_get_random_red_black_subtree(black_height, nodes, min_value=0, max_value=max_value))
+    tree = RedBlackTree(_get_random_red_black_subtree(black_height, nodes, min_value=min_value, max_value=max_value),
+                        sentinel=sentinel)
     keys = [node.key for node in nodes]
     return tree, nodes, keys
 
@@ -129,7 +130,7 @@ def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
 
 def assert_red_black_tree(tree, sentinel=None):
     assert_that(tree.root.color, is_(Black))
-    if sentinel is tree.nil:
+    if sentinel is not None:
         assert_that(tree.nil.color, is_(Black))
     if tree.root is not sentinel:
         assert_binary_search_tree(tree, sentinel)
@@ -139,8 +140,10 @@ def assert_red_black_tree(tree, sentinel=None):
 
 def _assert_red_black_property_4(node, sentinel):
     if node.color == Red:
-        assert_that(node.left.color, is_(Black))
-        assert_that(node.right.color, is_(Black))
+        if node.left is not sentinel:
+            assert_that(node.left.color, is_(Black))
+        if node.right is not sentinel:
+            assert_that(node.right.color, is_(Black))
     if node.left is not sentinel:
         _assert_red_black_property_4(node.left, sentinel)
     if node.right is not sentinel:

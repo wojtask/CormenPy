@@ -5,15 +5,25 @@ from hamcrest import *
 
 from chapter13.ex13_3_6 import rb_parentless_insert
 from chapter13.pr13_1 import persistent_tree_insert
+from chapter13.pr13_2 import rb_join
 from chapter13.pr13_3 import avl_insert_wrapper
 from chapter13.pr13_4 import treap_insert
 from datastructures import avl_tree as avl, treap as tp
 from datastructures.avl_tree import AVLTree
 from datastructures.binary_tree import BinaryTree
-from datastructures.red_black_tree import RedBlackTree, Node
+from datastructures.red_black_tree import RedBlackTree, Node, Black
 from datastructures.treap import Treap
 from tree_util import assert_binary_search_tree, get_binary_tree_keys, assert_avl_tree, \
-    assert_parent_pointers_consistent, assert_treap, assert_red_black_tree
+    assert_parent_pointers_consistent, assert_treap, assert_red_black_tree, get_random_red_black_tree
+
+
+def calculate_black_height(node):
+    black_height = 0
+    while node is not None:
+        if node.color == Black:
+            black_height += 1
+        node = node.left  # it doesn't matter which path we choose as long as the tree fulfills property 5
+    return black_height
 
 
 class Solutions13Test(TestCase):
@@ -45,6 +55,21 @@ class Solutions13Test(TestCase):
             assert_that(actual_keys_before_insertion, contains_inanyorder(*keys[:i]))
             assert_that(actual_keys_after_insertion, contains_inanyorder(*keys[:i + 1]))
             tree = new_tree
+
+    def test_rb_join(self):
+        tree1, _, keys1 = get_random_red_black_tree(black_height=random.randint(0, 4), max_value=999, sentinel=None)
+        tree1.bh = calculate_black_height(tree1.root)
+        middle_key = random.randint(1000, 1999)
+        x = Node(middle_key)
+        tree2, _, keys2 = get_random_red_black_tree(black_height=random.randint(0, 4), min_value=2000, max_value=2999,
+                                                    sentinel=None)
+        tree2.bh = calculate_black_height(tree2.root)
+
+        actual_joined_tree = rb_join(tree1, x, tree2)
+
+        assert_red_black_tree(actual_joined_tree)
+        actual_keys = get_binary_tree_keys(actual_joined_tree)
+        assert_that(actual_keys, contains_inanyorder(*(keys1 + [middle_key] + keys2)))
 
     def test_avl_insert(self):
 

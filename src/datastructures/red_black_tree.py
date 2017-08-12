@@ -13,16 +13,16 @@ class Node(bt.Node):
 
 
 class RedBlackTree(bt.BinaryTree):
-    def __init__(self, root=None, nil=Node(None)):
+    def __init__(self, root=None, sentinel=Node(None)):
         super().__init__(root)
-        self.nil = nil
-        if nil is not None:
+        self.nil = sentinel
+        if sentinel is not None:
             self.nil.left = self.nil.right = self.nil.p = self.nil
         if root is None:
             self.root = self.nil
         else:
             self.root.p = self.nil
-            if nil is not None:
+            if sentinel is not None:
                 self._assign_sentinel_to_empty_children(root)
 
     def _assign_sentinel_to_empty_children(self, node):

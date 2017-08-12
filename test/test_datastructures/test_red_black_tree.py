@@ -15,7 +15,7 @@ class RedBlackTreeTest(TestCase):
         assert_that(tree.nil.color, is_(Black))
 
     def test_create_empty_red_black_tree_without_sentinel(self):
-        tree = RedBlackTree(nil=None)
+        tree = RedBlackTree(sentinel=None)
 
         assert_that(tree.root, is_(none()))
         assert_that(tree.nil, is_(none()))
