@@ -1,6 +1,6 @@
 from chapter13.ex13_2_1 import right_rotate
-from chapter13.textbook import left_rotate
-from datastructures.red_black_tree import Black, RedBlackTree, Red
+from chapter13.textbook import left_rotate, rb_successor
+from datastructures.red_black_tree import Black, RedBlackTree, Red, Node
 
 
 def rb_join_point(T1, T2):
@@ -33,7 +33,7 @@ def rb_join(T1, x, T2):
     T = RedBlackTree(sentinel=None)
     if T1.bh >= T2.bh:
         if T2.root is None:
-            _rb_insert(T1, x)
+            joinable_rb_insert(T1, x)
             return T1
         T.root = x
         T.bh = T1.bh
@@ -50,7 +50,7 @@ def rb_join(T1, x, T2):
         T2.root.p = y.p = x
     else:
         if T1.root is None:
-            _rb_insert(T2, x)
+            joinable_rb_insert(T2, x)
             return T2
         T.root = x
         T.bh = T2.bh
@@ -66,11 +66,11 @@ def rb_join(T1, x, T2):
             x.p = y.p
         T1.root.p = y.p = x
     x.color = Red
-    _rb_insert_fixup(T, x)
+    joinable_rb_insert_fixup(T, x)
     return T
 
 
-def _rb_insert(T, z):
+def joinable_rb_insert(T, z):
     y = None
     x = T.root
     while x is not None:
@@ -90,10 +90,10 @@ def _rb_insert(T, z):
     z.left = None
     z.right = None
     z.color = Red
-    _rb_insert_fixup(T, z)
+    joinable_rb_insert_fixup(T, z)
 
 
-def _rb_insert_fixup(T, z):
+def joinable_rb_insert_fixup(T, z):
     while z.p is not None and z.p.color == Red:
         if z.p is z.p.p.left:
             y = z.p.p.right
@@ -126,3 +126,94 @@ def _rb_insert_fixup(T, z):
     if T.root.color == Red:
         T.bh = T.bh + 1
     T.root.color = Black
+
+
+def joinable_rb_delete(T, z):
+    if z.left is None or z.right is None:
+        y = z
+    else:
+        y = rb_successor(z)
+    if y.left is not None:
+        x = y.left
+    else:
+        x = y.right
+    if x is None:
+        x = Node(None)  # create a dummy node that will mimic sentinel
+    x.p = y.p
+    if y.p is None:
+        T.root = x
+    else:
+        if y is y.p.left:
+            y.p.left = x
+        else:
+            y.p.right = x
+    if y is not z:
+        z.key = y.key
+        z.data = y.data
+    if y.color == Black:
+        joinable_rb_delete_fixup(T, x)
+    if x.key is None:  # if x is the dummy node replace it with None
+        if x is T.root:
+            T.root = None
+            T.bh = 0
+        else:
+            if x is x.p.left:
+                x.p.left = None
+            else:
+                x.p.right = None
+    return y
+
+
+def joinable_rb_delete_fixup(T, x):
+    while x is not T.root and x.color == Black:
+        if x is x.p.left:
+            w = x.p.right
+            if w.color == Red:
+                w.color = Black
+                x.p.color = Red
+                left_rotate(T, x.p)
+                w = x.p.right
+            if (w.left is None or w.left.color == Black) and (w.right is None or w.right.color == Black):
+                w.color = Red
+                x = x.p
+                if x is T.root:
+                    T.bh = T.bh - 1
+            else:
+                if w.right is None or w.right.color == Black:
+                    if w.left is not None:
+                        w.left.color = Black
+                    w.color = Red
+                    right_rotate(T, w)
+                    w = x.p.right
+                w.color = x.p.color
+                x.p.color = Black
+                if w.right is not None:
+                    w.right.color = Black
+                left_rotate(T, x.p)
+                x = T.root
+        else:
+            w = x.p.left
+            if w.color == Red:
+                w.color = Black
+                x.p.color = Red
+                right_rotate(T, x.p)
+                w = x.p.left
+            if (w.right is None or w.right.color == Black) and (w.left is None or w.left.color == Black):
+                w.color = Red
+                x = x.p
+                if x is T.root:
+                    T.bh = T.bh - 1
+            else:
+                if w.left is None or w.left.color == Black:
+                    if w.right is not None:
+                        w.right.color = Black
+                    w.color = Red
+                    left_rotate(T, w)
+                    w = x.p.left
+                w.color = x.p.color
+                x.p.color = Black
+                if w.left is not None:
+                    w.left.color = Black
+                right_rotate(T, x.p)
+                x = T.root
+    x.color = Black

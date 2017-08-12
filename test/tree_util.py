@@ -129,7 +129,8 @@ def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
 
 
 def assert_red_black_tree(tree, sentinel=None):
-    assert_that(tree.root.color, is_(Black))
+    if tree.root is not None:
+        assert_that(tree.root.color, is_(Black))
     if sentinel is not None:
         assert_that(tree.nil.color, is_(Black))
     if tree.root is not sentinel:

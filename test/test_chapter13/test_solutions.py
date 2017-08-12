@@ -5,7 +5,7 @@ from hamcrest import *
 
 from chapter13.ex13_3_6 import rb_parentless_insert
 from chapter13.pr13_1 import persistent_tree_insert
-from chapter13.pr13_2 import rb_join
+from chapter13.pr13_2 import rb_join, joinable_rb_delete, joinable_rb_insert
 from chapter13.pr13_3 import avl_insert_wrapper
 from chapter13.pr13_4 import treap_insert
 from datastructures import avl_tree as avl, treap as tp
@@ -55,6 +55,44 @@ class Solutions13Test(TestCase):
             assert_that(actual_keys_before_insertion, contains_inanyorder(*keys[:i]))
             assert_that(actual_keys_after_insertion, contains_inanyorder(*keys[:i + 1]))
             tree = new_tree
+
+    def test_joinable_rb_insert(self):
+        keys = [random.randrange(1000) for _ in range(20)]
+        tree = RedBlackTree(sentinel=None)
+        tree.bh = 0
+
+        for key in keys:
+
+            joinable_rb_insert(tree, Node(key))
+
+            assert_red_black_tree(tree)
+            assert_parent_pointers_consistent(tree)
+
+        actual_keys = get_binary_tree_keys(tree)
+        assert_that(actual_keys, contains_inanyorder(*keys))
+        actual_black_height = calculate_black_height(tree.root)
+        assert_that(tree.bh, is_(equal_to(actual_black_height)))
+
+    def test_joinable_rb_delete(self):
+        tree, nodes, keys = get_random_red_black_tree(black_height=4, sentinel=None)
+        tree.bh = calculate_black_height(tree.root)
+        random.shuffle(nodes)
+
+        for i, node in enumerate(nodes):
+            keys.remove(node.key)
+
+            y = joinable_rb_delete(tree, node)
+
+            if y is not node:
+                # this means that rb_delete actually removed the node's successor so we need to swap them in nodes list
+                j = nodes.index(y)
+                nodes[i], nodes[j] = nodes[j], nodes[i]
+            assert_red_black_tree(tree)
+            assert_parent_pointers_consistent(tree)
+            actual_keys = get_binary_tree_keys(tree)
+            assert_that(actual_keys, contains_inanyorder(*keys))
+            actual_black_height = calculate_black_height(tree.root)
+            assert_that(tree.bh, is_(equal_to(actual_black_height)))
 
     def test_rb_join(self):
         tree1, _, keys1 = get_random_red_black_tree(black_height=random.randint(0, 4), max_value=999, sentinel=None)
