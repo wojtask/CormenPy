@@ -1,4 +1,4 @@
-from chapter13.textbook import rb_tree_successor
+from chapter13.textbook import rb_successor
 from datastructures.red_black_tree import Red, Black
 
 
@@ -122,7 +122,7 @@ def os_delete(T, z):
     if z.left is T.nil or z.right is T.nil:
         y = z
     else:
-        y = rb_tree_successor(T, z)
+        y = rb_successor(z, T.nil)
     if y.left is not T.nil:
         x = y.left
     else:

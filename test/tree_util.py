@@ -127,31 +127,32 @@ def _create_red_node_in_subtree(black_height, nodes, min_value, max_value):
     return subtree_root
 
 
-def assert_red_black_tree(tree):
+def assert_red_black_tree(tree, sentinel=None):
     assert_that(tree.root.color, is_(Black))
-    assert_that(tree.nil.color, is_(Black))
-    if tree.root is not tree.nil:
-        assert_binary_search_tree(tree, sentinel=tree.nil)
-        _assert_red_black_property_4(tree.root, tree.nil)
-        _assert_red_black_property_5(tree.root, tree.nil)
+    if sentinel is tree.nil:
+        assert_that(tree.nil.color, is_(Black))
+    if tree.root is not sentinel:
+        assert_binary_search_tree(tree, sentinel)
+        _assert_red_black_property_4(tree.root, sentinel)
+        _assert_red_black_property_5(tree.root, sentinel)
 
 
-def _assert_red_black_property_4(node, nil):
+def _assert_red_black_property_4(node, sentinel):
     if node.color == Red:
         assert_that(node.left.color, is_(Black))
         assert_that(node.right.color, is_(Black))
-    if node.left is not nil:
-        _assert_red_black_property_4(node.left, nil)
-    if node.right is not nil:
-        _assert_red_black_property_4(node.right, nil)
+    if node.left is not sentinel:
+        _assert_red_black_property_4(node.left, sentinel)
+    if node.right is not sentinel:
+        _assert_red_black_property_4(node.right, sentinel)
 
 
-def _assert_red_black_property_5(node, nil):
+def _assert_red_black_property_5(node, sentinel):
     left_bh = right_bh = 0
-    if node.left is not nil:
-        left_bh = _assert_red_black_property_5(node.left, nil) + node.left.color
-    if node.right is not nil:
-        right_bh = _assert_red_black_property_5(node.right, nil) + node.right.color
+    if node.left is not sentinel:
+        left_bh = _assert_red_black_property_5(node.left, sentinel) + node.left.color
+    if node.right is not sentinel:
+        right_bh = _assert_red_black_property_5(node.right, sentinel) + node.right.color
     assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
 
@@ -209,14 +210,14 @@ def _initialize_sizes_in_os_subtree(node, sentinel):
 
 
 def assert_os_tree(tree):
-    assert_red_black_tree(tree)
+    assert_red_black_tree(tree, sentinel=tree.nil)
     if tree.root is not tree.nil:
         _assert_os_subtree(tree.root, tree.nil)
 
 
-def _assert_os_subtree(node, nil):
+def _assert_os_subtree(node, sentinel):
     assert_that(node.size, is_(equal_to(node.left.size + node.right.size + 1)))
-    if node.left is not nil:
-        _assert_os_subtree(node.left, nil)
-    if node.right is not nil:
-        _assert_os_subtree(node.right, nil)
+    if node.left is not sentinel:
+        _assert_os_subtree(node.left, sentinel)
+    if node.right is not sentinel:
+        _assert_os_subtree(node.right, sentinel)

@@ -14,7 +14,13 @@ class RedBlackTreeTest(TestCase):
         assert_that(tree.root, is_(tree.nil))
         assert_that(tree.nil.color, is_(Black))
 
-    def test_create_binary_tree(self):
+    def test_create_empty_red_black_tree_without_sentinel(self):
+        tree = RedBlackTree(nil=None)
+
+        assert_that(tree.root, is_(none()))
+        assert_that(tree.nil, is_(none()))
+
+    def test_create_red_black_tree(self):
         left = Node(3)
         right = Node(20)
         root = Node(17, left=left, right=right)

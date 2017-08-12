@@ -1,27 +1,24 @@
 from chapter13.ex13_2_1 import right_rotate
-from datastructures.red_black_tree import RedBlackTree, Red, Black
+from datastructures.red_black_tree import Red, Black
 
 
-def rb_tree_minimum(T, x):
-    while x.left is not T.nil:
+def rb_minimum(x, sentinel=None):
+    while x.left is not sentinel:
         x = x.left
     return x
 
 
-def rb_tree_successor(T, x):
-    if x.right is not T.nil:
-        return rb_tree_minimum(T, x.right)
+def rb_successor(x, sentinel=None):
+    if x.right is not sentinel:
+        return rb_minimum(x.right, sentinel)
     y = x.p
-    while y is not T.nil and x is y.right:
+    while y is not sentinel and x is y.right:
         x = y
         y = y.p
     return y
 
 
-def left_rotate(T, x):
-    # make sure the function works correctly for binary search trees and for red-black trees
-    sentinel = T.nil if isinstance(T, RedBlackTree) else None
-
+def left_rotate(T, x, sentinel=None):
     y = x.right
     x.right = y.left
     if y.left is not sentinel:
@@ -38,30 +35,30 @@ def left_rotate(T, x):
     x.p = y
 
 
-def rb_insert(T, z):
-    y = T.nil
+def rb_insert(T, z, sentinel=None):
+    y = sentinel
     x = T.root
-    while x is not T.nil:
+    while x is not sentinel:
         y = x
         if z.key < x.key:
             x = x.left
         else:
             x = x.right
     z.p = y
-    if y is T.nil:
+    if y is sentinel:
         T.root = z
     else:
         if z.key < y.key:
             y.left = z
         else:
             y.right = z
-    z.left = T.nil
-    z.right = T.nil
+    z.left = sentinel
+    z.right = sentinel
     z.color = Red
-    rb_insert_fixup(T, z)
+    rb_insert_fixup(T, z, sentinel)
 
 
-def rb_insert_fixup(T, z):
+def rb_insert_fixup(T, z, sentinel=None):
     while z.p.color == Red:
         if z.p is z.p.p.left:
             y = z.p.p.right
@@ -73,10 +70,10 @@ def rb_insert_fixup(T, z):
             else:
                 if z is z.p.right:
                     z = z.p
-                    left_rotate(T, z)
+                    left_rotate(T, z, sentinel)
                 z.p.color = Black
                 z.p.p.color = Red
-                right_rotate(T, z.p.p)
+                right_rotate(T, z.p.p, sentinel)
         else:
             y = z.p.p.left
             if y.color == Red:
@@ -87,24 +84,24 @@ def rb_insert_fixup(T, z):
             else:
                 if z is z.p.left:
                     z = z.p
-                    right_rotate(T, z)
+                    right_rotate(T, z, sentinel)
                 z.p.color = Black
                 z.p.p.color = Red
-                left_rotate(T, z.p.p)
+                left_rotate(T, z.p.p, sentinel)
     T.root.color = Black
 
 
-def rb_delete(T, z):
-    if z.left is T.nil or z.right is T.nil:
+def rb_delete(T, z, sentinel=None):
+    if z.left is sentinel or z.right is sentinel:
         y = z
     else:
-        y = rb_tree_successor(T, z)
-    if y.left is not T.nil:
+        y = rb_successor(z, sentinel)
+    if y.left is not sentinel:
         x = y.left
     else:
         x = y.right
     x.p = y.p
-    if y.p is T.nil:
+    if y.p is sentinel:
         T.root = x
     else:
         if y is y.p.left:
@@ -115,18 +112,18 @@ def rb_delete(T, z):
         z.key = y.key
         z.data = y.data
     if y.color == Black:
-        rb_delete_fixup(T, x)
+        rb_delete_fixup(T, x, sentinel)
     return y
 
 
-def rb_delete_fixup(T, x):
+def rb_delete_fixup(T, x, sentinel=None):
     while x is not T.root and x.color == Black:
         if x is x.p.left:
             w = x.p.right
             if w.color == Red:
                 w.color = Black
                 x.p.color = Red
-                left_rotate(T, x.p)
+                left_rotate(T, x.p, sentinel)
                 w = x.p.right
             if w.left.color == Black and w.right.color == Black:
                 w.color = Red
@@ -135,19 +132,19 @@ def rb_delete_fixup(T, x):
                 if w.right.color == Black:
                     w.left.color = Black
                     w.color = Red
-                    right_rotate(T, w)
+                    right_rotate(T, w, sentinel)
                     w = x.p.right
                 w.color = x.p.color
                 x.p.color = Black
                 w.right.color = Black
-                left_rotate(T, x.p)
+                left_rotate(T, x.p, sentinel)
                 x = T.root
         else:
             w = x.p.left
             if w.color == Red:
                 w.color = Black
                 x.p.color = Red
-                right_rotate(T, x.p)
+                right_rotate(T, x.p, sentinel)
                 w = x.p.left
             if w.right.color == Black and w.left.color == Black:
                 w.color = Red
@@ -156,11 +153,11 @@ def rb_delete_fixup(T, x):
                 if w.left.color == Black:
                     w.right.color = Black
                     w.color = Red
-                    left_rotate(T, w)
+                    left_rotate(T, w, sentinel)
                     w = x.p.left
                 w.color = x.p.color
                 x.p.color = Black
                 w.left.color = Black
-                right_rotate(T, x.p)
+                right_rotate(T, x.p, sentinel)
                 x = T.root
     x.color = Black

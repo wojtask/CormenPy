@@ -26,11 +26,10 @@ class Solutions13Test(TestCase):
 
             rb_parentless_insert(tree, Node(key))
 
-            assert_red_black_tree(tree)
+            assert_red_black_tree(tree, sentinel=tree.nil)
 
         actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
         assert_that(actual_keys, contains_inanyorder(*keys))
-
 
     def test_persistent_tree_insert(self):
         keys = [random.randrange(1000) for _ in range(20)]

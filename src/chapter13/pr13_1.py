@@ -1,12 +1,13 @@
-from datastructures.binary_tree import ParentlessNode, BinaryTree
+from datastructures import binary_tree as bt
+from datastructures.binary_tree import BinaryTree
 
 
 def new_node(k):
-    return ParentlessNode(k)
+    return bt.ParentlessNode(k)
 
 
 def copy_node(x):
-    return ParentlessNode(x.key, left=x.left, right=x.right)
+    return bt.ParentlessNode(x.key, left=x.left, right=x.right)
 
 
 def persistent_subtree_insert(x, k):

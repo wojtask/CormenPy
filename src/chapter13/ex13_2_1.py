@@ -1,10 +1,4 @@
-from datastructures.red_black_tree import RedBlackTree
-
-
-def right_rotate(T, x):
-    # make sure the function works correctly for binary search trees and for red-black trees
-    sentinel = T.nil if isinstance(T, RedBlackTree) else None
-
+def right_rotate(T, x, sentinel=None):
     y = x.left
     x.left = y.right
     if y.right is not sentinel:
