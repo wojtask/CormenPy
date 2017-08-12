@@ -19,30 +19,27 @@ def _get_binary_subtree_keys(node, sentinel):
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
-    if tree_size == 0:
-        return BinaryTree(), [], []
-    nodes = []
-    tree = BinaryTree(_get_random_binary_search_subtree(tree_size, nodes, min_value=0, max_value=max_value))
-    keys = [node.key for node in nodes]
+    keys = sorted(random.sample(range(0, max_value + 1), tree_size))
+    nodes = [bt.Node(key) for key in keys]
+    tree = BinaryTree()
+    tree.root = _get_random_binary_search_subtree(nodes)
     return tree, nodes, keys
 
 
-def _get_random_binary_search_subtree(tree_size, nodes, min_value, max_value):
-    root_key = random.randint(min_value, max_value)
-    left_subtree_size = random.randint(0, tree_size - 1)
-    right_subtree_size = tree_size - 1 - left_subtree_size
-    left_subtree_root = right_subtree_root = None
-    if left_subtree_size > 0:
-        left_subtree_root = _get_random_binary_search_subtree(
-            left_subtree_size, nodes, min_value=min_value, max_value=root_key
-        )
-    if right_subtree_size > 0:
-        right_subtree_root = _get_random_binary_search_subtree(
-            right_subtree_size, nodes, min_value=root_key, max_value=max_value
-        )
-    root = bt.Node(root_key, left=left_subtree_root, right=right_subtree_root)
-    nodes.append(root)
-    return root
+def _get_random_binary_search_subtree(nodes):
+    if not nodes:
+        return None
+    i = random.randrange(len(nodes))
+    node = nodes[i]
+    left_node = _get_random_binary_search_subtree(nodes[:i])
+    if left_node is not None:
+        node.left = left_node
+        left_node.p = node
+    right_node = _get_random_binary_search_subtree(nodes[i + 1:])
+    if right_node is not None:
+        node.right = right_node
+        right_node.p = node
+    return node
 
 
 def assert_parent_pointers_consistent(tree, sentinel=None):

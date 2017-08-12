@@ -16,7 +16,7 @@ from tree_util import get_binary_tree_keys, assert_binary_search_tree, \
 class Textbook12Test(TestCase):
 
     def test_inorder_tree_walk(self):
-        tree, nodes, keys = get_random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree(min_size=0)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -81,7 +81,7 @@ class Textbook12Test(TestCase):
                 assert_that(node.key, is_not(all_of(greater_than(given_node.key), less_than(actual_successor.key))))
 
     def test_inorder_tree_walk_(self):
-        tree, nodes, keys = get_random_binary_search_tree()
+        tree, nodes, keys = get_random_binary_search_tree(min_size=0)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
