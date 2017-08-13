@@ -674,7 +674,7 @@ class Solutions10Test(TestCase):
         assert_sorted_list(heap1)
         assert_sorted_list(heap2)
 
-        expected_elements = list(sorted(set(elements1 + elements2)))
+        expected_elements = elements1 + elements2
 
         if elements1:
             actual_min = sorted_list_heap_minimum(heap1)
@@ -701,6 +701,7 @@ class Solutions10Test(TestCase):
         merged_heap = sorted_list_min_heap_union(heap1, heap2)
 
         actual_elements = get_linked_list_keys(merged_heap)
+        expected_elements = list(sorted(set(expected_elements)))
         assert_that(actual_elements, is_(equal_to(expected_elements)))
         assert_sorted_list(merged_heap)
 
@@ -716,7 +717,7 @@ class Solutions10Test(TestCase):
         for element in elements2:
             list_min_heap_insert(heap2, element)
 
-        expected_elements = list(sorted(set(elements1 + elements2)))
+        expected_elements = elements1 + elements2
 
         if elements1:
             actual_min = list_heap_minimum(heap1)
@@ -741,6 +742,7 @@ class Solutions10Test(TestCase):
         merged_heap = list_min_heap_union(heap1, heap2)
 
         actual_elements = get_linked_list_keys(merged_heap)
+        expected_elements = list(sorted(set(expected_elements)))
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_list_min_heap_disjoint_union(self):

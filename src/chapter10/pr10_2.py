@@ -94,7 +94,11 @@ def list_heap_extract_min(heap):
 
 
 def list_min_heap_union(heap1, heap2):
-    if heap1.head is not None and heap2.head is not None and heap1.head.key < heap2.head.key:
+    if heap1.head is None:
+        return heap2
+    if heap2.head is None:
+        return heap1
+    if heap1.head.key < heap2.head.key:
         new_min = heap1.head
     else:
         new_min = heap2.head
