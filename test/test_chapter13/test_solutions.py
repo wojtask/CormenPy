@@ -14,13 +14,8 @@ from datastructures.binary_tree import BinaryTree
 from datastructures.red_black_tree import RedBlackTree, Node, Black, ParentlessNode
 from datastructures.treap import Treap
 from tree_util import assert_binary_search_tree, get_binary_tree_keys, assert_avl_tree, \
-    assert_parent_pointers_consistent, assert_treap, assert_red_black_tree, get_random_red_black_tree
-
-
-def get_rb_tree_nodes(node, sentinel):
-    if node is sentinel:
-        return []
-    return [node] + get_rb_tree_nodes(node.left, sentinel) + get_rb_tree_nodes(node.right, sentinel)
+    assert_parent_pointers_consistent, assert_treap, assert_red_black_tree, get_random_red_black_tree, \
+    get_binary_tree_nodes
 
 
 def transform_tree_to_parentless_tree(tree):
@@ -93,7 +88,7 @@ class Solutions13Test(TestCase):
     def test_persistent_rb_delete(self):
         tree, _, keys = get_random_red_black_tree()
         transform_tree_to_parentless_tree(tree)
-        nodes = get_rb_tree_nodes(tree.root, tree.nil)
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
         while nodes:
             node = random.choice(nodes)
@@ -107,7 +102,7 @@ class Solutions13Test(TestCase):
             keys.remove(node.key)
             assert_that(actual_keys_after_insertion, contains_inanyorder(*keys))
             tree = new_tree
-            nodes = get_rb_tree_nodes(tree.root, sentinel=tree.nil)
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
     def test_joinable_rb_insert(self):
         keys = [random.randrange(1000) for _ in range(20)]
@@ -127,33 +122,32 @@ class Solutions13Test(TestCase):
         assert_that(tree.bh, is_(equal_to(actual_black_height)))
 
     def test_joinable_rb_delete(self):
-        tree, nodes, keys = get_random_red_black_tree(sentinel=None)
+        tree, _, keys = get_random_red_black_tree(sentinel=None)
         tree.bh = calculate_black_height(tree.root)
-        random.shuffle(nodes)
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
-        for i, node in enumerate(nodes):
+        while nodes:
+            node = random.choice(nodes)
             keys.remove(node.key)
 
-            y = joinable_rb_delete(tree, node)
+            joinable_rb_delete(tree, node)
 
-            if y is not node:
-                # this means that rb_delete actually removed the node's successor so we need to swap them in nodes list
-                j = nodes.index(y)
-                nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_red_black_tree(tree)
             assert_parent_pointers_consistent(tree)
             actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
             actual_black_height = calculate_black_height(tree.root)
             assert_that(tree.bh, is_(equal_to(actual_black_height)))
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
     def test_rb_join(self):
-        tree1, _, keys1 = get_random_red_black_tree(black_height=random.randint(0, 4), max_value=999, sentinel=None)
+        tree1, _, keys1 = get_random_red_black_tree(black_height=random.randint(0, 4),
+                                                    min_value=0, max_value=999, sentinel=None)
         tree1.bh = calculate_black_height(tree1.root)
         middle_key = random.randint(1000, 1999)
         x = Node(middle_key)
-        tree2, _, keys2 = get_random_red_black_tree(black_height=random.randint(0, 4), min_value=2000, max_value=2999,
-                                                    sentinel=None)
+        tree2, _, keys2 = get_random_red_black_tree(black_height=random.randint(0, 4),
+                                                    min_value=2000, max_value=2999, sentinel=None)
         tree2.bh = calculate_black_height(tree2.root)
 
         actual_joined_tree = rb_join(tree1, x, tree2)

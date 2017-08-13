@@ -8,13 +8,7 @@ from chapter14.ex14_1_3 import iterative_os_select
 from chapter14.ex14_1_4 import os_key_rank
 from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
-from tree_util import get_random_os_tree
-
-
-def inorder_rb_tree_nodes(x, sentinel):
-    if x is not sentinel:
-        return inorder_rb_tree_nodes(x.left, sentinel) + [x] + inorder_rb_tree_nodes(x.right, sentinel)
-    return []
+from tree_util import get_random_os_tree, get_binary_tree_nodes
 
 
 class Solutions14Test(TestCase):
@@ -41,7 +35,7 @@ class Solutions14Test(TestCase):
 
     def test_os_successor(self):
         tree, nodes, keys = get_random_os_tree()
-        inorder_nodes = inorder_rb_tree_nodes(tree.root, tree.nil)
+        inorder_nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
         j = random.randrange(len(inorder_nodes))
         i = random.randrange(0, len(nodes) - j)
 

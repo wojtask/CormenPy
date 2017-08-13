@@ -5,8 +5,8 @@ from hamcrest import *
 
 from chapter14.textbook import os_insert, os_delete, os_select, os_rank
 from datastructures.red_black_tree import RedBlackTree, OSNode
-from tree_util import assert_parent_pointers_consistent, get_binary_tree_keys, assert_os_tree, \
-    get_random_os_tree
+from tree_util import assert_parent_pointers_consistent, get_binary_tree_keys, assert_os_tree, get_random_os_tree, \
+    get_binary_tree_nodes
 
 
 class Textbook14Test(TestCase):
@@ -46,19 +46,17 @@ class Textbook14Test(TestCase):
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_os_delete(self):
-        tree, nodes, keys = get_random_os_tree()
-        random.shuffle(nodes)
+        tree, _, keys = get_random_os_tree()
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
-        for i, node in enumerate(nodes):
+        while nodes:
+            node = random.choice(nodes)
             keys.remove(node.key)
 
-            y = os_delete(tree, node)
+            os_delete(tree, node)
 
-            if y is not node:
-                # this means that os_delete actually removed the node's successor so we need to swap them in nodes list
-                j = nodes.index(y)
-                nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
             actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)

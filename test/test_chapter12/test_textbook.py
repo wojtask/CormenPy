@@ -10,7 +10,7 @@ from chapter12.textbook import inorder_tree_walk, tree_search, iterative_tree_se
     tree_successor, inorder_tree_walk_, tree_insert, tree_delete, inorder_sort
 from datastructures.binary_tree import BinaryTree, Node
 from tree_util import get_binary_tree_keys, assert_binary_search_tree, \
-    assert_parent_pointers_consistent, get_random_binary_search_tree
+    assert_parent_pointers_consistent, get_random_binary_search_tree, get_binary_tree_nodes
 
 
 class Textbook12Test(TestCase):
@@ -106,22 +106,20 @@ class Textbook12Test(TestCase):
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_tree_delete(self):
-        tree, nodes, keys = get_random_binary_search_tree()
-        random.shuffle(nodes)
+        tree, _, keys = get_random_binary_search_tree()
+        nodes = get_binary_tree_nodes(tree)
 
-        for i, node in enumerate(nodes):
+        while nodes:
+            node = random.choice(nodes)
             keys.remove(node.key)
 
-            y = tree_delete(tree, node)
+            tree_delete(tree, node)
 
-            if y is not node:
-                # this means that tree_delete actually removed the node's successor so we need to swap them in the list
-                j = nodes.index(y)
-                nodes[i], nodes[j] = nodes[j], nodes[i]
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
             actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
+            nodes = get_binary_tree_nodes(tree)
 
     def test_inorder_sort(self):
         array, elements = get_random_array()

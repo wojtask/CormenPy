@@ -15,7 +15,17 @@ def get_binary_tree_keys(tree, sentinel=None):
 def _get_binary_subtree_keys(node, sentinel):
     if node is sentinel:
         return []
-    return [node.key] + _get_binary_subtree_keys(node.left, sentinel) + _get_binary_subtree_keys(node.right, sentinel)
+    return _get_binary_subtree_keys(node.left, sentinel) + [node.key] + _get_binary_subtree_keys(node.right, sentinel)
+
+
+def get_binary_tree_nodes(tree, sentinel=None):
+    return _get_binary_subtree_nodes(tree.root, sentinel)
+
+
+def _get_binary_subtree_nodes(node, sentinel):
+    if node is sentinel:
+        return []
+    return _get_binary_subtree_nodes(node.left, sentinel) + [node] + _get_binary_subtree_nodes(node.right, sentinel)
 
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):

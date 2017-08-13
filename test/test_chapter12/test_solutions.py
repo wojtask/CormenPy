@@ -16,8 +16,8 @@ from chapter12.pr12_2 import bit_strings_sort
 from chapter12.pr12_3 import randomly_built_tree_quicksort
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree, Node
-from tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, \
-    get_binary_tree_keys, get_random_binary_search_tree
+from tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, get_binary_tree_keys, \
+    get_random_binary_search_tree, get_binary_tree_nodes
 
 
 def random_bit_string():
@@ -111,23 +111,20 @@ class Solutions12Test(TestCase):
             assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_fair_tree_delete(self):
-        tree, nodes, keys = get_random_binary_search_tree()
-        random.shuffle(nodes)
+        tree, _, keys = get_random_binary_search_tree()
+        nodes = get_binary_tree_nodes(tree)
 
-        for i, node in enumerate(nodes):
+        while nodes:
+            node = random.choice(nodes)
             keys.remove(node.key)
 
-            y = fair_tree_delete(tree, node)
-
-            if y != node:
-                # this means that tree_delete actually removed the node's successor so we need to swap them in the list
-                j = nodes.index(y)
-                nodes[i], nodes[j] = nodes[j], nodes[i]
+            fair_tree_delete(tree, node)
 
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
             actual_keys = get_binary_tree_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*keys))
+            nodes = get_binary_tree_nodes(tree)
 
     def test_bit_strings_sort(self):
         n = random.randint(1, 20)
