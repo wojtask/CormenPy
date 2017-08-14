@@ -1,4 +1,7 @@
+import io
 import random
+import re
+from contextlib import redirect_stdout
 from unittest import TestCase
 
 from hamcrest import *
@@ -11,6 +14,7 @@ from chapter14.ex14_1_7 import os_count_inversions
 from chapter14.ex14_3_1 import interval_left_rotate
 from chapter14.ex14_3_2 import open_interval_search, open_overlap
 from chapter14.ex14_3_3 import min_interval_search
+from chapter14.ex14_3_4 import interval_search_all
 from chapter14.textbook import overlap
 from datastructures.interval import Interval
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
@@ -115,3 +119,26 @@ class Solutions14Test(TestCase):
         else:
             for node in nodes:
                 assert_that(not_(overlap(node.int, interval)))
+
+    def test_interval_search_all(self):
+        tree, nodes, keys = get_random_interval_tree()
+        low_endpoint = random.randint(0, 899)
+        high_endpoint = low_endpoint + random.randint(0, 100)
+        endpoints = [low_endpoint, high_endpoint]
+        interval = Interval(min(endpoints), max(endpoints))
+
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            interval_search_all(tree, tree.root, interval)
+
+        actual_output = captured_output.getvalue().splitlines()
+        actual_intervals = []
+        p = re.compile('\[(\d+), (\d+)\]')
+        for line in actual_output:
+            m = p.match(line)
+            i = Interval(int(m.group(1)), int(m.group(2)))
+            actual_intervals.append(i)
+
+        for actual_interval in actual_intervals:
+            assert_that(overlap(actual_interval, interval))
