@@ -9,6 +9,8 @@ from chapter14.ex14_1_4 import os_key_rank
 from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
 from chapter14.ex14_3_1 import interval_left_rotate
+from chapter14.ex14_3_2 import open_interval_search, open_overlap
+from datastructures.interval import Interval
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
 
 
@@ -78,3 +80,18 @@ class Solutions14Test(TestCase):
         node_parent = node.p
         expected_node_parent_max = max(node_parent.int.high, node.max, node_parent.right.max)
         assert_that(node_parent.max, is_(equal_to(expected_node_parent_max)))
+
+    def test_open_interval_search(self):
+        tree, nodes, keys = get_random_interval_tree()
+        low_endpoint = random.randint(0, 949)
+        high_endpoint = low_endpoint + random.randint(0, 50)
+        endpoints = [low_endpoint, high_endpoint]
+        interval = Interval(min(endpoints), max(endpoints))
+
+        actual_found = open_interval_search(tree, interval)
+
+        if actual_found is not tree.nil:
+            assert_that(open_overlap(actual_found.int, interval))
+        else:
+            for node in nodes:
+                assert_that(not_(open_overlap(node.int, interval)))
