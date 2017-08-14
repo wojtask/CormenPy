@@ -8,7 +8,20 @@ from chapter14.ex14_1_3 import iterative_os_select
 from chapter14.ex14_1_4 import os_key_rank
 from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
-from tree_util import get_random_os_tree, get_binary_tree_nodes
+from chapter14.ex14_3_1 import interval_left_rotate
+from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
+
+
+def pick_node_with_right_child(nodes, tree):
+    random.shuffle(nodes)
+    node = tree.nil
+    i = 0
+    while i < len(nodes):
+        node = nodes[i]
+        if node.right is not tree.nil:
+            break
+        i += 1
+    return node
 
 
 class Solutions14Test(TestCase):
@@ -51,3 +64,17 @@ class Solutions14Test(TestCase):
 
         expected_inversions = sum(len([y for y in elements[i + 1:] if y < x]) for i, x in enumerate(elements))
         assert_that(actual_inversions, is_(equal_to(expected_inversions)))
+
+    def test_interval_left_rotate(self):
+        tree, nodes, keys = get_random_interval_tree()
+        node = pick_node_with_right_child(nodes, tree)  # node is for sure != tree.nil as the tree has black_height = 3
+
+        interval_left_rotate(tree, node)
+
+        actual_inorder_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
+        assert_that(actual_inorder_keys, is_(equal_to(sorted(keys))))
+        expected_node_max = max(node.int.high, node.left.max, node.right.max)
+        assert_that(node.max, is_(equal_to(expected_node_max)))
+        node_parent = node.p
+        expected_node_parent_max = max(node_parent.int.high, node.max, node_parent.right.max)
+        assert_that(node_parent.max, is_(equal_to(expected_node_parent_max)))
