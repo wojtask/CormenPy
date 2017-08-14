@@ -1,10 +1,12 @@
 import random
 
+import math
 from hamcrest import *
 
 from array_util import get_random_unique_array
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.binary_tree import BinaryTree
+from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, Red, Black
 
 
@@ -205,23 +207,23 @@ def _assert_subtreap(node):
 
 
 def get_random_os_tree(black_height=3, max_value=999):
-    tree, nodes, keys = get_random_red_black_tree(black_height, max_value=max_value)
-    _initialize_sizes_in_os_tree(tree)
+    tree, nodes, keys = get_random_red_black_tree(black_height, max_value=max_value, sentinel=rb.OSNode(None))
+    _augment_to_os_tree(tree)
     return tree, nodes, keys
 
 
-def _initialize_sizes_in_os_tree(tree):
+def _augment_to_os_tree(tree):
     tree.nil.size = 0
     if tree.root is not tree.nil:
-        _initialize_sizes_in_os_subtree(tree.root, tree.nil)
+        _augment_to_os_subtree(tree.root, tree.nil)
 
 
-def _initialize_sizes_in_os_subtree(node, sentinel):
+def _augment_to_os_subtree(node, sentinel):
     left_size = right_size = 0
     if node.left is not sentinel:
-        left_size = _initialize_sizes_in_os_subtree(node.left, sentinel)
+        left_size = _augment_to_os_subtree(node.left, sentinel)
     if node.right is not sentinel:
-        right_size = _initialize_sizes_in_os_subtree(node.right, sentinel)
+        right_size = _augment_to_os_subtree(node.right, sentinel)
     node.size = left_size + right_size + 1
     return node.size
 
@@ -238,3 +240,39 @@ def _assert_os_subtree(node, sentinel):
         _assert_os_subtree(node.left, sentinel)
     if node.right is not sentinel:
         _assert_os_subtree(node.right, sentinel)
+
+
+def get_random_interval_tree(black_height=3, max_value=999):
+    # we treat max_value as the upper bound for high endpoints
+    # the procedure is generating intervals at most (.1 * max_value) units wide
+    tree, nodes, keys = get_random_red_black_tree(black_height, max_value=int(.9 * max_value),
+                                                  sentinel=rb.IntervalNode(None, None))
+    _fill_subtree_with_intervals(tree.root, max_value, sentinel=tree.nil)
+    _augment_to_interval_tree(tree)
+    return tree, nodes, keys
+
+
+def _fill_subtree_with_intervals(node, max_value, sentinel):
+    if node is sentinel:
+        return
+    low_endpoint = node.key
+    high_endpoint = random.randint(low_endpoint, low_endpoint + int(.1 * max_value))
+    node.int = Interval(node.key, high_endpoint)
+    _fill_subtree_with_intervals(node.left, max_value, sentinel)
+    _fill_subtree_with_intervals(node.right, max_value, sentinel)
+
+
+def _augment_to_interval_tree(tree):
+    tree.nil.max = -math.inf
+    if tree.root is not tree.nil:
+        _augment_to_interval_subtree(tree.root, tree.nil)
+
+
+def _augment_to_interval_subtree(node, sentinel):
+    max_left = max_right = -math.inf
+    if node.left is not sentinel:
+        max_left = _augment_to_interval_subtree(node.left, sentinel)
+    if node.right is not sentinel:
+        max_right = _augment_to_interval_subtree(node.right, sentinel)
+    node.max = max(node.int.high, max_left, max_right)
+    return node.max

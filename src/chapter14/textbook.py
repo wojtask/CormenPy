@@ -197,13 +197,13 @@ def os_delete_fixup(T, x):
     x.color = Black
 
 
-def _overlap(i, i_):
+def overlap(i, i_):
     return i.low <= i_.high and i_.low <= i.high
 
 
 def interval_search(T, i):
     x = T.root
-    while x is not T.nil and not _overlap(i, x.int):
+    while x is not T.nil and not overlap(i, x.int):
         if x.left is not T.nil and x.left.max >= i.low:
             x = x.left
         else:

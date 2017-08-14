@@ -17,7 +17,7 @@ class RedBlackTree(bt.BinaryTree):
         super().__init__(root)
         self.nil = sentinel
         if sentinel is not None:
-            self.nil.left = self.nil.right = self.nil.p = self.nil
+            self.nil.left = self.nil.right = self.nil
         if root is None:
             self.root = self.nil
         else:

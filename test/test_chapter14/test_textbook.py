@@ -3,10 +3,11 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter14.textbook import os_insert, os_delete, os_select, os_rank
+from chapter14.textbook import os_insert, os_delete, os_select, os_rank, interval_search, overlap
+from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, OSNode
 from tree_util import assert_parent_pointers_consistent, get_binary_tree_keys, assert_os_tree, get_random_os_tree, \
-    get_binary_tree_nodes
+    get_binary_tree_nodes, get_random_interval_tree
 
 
 class Textbook14Test(TestCase):
@@ -60,3 +61,18 @@ class Textbook14Test(TestCase):
             actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))
             nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+    def test_interval_search(self):
+        tree, nodes, keys = get_random_interval_tree()
+        low_endpoint = random.randint(0, 949)
+        high_endpoint = low_endpoint + random.randint(0, 50)
+        endpoints = [low_endpoint, high_endpoint]
+        interval = Interval(min(endpoints), max(endpoints))
+
+        actual_found = interval_search(tree, interval)
+
+        if actual_found is not tree.nil:
+            assert_that(overlap(actual_found.int, interval))
+        else:
+            for node in nodes:
+                assert_that(not_(overlap(node.int, interval)))
