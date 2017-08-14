@@ -10,6 +10,8 @@ from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
 from chapter14.ex14_3_1 import interval_left_rotate
 from chapter14.ex14_3_2 import open_interval_search, open_overlap
+from chapter14.ex14_3_3 import min_interval_search
+from chapter14.textbook import overlap
 from datastructures.interval import Interval
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
 
@@ -95,3 +97,21 @@ class Solutions14Test(TestCase):
         else:
             for node in nodes:
                 assert_that(not_(open_overlap(node.int, interval)))
+
+    def test_min_interval_search(self):
+        tree, nodes, keys = get_random_interval_tree()
+        low_endpoint = random.randint(0, 949)
+        high_endpoint = low_endpoint + random.randint(0, 50)
+        endpoints = [low_endpoint, high_endpoint]
+        interval = Interval(min(endpoints), max(endpoints))
+
+        actual_found = min_interval_search(tree, interval)
+
+        if actual_found is not tree.nil:
+            assert_that(overlap(actual_found.int, interval))
+            for node in nodes:
+                if node.int.low < actual_found.int.low:
+                    assert_that(not_(overlap(node.int, interval)))
+        else:
+            for node in nodes:
+                assert_that(not_(overlap(node.int, interval)))
