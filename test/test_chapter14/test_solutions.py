@@ -15,6 +15,7 @@ from chapter14.ex14_3_1 import interval_left_rotate
 from chapter14.ex14_3_2 import open_interval_search, open_overlap
 from chapter14.ex14_3_3 import min_interval_search
 from chapter14.ex14_3_4 import interval_search_all
+from chapter14.pr14_2 import josephus_simulate, josephus
 from chapter14.textbook import overlap
 from datastructures.interval import Interval
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
@@ -142,3 +143,39 @@ class Solutions14Test(TestCase):
 
         for actual_interval in actual_intervals:
             assert_that(overlap(actual_interval, interval))
+
+    def test_josephus_simulate(self):
+        n = random.randint(1, 20)
+        m = random.randint(1, n)
+
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            josephus_simulate(n, m)
+
+        persons = list(range(1, n + 1))
+        expected_permutation = []
+        idx = 0
+        while persons:
+            idx = (idx + m) % len(persons)
+            expected_permutation.append(persons.pop(idx))
+        actual_permutation = [int(x) for x in captured_output.getvalue().splitlines()]
+        assert_that(actual_permutation, is_(equal_to(expected_permutation)))
+
+    def test_josephus(self):
+        n = random.randint(1, 20)
+        m = random.randint(1, n)
+
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            josephus(n, m)
+
+        persons = list(range(1, n + 1))
+        expected_permutation = []
+        idx = 0
+        while persons:
+            idx = (idx + m) % len(persons)
+            expected_permutation.append(persons.pop(idx))
+        actual_permutation = [int(x) for x in captured_output.getvalue().splitlines()]
+        assert_that(actual_permutation, is_(equal_to(expected_permutation)))
