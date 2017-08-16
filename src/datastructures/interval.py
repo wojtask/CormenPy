@@ -5,3 +5,16 @@ class Interval:
 
     def __str__(self):
         return '[' + str(self.low) + ', ' + str(self.high) + ']'
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+                return self.low == other.low and self.high == other.high
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash((self.low, self.high))
