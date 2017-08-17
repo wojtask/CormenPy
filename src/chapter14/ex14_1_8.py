@@ -1,3 +1,4 @@
+from chapter13.textbook import rb_search
 from chapter14.textbook import os_insert, os_delete, os_rank
 from datastructures.array import Array
 from datastructures.red_black_tree import RedBlackTree, OSNode
@@ -5,13 +6,7 @@ from util import between
 
 
 def os_search(T, k):
-    x = T.root
-    while x is not T.nil and k != x.key:
-        if k < x.key:
-            x = x.left
-        else:
-            x = x.right
-    return x
+    return rb_search(T.root, k, sentinel=T.nil)
 
 
 def intersecting_chords(C):
