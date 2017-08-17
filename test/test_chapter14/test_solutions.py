@@ -1,4 +1,5 @@
 import io
+import math
 import random
 import re
 from contextlib import redirect_stdout
@@ -6,7 +7,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_array
+from array_util import get_random_array, get_random_unique_array
 from chapter13.textbook import rb_minimum, rb_maximum, rb_predecessor, rb_successor
 from chapter14.ex14_1_3 import iterative_os_select
 from chapter14.ex14_1_4 import os_key_rank
@@ -20,11 +21,12 @@ from chapter14.ex14_3_2 import open_interval_search, open_overlap
 from chapter14.ex14_3_3 import min_interval_search
 from chapter14.ex14_3_4 import interval_search_all
 from chapter14.ex14_3_5 import interval_search_exactly, interval_insert_exactly
+from chapter14.ex14_3_6 import min_gap_insert, min_gap, min_gap_delete, min_gap_search
 from chapter14.pr14_2 import josephus_simulate, josephus
 from chapter14.textbook import overlap
 from datastructures.array import Array
 from datastructures.interval import Interval
-from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode
+from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode, Node
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
 
 
@@ -38,6 +40,15 @@ def pick_node_with_right_child(nodes, tree):
             break
         i += 1
     return node
+
+
+def get_expected_min_gap(keys):
+    expected_min_gap = math.inf
+    for key1 in keys:
+        for key2 in keys:
+            if key1 != key2:
+                expected_min_gap = min(expected_min_gap, abs(key1 - key2))
+    return expected_min_gap
 
 
 class Solutions14Test(TestCase):
@@ -238,6 +249,36 @@ class Solutions14Test(TestCase):
         else:
             for i in intervals:
                 assert_that(interval, is_not(equal_to(i)))
+
+    def test_min_gap_tree(self):
+        _, keys = get_random_unique_array()
+        tree = RedBlackTree()
+        tree.nil.min_key = tree.nil.min_gap = math.inf
+        tree.nil.max_key = -math.inf
+
+        for key in keys:
+            min_gap_insert(tree, Node(key))
+
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+        while nodes:
+            node = random.choice(nodes)
+            key = node.key
+            keys.remove(key)
+
+            actual_found = min_gap_search(tree, key)
+            assert_that(actual_found.key, is_(equal_to(key)))
+
+            min_gap_delete(tree, node)
+
+            actual_found = min_gap_search(tree, key)
+            assert_that(actual_found, is_(tree.nil))
+
+            actual_min_gap = min_gap(tree)
+
+            expected_min_gap = get_expected_min_gap(keys)
+            assert_that(actual_min_gap, is_(equal_to(expected_min_gap)))
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
     def test_josephus_simulate(self):
         n = random.randint(1, 20)
