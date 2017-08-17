@@ -23,15 +23,10 @@ def effective_os_insert(T, z):
     y = T.nil
     x = T.root
     while x is not T.nil:
-        x.size += 1
         y = x
         if z.key < x.key:
-            if z.key < x.min.key:
-                x.min = z
             x = x.left
         else:
-            if z.key > x.max.key:
-                x.max = z
             x = x.right
     z.p = y
     if y is T.nil:
@@ -41,11 +36,14 @@ def effective_os_insert(T, z):
             y.left = z
         else:
             y.right = z
-    z.left = T.nil
-    z.right = T.nil
+    z.left = z.right = T.nil
     z.color = Red
     z.size = 1
     z.min = z.max = z
+    x = y
+    while x is not T.nil:
+        _update_additional_fields(T, x)
+        x = x.p
     effective_os_insert_fixup(T, z)
     z.pred = rb_predecessor(z, sentinel=T.nil)
     if z.pred is not T.nil:
@@ -53,6 +51,18 @@ def effective_os_insert(T, z):
     z.succ = rb_successor(z, sentinel=T.nil)
     if z.succ is not T.nil:
         z.succ.pred = z
+
+
+def _update_additional_fields(T, x):
+    x.size = x.left.size + x.right.size + 1
+    if x.left is not T.nil:
+        x.min = x.left.min
+    else:
+        x.min = x
+    if x.right is not T.nil:
+        x.max = x.right.max
+    else:
+        x.max = x
 
 
 def effective_os_insert_fixup(T, z):
@@ -90,34 +100,14 @@ def effective_os_insert_fixup(T, z):
 
 def effective_os_left_rotate(T, x):
     os_left_rotate(T, x)
-    if x.left is not T.nil:
-        x.min = x.left.min
-    else:
-        x.min = x
-    if x.right is not T.nil:
-        x.max = x.right.max
-    else:
-        x.max = x
-    y = x.p
-    y.min = x.min  # x is y's left child
-    if y.right is not T.nil:
-        y.max = y.right.max
+    _update_additional_fields(T, x)
+    _update_additional_fields(T, x.p)
 
 
 def effective_os_right_rotate(T, x):
     os_right_rotate(T, x)
-    if x.left is not T.nil:
-        x.min = x.left.min
-    else:
-        x.min = x
-    if x.right is not T.nil:
-        x.max = x.right.max
-    else:
-        x.max = x
-    y = x.p
-    if y.left is not T.nil:
-        y.min = y.left.min
-    y.max = x.max  # x is y's right child
+    _update_additional_fields(T, x)
+    _update_additional_fields(T, x.p)
 
 
 def effective_os_delete(T, z):
@@ -142,7 +132,10 @@ def effective_os_delete(T, z):
     if y is not z:
         z.key = y.key
         z.data = y.data
-    _update_additional_fields(T, y)
+    w = x.p
+    while w is not T.nil:
+        _update_additional_fields(T, w)
+        w = w.p
     if y.color == Black:
         effective_os_delete_fixup(T, x)
     if p is not T.nil:
@@ -150,20 +143,6 @@ def effective_os_delete(T, z):
     if s is not T.nil:
         s.pred = p
     return y
-
-
-def _update_additional_fields(tree, y):
-    while y is not tree.nil:
-        y.size -= 1
-        if y.left.min is not tree.nil:
-            y.min = y.left.min
-        else:
-            y.min = y
-        if y.right.max is not tree.nil:
-            y.max = y.right.max
-        else:
-            y.max = y
-        y = y.p
 
 
 def effective_os_delete_fixup(T, x):
