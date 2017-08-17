@@ -36,11 +36,12 @@ class Textbook14Test(TestCase):
         keys = [random.randrange(1000) for _ in range(20)]
         tree = RedBlackTree(sentinel=OSNode(None))
 
-        for key in keys:
+        for i, key in enumerate(keys):
 
             os_insert(tree, OSNode(key))
 
             assert_os_tree(tree)
+            assert_that(tree.root.size, is_(equal_to(i + 1)))
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
 
         actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
@@ -58,6 +59,7 @@ class Textbook14Test(TestCase):
 
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+            assert_that(tree.root.size, is_(equal_to(len(nodes) - 1)))
             actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))
             nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
