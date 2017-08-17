@@ -26,7 +26,6 @@ def os_insert(T, z):
     y = T.nil
     x = T.root
     while x is not T.nil:
-        x.size += 1
         y = x
         if z.key < x.key:
             x = x.left
@@ -40,10 +39,13 @@ def os_insert(T, z):
             y.left = z
         else:
             y.right = z
-    z.left = T.nil
-    z.right = T.nil
+    z.left = z.right = T.nil
     z.color = Red
     z.size = 1
+    x = y
+    while x is not T.nil:
+        x.size += 1
+        x = x.p
     os_insert_fixup(T, z)
 
 
@@ -138,16 +140,13 @@ def os_delete(T, z):
     if y is not z:
         z.key = y.key
         z.data = y.data
-    _update_size_fields(T, y)
+    w = x.p
+    while w is not T.nil:
+        w.size -= 1
+        w = w.p
     if y.color == Black:
         os_delete_fixup(T, x)
     return y
-
-
-def _update_size_fields(tree, y):
-    while y is not tree.nil:
-        y.size -= 1
-        y = y.p
 
 
 def os_delete_fixup(T, x):
