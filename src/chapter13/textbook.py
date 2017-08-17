@@ -8,6 +8,22 @@ def rb_minimum(x, sentinel=None):
     return x
 
 
+def rb_maximum(x, sentinel=None):
+    while x.right is not sentinel:
+        x = x.right
+    return x
+
+
+def rb_predecessor(x, sentinel=None):
+    if x.left is not sentinel:
+        return rb_maximum(x.left, sentinel)
+    y = x.p
+    while y is not sentinel and x is y.left:
+        x = y
+        y = y.p
+    return y
+
+
 def rb_successor(x, sentinel=None):
     if x.right is not sentinel:
         return rb_minimum(x.right, sentinel)

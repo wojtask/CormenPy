@@ -7,11 +7,14 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_array
+from chapter13.textbook import rb_minimum, rb_maximum, rb_predecessor, rb_successor
 from chapter14.ex14_1_3 import iterative_os_select
 from chapter14.ex14_1_4 import os_key_rank
 from chapter14.ex14_1_5 import os_successor
 from chapter14.ex14_1_7 import os_count_inversions
 from chapter14.ex14_1_8 import intersecting_chords
+from chapter14.ex14_2_1 import effective_os_insert, effective_os_delete, effective_os_minimum, effective_os_maximum, \
+    effective_os_predecessor, effective_os_successor
 from chapter14.ex14_3_1 import interval_left_rotate
 from chapter14.ex14_3_2 import open_interval_search, open_overlap
 from chapter14.ex14_3_3 import min_interval_search
@@ -21,7 +24,7 @@ from chapter14.pr14_2 import josephus_simulate, josephus
 from chapter14.textbook import overlap
 from datastructures.array import Array
 from datastructures.interval import Interval
-from datastructures.red_black_tree import RedBlackTree, IntervalNode
+from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys
 
 
@@ -97,6 +100,36 @@ class Solutions14Test(TestCase):
                 expected_intersections += outer_endpoints.count(inner_endpoint)  # count will return either 0 or 1
         expected_intersections //= 2  # each intersection was actually counted twice
         assert_that(actual_intersections, is_(equal_to(expected_intersections)))
+
+    def test_effective_os_tree(self):
+        _, keys = get_random_array()
+        tree = RedBlackTree(sentinel=OSNode(None))
+        tree.nil.min = tree.nil.max = tree.nil.pred = tree.nil.succ = tree.nil
+
+        for key in keys:
+            effective_os_insert(tree, OSNode(key))
+
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+        while nodes:
+            actual_minimum = effective_os_minimum(tree)
+            actual_maximum = effective_os_maximum(tree)
+            expected_minimum = rb_minimum(tree.root, sentinel=tree.nil)
+            expected_maximum = rb_maximum(tree.root, sentinel=tree.nil)
+            assert_that(actual_minimum, is_(expected_minimum))
+            assert_that(actual_maximum, is_(expected_maximum))
+
+            node = random.choice(nodes)
+            actual_predecessor = effective_os_predecessor(tree, node)
+            actual_successor = effective_os_successor(tree, node)
+            expected_predecessor = rb_predecessor(node, sentinel=tree.nil)
+            expected_successor = rb_successor(node, sentinel=tree.nil)
+            assert_that(actual_predecessor, is_(expected_predecessor))
+            assert_that(actual_successor, is_(expected_successor))
+
+            effective_os_delete(tree, node)
+
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
 
     def test_interval_left_rotate(self):
         tree, nodes, keys = get_random_interval_tree()
