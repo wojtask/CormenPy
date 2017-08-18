@@ -280,3 +280,17 @@ def _augment_to_interval_subtree(node, sentinel):
         max_right = _augment_to_interval_subtree(node.right, sentinel)
     node.max = max(node.int.high, max_left, max_right)
     return node.max
+
+
+def assert_interval_tree(tree):
+    assert_red_black_tree(tree, sentinel=tree.nil)
+    if tree.root is not tree.nil:
+        _assert_interval_subtree(tree.root, tree.nil)
+
+
+def _assert_interval_subtree(node, sentinel):
+    assert_that(node.max, is_(equal_to(max(node.int.high, node.left.max, node.right.max))))
+    if node.left is not sentinel:
+        _assert_interval_subtree(node.left, sentinel)
+    if node.right is not sentinel:
+        _assert_interval_subtree(node.right, sentinel)

@@ -3,11 +3,12 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter14.textbook import os_insert, os_delete, os_select, os_rank, interval_search, overlap
+from chapter14.textbook import os_insert, os_delete, os_select, os_rank, interval_search, overlap, interval_insert, \
+    interval_delete
 from datastructures.interval import Interval
-from datastructures.red_black_tree import RedBlackTree, OSNode
+from datastructures.red_black_tree import RedBlackTree, OSNode, IntervalNode
 from tree_util import assert_parent_pointers_consistent, get_binary_tree_keys, assert_os_tree, get_random_os_tree, \
-    get_binary_tree_nodes, get_random_interval_tree
+    get_binary_tree_nodes, get_random_interval_tree, assert_interval_tree
 
 
 class Textbook14Test(TestCase):
@@ -60,6 +61,36 @@ class Textbook14Test(TestCase):
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree, sentinel=tree.nil)
             assert_that(tree.root.size, is_(equal_to(len(nodes) - 1)))
+            actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
+            assert_that(actual_keys, contains_inanyorder(*keys))
+            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+    def test_interval_insert(self):
+        keys = [random.randrange(949) for _ in range(20)]
+        tree = RedBlackTree(sentinel=IntervalNode(None, None))
+
+        for i, key in enumerate(keys):
+
+            interval_insert(tree, IntervalNode(key, Interval(key, key + random.randint(0, 50))))
+
+            assert_interval_tree(tree)
+            assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+
+        actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
+        assert_that(actual_keys, contains_inanyorder(*keys))
+
+    def test_interval_delete(self):
+        tree, _, keys = get_random_interval_tree()
+        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+        while nodes:
+            node = random.choice(nodes)
+            keys.remove(node.key)
+
+            interval_delete(tree, node)
+
+            assert_interval_tree(tree)
+            assert_parent_pointers_consistent(tree, sentinel=tree.nil)
             actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
             assert_that(actual_keys, contains_inanyorder(*keys))
             nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
