@@ -285,6 +285,7 @@ def interval_delete(T, z):
             y.p.right = x
     if y is not z:
         z.key = y.key
+        z.int = y.int
         z.data = y.data
     w = x.p
     while w is not T.nil:

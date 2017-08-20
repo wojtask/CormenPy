@@ -5,9 +5,8 @@ from datastructures.red_black_tree import Black, Red
 
 def interval_right_rotate(T, x):
     right_rotate(T, x, T.nil)
-    y = x.p
-    x.max = max(x.int.high, x.left.max, x.right.max)
-    y.max = max(y.int.high, y.left.max, x.max)
+    _update_max_field(x)
+    _update_max_field(x.p)
 
 
 def interval_insert_exactly(T, z):
@@ -31,7 +30,15 @@ def interval_insert_exactly(T, z):
     z.right = T.nil
     z.color = Red
     z.max = z.int.high
+    x = y
+    while x is not T.nil:
+        _update_max_field(x)
+        x = x.p
     interval_insert_exactly_fixup(T, z)
+
+
+def _update_max_field(x):
+    x.max = max(x.int.high, x.left.max, x.right.max)
 
 
 def interval_insert_exactly_fixup(T, z):

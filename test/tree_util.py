@@ -289,6 +289,7 @@ def assert_interval_tree(tree):
 
 
 def _assert_interval_subtree(node, sentinel):
+    assert_that(node.key, is_(equal_to(node.int.low)))
     assert_that(node.max, is_(equal_to(max(node.int.high, node.left.max, node.right.max))))
     if node.left is not sentinel:
         _assert_interval_subtree(node.left, sentinel)
