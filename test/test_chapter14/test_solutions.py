@@ -23,13 +23,14 @@ from chapter14.ex14_3_3 import min_interval_search
 from chapter14.ex14_3_4 import interval_search_all
 from chapter14.ex14_3_5 import interval_search_exactly, interval_insert_exactly
 from chapter14.ex14_3_6 import min_gap_insert, min_gap, min_gap_delete, min_gap_search
+from chapter14.ex14_3_7 import rectangles_overlap
 from chapter14.pr14_2 import josephus_simulate, josephus
 from chapter14.textbook import overlap
 from datastructures.array import Array
 from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode, Node
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys, \
-    get_random_red_black_tree
+    get_random_red_black_tree, assert_interval_tree
 
 
 def pick_node_with_right_child(nodes, tree):
@@ -240,6 +241,7 @@ class Solutions14Test(TestCase):
             i = Interval(key, key + random.randint(0, 10))
             intervals.append(i)
             interval_insert_exactly(tree, IntervalNode(key, i))
+            assert_interval_tree(tree)
 
         interval = random.choice(intervals)
 
@@ -256,6 +258,7 @@ class Solutions14Test(TestCase):
             i = Interval(key, key + random.randint(0, 10))
             intervals.append(i)
             interval_insert_exactly(tree, IntervalNode(key, i))
+            assert_interval_tree(tree)
 
         low_endpoint = random.randint(0, 89)
         high_endpoint = low_endpoint + random.randint(0, 10)
@@ -298,6 +301,26 @@ class Solutions14Test(TestCase):
             expected_min_gap = get_expected_min_gap(keys)
             assert_that(actual_min_gap, is_(equal_to(expected_min_gap)))
             nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+
+    def test_rectangles_overlap(self):
+        n = random.randint(1, 30)
+        rectangles = []
+        for i in range(n):
+            low_endpoint_x = random.randint(0, 899)
+            low_endpoint_y = random.randint(0, 899)
+            high_endpoint_x = low_endpoint_x + random.randint(1, 100)
+            high_endpoint_y = low_endpoint_y + random.randint(1, 100)
+            rectangles.append((Interval(low_endpoint_x, high_endpoint_x), Interval(low_endpoint_y, high_endpoint_y)))
+        rectangles_array = Array(rectangles)
+
+        actual_overlap = rectangles_overlap(rectangles_array)
+
+        expected_overlap = False
+        for i in range(n):
+            for j in range(i + 1, n):
+                if overlap(rectangles[i][0], rectangles[j][0]) and overlap(rectangles[i][1], rectangles[j][1]):
+                    expected_overlap = True
+        assert_that(actual_overlap, is_(expected_overlap))
 
     def test_josephus_simulate(self):
         n = random.randint(1, 20)
