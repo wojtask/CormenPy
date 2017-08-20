@@ -21,12 +21,15 @@ def _small_order_select(A, p, r, i):
             A[p + j], A[p + m + j] = A[p + m + j], A[p + j]
             swaps.append((p + j, p + m + j))
 
-    swaps_performed = _small_order_select(A, p + m, r, i)
+    swaps_performed = _small_order_select(A, p + m, p + 2 * m - 1, i)
     swaps += swaps_performed
     for j, k in swaps_performed:
-        if p + m <= j < k <= p + 2 * m - 1:
-            A[j - m], A[k - m] = A[k - m], A[j - m]
-            swaps.append((j - m, k - m))
+        A[j - m], A[k - m] = A[k - m], A[j - m]
+        swaps.append((j - m, k - m))
+
+    if n % 2 == 1:
+        if A[r] < A[p + m + i - 1]:
+            A[r], A[p + m + i - 1] = A[p + m + i - 1], A[r]
 
     for j in between(0, i - 1):
         A[p + i + j], A[p + m + j] = A[p + m + j], A[p + i + j]
