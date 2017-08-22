@@ -4,12 +4,12 @@ from datastructures.red_black_tree import Red, Black
 
 
 def parentless_rb_insert(T, z):
-    y = T.nil
-    x = T.root
     path_length = _get_path_length_from_root_to_leaf(T, z)
     S = Array.of_length(path_length + 1)
     S.top = 0
-    push(S, T.nil)
+    y = T.nil
+    push(S, y)
+    x = T.root
     while x is not T.nil:
         y = x
         push(S, y)

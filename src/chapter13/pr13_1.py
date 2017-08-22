@@ -35,14 +35,14 @@ def persistent_tree_insert(T, k):
 
 
 def persistent_rb_insert(T, z):
+    path_length = _get_path_length_from_root_to_node(T, z)
+    S = Array.of_length(path_length + 1)
+    S.top = 0
     y = T.nil
     x = T.root
     T_ = RedBlackTree(sentinel=T.nil)
     y_ = T_.nil
-    path_length = _get_path_length_from_root_to_node(T, z)
-    S = Array.of_length(path_length + 1)
-    S.top = 0
-    push(S, T.nil)
+    push(S, y_)
     while x is not T.nil:
         y = x
         x_ = rb.ParentlessNode.clone(x)
@@ -133,10 +133,10 @@ def persistent_rb_delete(T, z):
     path_length = _get_path_length_from_root_to_node(T, y)
     S = Array.of_length(path_length + 1)
     S.top = 0
-    push(S, T.nil)
     p = T.root
     r = T.nil
     p_ = r_ = T_.nil
+    push(S, p_)
     z_ = T.nil
     while p is not y:
         p_ = rb.ParentlessNode.clone(p)
