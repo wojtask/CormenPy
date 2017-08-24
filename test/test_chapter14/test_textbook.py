@@ -69,7 +69,7 @@ class Textbook14Test(TestCase):
         keys = [random.randrange(949) for _ in range(20)]
         tree = RedBlackTree(sentinel=IntervalNode(None, None))
 
-        for i, key in enumerate(keys):
+        for key in keys:
 
             interval_insert(tree, IntervalNode(key, Interval(key, key + random.randint(0, 50))))
 
@@ -99,8 +99,7 @@ class Textbook14Test(TestCase):
         tree, nodes, keys = get_random_interval_tree()
         low_endpoint = random.randint(0, 949)
         high_endpoint = low_endpoint + random.randint(0, 50)
-        endpoints = [low_endpoint, high_endpoint]
-        interval = Interval(min(endpoints), max(endpoints))
+        interval = Interval(low_endpoint, high_endpoint)
 
         actual_found = interval_search(tree, interval)
 

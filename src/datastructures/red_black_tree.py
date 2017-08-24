@@ -57,3 +57,12 @@ class IntervalNode(Node):
         super().__init__(key, data, left, right)
         self.int = interval
         self.max = -math.inf
+
+
+class IntervalPomNode(Node):
+    def __init__(self, key, data=None, left=None, right=None):
+        super().__init__(key, data, left, right)
+        self.low = self.high = 0
+        self.sum = 0
+        self.max = -math.inf
+        self.pom = None

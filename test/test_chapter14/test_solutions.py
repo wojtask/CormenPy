@@ -24,13 +24,14 @@ from chapter14.ex14_3_4 import interval_search_all
 from chapter14.ex14_3_5 import interval_search_exactly, interval_insert_exactly
 from chapter14.ex14_3_6 import min_gap_insert, min_gap, min_gap_delete, min_gap_search
 from chapter14.ex14_3_7 import rectangles_overlap
+from chapter14.pr14_1 import interval_pom_insert, interval_pom_delete, find_pom
 from chapter14.pr14_2 import josephus_simulate, josephus
 from chapter14.textbook import overlap
 from datastructures.array import Array
 from datastructures.interval import Interval
-from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode, Node
+from datastructures.red_black_tree import RedBlackTree, IntervalNode, OSNode, Node, IntervalPomNode
 from tree_util import get_random_os_tree, get_binary_tree_nodes, get_random_interval_tree, get_binary_tree_keys, \
-    get_random_red_black_tree, assert_interval_tree
+    get_random_red_black_tree, assert_interval_tree, assert_interval_pom_tree
 
 
 def pick_node_with_right_child(nodes, tree):
@@ -52,6 +53,23 @@ def get_expected_min_gap(keys):
             if key1 != key2:
                 expected_min_gap = min(expected_min_gap, abs(key1 - key2))
     return expected_min_gap
+
+
+def get_expected_poms(intervals):
+    poms = set()
+    max_overlaps = 0
+    for i in intervals:
+        overlaps = 0
+        low_endpoint_interval = Interval(i.low, i.low)
+        for j in intervals:
+            if overlap(j, low_endpoint_interval):
+                overlaps += 1
+        if overlaps > max_overlaps:
+            max_overlaps = overlaps
+            poms = {i.low}
+        elif overlaps == max_overlaps:
+            poms.add(i.low)
+    return poms
 
 
 class Solutions14Test(TestCase):
@@ -180,8 +198,7 @@ class Solutions14Test(TestCase):
         tree, nodes, keys = get_random_interval_tree()
         low_endpoint = random.randint(0, 949)
         high_endpoint = low_endpoint + random.randint(0, 50)
-        endpoints = [low_endpoint, high_endpoint]
-        interval = Interval(min(endpoints), max(endpoints))
+        interval = Interval(low_endpoint, high_endpoint)
 
         actual_found = open_interval_search(tree, interval)
 
@@ -195,8 +212,7 @@ class Solutions14Test(TestCase):
         tree, nodes, keys = get_random_interval_tree()
         low_endpoint = random.randint(0, 949)
         high_endpoint = low_endpoint + random.randint(0, 50)
-        endpoints = [low_endpoint, high_endpoint]
-        interval = Interval(min(endpoints), max(endpoints))
+        interval = Interval(low_endpoint, high_endpoint)
 
         actual_found = min_interval_search(tree, interval)
 
@@ -213,8 +229,7 @@ class Solutions14Test(TestCase):
         tree, nodes, keys = get_random_interval_tree()
         low_endpoint = random.randint(0, 899)
         high_endpoint = low_endpoint + random.randint(0, 100)
-        endpoints = [low_endpoint, high_endpoint]
-        interval = Interval(min(endpoints), max(endpoints))
+        interval = Interval(low_endpoint, high_endpoint)
 
         captured_output = io.StringIO()
 
@@ -305,7 +320,7 @@ class Solutions14Test(TestCase):
     def test_rectangles_overlap(self):
         n = random.randint(1, 30)
         rectangles = []
-        for i in range(n):
+        for _ in range(n):
             low_endpoint_x = random.randint(0, 899)
             low_endpoint_y = random.randint(0, 899)
             high_endpoint_x = low_endpoint_x + random.randint(1, 100)
@@ -321,6 +336,35 @@ class Solutions14Test(TestCase):
                 if overlap(rectangles[i][0], rectangles[j][0]) and overlap(rectangles[i][1], rectangles[j][1]):
                     expected_overlap = True
         assert_that(actual_overlap, is_(expected_overlap))
+
+    def test_find_pom_tree(self):
+        n = random.randint(1, 30)
+        tree = RedBlackTree(sentinel=IntervalPomNode(None))
+        intervals = []
+        node_pairs = []
+        for _ in range(n):
+            low_endpoint = random.randint(0, 899)
+            high_endpoint = low_endpoint + random.randint(0, 100)
+            interval = Interval(low_endpoint, high_endpoint)
+            intervals.append(interval)
+            node_pair = interval_pom_insert(tree, interval)
+            node_pairs.append(node_pair)
+            assert_interval_pom_tree(tree)
+
+        while node_pairs:
+            actual_pom = find_pom(tree)
+
+            expected_poms = get_expected_poms(intervals)
+            assert_that(actual_pom, is_in(expected_poms))
+
+            node_pair = random.choice(node_pairs)
+            node_pairs.remove(node_pair)
+            interval_to_delete = Interval(node_pair[0].key, node_pair[1].key)
+            intervals.remove(interval_to_delete)
+
+            interval_pom_delete(tree, *node_pair)
+
+            assert_interval_pom_tree(tree)
 
     def test_josephus_simulate(self):
         n = random.randint(1, 20)

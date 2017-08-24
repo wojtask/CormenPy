@@ -229,6 +229,7 @@ def _augment_to_os_subtree(node, sentinel):
 
 def assert_os_tree(tree):
     assert_red_black_tree(tree, sentinel=tree.nil)
+    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
     if tree.root is not tree.nil:
         _assert_os_subtree(tree.root, tree.nil)
 
@@ -284,6 +285,7 @@ def _augment_to_interval_subtree(node, sentinel):
 
 def assert_interval_tree(tree):
     assert_red_black_tree(tree, sentinel=tree.nil)
+    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
     if tree.root is not tree.nil:
         _assert_interval_subtree(tree.root, tree.nil)
 
@@ -295,3 +297,27 @@ def _assert_interval_subtree(node, sentinel):
         _assert_interval_subtree(node.left, sentinel)
     if node.right is not sentinel:
         _assert_interval_subtree(node.right, sentinel)
+
+
+def assert_interval_pom_tree(tree):
+    assert_red_black_tree(tree, sentinel=tree.nil)
+    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+    if tree.root is not tree.nil:
+        _assert_interval_pom_subtree(tree.root, tree.nil)
+
+
+def _assert_interval_pom_subtree(node, sentinel):
+    assert_that(node.sum, is_(equal_to(node.left.sum + (node.low - node.high) + node.right.sum)))
+    assert_that(node.max, is_(equal_to(max(node.left.max,
+                                           node.left.sum + node.low,
+                                           node.left.sum + (node.low - node.high) + node.right.max))))
+    if node.max == node.left.max:
+        assert_that(node.pom, is_(equal_to(node.left.pom)))
+    elif node.max == node.left.sum + node.low:
+        assert_that(node.pom, is_(equal_to(node.key)))
+    else:
+        assert_that(node.pom, is_(equal_to(node.right.pom)))
+    if node.left is not sentinel:
+        _assert_interval_pom_subtree(node.left, sentinel)
+    if node.right is not sentinel:
+        _assert_interval_pom_subtree(node.right, sentinel)
