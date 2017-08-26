@@ -1,3 +1,5 @@
+import math
+
 from chapter02.textbook import insertion_sort
 from chapter09.textbook import select
 from datastructures.array import Array
@@ -5,72 +7,87 @@ from util import between
 
 
 def small_order_select(A, i):
-    _small_order_select(A, 1, A.length, i)
-    return A[i]
+    B = Array(A.elements)
+    idx = _small_order_select(B, 1, B.length, i)
+    return B[idx]
 
 
-def _small_order_select(A, p, r, i):
+def _cascaded_swap(B, m, i, j):
+    while i >= 1 and j >= 1:
+        B[i], B[j] = B[j], B[i]
+        i -= m
+        j -= m
+
+
+def _cascaded_align(B, m, i):
+    while i >= 1:
+        B.elements.insert(i - 1, math.inf)
+        B.length += 1
+        i -= m
+
+
+def _small_order_select(B, p, r, i):
     n = r - p + 1
     m = n // 2
+
     if i >= m:
-        return _select_with_swaps_registration(A, p, r, i)
+        return _select_with_cascaded_swaps(B, n, p, r, i)
 
-    swaps = []
     for j in between(0, m - 1):
-        if A[p + j] < A[p + m + j]:
-            A[p + j], A[p + m + j] = A[p + m + j], A[p + j]
-            swaps.append((p + j, p + m + j))
-
-    swaps_performed = _small_order_select(A, p + m, p + 2 * m - 1, i)
-    swaps += swaps_performed
-    for j, k in swaps_performed:
-        A[j - m], A[k - m] = A[k - m], A[j - m]
-        swaps.append((j - m, k - m))
+        if B[p + j] < B[p + m + j]:
+            _cascaded_swap(B, n, p + j, p + m + j)
 
     if n % 2 == 1:
-        if A[r] < A[p + m + i - 1]:
-            A[r], A[p + m + i - 1] = A[p + m + i - 1], A[r]
+        _cascaded_align(B, n, p + m)
+        m += 1
+        n += 1
+        r = B.length
+        p = r - n + 1
+
+    idx = _small_order_select(B, p + m, r, i)
+
+    r = B.length
+    q = idx - i + 1
+    m = r - q + 1
+    n = 2 * m
+    p = r - n + 1
 
     for j in between(0, i - 1):
-        A[p + i + j], A[p + m + j] = A[p + m + j], A[p + i + j]
-        swaps.append((p + i + j, p + m + j))
+        _cascaded_swap(B, n, p + i + j, p + m + j)
 
-    swaps += _select_with_swaps_registration(A, p, p + 2 * i - 1, i)
+    _select_with_cascaded_swaps(B, n, p, p + 2 * i - 1, i)
 
-    return swaps
+    return p + i - 1
 
 
-def _select_with_swaps_registration(A, p, r, i):
+def _select_with_cascaded_swaps(B, m, p, r, i):
     n = r - p + 1
     if n == 1:
-        return []
-    fives = [Array(A.elements[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
+        return p
+    fives = [Array(B.elements[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
     for group in fives:
         insertion_sort(group)
     medians = Array([group[(group.length + 1) // 2] for group in fives])
     x = select(medians, 1, medians.length, (medians.length + 1) // 2)
-    swaps = []
-    q = _partition_around_with_swaps_registration(A, p, r, x, swaps)
+    q = _partition_around_with_cascaded_swaps(B, m, p, r, x)
     k = q - p + 1
-    if i < k:
-        return swaps + _select_with_swaps_registration(A, p, q - 1, i)
-    elif i > k:
-        return swaps + _select_with_swaps_registration(A, q + 1, r, i - k)
-    return swaps
+    if i == k:
+        return q
+    elif i < k:
+        return _select_with_cascaded_swaps(B, m, p, q - 1, i)
+    else:
+        return _select_with_cascaded_swaps(B, m, q + 1, r, i - k)
 
 
-def _partition_around_with_swaps_registration(A, p, r, x, swaps):
+def _partition_around_with_cascaded_swaps(B, m, p, r, x):
     q = p
-    while A[q] != x:
+    while B[q] != x:
         q += 1
-    A[q], A[r] = A[r], A[q]
-    swaps.append((q, r))
+    _cascaded_swap(B, m, q, r)
     i = p - 1
     for j in between(p, r - 1):
-        if A[j] <= x:
+        if B[j] <= x:
             i += 1
-            A[i], A[j] = A[j], A[i]
-            swaps.append((i, j))
-    A[i + 1], A[r] = A[r], A[i + 1]
-    swaps.append((i + 1, r))
+            _cascaded_swap(B, m, i, j)
+    _cascaded_swap(B, m, i + 1, r)
     return i + 1

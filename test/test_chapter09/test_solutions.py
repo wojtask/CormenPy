@@ -160,7 +160,7 @@ class Solutions09Test(TestCase):
             assert_that(post_office_distance_sum, is_(less_than_or_equal_to(point_distance_sum)))
 
     def test_small_order_select(self):
-        array, elements = get_random_unique_array()
+        array, elements = get_random_unique_array(max_size=50)
         i = random.randint(1, array.length // 5 + 1)  # pick small i
 
         actual_order_statistic = small_order_select(array, i)
