@@ -3,10 +3,11 @@ import random
 from contextlib import redirect_stdout
 from unittest import TestCase
 
+import numpy
 from hamcrest import *
 
 from array_util import get_random_matrix, get_random_array
-from chapter15.textbook import fastest_way, print_stations
+from chapter15.textbook import fastest_way, print_stations, matrix_multiply
 from util import rbetween
 
 
@@ -76,3 +77,22 @@ class Textbook15Test(TestCase):
             i = l[i, j]
             expected_output.append('line ' + str(i) + ', station ' + str(j - 1))
         assert_that(actual_output, is_(equal_to(expected_output)))
+
+
+    def test_matrix_multiply(self):
+        rows1 = random.randint(1, 3)
+        columns1 = random.randint(1, 3)
+        rows2 = random.randint(1, 3)
+        columns2 = random.randint(1, 3)
+        matrix1, elements1 = get_random_matrix(rows1, columns1)
+        matrix2, elements2 = get_random_matrix(rows2, columns2)
+
+        if columns1 != rows2:
+            assert_that(calling(matrix_multiply).with_args(matrix1, matrix2),
+                        raises(RuntimeError, 'incompatible dimensions'))
+        else:
+            actual_product = matrix_multiply(matrix1, matrix2)
+            assert_that(actual_product.rows, is_(equal_to(rows1)))
+            assert_that(actual_product.columns, is_(equal_to(columns2)))
+            expected_product = numpy.dot(elements1, elements2)
+            assert_that(actual_product.elements, is_(equal_to(expected_product.tolist())))

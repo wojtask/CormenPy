@@ -35,3 +35,16 @@ def print_stations(l, l_star, n):
     for j in rbetween(n, 2):
         i = l[i, j]
         print('line ' + str(i) + ', station ' + str(j - 1))
+
+
+def matrix_multiply(A, B):
+    if A.columns != B.rows:
+        raise RuntimeError('incompatible dimensions')
+    else:
+        C = Matrix.of_dimensions(A.rows, B.columns)
+        for i in between(1, A.rows):
+            for j in between(1, B.columns):
+                C[i, j] = 0
+                for k in between(1, A.columns):
+                    C[i, j] = C[i, j] + A[i, k] * B[k, j]
+        return C
