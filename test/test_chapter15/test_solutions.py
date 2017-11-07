@@ -8,11 +8,23 @@ from hamcrest import *
 from array_util import get_random_matrix, get_random_array
 from chapter15.ex15_1_1 import print_stations_
 from chapter15.ex15_1_4 import effective_fastest_way
+from chapter15.ex15_2_2 import matrix_chain_multiply
+from chapter15.textbook import matrix_chain_order, matrix_multiply
+from datastructures.array import Array
+from datastructures.standard_array import StandardArray
 from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines
-from util import rbetween
+from util import rbetween, between
 
 
-class Solutions14Test(TestCase):
+def get_matrix_product(A):
+    n = A.length
+    product = A[1]
+    for i in between(2, n):
+        product = matrix_multiply(product, A[i])
+    return product
+
+
+class Solutions15Test(TestCase):
 
     def test_print_stations_(self):
         n = random.randint(1, 10)
@@ -47,3 +59,16 @@ class Solutions14Test(TestCase):
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
         expected_assembly_time = get_assembly_time_based_on_lines(lines, last_line, a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
+
+    def test_matrix_chain_multiply(self):
+        n = random.randint(1, 10)
+        dimensions = StandardArray([random.randint(1, 10) for _ in range(n + 1)])
+        A = Array.of_length(n)
+        for i in between(1, n):
+            A[i], _ = get_random_matrix(dimensions[i - 1], dimensions[i])
+        _, optimal_solution = matrix_chain_order(dimensions)
+
+        actual_product = matrix_chain_multiply(A, optimal_solution, 1, n)
+
+        expected_product = get_matrix_product(A)
+        assert_that(actual_product, expected_product)
