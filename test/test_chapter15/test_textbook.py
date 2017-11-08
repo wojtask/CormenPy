@@ -8,7 +8,8 @@ import numpy
 from hamcrest import *
 
 from array_util import get_random_matrix, get_random_array
-from chapter15.textbook import fastest_way, print_stations, matrix_multiply, matrix_chain_order, print_optimal_parens
+from chapter15.textbook import fastest_way, print_stations, matrix_multiply, matrix_chain_order, print_optimal_parens, \
+    recursive_matrix_chain, memoized_matrix_chain
 from datastructures.matrix import Matrix
 from datastructures.standard_array import StandardArray
 from util import rbetween, between
@@ -73,6 +74,7 @@ def get_optimal_parens_brute_force(s, i, j):
 
 
 class Textbook15Test(TestCase):
+
     def test_fastest_way(self):
         n = random.randint(1, 10)
         a, _ = get_random_matrix(2, n)
@@ -149,3 +151,22 @@ class Textbook15Test(TestCase):
         actual_output = captured_output.getvalue().splitlines()[0]
         expected_output = get_optimal_parens_brute_force(s, 1, n)
         assert_that(actual_output, is_(equal_to(expected_output)))
+
+    def test_recursive_matrix_chain(self):
+        n = random.randint(1, 10)
+        dimensions = StandardArray([random.randint(1, 999) for _ in range(n + 1)])
+        m = Matrix.of_dimensions(n, n)
+
+        actual_minimum_cost = recursive_matrix_chain(dimensions, m, 1, n)
+
+        expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
+        assert_that(actual_minimum_cost, is_(equal_to(expected_minimum_cost)))
+
+    def test_memoized_matrix_chain(self):
+        n = random.randint(1, 10)
+        dimensions = StandardArray([random.randint(1, 999) for _ in range(n + 1)])
+
+        actual_minimum_cost = memoized_matrix_chain(dimensions)
+
+        expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
+        assert_that(actual_minimum_cost, is_(equal_to(expected_minimum_cost)))
