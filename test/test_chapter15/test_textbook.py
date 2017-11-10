@@ -1,4 +1,5 @@
 import io
+import itertools
 import math
 import random
 from contextlib import redirect_stdout
@@ -9,7 +10,8 @@ from hamcrest import *
 
 from array_util import get_random_matrix, get_random_array
 from chapter15.textbook import fastest_way, print_stations, matrix_multiply, matrix_chain_order, print_optimal_parens, \
-    recursive_matrix_chain, memoized_matrix_chain
+    recursive_matrix_chain, memoized_matrix_chain, lcs_length, print_lcs
+from datastructures.array import Array
 from datastructures.matrix import Matrix
 from datastructures.standard_array import StandardArray
 from util import rbetween, between
@@ -71,6 +73,41 @@ def get_optimal_parens_brute_force(s, i, j):
     if i == j:
         return 'A' + str(i)
     return '(' + get_optimal_parens_brute_force(s, i, s[i, j]) + get_optimal_parens_brute_force(s, s[i, j] + 1, j) + ')'
+
+
+def is_subsequence_of(subsequence, sequence):
+    pos = 0
+    for c in subsequence:
+        try:
+            pos += sequence.elements[pos:].index(c) + 1
+        except ValueError:
+            return False
+    return True
+
+
+def get_maximum_lcs_length_brute_force(sequence1, sequence2):
+    max_length = 0
+    for i in between(1, min(sequence1.length, sequence2.length)):
+        for subsequence in itertools.combinations(sequence1, i):
+            if is_subsequence_of(subsequence, sequence2):
+                max_length = len(subsequence)
+    return max_length
+
+
+def get_nwp_iteratively(b, sequence):
+    result = ''
+    i = b.rows
+    j = b.columns
+    while i > 0 and j > 0:
+        if b[i, j] == '↖':
+            result += sequence[i]
+            i -= 1
+            j -= 1
+        elif b[i, j] == '↑':
+            i -= 1
+        else:
+            j -= 1
+    return result[::-1]
 
 
 class Textbook15Test(TestCase):
@@ -170,3 +207,20 @@ class Textbook15Test(TestCase):
 
         expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
         assert_that(actual_minimum_cost, is_(equal_to(expected_minimum_cost)))
+
+    def test_lcs_length(self):
+        sequence1 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        captured_output = io.StringIO()
+
+        actual_maximum_lengths, optimal_solution = lcs_length(sequence1, sequence2)
+        with redirect_stdout(captured_output):
+            print_lcs(optimal_solution, sequence1, sequence1.length, sequence2.length)
+            print()  # a blank line after the output
+
+        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
+        actual_lcs = captured_output.getvalue().splitlines()[0]
+        assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
+        assert_that(is_subsequence_of(actual_lcs, sequence1))
+        assert_that(is_subsequence_of(actual_lcs, sequence2))
