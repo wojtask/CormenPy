@@ -9,10 +9,12 @@ from array_util import get_random_matrix, get_random_array
 from chapter15.ex15_1_1 import print_stations_
 from chapter15.ex15_1_4 import effective_fastest_way
 from chapter15.ex15_2_2 import matrix_chain_multiply
-from chapter15.textbook import matrix_chain_order, matrix_multiply
+from chapter15.ex15_4_2 import print_lcs_
+from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
-from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines
+from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines, \
+    get_maximum_lcs_length_brute_force, is_subsequence_of
 from util import rbetween, between
 
 
@@ -72,3 +74,20 @@ class Solutions15Test(TestCase):
 
         expected_product = get_matrix_product(A)
         assert_that(actual_product, expected_product)
+
+    def test_print_lcs_(self):
+        sequence1 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        captured_output = io.StringIO()
+
+        actual_maximum_lengths, _ = lcs_length(sequence1, sequence2)
+        with redirect_stdout(captured_output):
+            print_lcs_(actual_maximum_lengths, sequence1, sequence2, sequence1.length, sequence2.length)
+            print()  # a blank line after the output
+
+        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
+        actual_lcs = captured_output.getvalue().splitlines()[0]
+        assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
+        assert_that(is_subsequence_of(actual_lcs, sequence1))
+        assert_that(is_subsequence_of(actual_lcs, sequence2))
