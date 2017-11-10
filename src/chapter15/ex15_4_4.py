@@ -1,3 +1,4 @@
+from datastructures.matrix import Matrix
 from datastructures.standard_array import StandardArray
 from util import between
 
@@ -7,6 +8,26 @@ def lcs_length_(X, Y):
     n = Y.length
     if m < n:
         return lcs_length_(Y, X)
+    c = Matrix.of_dimensions(2, n + 1, first_row=0, first_column=0)
+    for j in between(0, n):
+        c[0, j] = 0
+    c[1, 0] = 0
+    for i in between(1, m):
+        for j in between(1, n):
+            if X[i] == Y[j]:
+                c[1, j] = c[0, j - 1] + 1
+            else:
+                c[1, j] = max(c[1, j - 1], c[0, j])
+        for j in between(1, n):
+            c[0, j] = c[1, j]
+    return c[1, n]
+
+
+def lcs_length__(X, Y):
+    m = X.length
+    n = Y.length
+    if m < n:
+        return lcs_length__(Y, X)
     c = StandardArray.of_length(n + 1)
     for j in between(0, n):
         c[j] = 0

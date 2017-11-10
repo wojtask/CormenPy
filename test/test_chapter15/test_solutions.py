@@ -11,7 +11,7 @@ from chapter15.ex15_1_4 import fastest_way_
 from chapter15.ex15_2_2 import matrix_chain_multiply
 from chapter15.ex15_4_2 import print_lcs_
 from chapter15.ex15_4_3 import memoized_lcs_length
-from chapter15.ex15_4_4 import lcs_length_
+from chapter15.ex15_4_4 import lcs_length_, lcs_length__
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
@@ -108,6 +108,15 @@ class Solutions15Test(TestCase):
         sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
 
         actual_maximum_length = lcs_length_(sequence1, sequence2)
+
+        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
+
+    def test_lcs_length__(self):
+        sequence1 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+
+        actual_maximum_length = lcs_length__(sequence1, sequence2)
 
         expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
