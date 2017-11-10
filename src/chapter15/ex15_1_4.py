@@ -2,7 +2,7 @@ from datastructures.matrix import Matrix
 from util import between
 
 
-def effective_fastest_way(a, t, e, x, n):
+def fastest_way_(a, t, e, x, n):
     f = Matrix.of_dimensions(2, 2)
     l = Matrix.of_dimensions(2, n)
     f[1, 2] = e[1] + a[1, 1]

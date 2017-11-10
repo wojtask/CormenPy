@@ -7,7 +7,7 @@ from hamcrest import *
 
 from array_util import get_random_matrix, get_random_array
 from chapter15.ex15_1_1 import print_stations_
-from chapter15.ex15_1_4 import effective_fastest_way
+from chapter15.ex15_1_4 import fastest_way_
 from chapter15.ex15_2_2 import matrix_chain_multiply
 from chapter15.ex15_4_2 import print_lcs_
 from chapter15.ex15_4_3 import memoized_lcs_length
@@ -50,14 +50,14 @@ class Solutions15Test(TestCase):
         expected_output.reverse()
         assert_that(actual_output, is_(equal_to(expected_output)))
 
-    def test_effective_fastest_way(self):
+    def test_fastest_way_(self):
         n = random.randint(1, 10)
         a, _ = get_random_matrix(2, n)
         t, _ = get_random_matrix(2, n - 1)
         e, _ = get_random_array(min_size=2, max_size=2)
         x, _ = get_random_array(min_size=2, max_size=2)
 
-        actual_assembly_time, last_line, lines = effective_fastest_way(a, t, e, x, n)
+        actual_assembly_time, last_line, lines = fastest_way_(a, t, e, x, n)
 
         expected_assembly_time = get_fastest_way_brute_force(a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
