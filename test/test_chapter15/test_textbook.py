@@ -119,7 +119,7 @@ class Textbook15Test(TestCase):
         e, _ = get_random_array(min_size=2, max_size=2)
         x, _ = get_random_array(min_size=2, max_size=2)
 
-        actual_assembly_time, last_line, lines = fastest_way(a, t, e, x, n)
+        actual_assembly_time, lines, last_line = fastest_way(a, t, e, x, n)
 
         expected_assembly_time = get_fastest_way_brute_force(a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))

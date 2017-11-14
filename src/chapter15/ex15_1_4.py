@@ -28,4 +28,4 @@ def fastest_way_(a, t, e, x, n):
     else:
         f_star = f[2, 2] + x[2]
         l_star = 2
-    return f_star, l_star, l
+    return f_star, l, l_star

@@ -28,7 +28,7 @@ def fastest_way(a, t, e, x, n):
     else:
         f_star = f[2, n] + x[2]
         l_star = 2
-    return f_star, l_star, l
+    return f_star, l, l_star
 
 
 def print_stations(l, l_star, n):
