@@ -1,27 +1,27 @@
 from builtins import len
 
 
-# a 1-based indexed array
 class Array:
-    def __init__(self, elements):
+    def __init__(self, elements, start=1):
         self.elements = list(elements)
+        self.start = start
         self.length = len(elements)
 
     @classmethod
-    def of_length(cls, length):
-        return cls([None] * length)
+    def indexed(cls, _from, _to):
+        return cls([None] * (_to - _from + 1), start=_from)
 
     def __getitem__(self, index):
         if isinstance(index, int):
-            return self.elements[index - 1]
-        return Array(self.elements[index.start - 1:index.stop])
+            return self.elements[index - self.start]
+        return Array(self.elements[index.start - self.start:index.stop - self.start + 1])
 
     def __setitem__(self, index, item):
-        self.elements[index - 1] = item
+        self.elements[index - self.start] = item
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.length == other.length and self.elements == other.elements
+            return self.length == other.length and self.start == other.start and self.elements == other.elements
         return NotImplemented
 
     def __ne__(self, other):
@@ -30,7 +30,7 @@ class Array:
         return NotImplemented
 
     def __hash__(self):
-        return hash((self.length, self.elements))
+        return hash((self.length, self.start, self.elements))
 
     def __iter__(self):
         return (x for x in self.elements)

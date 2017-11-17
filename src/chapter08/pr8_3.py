@@ -1,6 +1,5 @@
 from chapter08.textbook import radix_sort
 from datastructures.array import Array
-from datastructures.standard_array import StandardArray
 from util import between, rbetween
 
 
@@ -24,7 +23,7 @@ def _nonnegative_integers_sort(nonnegative, n):
 
 
 def _sort_by_length(A, n):
-    numbers_by_length = Array.of_length(n)
+    numbers_by_length = Array.indexed(1, n)
     for number in A:
         if numbers_by_length[len(str(number))] is None:
             numbers_by_length[len(str(number))] = []
@@ -62,13 +61,13 @@ def _move_strings_with_exact_length_to_front(A, p, r, position):
 
 def _sort_by_character(A, p, r, position):
     k = ord('z') - ord('a')
-    C = StandardArray([0] * (k + 1))
+    C = Array([0] * (k + 1), start=0)
     for j in between(p, r):
         x = ord(A[j][position - 1]) - ord('a')
         C[x] += 1
     for i in between(1, k):
         C[i] += C[i - 1]
-    B = Array.of_length(r - p + 1)
+    B = Array.indexed(1, r - p + 1)
     for j in rbetween(r, p):
         x = ord(A[j][position - 1]) - ord('a')
         B[C[x]] = A[j]

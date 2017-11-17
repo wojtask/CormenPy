@@ -10,8 +10,8 @@ from chapter11.ex11_1_3 import direct_address_search_, direct_address_insert_, d
 from chapter11.ex11_1_4 import huge_array_search, huge_array_insert, huge_array_delete
 from chapter11.ex11_2_4 import in_place_chained_hash_insert, in_place_chained_hash_search, in_place_chained_hash_delete
 from chapter11.ex11_4_2 import hash_delete, hash_insert_
+from datastructures.array import Array
 from datastructures.hash_table import ChainedElement, FreePosition
-from datastructures.standard_array import StandardArray
 from hash_table_util import get_random_direct_address_table, get_random_bit_vector, \
     get_random_chained_direct_address_table, get_chained_hash_table_elements, get_random_hash_table_linear_probing, \
     get_hash_table_keys, get_random_huge_array
@@ -163,7 +163,7 @@ class Solutions11Test(TestCase):
         table_size = random.randint(1, 20)
         keys, _ = get_random_unique_array(max_size=table_size, max_value=99)
         elements = [Element(key) for key in keys]
-        table = StandardArray.of_length(table_size)
+        table = Array.indexed(0, table_size - 1)
         table.free = 0
         for i in range(table_size):
             table[i] = FreePosition(i - 1, i + 1)

@@ -11,7 +11,7 @@ def os_search(T, k):
 
 def intersecting_chords(C):
     n = C.length // 2
-    P = Array.of_length(n)
+    P = Array.indexed(1, n)
     for k in between(1, n):
         P[k] = 0
     intersections = 0

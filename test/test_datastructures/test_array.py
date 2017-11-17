@@ -33,3 +33,15 @@ class ArrayTest(TestCase):
         actual_subarray = self.array[3:4]
         expected_subarray = Array([1, 0])
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
+
+    def test_instantiate_with_custom_start_index(self):
+        array = Array([4, 5, 1, 0, 2], start=2)
+        assert_that(array.length, is_(equal_to(5)))
+        assert_that(array.start, is_(equal_to(2)))
+        assert_that(array[4], is_(equal_to(1)))
+
+    def test_create_empty_array_with_custom_indexes(self):
+        array = Array.indexed(3, 7)
+        assert_that(array.length, is_(equal_to(5)))
+        assert_that(array.start, is_(equal_to(3)))
+        assert_that(array[4], is_(none()))

@@ -8,7 +8,7 @@ class Interval:
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-                return self.low == other.low and self.high == other.high
+            return self.low == other.low and self.high == other.high
         return NotImplemented
 
     def __ne__(self, other):

@@ -17,7 +17,6 @@ from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length
 from datastructures.array import Array
-from datastructures.standard_array import StandardArray
 from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines, \
     get_maximum_lcs_length_brute_force, is_subsequence_of
 from util import rbetween, between
@@ -85,8 +84,8 @@ class Solutions15Test(TestCase):
 
     def test_matrix_chain_multiply(self):
         n = random.randint(1, 10)
-        dimensions = StandardArray([random.randint(1, 10) for _ in range(n + 1)])
-        A = Array.of_length(n)
+        dimensions = Array([random.randint(1, 10) for _ in range(n + 1)], start=0)
+        A = Array.indexed(1, n)
         for i in between(1, n):
             A[i], _ = get_random_matrix(dimensions[i - 1], dimensions[i])
         _, optimal_solution = matrix_chain_order(dimensions)

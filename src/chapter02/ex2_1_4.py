@@ -6,7 +6,7 @@ from util import between
 
 def binary_add(A, B):
     n = A.length
-    C = Array.of_length(n + 1)
+    C = Array.indexed(1, n + 1)
     for i in between(1, n + 1):
         C[i] = 0
     for i in between(1, n):

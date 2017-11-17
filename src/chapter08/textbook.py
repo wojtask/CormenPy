@@ -1,11 +1,11 @@
 import math
 
-from datastructures.standard_array import StandardArray
+from datastructures.array import Array
 from util import between, rbetween
 
 
 def counting_sort(A, B, k):
-    C = StandardArray.of_length(k + 1)
+    C = Array.indexed(0, k)
     for i in between(0, k):
         C[i] = 0
     for j in between(1, A.length):
@@ -18,7 +18,7 @@ def counting_sort(A, B, k):
 
 
 def unstable_counting_sort(A, B, k):
-    C = StandardArray.of_length(k + 1)
+    C = Array.indexed(0, k)
     for i in between(0, k):
         C[i] = 0
     for j in between(1, A.length):
@@ -46,7 +46,7 @@ def _get_digit(number, digit):
 
 def bucket_sort(A):
     n = A.length
-    B = StandardArray([[] for _ in range(n)])
+    B = Array([[] for _ in range(n)], start=0)
     for i in between(1, n):
         B[math.floor(n * A[i])].append(A[i])
     for i in between(0, n - 1):

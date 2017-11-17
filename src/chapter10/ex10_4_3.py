@@ -9,7 +9,7 @@ def _get_tree_size(node):
 
 
 def iterative_inorder_tree_walk(T):
-    S = Array.of_length(_get_tree_size(T.root))
+    S = Array.indexed(1, _get_tree_size(T.root))
     S.top = 0
     x = T.root
     while not stack_empty(S) or x is not None:

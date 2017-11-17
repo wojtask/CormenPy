@@ -20,7 +20,7 @@ def median_neighbors(A, k):
 def median_nearest(A, k):
     n = A.length
     x = select(A, 1, n, math.floor((n + 1) / 2))
-    dist = Array.of_length(n)
+    dist = Array.indexed(1, n)
     for i in between(1, n):
         dist[i] = abs(A[i] - x)
     y = select(dist, 1, n, k)

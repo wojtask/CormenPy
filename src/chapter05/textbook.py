@@ -5,7 +5,7 @@ from util import between
 
 def permute_by_sorting(A):
     n = A.length
-    P = Array.of_length(n)
+    P = Array.indexed(1, n)
     for i in between(1, n):
         P[i] = random(1, n ** 3)
     _sort_using_priorities(A, P)

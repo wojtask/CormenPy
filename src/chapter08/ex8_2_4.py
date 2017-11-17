@@ -1,9 +1,9 @@
-from datastructures.standard_array import StandardArray
+from datastructures.array import Array
 from util import between
 
 
 def counting_in_range(A, k, a, b):
-    C = StandardArray.of_length(k + 1)
+    C = Array.indexed(0, k)
     for i in between(0, k):
         C[i] = 0
     for j in between(1, A.length):

@@ -5,7 +5,7 @@ from util import between
 
 def random_search(A, x):
     n = A.length
-    B = Array.of_length(n)
+    B = Array.indexed(1, n)
     for k in between(1, n):
         B[k] = False
     checked = 0

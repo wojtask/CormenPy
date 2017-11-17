@@ -36,7 +36,7 @@ def persistent_tree_insert(T, k):
 
 def persistent_rb_insert(T, z):
     path_length = _get_path_length_from_root_to_node(T, z)
-    S = Array.of_length(path_length + 1)
+    S = Array.indexed(1, path_length + 1)
     S.top = 0
     y = T.nil
     x = T.root
@@ -131,7 +131,7 @@ def persistent_rb_delete(T, z):
     else:
         y = rb_successor(z, T.nil)
     path_length = _get_path_length_from_root_to_node(T, y)
-    S = Array.of_length(path_length + 1)
+    S = Array.indexed(1, path_length + 1)
     S.top = 0
     p = T.root
     r = T.nil

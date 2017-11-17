@@ -1,14 +1,13 @@
 import math
 
 from datastructures.array import Array
-from datastructures.standard_array import StandardArray
 from util import between
 
 
 def lis_length_(X):
     n = X.length
-    a = StandardArray.of_length(n + 1)
-    b = Array.of_length(n)
+    a = Array.indexed(0, n)
+    b = Array.indexed(1, n)
     for i in between(0, n):
         a[i] = 0
     longest = 0

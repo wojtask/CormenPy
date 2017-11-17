@@ -4,8 +4,8 @@ from util import between
 
 def lis_length(X):
     n = X.length
-    c = Array.of_length(n)
-    b = Array.of_length(n)
+    c = Array.indexed(1, n)
+    b = Array.indexed(1, n)
     longest = 0
     b_star = 0
     for i in between(1, n):

@@ -1,5 +1,5 @@
+from datastructures.array import Array
 from datastructures.matrix import Matrix
-from datastructures.standard_array import StandardArray
 from util import between
 
 
@@ -28,7 +28,7 @@ def lcs_length__(X, Y):
     n = Y.length
     if m < n:
         return lcs_length__(Y, X)
-    c = StandardArray.of_length(n + 1)
+    c = Array.indexed(0, n)
     for j in between(0, n):
         c[j] = 0
     for i in between(1, m):

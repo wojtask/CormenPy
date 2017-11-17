@@ -152,7 +152,7 @@ def get_xor_linked_list_keys(list_):
 def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
-    key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
+    key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
     list_indexes = random.sample(range(1, array_size + 1), list_size)
 
     head = None
@@ -211,7 +211,7 @@ def assert_multiple_array_list_consistent(list_):
 def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = 3 * random.randint(list_size, max_size)
-    A = Array.of_length(array_size)
+    A = Array.indexed(1, array_size)
     list_indexes = random.sample(range(1, array_size + 1, 3), list_size)
 
     head = None
@@ -270,7 +270,7 @@ def assert_single_array_list_consistent(list_):
 def get_random_compact_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
-    key, next, prev = Array.of_length(array_size), Array.of_length(array_size), Array.of_length(array_size)
+    key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
     list_indexes = random.sample(range(1, list_size + 1), list_size)
 
     head = None

@@ -2,7 +2,7 @@ import random
 
 from sympy import sieve
 
-from datastructures.standard_array import StandardArray
+from datastructures.array import Array
 
 
 def direct_address_search(T, k):
@@ -100,7 +100,7 @@ def perfect_hashing_init(K):
     # from Bertrand's postulate, for each n >= 1, there is a prime p, such that n < p <= 2n
     p = random.choice(list(sieve.primerange(max_key + 1, 2 * max_key + 1)))
     m = K.length
-    T = StandardArray.of_length(m)
+    T = Array.indexed(0, m - 1)
     h = _get_random_universal_hash_function(p, m)
     mapped_keys = [[] for _ in range(m)]
     for k in K:
@@ -108,7 +108,7 @@ def perfect_hashing_init(K):
     secondary_sizes = [len(keys) ** 2 for keys in mapped_keys]
     for j, size in enumerate(secondary_sizes):
         if size == 1:
-            T[j] = (lambda _: 0, StandardArray([mapped_keys[j][0]]))
+            T[j] = (lambda _: 0, Array([mapped_keys[j][0]], start=0))
         elif size > 1:
             h_ = None
             S = None
@@ -120,7 +120,7 @@ def perfect_hashing_init(K):
 
 
 def _construct_secondary_hash_table_no_collisions(keys, size, h_):
-    S = StandardArray.of_length(size)
+    S = Array.indexed(0, size - 1)
     for k in keys:
         if S[h_(k)] is not None:
             return None

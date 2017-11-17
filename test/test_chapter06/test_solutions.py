@@ -144,7 +144,7 @@ class Solutions06Test(TestCase):
 
     def test_priority_enqueue(self):
         size = random.randint(5, 20)
-        heap = Array.of_length(size)
+        heap = Array.indexed(1, size)
         heap.heap_size = 0
         heap.rank = 1
         nelements = random.randint(1, size)
@@ -176,7 +176,7 @@ class Solutions06Test(TestCase):
 
     def test_priority_push(self):
         size = random.randint(5, 20)
-        heap = Array.of_length(size)
+        heap = Array.indexed(1, size)
         heap.heap_size = 0
         heap.rank = 1
         nelements = random.randint(1, size)

@@ -15,7 +15,6 @@ from chapter02.ex2_3_7 import sum_search
 from chapter02.pr2_3 import polynomial_evaluate
 from chapter02.pr2_4 import count_inversions
 from datastructures.array import Array
-from datastructures.standard_array import StandardArray
 
 
 def bits_to_number(bits):
@@ -118,7 +117,7 @@ class Solutions02Test(TestCase):
     def test_polynomial_evaluate(self):
         n = random.randint(1, 20)
         elements = [random.uniform(-2.0, 2.0) for _ in range(n + 1)]
-        coefficients = StandardArray(elements)
+        coefficients = Array(elements, start=0)
         x = random.uniform(-2.0, 2.0)
 
         actual_result = polynomial_evaluate(coefficients, x)

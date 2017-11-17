@@ -7,7 +7,6 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter02.textbook import insertion_sort, merge_sort, bubble_sort, horner
 from datastructures.array import Array
-from datastructures.standard_array import StandardArray
 
 
 class Textbook02Test(TestCase):
@@ -39,7 +38,7 @@ class Textbook02Test(TestCase):
     def test_horner(self):
         n = random.randint(1, 20)
         elements = [random.uniform(-2.0, 2.0) for _ in range(n + 1)]
-        coefficients = StandardArray(elements)
+        coefficients = Array(elements, start=0)
         x = random.uniform(-2.0, 2.0)
 
         actual_result = horner(coefficients, x)

@@ -7,7 +7,7 @@ from datastructures.list import List, SNode
 
 def merge_sorted_lists(lists):
     k = lists.length
-    Q = Array.of_length(k)
+    Q = Array.indexed(1, k)
     Q.heap_size = 0
     for list_ in lists:
         if list_.head is not None:

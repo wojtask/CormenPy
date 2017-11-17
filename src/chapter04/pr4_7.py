@@ -8,7 +8,7 @@ from util import between
 def monge_minimums(A):
     m = A.rows
     minimums_indices = _monge_minimums_indices(A)
-    minimums = Array.of_length(m)
+    minimums = Array.indexed(1, m)
     for i in between(1, m):
         minimums[i] = A[i, minimums_indices[i]]
     return minimums
@@ -21,7 +21,7 @@ def _monge_minimums_indices(A):
         return Array([])
     A_ = Matrix([A[2 * j] for j in between(1, m // 2)])
     minimums_indices_even_rows = _monge_minimums_indices(A_)
-    minimums_indices = Array.of_length(m)
+    minimums_indices = Array.indexed(1, m)
     for j in between(1, m // 2):
         minimums_indices[2 * j] = minimums_indices_even_rows[j]
     for j in between(1, math.ceil(m / 2)):

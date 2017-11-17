@@ -13,7 +13,7 @@ class Textbook08Test(TestCase):
     def test_counting_sort(self):
         k = 20
         array, elements = get_random_array(max_value=k)
-        actual_sorted_array = Array.of_length(array.length)
+        actual_sorted_array = Array.indexed(1, array.length)
 
         counting_sort(array, actual_sorted_array, k)
 
@@ -23,7 +23,7 @@ class Textbook08Test(TestCase):
     def test_unstable_counting_sort(self):
         k = 20
         array, elements = get_random_array(max_value=k)
-        actual_sorted_array = Array.of_length(array.length)
+        actual_sorted_array = Array.indexed(1, array.length)
 
         unstable_counting_sort(array, actual_sorted_array, k)
 

@@ -13,7 +13,6 @@ from chapter15.textbook import fastest_way, print_stations, matrix_multiply, mat
     recursive_matrix_chain, memoized_matrix_chain, lcs_length, print_lcs
 from datastructures.array import Array
 from datastructures.matrix import Matrix
-from datastructures.standard_array import StandardArray
 from util import rbetween, between
 
 
@@ -111,7 +110,6 @@ def get_nwp_iteratively(b, sequence):
 
 
 class Textbook15Test(TestCase):
-
     def test_fastest_way(self):
         n = random.randint(1, 10)
         a, _ = get_random_matrix(2, n)
@@ -165,7 +163,7 @@ class Textbook15Test(TestCase):
 
     def test_matrix_chain_order(self):
         n = random.randint(1, 10)
-        dimensions = StandardArray([random.randint(1, 999) for _ in range(n + 1)])
+        dimensions = Array([random.randint(1, 999) for _ in range(n + 1)], start=0)
 
         actual_minimum_costs, optimal_solution = matrix_chain_order(dimensions)
 
@@ -191,7 +189,7 @@ class Textbook15Test(TestCase):
 
     def test_recursive_matrix_chain(self):
         n = random.randint(1, 10)
-        dimensions = StandardArray([random.randint(1, 999) for _ in range(n + 1)])
+        dimensions = Array([random.randint(1, 999) for _ in range(n + 1)], start=0)
         m = Matrix.of_dimensions(n, n)
 
         actual_minimum_cost = recursive_matrix_chain(dimensions, m, 1, n)
@@ -201,7 +199,7 @@ class Textbook15Test(TestCase):
 
     def test_memoized_matrix_chain(self):
         n = random.randint(1, 10)
-        dimensions = StandardArray([random.randint(1, 999) for _ in range(n + 1)])
+        dimensions = Array([random.randint(1, 999) for _ in range(n + 1)], start=0)
 
         actual_minimum_cost = memoized_matrix_chain(dimensions)
 

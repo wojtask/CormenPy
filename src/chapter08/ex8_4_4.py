@@ -1,12 +1,12 @@
 import math
 
-from datastructures.standard_array import StandardArray
+from datastructures.array import Array
 from util import between
 
 
 def unit_circle_sort(A):
     n = A.length
-    B = StandardArray([[] for _ in range(n)])
+    B = Array([[] for _ in range(n)], start=0)
     for i in between(1, n):
         d = math.sqrt(A[i].x ** 2 + A[i].y ** 2)
         B[math.ceil(d ** 2 * n) - 1].append((A[i], d))  # store distances with points; we'll sort by them later
