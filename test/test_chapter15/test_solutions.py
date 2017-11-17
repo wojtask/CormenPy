@@ -14,6 +14,7 @@ from chapter15.ex15_4_2 import print_lcs_
 from chapter15.ex15_4_3 import memoized_lcs_length
 from chapter15.ex15_4_4 import lcs_length_, lcs_length__
 from chapter15.ex15_4_5 import lis_length, print_lis
+from chapter15.ex15_4_6 import lis_length_
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length
 from datastructures.array import Array
 from datastructures.standard_array import StandardArray
@@ -144,6 +145,21 @@ class Solutions15Test(TestCase):
         captured_output = io.StringIO()
 
         actual_maximum_length, terms, last_term = lis_length(sequence)
+        with redirect_stdout(captured_output):
+            print_lis(terms, sequence, last_term)
+
+        expected_maximum_length = get_maximum_lis_length_brute_force(sequence)
+        assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
+        actual_lis = [int(x) for x in captured_output.getvalue().splitlines()]
+        assert_that(len(actual_lis), is_(equal_to(expected_maximum_length)))
+        assert_that(is_subsequence_of(actual_lis, sequence))
+        assert_that(is_monotonically_increasing(actual_lis))
+
+    def test_lis_length_(self):
+        sequence, _ = get_random_array(max_value=10)
+        captured_output = io.StringIO()
+
+        actual_maximum_length, terms, last_term = lis_length_(sequence)
         with redirect_stdout(captured_output):
             print_lis(terms, sequence, last_term)
 
