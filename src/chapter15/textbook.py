@@ -1,12 +1,13 @@
 import math
 
+from datastructures.array import Array
 from datastructures.matrix import Matrix
 from util import between, rbetween
 
 
 def fastest_way(a, t, e, x, n):
-    f = Matrix.of_dimensions(2, n)
-    l = Matrix.of_dimensions(2, n)
+    f = Array([Array.indexed(1, n), Array.indexed(1, n)])
+    l = Array([Array.indexed(1, n), Array.indexed(1, n)])
     f[1, 1] = e[1] + a[1, 1]
     f[2, 1] = e[2] + a[2, 1]
     for j in between(2, n):
@@ -54,8 +55,8 @@ def matrix_multiply(A, B):
 
 def matrix_chain_order(p):
     n = p.length - 1
-    m = Matrix.of_dimensions(n, n)
-    s = Matrix.of_dimensions(n, n)
+    m = Array([Array.indexed(1, n) for _ in between(1, n)])
+    s = Array([Array.indexed(1, n) for _ in between(1, n)])
     for i in between(1, n):
         m[i, i] = 0
     for l in between(2, n):
@@ -93,7 +94,7 @@ def recursive_matrix_chain(p, m, i, j):
 
 def memoized_matrix_chain(p):
     n = p.length - 1
-    m = Matrix.of_dimensions(n, n)
+    m = Array([Array.indexed(1, n) for _ in between(1, n)])
     for i in between(1, n):
         for j in between(i, n):
             m[i, j] = math.inf
@@ -116,8 +117,8 @@ def lookup_chain(p, m, i, j):
 def lcs_length(X, Y):
     m = X.length
     n = Y.length
-    c = Matrix.of_dimensions(m + 1, n + 1, first_row=0, first_column=0)
-    b = Matrix.of_dimensions(m, n)
+    c = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
+    b = Array([Array.indexed(1, n) for _ in between(1, m)])
     for i in between(1, m):
         c[i, 0] = 0
     for j in between(0, n):

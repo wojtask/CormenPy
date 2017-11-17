@@ -14,10 +14,17 @@ class Array:
     def __getitem__(self, index):
         if isinstance(index, int):
             return self.elements[index - self.start]
+        if isinstance(index, tuple):
+            row = self.elements[index[0] - self.start]
+            return row.elements[index[1] - row.start]
         return Array(self.elements[index.start - self.start:index.stop - self.start + 1])
 
     def __setitem__(self, index, item):
-        self.elements[index - self.start] = item
+        if isinstance(index, int):
+            self.elements[index - self.start] = item
+        else:
+            row = self.elements[index[0] - self.start]
+            row.elements[index[1] - row.start] = item
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

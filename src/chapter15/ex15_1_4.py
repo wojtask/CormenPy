@@ -1,10 +1,10 @@
-from datastructures.matrix import Matrix
+from datastructures.array import Array
 from util import between
 
 
 def fastest_way_(a, t, e, x, n):
-    f = Matrix.of_dimensions(2, 2)
-    l = Matrix.of_dimensions(2, n)
+    f = Array([Array.indexed(1, n), Array.indexed(1, n)])
+    l = Array([Array.indexed(1, n), Array.indexed(1, n)])
     f[1, 2] = e[1] + a[1, 1]
     f[2, 2] = e[2] + a[2, 1]
     for j in between(2, n):

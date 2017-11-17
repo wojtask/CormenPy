@@ -1,5 +1,4 @@
 from datastructures.array import Array
-from datastructures.matrix import Matrix
 from util import between
 
 
@@ -8,7 +7,7 @@ def lcs_length_(X, Y):
     n = Y.length
     if m < n:
         return lcs_length_(Y, X)
-    c = Matrix.of_dimensions(2, n + 1, first_row=0, first_column=0)
+    c = Array([Array.indexed(0, n), Array.indexed(0, n)], start=0)
     for j in between(0, n):
         c[0, j] = 0
     c[1, 0] = 0

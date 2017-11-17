@@ -1,13 +1,13 @@
 import math
 
-from datastructures.matrix import Matrix
+from datastructures.array import Array
 from util import between
 
 
 def memoized_lcs_length(X, Y):
     m = X.length
     n = Y.length
-    c = Matrix.of_dimensions(m + 1, n + 1, first_row=0, first_column=0)
+    c = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
     for i in between(0, m):
         for j in between(0, n):
             c[i, j] = math.inf
