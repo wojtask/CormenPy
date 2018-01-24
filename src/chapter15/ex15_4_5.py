@@ -22,6 +22,6 @@ def lis_length(X):
 
 
 def print_lis(b, X, i):
-    if i > 0:
+    if b[i] > 0:
         print_lis(b, X, b[i])
-        print(X[i])
+    print(X[i])
