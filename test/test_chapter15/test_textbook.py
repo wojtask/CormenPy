@@ -10,7 +10,7 @@ from hamcrest import *
 
 from array_util import get_random_matrix, get_random_array
 from chapter15.textbook import fastest_way, print_stations, matrix_multiply, matrix_chain_order, print_optimal_parens, \
-    recursive_matrix_chain, memoized_matrix_chain, lcs_length, print_lcs
+    recursive_matrix_chain, memoized_matrix_chain, lcs_length, print_lcs, optimal_bst
 from datastructures.array import Array
 from datastructures.matrix import Matrix
 from util import rbetween, between
@@ -107,6 +107,42 @@ def get_nwp_iteratively(b, sequence):
         else:
             j -= 1
     return result[::-1]
+
+
+def calculate_bst_cost(root, p, q):
+    return calculate_bst_subtree_cost(root, p, q, 0, 1, p.length)
+
+
+def calculate_bst_subtree_cost(root, p, q, d, i, j):
+    if i <= j:
+        return (d + 1) * p[root[i, j]] + \
+               calculate_bst_subtree_cost(root, p, q, d + 1, i, root[i, j] - 1) + \
+               calculate_bst_subtree_cost(root, p, q, d + 1, root[i, j] + 1, j)
+    return (d + 1) * q[j]
+
+
+def get_minimum_bst_cost_bruteforce(p, q):
+    return get_minimum_subtree_cost_bruteforce(p, q, 1, p.length, 0)
+
+
+def get_minimum_subtree_cost_bruteforce(p, q, i, j, d):
+    if i <= j:
+        min_cost = math.inf
+        for k in between(i, j):
+            cost = (d + 1) * p[k] + \
+                   get_minimum_subtree_cost_bruteforce(p, q, i, k - 1, d + 1) + \
+                   get_minimum_subtree_cost_bruteforce(p, q, k + 1, j, d + 1)
+            min_cost = min(min_cost, cost)
+        return min_cost
+    return (d + 1) * q[j]
+
+
+def assert_root_array_consistent(root):
+    n = root.length
+    for i in between(1, n):
+        for j in between(i, n):
+            assert_that(root[i, j], is_(greater_than_or_equal_to(i)))
+            assert_that(root[i, j], is_(less_than_or_equal_to(j)))
 
 
 class Textbook15Test(TestCase):
@@ -222,3 +258,21 @@ class Textbook15Test(TestCase):
         assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
         assert_that(is_subsequence_of(actual_lcs, sequence1))
         assert_that(is_subsequence_of(actual_lcs, sequence2))
+
+    def test_optimal_bst(self):
+        n = random.randint(1, 10)
+        p, _ = get_random_array(min_size=n, max_size=n)
+        q, _ = get_random_array(min_size=n + 1, max_size=n + 1)
+        q.start = 0
+        total = sum([x for x in p.elements + q.elements])
+        for i in between(1, n):
+            p[i] /= total
+        for i in between(0, n):
+            q[i] /= total
+
+        e, root = optimal_bst(p, q, n)
+
+        assert_root_array_consistent(root)
+        expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
+        actual_minimum_cost = calculate_bst_cost(root, p, q)
+        assert_that(actual_minimum_cost, expected_minimum_cost)
