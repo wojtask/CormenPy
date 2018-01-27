@@ -20,19 +20,16 @@ def get_other_line(current_line):
     return current_line % 2 + 1
 
 
-def get_fastest_way_brute_force_from(a, t, x, pos, n, line):
+def get_fastest_way_brute_force(a, t, e, x, n):
+    return min(e[1] + get_fastest_way_bruteforce_from(a, t, x, 1, n, 1),
+               e[2] + get_fastest_way_bruteforce_from(a, t, x, 1, n, 2))
+
+
+def get_fastest_way_bruteforce_from(a, t, x, pos, n, line):
     if pos == n:
         return a[line, n] + x[line]
-
-    return min(a[line, pos]
-               + get_fastest_way_brute_force_from(a, t, x, pos + 1, n, line),
-               a[line, pos] + t[line, pos]
-               + get_fastest_way_brute_force_from(a, t, x, pos + 1, n, get_other_line(line)))
-
-
-def get_fastest_way_brute_force(a, t, e, x, n):
-    return min(e[1] + get_fastest_way_brute_force_from(a, t, x, 1, n, 1),
-               e[2] + get_fastest_way_brute_force_from(a, t, x, 1, n, 2))
+    return min(a[line, pos] + get_fastest_way_bruteforce_from(a, t, x, pos + 1, n, line),
+               a[line, pos] + t[line, pos] + get_fastest_way_bruteforce_from(a, t, x, pos + 1, n, get_other_line(line)))
 
 
 def get_assembly_time_based_on_lines(lines, last_line, a, t, e, x, n):
@@ -59,19 +56,19 @@ def get_minimum_matrix_product_cost(dimensions, i, j):
     return minimum_cost
 
 
-def get_matrix_product_cost_based_on_solution(solution, dimensions, i, j):
+def get_matrix_product_cost_from_solution(solution, dimensions, i, j):
     if i == j:
         return 0
     k = solution[i, j]
-    return get_matrix_product_cost_based_on_solution(solution, dimensions, i, k) \
-           + get_matrix_product_cost_based_on_solution(solution, dimensions, k + 1, j) \
-           + dimensions[i - 1] * dimensions[k] * dimensions[j]
+    return get_matrix_product_cost_from_solution(solution, dimensions, i, k) + \
+        get_matrix_product_cost_from_solution(solution, dimensions, k + 1, j) + \
+        dimensions[i - 1] * dimensions[k] * dimensions[j]
 
 
-def get_optimal_parens_brute_force(s, i, j):
+def get_optimal_parens_bruteforce(s, i, j):
     if i == j:
         return 'A' + str(i)
-    return '(' + get_optimal_parens_brute_force(s, i, s[i, j]) + get_optimal_parens_brute_force(s, s[i, j] + 1, j) + ')'
+    return '(' + get_optimal_parens_bruteforce(s, i, s[i, j]) + get_optimal_parens_bruteforce(s, s[i, j] + 1, j) + ')'
 
 
 def is_subsequence_of(subsequence, sequence):
@@ -84,7 +81,7 @@ def is_subsequence_of(subsequence, sequence):
     return True
 
 
-def get_maximum_lcs_length_brute_force(sequence1, sequence2):
+def get_maximum_lcs_length_bruteforce(sequence1, sequence2):
     max_length = 0
     for i in between(1, min(sequence1.length, sequence2.length)):
         for subsequence in itertools.combinations(sequence1, i):
@@ -109,32 +106,17 @@ def get_nwp_iteratively(b, sequence):
     return result[::-1]
 
 
-def calculate_bst_cost(root, p, q):
-    return calculate_bst_subtree_cost(root, p, q, 0, 1, p.length)
-
-
-def calculate_bst_subtree_cost(root, p, q, d, i, j):
-    if i <= j:
-        return (d + 1) * p[root[i, j]] + \
-               calculate_bst_subtree_cost(root, p, q, d + 1, i, root[i, j] - 1) + \
-               calculate_bst_subtree_cost(root, p, q, d + 1, root[i, j] + 1, j)
-    return (d + 1) * q[j]
-
-
-def get_minimum_bst_cost_bruteforce(p, q):
-    return get_minimum_subtree_cost_bruteforce(p, q, 1, p.length, 0)
-
-
-def get_minimum_subtree_cost_bruteforce(p, q, i, j, d):
-    if i <= j:
-        min_cost = math.inf
-        for k in between(i, j):
-            cost = (d + 1) * p[k] + \
-                   get_minimum_subtree_cost_bruteforce(p, q, i, k - 1, d + 1) + \
-                   get_minimum_subtree_cost_bruteforce(p, q, k + 1, j, d + 1)
-            min_cost = min(min_cost, cost)
-        return min_cost
-    return (d + 1) * q[j]
+def get_probabilities_for_optimal_bst():
+    n = random.randint(1, 10)
+    p, _ = get_random_array(min_size=n, max_size=n)
+    q, _ = get_random_array(min_size=n + 1, max_size=n + 1)
+    q.start = 0
+    total = sum([x for x in p.elements + q.elements])
+    for i in between(1, n):
+        p[i] /= total
+    for i in between(0, n):
+        q[i] /= total
+    return p, q
 
 
 def assert_root_array_consistent(root):
@@ -145,7 +127,36 @@ def assert_root_array_consistent(root):
             assert_that(root[i, j], is_(less_than_or_equal_to(j)))
 
 
+def get_bst_cost(root, p, q):
+    return get_bst_subtree_cost(root, p, q, 0, 1, p.length)
+
+
+def get_bst_subtree_cost(root, p, q, d, i, j):
+    if i > j:
+        return (d + 1) * q[j]
+    return (d + 1) * p[root[i, j]] + \
+        get_bst_subtree_cost(root, p, q, d + 1, i, root[i, j] - 1) + \
+        get_bst_subtree_cost(root, p, q, d + 1, root[i, j] + 1, j)
+
+
+def get_minimum_bst_cost_bruteforce(p, q):
+    return get_minimum_subtree_cost_bruteforce(p, q, 1, p.length, 0)
+
+
+def get_minimum_subtree_cost_bruteforce(p, q, i, j, d):
+    if i > j:
+        return (d + 1) * q[j]
+    min_cost = math.inf
+    for k in between(i, j):
+        cost = (d + 1) * p[k] + \
+               get_minimum_subtree_cost_bruteforce(p, q, i, k - 1, d + 1) + \
+               get_minimum_subtree_cost_bruteforce(p, q, k + 1, j, d + 1)
+        min_cost = min(min_cost, cost)
+    return min_cost
+
+
 class Textbook15Test(TestCase):
+
     def test_fastest_way(self):
         n = random.randint(1, 10)
         a, _ = get_random_matrix(2, n)
@@ -205,7 +216,7 @@ class Textbook15Test(TestCase):
 
         expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
         assert_that(actual_minimum_costs[1, n], is_(equal_to(expected_minimum_cost)))
-        expected_minimum_cost = get_matrix_product_cost_based_on_solution(optimal_solution, dimensions, 1, n)
+        expected_minimum_cost = get_matrix_product_cost_from_solution(optimal_solution, dimensions, 1, n)
         assert_that(actual_minimum_costs[1, n], is_(equal_to(expected_minimum_cost)))
 
     def test_print_optimal_parens(self):
@@ -220,7 +231,7 @@ class Textbook15Test(TestCase):
             print_optimal_parens(s, 1, n)
 
         actual_output = captured_output.getvalue().splitlines()[0]
-        expected_output = get_optimal_parens_brute_force(s, 1, n)
+        expected_output = get_optimal_parens_bruteforce(s, 1, n)
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_recursive_matrix_chain(self):
@@ -252,7 +263,7 @@ class Textbook15Test(TestCase):
             print_lcs(optimal_solution, sequence1, sequence1.length, sequence2.length)
             print()  # a blank line after the output
 
-        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
         actual_lcs = captured_output.getvalue().splitlines()[0]
         assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
@@ -260,19 +271,11 @@ class Textbook15Test(TestCase):
         assert_that(is_subsequence_of(actual_lcs, sequence2))
 
     def test_optimal_bst(self):
-        n = random.randint(1, 10)
-        p, _ = get_random_array(min_size=n, max_size=n)
-        q, _ = get_random_array(min_size=n + 1, max_size=n + 1)
-        q.start = 0
-        total = sum([x for x in p.elements + q.elements])
-        for i in between(1, n):
-            p[i] /= total
-        for i in between(0, n):
-            q[i] /= total
+        p, q = get_probabilities_for_optimal_bst()
 
-        e, root = optimal_bst(p, q, n)
+        e, root = optimal_bst(p, q, p.length)
 
         assert_root_array_consistent(root)
         expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
-        actual_minimum_cost = calculate_bst_cost(root, p, q)
+        actual_minimum_cost = get_bst_cost(root, p, q)
         assert_that(actual_minimum_cost, expected_minimum_cost)
