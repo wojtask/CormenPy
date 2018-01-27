@@ -1,6 +1,7 @@
 import io
 import itertools
 import random
+import re
 from contextlib import redirect_stdout
 from unittest import TestCase
 
@@ -15,10 +16,11 @@ from chapter15.ex15_4_3 import memoized_lcs_length
 from chapter15.ex15_4_4 import lcs_length_, lcs_length__
 from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
-from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length
+from chapter15.ex15_5_1 import construct_optimal_bst
+from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
 from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines, \
-    get_maximum_lcs_length_brute_force, is_subsequence_of
+    get_maximum_lcs_length_bruteforce, is_subsequence_of, get_probabilities_for_optimal_bst
 from util import rbetween, between
 
 
@@ -44,6 +46,51 @@ def get_maximum_lis_length_brute_force(sequence):
             if is_monotonically_increasing(subsequence):
                 max_length = len(subsequence)
     return max_length
+
+
+def assert_optimal_bst_output(actual_output, root):
+    n = root.length
+    root_id = int(re.search('k(\d+) is the root', actual_output[0]).group(1))
+    assert_that(root_id, is_(equal_to(root[1, n])))
+    line_no = assert_left_child_output(actual_output, root, 1, root_id - 1, 1)
+    line_no = assert_right_child_output(actual_output, root, root_id + 1, n, line_no + 1)
+    assert_that(actual_output, has_length(line_no + 1))
+
+
+def assert_left_child_output(actual_output, root, i, j, line_no):
+    parent = j + 1
+    comp = re.compile('([kd])(\d+) is the left child of k(\d+)')
+    node_type = comp.search(actual_output[line_no]).group(1)
+    node_id = int(comp.search(actual_output[line_no]).group(2))
+    actual_parent = int(comp.search(actual_output[line_no]).group(3))
+    assert_that(actual_parent, is_(equal_to(parent)))
+    if i <= j:
+        assert_that(node_type, is_(equal_to('k')))
+        assert_that(node_id, is_(equal_to(root[i, j])))
+        line_no = assert_left_child_output(actual_output, root, i, node_id - 1, line_no + 1)
+        line_no = assert_right_child_output(actual_output, root, node_id + 1, j, line_no + 1)
+    else:
+        assert_that(node_type, is_(equal_to('d')))
+        assert_that(node_id, is_(equal_to(j)))
+    return line_no
+
+
+def assert_right_child_output(actual_output, root, i, j, line_no):
+    parent = i - 1
+    comp = re.compile('([kd])(\d+) is the right child of k(\d+)')
+    node_type = comp.search(actual_output[line_no]).group(1)
+    node_id = int(comp.search(actual_output[line_no]).group(2))
+    actual_parent = int(comp.search(actual_output[line_no]).group(3))
+    assert_that(actual_parent, is_(equal_to(parent)))
+    if i <= j:
+        assert_that(node_type, is_(equal_to('k')))
+        assert_that(node_id, is_(equal_to(root[i, j])))
+        line_no = assert_left_child_output(actual_output, root, i, node_id - 1, line_no + 1)
+        line_no = assert_right_child_output(actual_output, root, node_id + 1, j, line_no + 1)
+    else:
+        assert_that(node_type, is_(equal_to('d')))
+        assert_that(node_id, is_(equal_to(j)))
+    return line_no
 
 
 class Solutions15Test(TestCase):
@@ -105,7 +152,7 @@ class Solutions15Test(TestCase):
             print_lcs_(actual_maximum_lengths, sequence1, sequence2, sequence1.length, sequence2.length)
             print()  # a blank line after the output
 
-        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
         actual_lcs = captured_output.getvalue().splitlines()[0]
         assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
@@ -118,7 +165,7 @@ class Solutions15Test(TestCase):
 
         actual_maximum_length = memoized_lcs_length(sequence1, sequence2)
 
-        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
 
     def test_lcs_length_(self):
@@ -127,7 +174,7 @@ class Solutions15Test(TestCase):
 
         actual_maximum_length = lcs_length_(sequence1, sequence2)
 
-        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
 
     def test_lcs_length__(self):
@@ -136,7 +183,7 @@ class Solutions15Test(TestCase):
 
         actual_maximum_length = lcs_length__(sequence1, sequence2)
 
-        expected_maximum_length = get_maximum_lcs_length_brute_force(sequence1, sequence2)
+        expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
 
     def test_lis_length(self):
@@ -168,3 +215,14 @@ class Solutions15Test(TestCase):
         assert_that(len(actual_lis), is_(equal_to(expected_maximum_length)))
         assert_that(is_subsequence_of(actual_lis, sequence))
         assert_that(is_monotonically_increasing(actual_lis))
+
+    def test_construct_optimal_bst(self):
+        p, q = get_probabilities_for_optimal_bst()
+        _, root = optimal_bst(p, q, p.length)
+        captured_output = io.StringIO()
+
+        with redirect_stdout(captured_output):
+            construct_optimal_bst(root)
+
+        actual_output = captured_output.getvalue().splitlines()
+        assert_optimal_bst_output(actual_output, root)
