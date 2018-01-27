@@ -27,16 +27,16 @@ def lcs_length__(X, Y):
     n = Y.length
     if m < n:
         return lcs_length__(Y, X)
-    c = Array.indexed(0, n)
+    C = Array.indexed(0, n)
     for j in between(0, n):
-        c[j] = 0
+        C[j] = 0
     for i in between(1, m):
-        p = c[0]
+        p = C[0]
         for j in between(1, n):
-            r = c[j]
+            r = C[j]
             if X[i] == Y[j]:
-                c[j] = p + 1
+                C[j] = p + 1
             else:
-                c[j] = max(c[j], c[j - 1])
+                C[j] = max(C[j], C[j - 1])
             p = r
-    return c[n]
+    return C[n]
