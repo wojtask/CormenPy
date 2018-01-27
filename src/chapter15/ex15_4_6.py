@@ -10,18 +10,18 @@ def lis_length_(X):
     b = Array.indexed(1, n)
     for i in between(0, n):
         a[i] = 0
-    longest = 0
+    m = 0
     for i in between(1, n):
-        low = 1
-        high = longest
-        while low <= high:
-            mid = math.floor((low + high) / 2)
-            if X[i] < X[a[mid]]:
-                high = mid - 1
+        k = 1
+        l = m
+        while k <= l:
+            j = math.floor((k + l) / 2)
+            if X[a[j]] <= X[i]:
+                k = j + 1
             else:
-                low = mid + 1
-        a[low] = i
-        b[i] = a[low - 1]
-        if low > longest:
-            longest = low
-    return longest, b, a[longest]
+                l = j - 1
+        a[k] = i
+        b[i] = a[k - 1]
+        if k > m:
+            m = k
+    return m, b, a[m]
