@@ -17,10 +17,12 @@ from chapter15.ex15_4_4 import lcs_length_, lcs_length__
 from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
+from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
 from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines, \
-    get_maximum_lcs_length_bruteforce, is_subsequence_of, get_probabilities_for_optimal_bst
+    get_maximum_lcs_length_bruteforce, is_subsequence_of, get_probabilities_for_optimal_bst, \
+    assert_root_array_consistent, get_minimum_bst_cost_bruteforce, get_bst_cost
 from util import rbetween, between
 
 
@@ -226,3 +228,13 @@ class Solutions15Test(TestCase):
 
         actual_output = captured_output.getvalue().splitlines()
         assert_optimal_bst_output(actual_output, root)
+
+    def test_effective_optimal_bst(self):
+        p, q = get_probabilities_for_optimal_bst()
+
+        e, root = effective_optimal_bst(p, q, p.length)
+
+        assert_root_array_consistent(root)
+        expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
+        actual_minimum_cost = get_bst_cost(root, p, q)
+        assert_that(actual_minimum_cost, expected_minimum_cost)
