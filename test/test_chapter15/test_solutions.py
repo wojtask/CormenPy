@@ -20,7 +20,7 @@ from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
-from test_chapter15.test_textbook import get_fastest_way_brute_force, get_assembly_time_based_on_lines, \
+from test_chapter15.test_textbook import get_fastest_way_bruteforce, get_assembly_time_based_on_lines, \
     get_maximum_lcs_length_bruteforce, is_subsequence_of, get_probabilities_for_optimal_bst, \
     assert_root_array_consistent, get_minimum_bst_cost_bruteforce, get_bst_cost
 from util import rbetween, between
@@ -41,7 +41,7 @@ def is_monotonically_increasing(sequence):
     return True
 
 
-def get_maximum_lis_length_brute_force(sequence):
+def get_maximum_lis_length_bruteforce(sequence):
     max_length = 0
     for i in between(1, sequence.length):
         for subsequence in itertools.combinations(sequence, i):
@@ -126,7 +126,7 @@ class Solutions15Test(TestCase):
 
         actual_assembly_time, lines, last_line = fastest_way_(a, t, e, x, n)
 
-        expected_assembly_time = get_fastest_way_brute_force(a, t, e, x, n)
+        expected_assembly_time = get_fastest_way_bruteforce(a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
         expected_assembly_time = get_assembly_time_based_on_lines(lines, last_line, a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
@@ -196,7 +196,7 @@ class Solutions15Test(TestCase):
         with redirect_stdout(captured_output):
             print_lis(terms, sequence, last_term)
 
-        expected_maximum_length = get_maximum_lis_length_brute_force(sequence)
+        expected_maximum_length = get_maximum_lis_length_bruteforce(sequence)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
         actual_lis = [int(x) for x in captured_output.getvalue().splitlines()]
         assert_that(len(actual_lis), is_(equal_to(expected_maximum_length)))
@@ -211,7 +211,7 @@ class Solutions15Test(TestCase):
         with redirect_stdout(captured_output):
             print_lis(terms, sequence, last_term)
 
-        expected_maximum_length = get_maximum_lis_length_brute_force(sequence)
+        expected_maximum_length = get_maximum_lis_length_bruteforce(sequence)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
         actual_lis = [int(x) for x in captured_output.getvalue().splitlines()]
         assert_that(len(actual_lis), is_(equal_to(expected_maximum_length)))

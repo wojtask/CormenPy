@@ -75,18 +75,6 @@ def _update_additional_fields(x):
         x.pom = x.right.pom
 
 
-def interval_pom_left_rotate(T, x):
-    left_rotate(T, x, sentinel=T.nil)
-    _update_additional_fields(x)
-    _update_additional_fields(x.p)
-
-
-def interval_pom_right_rotate(T, x):
-    right_rotate(T, x, sentinel=T.nil)
-    _update_additional_fields(x)
-    _update_additional_fields(x.p)
-
-
 def _interval_pom_insert_fixup(T, z):
     while z.p.color == Red:
         if z.p is z.p.p.left:
@@ -118,6 +106,18 @@ def _interval_pom_insert_fixup(T, z):
                 z.p.p.color = Red
                 interval_pom_left_rotate(T, z.p.p)
     T.root.color = Black
+
+
+def interval_pom_left_rotate(T, x):
+    left_rotate(T, x, sentinel=T.nil)
+    _update_additional_fields(x)
+    _update_additional_fields(x.p)
+
+
+def interval_pom_right_rotate(T, x):
+    right_rotate(T, x, sentinel=T.nil)
+    _update_additional_fields(x)
+    _update_additional_fields(x.p)
 
 
 def interval_pom_delete(T, z1, z2):
@@ -154,20 +154,6 @@ def _interval_pom_safe_delete_node(T, z):
             else:
                 z.p.right = y
         _copy_all_fields(z, y)
-
-
-def _copy_all_fields(z, y):
-    y.key = z.key
-    y.data = z.data
-    y.low = z.low
-    y.high = z.high
-    y.sum = z.sum
-    y.max = z.max
-    y.pom = z.pom
-    y.color = z.color
-    y.left = z.left
-    y.right = z.right
-    y.p = z.p
 
 
 def _interval_pom_delete(T, z):
@@ -246,6 +232,20 @@ def _interval_pom_delete_fixup(T, x):
                 interval_pom_right_rotate(T, x.p)
                 x = T.root
     x.color = Black
+
+
+def _copy_all_fields(z, y):
+    y.key = z.key
+    y.data = z.data
+    y.low = z.low
+    y.high = z.high
+    y.sum = z.sum
+    y.max = z.max
+    y.pom = z.pom
+    y.color = z.color
+    y.left = z.left
+    y.right = z.right
+    y.p = z.p
 
 
 def find_pom(T):

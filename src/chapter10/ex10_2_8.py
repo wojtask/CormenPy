@@ -1,6 +1,16 @@
 from datastructures.list import XorNode
 
 
+def xor_linked_list_search(L, k):
+    x = L.head
+    y = None
+    while x is not None and x.key != k:
+        z = L.addr_to_node[_xor(x.np, y)]
+        y = x
+        x = z
+    return x
+
+
 def _xor(x, y):
     if x is None:
         x = 0
@@ -11,16 +21,6 @@ def _xor(x, y):
     elif isinstance(y, XorNode):
         y = id(y)
     return x ^ y
-
-
-def xor_linked_list_search(L, k):
-    x = L.head
-    y = None
-    while x is not None and x.key != k:
-        z = L.addr_to_node[_xor(x.np, y)]
-        y = x
-        x = z
-    return x
 
 
 def xor_linked_list_insert(L, x):

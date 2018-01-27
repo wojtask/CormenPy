@@ -89,12 +89,6 @@ def quadratic_probing_search(T, k, h):
             i = (i + j) % m
 
 
-def _get_random_universal_hash_function(p, m):
-    a = random.randint(1, p - 1)
-    b = random.randint(0, p - 1)
-    return lambda k: ((a * k + b) % p) % m
-
-
 def perfect_hashing_init(K):
     max_key = max(K)
     # from Bertrand's postulate, for each n >= 1, there is a prime p, such that n < p <= 2n
@@ -117,6 +111,12 @@ def perfect_hashing_init(K):
                 S = _construct_secondary_hash_table_no_collisions(mapped_keys[j], size, h_)
             T[j] = (h_, S)
     return T, h
+
+
+def _get_random_universal_hash_function(p, m):
+    a = random.randint(1, p - 1)
+    b = random.randint(0, p - 1)
+    return lambda k: ((a * k + b) % p) % m
 
 
 def _construct_secondary_hash_table_no_collisions(keys, size, h_):

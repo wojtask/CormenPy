@@ -42,7 +42,7 @@ from queue_util import get_queue_elements, get_stack_elements
 from tree_util import get_random_binary_search_tree
 
 
-def _get_rooted_tree():
+def get_rooted_tree():
     nodes = [Node(key) for key in range(7)]
     nodes[0].left_child = nodes[1]
     nodes[1].right_sibling = nodes[2]
@@ -53,7 +53,7 @@ def _get_rooted_tree():
     return RootedTree(nodes[0])
 
 
-def _make_free_list_doubly_linked(list_):
+def make_free_list_doubly_linked(list_):
     if list_.free is None:
         return
     x = list_.free
@@ -616,7 +616,7 @@ class Solutions10Test(TestCase):
 
     def test_compactify_list(self):
         list_ = get_random_multiple_array_list()
-        _make_free_list_doubly_linked(list_)
+        make_free_list_doubly_linked(list_)
         expected_keys = get_multiple_array_list_keys(list_)
         expected_free_cells = get_multiple_array_list_free_cells(list_)
 
@@ -639,7 +639,7 @@ class Solutions10Test(TestCase):
         assert_that(actual_output, is_(equal_to(expected_output)))
 
     def test_tree_walk(self):
-        tree = _get_rooted_tree()
+        tree = get_rooted_tree()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):

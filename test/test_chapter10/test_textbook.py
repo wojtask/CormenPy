@@ -15,7 +15,7 @@ from list_util import get_random_doubly_linked_list, get_linked_list_keys, \
 from queue_util import get_stack_elements, get_queue_elements
 
 
-def _make_sorted_keys_in_multiple_array_list(list_):
+def make_sorted_keys_in_multiple_array_list(list_):
     array_length = list_.key.length
     sorted_keys = sorted([random.randint(0, 999) for _ in range(array_length)])
     x = list_.head
@@ -223,7 +223,7 @@ class Textbook10Test(TestCase):
 
     def test_compact_list_search(self):
         list_ = get_random_compact_list(min_size=10, max_size=20, max_value=20)
-        keys = _make_sorted_keys_in_multiple_array_list(list_)
+        keys = make_sorted_keys_in_multiple_array_list(list_)
         key_to_find = random.randint(0, 20)
 
         actual_index = compact_list_search(list_, len(keys), key_to_find)

@@ -12,20 +12,6 @@ def small_order_select(A, i):
     return B[idx]
 
 
-def _cascaded_swap(B, m, i, j):
-    while i >= 1 and j >= 1:
-        B[i], B[j] = B[j], B[i]
-        i -= m
-        j -= m
-
-
-def _cascaded_align(B, m, i):
-    while i >= 1:
-        B.elements.insert(i - 1, math.inf)
-        B.length += 1
-        i -= m
-
-
 def _small_order_select(B, p, r, i):
     n = r - p + 1
     m = n // 2
@@ -91,3 +77,17 @@ def _partition_around_with_cascaded_swaps(B, m, p, r, x):
             _cascaded_swap(B, m, i, j)
     _cascaded_swap(B, m, i + 1, r)
     return i + 1
+
+
+def _cascaded_swap(B, m, i, j):
+    while i >= 1 and j >= 1:
+        B[i], B[j] = B[j], B[i]
+        i -= m
+        j -= m
+
+
+def _cascaded_align(B, m, i):
+    while i >= 1:
+        B.elements.insert(i - 1, math.inf)
+        B.length += 1
+        i -= m

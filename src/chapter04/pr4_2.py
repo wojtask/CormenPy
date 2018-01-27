@@ -1,10 +1,6 @@
 from datastructures.array import Array
 
 
-def _get_bit(a, j):
-    return 1 if a & (1 << j) else 0
-
-
 def missing_integer(A):
     n = A.length
     missing = 0
@@ -20,3 +16,7 @@ def missing_integer(A):
         n = A.length
         j += 1
     return missing
+
+
+def _get_bit(a, j):
+    return 1 if a & (1 << j) else 0

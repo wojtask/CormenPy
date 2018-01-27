@@ -43,7 +43,7 @@ def get_random_chained_hash_table(max_value=999):
     nelements = random.randint(0, 3 * table_size)
     elements = [ChainedElement(random.randint(0, max_value)) for _ in range(nelements)]
     table = Array.indexed(0, table_size - 1)
-    h = _modular_hash
+    h = modular_hash
 
     for element in elements:
         list_ = table[h(element.key, table_size)]
@@ -80,32 +80,32 @@ def get_random_huge_array(max_value=999):
     return table, stack, keys
 
 
-def _modular_hash(k, m):
-    return k % m
-
-
 def get_random_hash_table_linear_probing(max_value=999):
     table_size = random.randint(1, 10)
-    table, keys = _random_hash_table(_linear_hash, table_size, max_value)
-    return table, keys, _linear_hash
-
-
-def _linear_hash(k, i, m):
-    return (_modular_hash(k, m) + i) % m
+    table, keys = random_hash_table(linear_hash, table_size, max_value)
+    return table, keys, linear_hash
 
 
 def get_random_hash_table_quadratic_probing(max_value=999):
     # make sure the table size is a power of 2
     table_size = random.choice([2 ** n for n in range(6)])
-    table, keys = _random_hash_table(_quadratic_hash, table_size, max_value)
-    return table, keys, _quadratic_hash, _modular_hash
+    table, keys = random_hash_table(quadratic_hash, table_size, max_value)
+    return table, keys, quadratic_hash, modular_hash
 
 
-def _quadratic_hash(k, i, m):
-    return (_modular_hash(k, m) + i * (i + 1) // 2) % m
+def modular_hash(k, m):
+    return k % m
 
 
-def _random_hash_table(h, table_size, max_value):
+def linear_hash(k, i, m):
+    return (modular_hash(k, m) + i) % m
+
+
+def quadratic_hash(k, i, m):
+    return (modular_hash(k, m) + i * (i + 1) // 2) % m
+
+
+def random_hash_table(h, table_size, max_value):
     table = Array.indexed(0, table_size - 1)
     nelements = random.randint(0, table.length)
     keys = [random.randint(0, max_value) for _ in range(nelements)]

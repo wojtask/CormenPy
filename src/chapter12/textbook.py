@@ -49,12 +49,6 @@ def tree_successor(x):
     return y
 
 
-def _get_size(x):
-    if x is None:
-        return 0
-    return 1 + _get_size(x.left) + _get_size(x.right)
-
-
 def inorder_tree_walk_(T):
     if T.root is None:
         return
@@ -64,6 +58,12 @@ def inorder_tree_walk_(T):
     for i in between(1, n - 1):
         x = tree_successor(x)
         print(x.key)
+
+
+def _get_size(x):
+    if x is None:
+        return 0
+    return 1 + _get_size(x.left) + _get_size(x.right)
     
     
 def tree_insert(T, z):

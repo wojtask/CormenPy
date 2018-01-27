@@ -20,7 +20,7 @@ def get_other_line(current_line):
     return current_line % 2 + 1
 
 
-def get_fastest_way_brute_force(a, t, e, x, n):
+def get_fastest_way_bruteforce(a, t, e, x, n):
     return min(e[1] + get_fastest_way_bruteforce_from(a, t, x, 1, n, 1),
                e[2] + get_fastest_way_bruteforce_from(a, t, x, 1, n, 2))
 
@@ -166,7 +166,7 @@ class Textbook15Test(TestCase):
 
         actual_assembly_time, lines, last_line = fastest_way(a, t, e, x, n)
 
-        expected_assembly_time = get_fastest_way_brute_force(a, t, e, x, n)
+        expected_assembly_time = get_fastest_way_bruteforce(a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
         expected_assembly_time = get_assembly_time_based_on_lines(lines, last_line, a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
