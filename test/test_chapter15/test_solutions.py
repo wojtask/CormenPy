@@ -99,8 +99,10 @@ class Solutions15Test(TestCase):
 
     def test_print_stations_(self):
         n = random.randint(1, 10)
-        l, _ = get_random_matrix(2, n, min_value=1, max_value=2)
-        l[1, 1] = l[2, 1] = 0
+        l = Array([Array.indexed(1, n), Array.indexed(1, n)])
+        l[1, 1], l[2, 1] = 0, 0
+        for i in between(2, n):
+            l[1, i], l[2, i] = random.choice([(1, 1), (1, 2), (2, 2)])
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 
@@ -119,8 +121,10 @@ class Solutions15Test(TestCase):
 
     def test_fastest_way_(self):
         n = random.randint(1, 10)
-        a, _ = get_random_matrix(2, n)
-        t, _ = get_random_matrix(2, n - 1)
+        a = Array([get_random_array(min_size=n, max_size=n)[0],
+                   get_random_array(min_size=n, max_size=n)[0]])
+        t = Array([get_random_array(min_size=n - 1, max_size=n - 1)[0],
+                   get_random_array(min_size=n - 1, max_size=n - 1)[0]])
         e, _ = get_random_array(min_size=2, max_size=2)
         x, _ = get_random_array(min_size=2, max_size=2)
 

@@ -12,7 +12,6 @@ from array_util import get_random_matrix, get_random_array
 from chapter15.textbook import fastest_way, print_stations, matrix_multiply, matrix_chain_order, print_optimal_parens, \
     recursive_matrix_chain, memoized_matrix_chain, lcs_length, print_lcs, optimal_bst
 from datastructures.array import Array
-from datastructures.matrix import Matrix
 from util import rbetween, between
 
 
@@ -159,8 +158,10 @@ class Textbook15Test(TestCase):
 
     def test_fastest_way(self):
         n = random.randint(1, 10)
-        a, _ = get_random_matrix(2, n)
-        t, _ = get_random_matrix(2, n - 1)
+        a = Array([get_random_array(min_size=n, max_size=n)[0],
+                   get_random_array(min_size=n, max_size=n)[0]])
+        t = Array([get_random_array(min_size=n - 1, max_size=n - 1)[0],
+                   get_random_array(min_size=n - 1, max_size=n - 1)[0]])
         e, _ = get_random_array(min_size=2, max_size=2)
         x, _ = get_random_array(min_size=2, max_size=2)
 
@@ -173,8 +174,10 @@ class Textbook15Test(TestCase):
 
     def test_print_stations(self):
         n = random.randint(1, 10)
-        l, _ = get_random_matrix(2, n, min_value=1, max_value=2)
-        l[1, 1] = l[2, 1] = 0
+        l = Array([Array.indexed(1, n), Array.indexed(1, n)])
+        l[1, 1], l[2, 1] = 0, 0
+        for i in between(2, n):
+            l[1, i], l[2, i] = random.choice([(1, 1), (1, 2), (2, 2)])
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 
@@ -221,7 +224,7 @@ class Textbook15Test(TestCase):
 
     def test_print_optimal_parens(self):
         n = random.randint(1, 10)
-        s = Matrix.of_dimensions(n, n)
+        s = Array([Array.indexed(1, n) for _ in between(1, n)])
         for i in between(1, n - 1):
             for j in between(i + 1, n):
                 s[i, j] = random.randint(i, j - 1)
@@ -237,7 +240,7 @@ class Textbook15Test(TestCase):
     def test_recursive_matrix_chain(self):
         n = random.randint(1, 10)
         dimensions = Array([random.randint(1, 999) for _ in range(n + 1)], start=0)
-        m = Matrix.of_dimensions(n, n)
+        m = Array([Array.indexed(1, n) for _ in between(1, n)])
 
         actual_minimum_cost = recursive_matrix_chain(dimensions, m, 1, n)
 
