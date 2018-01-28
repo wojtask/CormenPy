@@ -12,9 +12,9 @@ def effective_optimal_bst(p, q, n):
         e[i, i - 1] = q[i - 1]
         w[i, i - 1] = q[i - 1]
     for i in between(1, n):
-        root[i, i] = i
         w[i, i] = w[i, i - 1] + p[i] + q[i]
         e[i, i] = e[i, i - 1] + e[i + 1, i] + w[i, i]
+        root[i, i] = i
     for l in between(2, n):
         for i in between(1, n - l + 1):
             j = i + l - 1
