@@ -1,5 +1,6 @@
 import io
 import itertools
+import math
 import random
 import re
 from contextlib import redirect_stdout
@@ -18,6 +19,7 @@ from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
+from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
 from test_chapter15.test_textbook import get_fastest_way_bruteforce, get_assembly_time_based_on_lines, \
@@ -93,6 +95,44 @@ def assert_right_child_output(actual_output, root, i, j, line_no):
         assert_that(node_type, is_(equal_to('d')))
         assert_that(node_id, is_(equal_to(j)))
     return line_no
+
+
+def checkerboard_profit(profit, x, y):
+    if x[0] != y[0] - 1 or abs(x[1] - y[1]) > 1:
+        raise ValueError('invalid argument')
+    return profit[x][y[1] - x[1] + 1]
+
+
+def get_optimal_checkerboard_path_bruteforce(n, p):
+    max_profit = -math.inf
+    for j in between(1, n):
+        max_profit = max(max_profit, get_optimal_checkerboard_subpath_bruteforce((1, j), n, p))
+    return max_profit
+
+
+def get_optimal_checkerboard_subpath_bruteforce(x, n, p):
+    if x[0] == n:
+        return 0
+    y = (x[0] + 1, x[1])
+    result = p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p)
+    if x[1] > 1:
+        y = (x[0] + 1, x[1] - 1)
+        result = max(result, p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p))
+    if x[1] < n:
+        y = (x[0] + 1, x[1] + 1)
+        result = max(result, p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p))
+    return result
+
+
+def assert_squares_path(n, lines, profit, max_profit):
+    comp = re.compile('\((\d+), (\d+)\)')
+    actual_squares_path = [(int(comp.search(line).group(1)), int(comp.search(line).group(2))) for line in lines]
+    assert_that(actual_squares_path, has_length(n))
+    assert_that(actual_squares_path[0][0], is_(equal_to(1)))
+    profit_from_path = 0
+    for k in range(1, n):
+        profit_from_path += checkerboard_profit(profit, actual_squares_path[k - 1], actual_squares_path[k])
+    assert_that(profit_from_path, is_(equal_to(max_profit)))
 
 
 class Solutions15Test(TestCase):
@@ -242,3 +282,25 @@ class Solutions15Test(TestCase):
         expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
         actual_minimum_cost = get_bst_cost(root, p, q)
         assert_that(actual_minimum_cost, expected_minimum_cost)
+
+    def test_checkerboard(self):
+        n = random.randint(1, 8)
+        # profit[i, j] contains a triple (a, b, c), where the profit of moving from square of coords (i, j):
+        # to square of coords (i+1, j-1) is a, to square of coords (i+1, j) is b, to square of coords (i+1, j+1) is c,
+        # where (i, j) means i-th row from the bottom and j-th column from the left
+        profit = Array([Array.indexed(1, n) for _ in between(1, n - 1)])
+        for i in between(1, n - 1):
+            profit[i, 1] = (None, random.randint(-100, 100), random.randint(-100, 100))
+            for j in between(2, n - 1):
+                profit[i, j] = (random.randint(-100, 100), random.randint(-100, 100), random.randint(-100, 100))
+            profit[i, n] = (random.randint(-100, 100), random.randint(-100, 100), None)
+        captured_output = io.StringIO()
+
+        actual_maximum_profit, squares, last_square = checkerboard(n, lambda x, y: checkerboard_profit(profit, x, y))
+        with redirect_stdout(captured_output):
+            print_moves(squares, n, last_square)
+
+        expected_maximum_profit = \
+            get_optimal_checkerboard_path_bruteforce(n, lambda x, y: checkerboard_profit(profit, x, y))
+        assert_that(actual_maximum_profit, is_(equal_to(expected_maximum_profit)))
+        assert_squares_path(n, captured_output.getvalue().splitlines(), profit, expected_maximum_profit)
