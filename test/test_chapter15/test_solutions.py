@@ -20,6 +20,7 @@ from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.pr15_6 import checkerboard, print_moves
+from chapter15.pr15_7 import jobs_scheduling, print_schedule
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
 from test_chapter15.test_textbook import get_fastest_way_bruteforce, get_assembly_time_based_on_lines, \
@@ -133,6 +134,26 @@ def assert_squares_path(n, lines, profit, max_profit):
     for k in range(1, n):
         profit_from_path += checkerboard_profit(profit, actual_squares_path[k - 1], actual_squares_path[k])
     assert_that(profit_from_path, is_(equal_to(max_profit)))
+
+
+def get_optimal_schedule_bruteforce(times, profits, deadlines):
+    n = times.length
+    max_profit = 0
+    for m in between(1, n):
+        for schedule in itertools.permutations(between(1, n), m):
+            profit = get_schedule_total_profit(schedule, times, profits, deadlines)
+            max_profit = max(max_profit, profit)
+    return max_profit
+
+
+def get_schedule_total_profit(schedule, times, profits, deadlines):
+    total_time = 0
+    profit = 0
+    for job_id in schedule:
+        total_time += times[job_id]
+        if total_time <= deadlines[job_id]:
+            profit += profits[job_id]
+    return profit
 
 
 class Solutions15Test(TestCase):
@@ -304,3 +325,23 @@ class Solutions15Test(TestCase):
             get_optimal_checkerboard_path_bruteforce(n, lambda x, y: checkerboard_profit(profit, x, y))
         assert_that(actual_maximum_profit, is_(equal_to(expected_maximum_profit)))
         assert_squares_path(n, captured_output.getvalue().splitlines(), profit, expected_maximum_profit)
+
+    def test_jobs_scheduling(self):
+        n = random.randint(1, 7)
+        times, times_elements = get_random_array(min_size=n, max_size=n, min_value=1, max_value=n)
+        profits, profits_elements = get_random_array(min_size=n, max_size=n)
+        deadlines, deadlines_elements = get_random_array(min_size=n, max_size=n, max_value=n ** 2 + 10)
+        captured_output = io.StringIO()
+
+        actual_max_profit, actual_schedule = jobs_scheduling(times, profits, deadlines)
+        with redirect_stdout(captured_output):
+            print_schedule(actual_schedule, Array(times_elements), Array(deadlines_elements),
+                           actual_schedule.length, actual_schedule[0].length - 1)
+
+        expected_max_profit = get_optimal_schedule_bruteforce(
+            Array(times_elements), Array(profits_elements), Array(deadlines_elements))
+        assert_that(actual_max_profit, is_(equal_to(expected_max_profit)))
+        scheduled_jobs = [int(re.search('a(\d)+', job).group(1)) for job in captured_output.getvalue().splitlines()]
+        profit_from_schedule = get_schedule_total_profit(
+            scheduled_jobs, Array(times_elements), Array(profits_elements), Array(deadlines_elements))
+        assert_that(profit_from_schedule, is_(equal_to(expected_max_profit)))
