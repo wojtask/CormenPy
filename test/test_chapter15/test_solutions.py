@@ -327,20 +327,19 @@ class Solutions15Test(TestCase):
         assert_squares_path(n, captured_output.getvalue().splitlines(), profit, expected_maximum_profit)
 
     def test_jobs_scheduling(self):
-        n = random.randint(1, 7)
+        n = random.randint(1, 8)
         times, times_elements = get_random_array(min_size=n, max_size=n, min_value=1, max_value=n)
         profits, profits_elements = get_random_array(min_size=n, max_size=n)
         deadlines, deadlines_elements = get_random_array(min_size=n, max_size=n, max_value=n ** 2 + 10)
         captured_output = io.StringIO()
 
-        actual_max_profit, actual_schedule = jobs_scheduling(times, profits, deadlines)
+        actual_max_profits, actual_schedule, sorted_job_ids = jobs_scheduling(times, profits, deadlines)
         with redirect_stdout(captured_output):
-            print_schedule(actual_schedule, Array(times_elements), Array(deadlines_elements),
-                           actual_schedule.length, actual_schedule[0].length - 1)
+            print_schedule(actual_schedule, sorted_job_ids, times, deadlines, n, actual_schedule[0].length - 1)
 
         expected_max_profit = get_optimal_schedule_bruteforce(
             Array(times_elements), Array(profits_elements), Array(deadlines_elements))
-        assert_that(actual_max_profit, is_(equal_to(expected_max_profit)))
+        assert_that(actual_max_profits[actual_max_profits.length - 1], is_(equal_to(expected_max_profit)))
         scheduled_jobs = [int(re.search('a(\d)+', job).group(1)) for job in captured_output.getvalue().splitlines()]
         profit_from_schedule = get_schedule_total_profit(
             scheduled_jobs, Array(times_elements), Array(profits_elements), Array(deadlines_elements))
