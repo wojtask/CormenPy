@@ -8,7 +8,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_matrix, get_random_array
+from array_util import get_random_matrix, get_random_array, get_random_unique_array
 from chapter15.ex15_1_1 import print_stations_
 from chapter15.ex15_1_4 import fastest_way_
 from chapter15.ex15_2_2 import matrix_chain_multiply
@@ -19,10 +19,12 @@ from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
+from chapter15.pr15_1 import bitonic_tsp, print_bitonic_tour
 from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.pr15_7 import jobs_scheduling, print_schedule
 from chapter15.textbook import matrix_chain_order, matrix_multiply, lcs_length, optimal_bst
 from datastructures.array import Array
+from datastructures.point_2d import Point2D
 from test_chapter15.test_textbook import get_fastest_way_bruteforce, get_assembly_time_based_on_lines, \
     get_maximum_lcs_length_bruteforce, is_subsequence_of, get_probabilities_for_optimal_bst, \
     assert_root_array_consistent, get_minimum_bst_cost_bruteforce, get_bst_cost
@@ -96,6 +98,29 @@ def assert_right_child_output(actual_output, root, i, j, line_no):
         assert_that(node_type, is_(equal_to('d')))
         assert_that(node_id, is_(equal_to(j)))
     return line_no
+
+
+def get_shortest_bitonic_tour_bruteforce(points):
+    n = points.length
+    shortest_tour_length = math.inf
+    for k in between(0, n - 2):
+        for right_path in itertools.combinations(between(2, n - 1), k):
+            left_path = [x for x in rbetween(n - 1, 2) if x not in right_path]
+            tour_length = get_path_length(points, [1] + list(right_path) + [n] + left_path + [1])
+            shortest_tour_length = min(shortest_tour_length, tour_length)
+    return shortest_tour_length
+
+
+def get_path_length(points, path):
+    return sum([euclidean_distance(points[path[i - 1]], points[path[i]]) for i in range(1, len(path))])
+
+
+def get_tour_length_from_bitonic_tour(tour):
+    return sum([euclidean_distance(tour[i], tour[i + 1]) for i in range(-1, len(tour) - 1)])
+
+
+def euclidean_distance(p1, p2):
+    return math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
 
 
 def checkerboard_profit(profit, x, y):
@@ -303,6 +328,25 @@ class Solutions15Test(TestCase):
         expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
         actual_minimum_cost = get_bst_cost(root, p, q)
         assert_that(actual_minimum_cost, expected_minimum_cost)
+
+    def test_bitonic_tsp(self):
+        n = random.randint(3, 10)
+        xcoords, _ = get_random_unique_array(min_size=n, max_size=n, max_value=100)
+        ycoords, _ = get_random_array(min_size=n, max_size=n, max_value=100)
+        points = Array([Point2D(x, y) for x, y in zip(xcoords, ycoords)])
+        captured_output = io.StringIO()
+
+        actual_path_lengths, bitonic_paths = bitonic_tsp(points)
+        with redirect_stdout(captured_output):
+            print_bitonic_tour(points, bitonic_paths)
+
+        expected_tour_length = get_shortest_bitonic_tour_bruteforce(points)
+        assert_that(actual_path_lengths[n, n], is_(close_to(expected_tour_length, .000001)))
+        pattern = re.compile('\((\d+), (\d+)\)')
+        actual_bitonic_tour = [Point2D(int(pattern.match(point).group(1)), int(pattern.match(point).group(2)))
+                               for point in captured_output.getvalue().splitlines()]
+        tour_length_from_tour = get_tour_length_from_bitonic_tour(actual_bitonic_tour)
+        assert_that(tour_length_from_tour, is_(close_to(expected_tour_length, .000001)))
 
     def test_checkerboard(self):
         n = random.randint(1, 8)
