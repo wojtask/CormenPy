@@ -19,7 +19,7 @@ from chapter15.ex15_4_5 import lis_length, print_lis
 from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
-from chapter15.pr15_1 import bitonic_tsp, print_bitonic_tour
+from chapter15.pr15_1 import bitonic_tsp, print_bitonic_path
 from chapter15.pr15_4 import company_party, print_guests
 from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.pr15_7 import jobs_scheduling, print_schedule
@@ -102,23 +102,23 @@ def assert_right_child_output(actual_output, root, i, j, line_no):
     return line_no
 
 
-def get_shortest_bitonic_tour_bruteforce(points):
+def get_shortest_bitonic_path_length_bruteforce(points):
     n = points.length
-    shortest_tour_length = math.inf
+    min_length = math.inf
     for k in between(0, n - 2):
         for right_path in itertools.combinations(between(2, n - 1), k):
             left_path = [x for x in rbetween(n - 1, 2) if x not in right_path]
-            tour_length = get_path_length(points, [1] + list(right_path) + [n] + left_path + [1])
-            shortest_tour_length = min(shortest_tour_length, tour_length)
-    return shortest_tour_length
+            path_length = get_path_length(points, [1] + list(right_path) + [n] + left_path + [1])
+            min_length = min(min_length, path_length)
+    return min_length
 
 
 def get_path_length(points, path):
     return sum([euclidean_distance(points[path[i - 1]], points[path[i]]) for i in range(1, len(path))])
 
 
-def get_tour_length_from_bitonic_tour(tour):
-    return sum([euclidean_distance(tour[i], tour[i + 1]) for i in range(-1, len(tour) - 1)])
+def get_path_length_from_bitonic_path(path):
+    return sum([euclidean_distance(path[i], path[i + 1]) for i in range(-1, len(path) - 1)])
 
 
 def euclidean_distance(p1, p2):
@@ -382,23 +382,24 @@ class Solutions15Test(TestCase):
         assert_that(actual_minimum_cost, expected_minimum_cost)
 
     def test_bitonic_tsp(self):
-        n = random.randint(3, 10)
-        xcoords, _ = get_random_unique_array(min_size=n, max_size=n, max_value=100)
+        n = random.randint(3, 12)
+        xcoords, _ = get_random_array(min_size=n, max_size=n, max_value=100)
         ycoords, _ = get_random_array(min_size=n, max_size=n, max_value=100)
         points = Array([Point2D(x, y) for x, y in zip(xcoords, ycoords)])
         captured_output = io.StringIO()
 
-        actual_path_lengths, bitonic_paths = bitonic_tsp(points)
+        actual_path_lengths, optimal_paths = bitonic_tsp(points)
         with redirect_stdout(captured_output):
-            print_bitonic_tour(points, bitonic_paths)
+            print_bitonic_path(points, optimal_paths)
 
-        expected_tour_length = get_shortest_bitonic_tour_bruteforce(points)
-        assert_that(actual_path_lengths[n, n], is_(close_to(expected_tour_length, .000001)))
+        expected_bitonic_path_length = get_shortest_bitonic_path_length_bruteforce(points)
+        assert_that(actual_path_lengths[n, n], is_(close_to(expected_bitonic_path_length, .000001)))
         pattern = re.compile('\((\d+), (\d+)\)')
-        actual_bitonic_tour = [Point2D(int(pattern.match(point).group(1)), int(pattern.match(point).group(2)))
+        actual_bitonic_path = [Point2D(int(pattern.match(point).group(1)), int(pattern.match(point).group(2)))
                                for point in captured_output.getvalue().splitlines()]
-        tour_length_from_tour = get_tour_length_from_bitonic_tour(actual_bitonic_tour)
-        assert_that(tour_length_from_tour, is_(close_to(expected_tour_length, .000001)))
+        assert_that(actual_bitonic_path, has_length(n))
+        path_length_from_bitonic_path = get_path_length_from_bitonic_path(actual_bitonic_path)
+        assert_that(path_length_from_bitonic_path, is_(close_to(expected_bitonic_path_length, .000001)))
 
     def test_company_party(self):
         company_hierarchy = get_company_hierarchy()
