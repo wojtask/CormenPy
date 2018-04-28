@@ -15,13 +15,13 @@ def print_guests(x):
         print(x.name)
         y = x.left_child
         while y is not None:
-            print_uninvited(y)
+            print_invited_subordinates(y)
             y = y.right_sibling
     else:
-        print_uninvited(x)
+        print_invited_subordinates(x)
 
 
-def print_uninvited(x):
+def print_invited_subordinates(x):
     y = x.left_child
     while y is not None:
         print_guests(y)
