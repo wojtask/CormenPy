@@ -8,7 +8,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_matrix, get_random_array, get_random_unique_array
+from array_util import get_random_matrix, get_random_array
 from chapter15.ex15_1_1 import print_stations_
 from chapter15.ex15_1_4 import fastest_way_
 from chapter15.ex15_2_2 import matrix_chain_multiply
@@ -20,6 +20,7 @@ from chapter15.ex15_4_6 import lis_length_
 from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.pr15_1 import bitonic_tsp, print_bitonic_path
+from chapter15.pr15_2 import break_lines, print_lines
 from chapter15.pr15_4 import company_party, print_guests
 from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.pr15_7 import jobs_scheduling, print_schedule
@@ -123,6 +124,33 @@ def get_path_length_from_bitonic_path(path):
 
 def euclidean_distance(p1, p2):
     return math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
+
+
+def get_lines_break_minimum_cost_bruteforce(word_lengths, line_capacity, division=[1], word_id=2):
+    n = len(word_lengths)
+    min_cost = get_cost_of_lines_break(division, word_lengths, line_capacity)
+    while word_id <= n:
+        min_cost = min(min_cost, get_lines_break_minimum_cost_bruteforce(
+            word_lengths, line_capacity, division + [word_id], word_id + 1))
+        word_id += 1
+    return min_cost
+
+
+def get_cost_of_lines_break(division, word_lengths, line_capacity):
+    cost = 0
+    for i in range(1, len(division)):
+        line_length = get_line_length(division[i - 1], division[i] - 1, word_lengths)
+        if line_length > line_capacity:
+            return math.inf
+        cost += (line_capacity - line_length) ** 3
+    line_length = get_line_length(division[-1], len(word_lengths), word_lengths)
+    if line_length > line_capacity:
+        return math.inf
+    return cost
+
+
+def get_line_length(first_word_id, last_word_id, word_lengths):
+    return sum([word_lengths[j - 1] for j in range(first_word_id, last_word_id + 1)]) + last_word_id - first_word_id
 
 
 def get_company_hierarchy():
@@ -383,8 +411,8 @@ class Solutions15Test(TestCase):
 
     def test_bitonic_tsp(self):
         n = random.randint(3, 12)
-        xcoords, _ = get_random_array(min_size=n, max_size=n, max_value=100)
-        ycoords, _ = get_random_array(min_size=n, max_size=n, max_value=100)
+        xcoords, _ = get_random_array(min_size=n, max_size=n)
+        ycoords, _ = get_random_array(min_size=n, max_size=n)
         points = Array([Point2D(x, y) for x, y in zip(xcoords, ycoords)])
         captured_output = io.StringIO()
 
@@ -400,6 +428,22 @@ class Solutions15Test(TestCase):
         assert_that(actual_bitonic_path, has_length(n))
         path_length_from_bitonic_path = get_path_length_from_bitonic_path(actual_bitonic_path)
         assert_that(path_length_from_bitonic_path, is_(close_to(expected_bitonic_path_length, .000001)))
+
+    def test_break_lines(self):
+        n = random.randint(1, 15)
+        line_capacity = random.randint(5, 100)
+        word_lengths, _ = get_random_array(min_size=n, max_size=n, min_value=1, max_value=line_capacity)
+        captured_output = io.StringIO()
+
+        actual_costs, words_division = break_lines(word_lengths, line_capacity)
+        with redirect_stdout(captured_output):
+            print_lines(words_division, n)
+
+        expected_cost = get_lines_break_minimum_cost_bruteforce(word_lengths.elements, line_capacity)
+        assert_that(actual_costs[n], is_(equal_to(expected_cost)))
+        actual_lines_break = [int(first_word) for first_word in captured_output.getvalue().splitlines()]
+        actual_cost_of_lines_break = get_cost_of_lines_break(actual_lines_break, word_lengths.elements, line_capacity)
+        assert_that(actual_cost_of_lines_break, is_(equal_to(expected_cost)))
 
     def test_company_party(self):
         company_hierarchy = get_company_hierarchy()
