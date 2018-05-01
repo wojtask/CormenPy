@@ -21,6 +21,7 @@ from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.pr15_1 import bitonic_tsp, print_bitonic_path
 from chapter15.pr15_2 import break_lines, print_lines
+from chapter15.pr15_3 import edit_distance, print_operations
 from chapter15.pr15_4 import company_party, print_guests
 from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.pr15_7 import jobs_scheduling, print_schedule
@@ -126,7 +127,9 @@ def euclidean_distance(p1, p2):
     return math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
 
 
-def get_lines_break_minimum_cost_bruteforce(word_lengths, line_capacity, division=[1], word_id=2):
+def get_lines_break_minimum_cost_bruteforce(word_lengths, line_capacity, division=None, word_id=2):
+    if division is None:
+        division = [1]
     n = len(word_lengths)
     min_cost = get_cost_of_lines_break(division, word_lengths, line_capacity)
     while word_id <= n:
@@ -151,6 +154,74 @@ def get_cost_of_lines_break(division, word_lengths, line_capacity):
 
 def get_line_length(first_word_id, last_word_id, word_lengths):
     return sum([word_lengths[j - 1] for j in range(first_word_id, last_word_id + 1)]) + last_word_id - first_word_id
+
+
+def get_edit_distance_bruteforce(x, y, cost, c=0, i=1, j=1):
+    m = x.length
+    n = y.length
+    if i == m + 1 and j == n + 1:
+        return c
+    min_cost = math.inf
+    if i <= m and j <= n and x[i] == y[j]:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['copy'], i + 1, j + 1))
+    if i <= m and j <= n and x[i] != y[j]:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['replace'], i + 1, j + 1))
+    if i <= m:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['delete'], i + 1, j))
+    if j <= n:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['insert'], i, j + 1))
+    if i < m and j < n and x[i] == y[j + 1] and x[i + 1] == y[j]:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['twiddle'], i + 2, j + 2))
+    if i <= m and j == n + 1:
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['kill'], m + 1, n + 1))
+    return min_cost
+
+
+def assert_valid_operations(operations, word1, word2):
+    i = 1
+    j = 1
+    m = word1.length
+    n = word2.length
+    result = Array.indexed(1, n)
+    for op in operations:
+        if op == 'copy':
+            result[j] = word1[i]
+            i += 1
+            j += 1
+        elif op[:11] == 'replace by ':
+            ch = op[11:]
+            result[j] = ch
+            i += 1
+            j += 1
+        elif op == 'delete':
+            i += 1
+        elif op[:7] == 'insert ':
+            ch = op[7:]
+            result[j] = ch
+            j += 1
+        elif op == 'twiddle':
+            result[j] = word1[i + 1]
+            result[j + 1] = word1[i]
+            i += 2
+            j += 2
+        else:
+            assert_that(op, is_(equal_to('kill')))
+            assert_that(op, is_(equal_to(operations[-1])))
+            i = m + 1
+    assert_that(i, is_(equal_to(m + 1)))
+    assert_that(result, is_(equal_to(word2)))
+
+
+def get_operations_cost(operations, cost):
+    c = 0
+    for op in operations:
+        if op[:7] == 'replace':
+            c += cost['replace']
+        elif op[:6] == 'insert':
+            c += cost['insert']
+        else:
+            c += cost[op]
+    return c
 
 
 def get_company_hierarchy():
@@ -444,6 +515,32 @@ class Solutions15Test(TestCase):
         actual_lines_break = [int(first_word) for first_word in captured_output.getvalue().splitlines()]
         actual_cost_of_lines_break = get_cost_of_lines_break(actual_lines_break, word_lengths.elements, line_capacity)
         assert_that(actual_cost_of_lines_break, is_(equal_to(expected_cost)))
+
+    def test_edit_distance(self):
+        len1 = random.randint(0, 8)
+        len2 = random.randint(0, 8)
+        word1 = Array(''.join(random.choice('abcde') for _ in range(len1)))
+        word2 = Array(''.join(random.choice('abcde') for _ in range(len2)))
+        cost_insert = random.randint(0, 10)
+        cost_delete = random.randint(0, 10)
+        cost = {'copy': random.randint(0, max(10, cost_insert + cost_delete)),
+                'replace': random.randint(0, max(10, cost_insert + cost_delete)),
+                'insert': cost_insert,
+                'delete': cost_delete,
+                'twiddle': random.randint(0, 10),
+                'kill': random.randint(0, 10)}
+        captured_output = io.StringIO()
+
+        actual_costs, actual_op, actual_left, actual_right = edit_distance(word1, word2, cost)
+        with redirect_stdout(captured_output):
+            print_operations(actual_op, actual_left, actual_right, len1, len2)
+
+        expected_cost = get_edit_distance_bruteforce(word1, word2, cost)
+        assert_that(actual_costs[len1, len2], is_(equal_to(expected_cost)))
+        actual_operations = captured_output.getvalue().splitlines()
+        assert_valid_operations(actual_operations, word1, word2)
+        cost_of_operations = get_operations_cost(actual_operations, cost)
+        assert_that(cost_of_operations, is_(equal_to(expected_cost)))
 
     def test_company_party(self):
         company_hierarchy = get_company_hierarchy()
