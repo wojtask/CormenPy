@@ -24,11 +24,10 @@ def jobs_scheduling(t, p, d):
         for j in between(0, d[n]):
             s[i, j] = 0
     for i in between(1, n):
-        if t[i] <= d[i]:
-            for j in rbetween(d[n], t[i]):
-                if P[min(j, d[i]) - t[i]] + p[i] > P[j]:
-                    P[j] = P[min(j, d[i]) - t[i]] + p[i]
-                    s[i, j] = 1
+        for j in rbetween(d[n], t[i]):
+            if P[min(j, d[i]) - t[i]] + p[i] > P[j]:
+                P[j] = P[min(j, d[i]) - t[i]] + p[i]
+                s[i, j] = 1
     return P, s, a
 
 

@@ -582,7 +582,8 @@ class Solutions15Test(TestCase):
         n = random.randint(1, 8)
         times, times_elements = get_random_array(min_size=n, max_size=n, min_value=1, max_value=n)
         profits, profits_elements = get_random_array(min_size=n, max_size=n)
-        deadlines, deadlines_elements = get_random_array(min_size=n, max_size=n, max_value=n ** 2 + 10)
+        deadlines_elements = [random.randint(times_elements[j], n ** 2 + 10) for j in range(n)]
+        deadlines = Array(deadlines_elements)
         captured_output = io.StringIO()
 
         actual_max_profits, actual_schedule, sorted_job_ids = jobs_scheduling(times, profits, deadlines)
