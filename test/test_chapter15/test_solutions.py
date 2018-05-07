@@ -21,7 +21,7 @@ from chapter15.ex15_5_1 import construct_optimal_bst
 from chapter15.ex15_5_4 import effective_optimal_bst
 from chapter15.pr15_1 import bitonic_tsp, print_bitonic_path
 from chapter15.pr15_2 import break_lines, print_lines
-from chapter15.pr15_3 import edit_distance, print_operations
+from chapter15.pr15_3 import edit_distance, print_operations, optimal_alignment
 from chapter15.pr15_4 import company_party, print_guests
 from chapter15.pr15_6 import checkerboard, print_moves
 from chapter15.pr15_7 import jobs_scheduling, print_schedule
@@ -156,24 +156,24 @@ def get_line_length(first_word_id, last_word_id, word_lengths):
     return sum([word_lengths[j - 1] for j in range(first_word_id, last_word_id + 1)]) + last_word_id - first_word_id
 
 
-def get_edit_distance_bruteforce(x, y, cost, c=0, i=1, j=1):
+def get_edit_distance_bruteforce(x, y, cost, i=1, j=1):
     m = x.length
     n = y.length
     if i == m + 1 and j == n + 1:
-        return c
+        return 0
     min_cost = math.inf
     if i <= m and j <= n and x[i] == y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['copy'], i + 1, j + 1))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost['copy'])
     if i <= m and j <= n and x[i] != y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['replace'], i + 1, j + 1))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost['replace'])
     if i <= m:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['delete'], i + 1, j))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j) + cost['delete'])
     if j <= n:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['insert'], i, j + 1))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i, j + 1) + cost['insert'])
     if i < m and j < n and x[i] == y[j + 1] and x[i + 1] == y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['twiddle'], i + 2, j + 2))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 2, j + 2) + cost['twiddle'])
     if i <= m and j == n + 1:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, c + cost['kill'], m + 1, n + 1))
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, m + 1, n + 1) + cost['kill'])
     return min_cost
 
 
@@ -222,6 +222,24 @@ def get_operations_cost(operations, cost):
         else:
             c += cost[op]
     return c
+
+
+def get_optimal_alignment_bruteforce(x, y, i=1, j=1):
+    m = x.length
+    n = y.length
+    if i == m + 1 and j == n + 1:
+        return 0
+    max_score = -math.inf
+    if i <= m:
+        max_score = max(max_score, get_optimal_alignment_bruteforce(x, y, i + 1, j) - 2)
+    if j <= n:
+        max_score = max(max_score, get_optimal_alignment_bruteforce(x, y, i, j + 1) - 2)
+    if i <= m and j <= n:
+        if x[i] == y[j]:
+            max_score = max(max_score, get_optimal_alignment_bruteforce(x, y, i + 1, j + 1) + 1)
+        else:
+            max_score = max(max_score, get_optimal_alignment_bruteforce(x, y, i + 1, j + 1) - 1)
+    return max_score
 
 
 def get_company_hierarchy():
@@ -541,6 +559,17 @@ class Solutions15Test(TestCase):
         assert_valid_operations(actual_operations, word1, word2)
         cost_of_operations = get_operations_cost(actual_operations, cost)
         assert_that(cost_of_operations, is_(equal_to(expected_cost)))
+
+    def test_optimal_alignment(self):
+        len1 = random.randint(0, 8)
+        len2 = random.randint(0, 8)
+        word1 = Array(''.join(random.choice('ACGT') for _ in range(len1)))
+        word2 = Array(''.join(random.choice('ACGT') for _ in range(len2)))
+
+        actual_score, _, _, _ = optimal_alignment(word1, word2)
+
+        expected_score = get_optimal_alignment_bruteforce(word1, word2)
+        assert_that(actual_score, is_(equal_to(expected_score)))
 
     def test_company_party(self):
         company_hierarchy = get_company_hierarchy()

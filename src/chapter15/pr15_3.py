@@ -47,3 +47,9 @@ def print_operations(op, l, r, i, j):
     if i > 0 or j > 0:
         print_operations(op, l, r, l[i, j], r[i, j])
         print(op[i, j])
+
+
+def optimal_alignment(x, y):
+    cost = {'copy': -1, 'replace': 1, 'insert': 2, 'delete': 2, 'twiddle': math.inf, 'kill': math.inf}
+    c, op, l, r = edit_distance(x, y, cost)
+    return -c[x.length, y.length], op, l, r
