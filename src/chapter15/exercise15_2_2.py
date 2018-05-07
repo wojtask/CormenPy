@@ -1,4 +1,4 @@
-from chapter15.textbook import matrix_multiply
+from chapter15.textbook15_2 import matrix_multiply
 
 
 def matrix_chain_multiply(A, s, i, j):
