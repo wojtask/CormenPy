@@ -1,4 +1,4 @@
-from chapter07.textbook import partition
+from chapter07.textbook7_1 import partition
 
 
 def quicksort__(A, p, r):

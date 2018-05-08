@@ -1,4 +1,4 @@
-from chapter07.textbook import hoare_partition
+from chapter07.textbook_problem7_1 import hoare_partition
 
 
 def hoare_quicksort(A, p, r):

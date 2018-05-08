@@ -1,4 +1,4 @@
-from chapter05.ex5_1_2 import random
+from chapter05.exercise5_1_2 import random
 from util import between, rbetween
 
 
