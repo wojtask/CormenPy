@@ -1,6 +1,6 @@
 import math
 
-from chapter09.textbook import select
+from chapter09.textbook9_3 import select
 
 
 def quantiles(A, p, r, k):

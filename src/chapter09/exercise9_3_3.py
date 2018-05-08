@@ -1,4 +1,4 @@
-from chapter09.textbook import select
+from chapter09.textbook9_3 import select
 
 
 def best_case_quicksort(A, p, r):

@@ -1,7 +1,7 @@
 import math
 
-from chapter02.textbook import insertion_sort
-from chapter09.textbook import select
+from chapter02.textbook2_1 import insertion_sort
+from chapter09.textbook9_3 import select
 from datastructures.array import Array
 from util import between
 

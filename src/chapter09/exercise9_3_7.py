@@ -1,6 +1,6 @@
 import math
 
-from chapter09.textbook import select
+from chapter09.textbook9_3 import select
 from datastructures.array import Array
 from util import between
 

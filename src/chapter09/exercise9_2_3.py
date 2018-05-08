@@ -1,4 +1,4 @@
-from chapter07.textbook import randomized_partition
+from chapter07.textbook7_3 import randomized_partition
 
 
 def iterative_randomized_select(A, p, r, i):

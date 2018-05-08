@@ -1,4 +1,4 @@
-from chapter09.textbook import partition_around, select
+from chapter09.textbook9_3 import partition_around, select
 
 
 def randomized_blackbox_select(A, p, r, i):
