@@ -1,6 +1,6 @@
-from chapter05.ex5_1_2 import random
-from chapter12.ex12_2_3 import tree_predecessor
-from chapter12.textbook import tree_successor
+from chapter05.exercise5_1_2 import random
+from chapter12.exercise12_2_3 import tree_predecessor
+from chapter12.textbook12_2 import tree_successor
 
 
 def fair_tree_delete(T, z):

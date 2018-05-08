@@ -1,4 +1,4 @@
-from chapter12.textbook import tree_delete
+from chapter12.textbook12_3 import tree_delete
 
 
 def safe_tree_delete(T, z):

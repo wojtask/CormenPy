@@ -1,4 +1,4 @@
-from chapter12.textbook import tree_maximum
+from chapter12.textbook12_2 import tree_maximum
 
 
 def tree_predecessor(x):
