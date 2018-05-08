@@ -5,7 +5,7 @@ from hamcrest import *
 from datastructures.array import Array
 
 
-class ArrayTest(TestCase):
+class TestArray(TestCase):
 
     def setUp(self):
         self.array = Array([4, 5, 1, 0, 2])

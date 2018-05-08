@@ -6,7 +6,7 @@ from datastructures.red_black_tree import RedBlackTree, Node, Black
 from tree_util import assert_parent_pointers_consistent
 
 
-class RedBlackTreeTest(TestCase):
+class TestRedBlackTree(TestCase):
 
     def test_create_empty_red_black_tree(self):
         tree = RedBlackTree()

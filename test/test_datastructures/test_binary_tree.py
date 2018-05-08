@@ -6,7 +6,7 @@ from datastructures.binary_tree import BinaryTree, Node, ParentlessNode
 from tree_util import assert_parent_pointers_consistent
 
 
-class BinaryTreeTest(TestCase):
+class TestBinaryTree(TestCase):
 
     def test_create_empty_binary_tree(self):
         tree = BinaryTree()
