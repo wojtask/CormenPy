@@ -3,10 +3,10 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_array
-from chapter05.textbook import permute_by_sorting, randomize_in_place
+from chapter05.textbook5_3 import permute_by_sorting, randomize_in_place
 
 
-class Textbook05Test(TestCase):
+class TestTextbook5_3(TestCase):
 
     def test_permute_by_sorting(self):
         array, elements = get_random_array()
