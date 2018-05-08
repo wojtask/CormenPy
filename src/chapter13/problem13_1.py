@@ -1,6 +1,6 @@
-from chapter10.textbook import push, pop
-from chapter13.ex13_3_6 import parentless_rb_right_rotate, parentless_rb_left_rotate
-from chapter13.textbook import rb_successor
+from chapter10.textbook10_1 import push, pop
+from chapter13.exercise13_3_6 import parentless_rb_right_rotate, parentless_rb_left_rotate
+from chapter13.textbook13_2 import rb_successor
 from datastructures import binary_tree as bt
 from datastructures import red_black_tree as rb
 from datastructures.array import Array

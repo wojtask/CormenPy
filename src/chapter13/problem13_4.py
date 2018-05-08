@@ -1,6 +1,6 @@
-from chapter12.textbook import tree_insert
-from chapter13.ex13_2_1 import right_rotate
-from chapter13.textbook import left_rotate
+from chapter12.textbook_exercise12_3_3 import tree_insert
+from chapter13.exercise13_2_1 import right_rotate
+from chapter13.textbook13_2 import left_rotate
 
 
 def treap_insert(T, x):

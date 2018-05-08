@@ -1,5 +1,5 @@
-from chapter13.ex13_2_1 import right_rotate
-from chapter13.textbook import left_rotate, rb_successor
+from chapter13.exercise13_2_1 import right_rotate
+from chapter13.textbook13_2 import left_rotate, rb_successor
 from datastructures.red_black_tree import Black, RedBlackTree, Red, Node
 
 

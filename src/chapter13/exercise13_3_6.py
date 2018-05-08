@@ -1,4 +1,4 @@
-from chapter10.textbook import push, pop
+from chapter10.textbook10_1 import push, pop
 from datastructures.array import Array
 from datastructures.red_black_tree import Red, Black
 
