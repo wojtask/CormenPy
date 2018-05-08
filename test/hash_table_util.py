@@ -1,6 +1,6 @@
 import random
 
-from chapter11.ex11_4_2 import Deleted
+from chapter11.exercise11_4_2 import Deleted
 from datastructures.array import Array
 from datastructures.hash_table import Element, ChainedElement
 

@@ -1,4 +1,4 @@
-from chapter10.textbook import push, pop
+from chapter10.textbook10_1 import push, pop
 
 
 def huge_array_search(T, S, k):
