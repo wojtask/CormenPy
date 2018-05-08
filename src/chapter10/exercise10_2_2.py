@@ -1,4 +1,4 @@
-from chapter10.ex10_2_1 import singly_linked_list_insert
+from chapter10.exercise10_2_1 import singly_linked_list_insert
 from datastructures.list import SNode
 
 

@@ -1,4 +1,4 @@
-from chapter10.textbook import push, stack_empty, pop
+from chapter10.textbook10_1 import stack_empty, push, pop
 from datastructures.array import Array
 
 

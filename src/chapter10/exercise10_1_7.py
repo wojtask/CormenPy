@@ -1,5 +1,5 @@
-from chapter10.ex10_1_4 import queue_empty
-from chapter10.textbook import enqueue, dequeue
+from chapter10.exercise10_1_4 import queue_empty
+from chapter10.textbook10_1 import enqueue, dequeue
 from datastructures.array import Array
 from util import between
 

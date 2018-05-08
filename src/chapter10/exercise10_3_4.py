@@ -1,4 +1,4 @@
-from chapter10.textbook import allocate_object, free_object
+from chapter10.textbook10_3 import allocate_object, free_object
 
 
 def compact_list_allocate_object(L):

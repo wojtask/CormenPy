@@ -1,5 +1,5 @@
-from chapter06.ex6_5_8 import merge_sorted_lists
-from chapter10.ex10_2_1 import singly_linked_list_insert, singly_linked_list_delete
+from chapter06.exercise6_5_8 import merge_sorted_lists
+from chapter10.exercise10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter11.textbook import perfect_hashing_search, perfect_hashing_init
 from datastructures.array import Array
 from datastructures.list import List, SNode

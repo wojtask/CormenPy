@@ -1,4 +1,4 @@
-from chapter10.textbook import enqueue, dequeue
+from chapter10.textbook10_1 import enqueue, dequeue
 
 
 def queue_empty(Q):
