@@ -1,6 +1,6 @@
 import math
 
-from chapter06.textbook import parent, left, right
+from chapter06.textbook6_1 import parent, left, right
 from datastructures.array import Array
 from datastructures.list import List, SNode
 

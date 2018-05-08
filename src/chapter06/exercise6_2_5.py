@@ -1,4 +1,4 @@
-from chapter06.textbook import left, right
+from chapter06.textbook6_1 import left, right
 
 
 def iterative_max_heapify(A, i):

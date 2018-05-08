@@ -1,7 +1,7 @@
 import math
 
-from chapter06.ex6_2_2 import min_heapify
-from chapter06.textbook import parent
+from chapter06.exercise6_2_2 import min_heapify
+from chapter06.textbook6_1 import parent
 
 
 def heap_minimum(A):

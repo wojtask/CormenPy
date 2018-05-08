@@ -3,22 +3,12 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_array
-from chapter06.textbook import heapsort, heap_maximum, heap_extract_max, heap_increase_key, max_heap_insert, \
-    build_max_heap_
-from datastructures.array import Array
+from chapter06.textbook6_5 import heap_maximum, heap_extract_max, heap_increase_key, max_heap_insert
 from heap_util import assert_max_heap, get_random_max_heap
 
 
-class Textbook06Test(TestCase):
+class TestTextbook6_5(TestCase):
 
-    def test_heapsort(self):
-        array, elements = get_random_array()
-
-        heapsort(array)
-
-        expected_array = Array(sorted(elements))
-        assert_that(array, is_(equal_to(expected_array)))
 
     def test_heap_maximum(self):
         heap, elements = get_random_max_heap()
@@ -69,12 +59,3 @@ class Textbook06Test(TestCase):
         assert_max_heap(heap)
         expected_heap_keys = elements + [new_key]
         assert_that(heap.elements, contains_inanyorder(*expected_heap_keys))
-
-    def test_build_max_heap_(self):
-        array, elements = get_random_array()
-
-        build_max_heap_(array)
-
-        assert_that(array, has_property('heap_size'))
-        assert_that(array.heap_size, is_(equal_to(array.length)))
-        assert_max_heap(array)

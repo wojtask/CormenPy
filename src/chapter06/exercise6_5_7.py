@@ -1,4 +1,5 @@
-from chapter06.textbook import max_heapify, parent
+from chapter06.textbook6_1 import parent
+from chapter06.textbook6_2 import max_heapify
 
 
 def max_heap_delete(A, i):
