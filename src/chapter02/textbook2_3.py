@@ -1,17 +1,7 @@
 import math
 
 from datastructures.array import Array
-from util import between, rbetween
-
-
-def insertion_sort(A):
-    for j in between(2, A.length):
-        key = A[j]
-        i = j - 1
-        while i > 0 and A[i] > key:
-            A[i + 1] = A[i]
-            i = i - 1
-        A[i + 1] = key
+from util import between
 
 
 def merge(A, p, q, r):
@@ -42,19 +32,3 @@ def merge_sort(A, p, r):
         merge_sort(A, p, q)
         merge_sort(A, q + 1, r)
         merge(A, p, q, r)
-
-
-def bubble_sort(A):
-    for i in between(1, A.length):
-        for j in rbetween(A.length, i + 1):
-            if A[j] < A[j - 1]:
-                A[j], A[j - 1] = A[j - 1], A[j]
-
-
-def horner(a, x):
-    y = 0.0
-    i = a.length - 1
-    while i >= 0:
-        y = a[i] + x * y
-        i = i - 1
-    return y

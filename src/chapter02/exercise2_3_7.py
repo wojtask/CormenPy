@@ -1,5 +1,5 @@
-from chapter02.textbook import merge_sort
-from chapter02.ex2_3_5 import recursive_binary_search
+from chapter02.exercise2_3_5 import recursive_binary_search
+from chapter02.textbook2_3 import merge_sort
 from util import between
 
 
