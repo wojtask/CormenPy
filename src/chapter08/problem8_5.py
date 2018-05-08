@@ -1,4 +1,4 @@
-from chapter07.textbook import partition
+from chapter07.textbook7_1 import partition
 
 
 def average_sort(A, k, p, r):

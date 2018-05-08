@@ -1,4 +1,4 @@
-from chapter08.textbook import radix_sort
+from chapter08.textbook8_3 import radix_sort
 from datastructures.array import Array
 from util import between, rbetween
 
