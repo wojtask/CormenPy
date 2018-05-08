@@ -1,5 +1,5 @@
-from chapter13.ex13_2_1 import right_rotate
-from chapter13.textbook import left_rotate, rb_successor, rb_search
+from chapter13.exercise13_2_1 import right_rotate
+from chapter13.textbook13_2 import rb_search, left_rotate, rb_successor
 from datastructures.red_black_tree import Red, Black, IntervalPomNode
 
 

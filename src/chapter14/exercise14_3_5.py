@@ -1,5 +1,5 @@
-from chapter13.ex13_2_1 import right_rotate
-from chapter14.ex14_3_1 import interval_left_rotate
+from chapter13.exercise13_2_1 import right_rotate
+from chapter14.exercise14_3_1 import interval_left_rotate
 from datastructures.red_black_tree import Black, Red
 
 

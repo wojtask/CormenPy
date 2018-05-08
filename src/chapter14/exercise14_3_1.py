@@ -1,4 +1,4 @@
-from chapter13.textbook import left_rotate
+from chapter13.textbook13_2 import left_rotate
 
 
 def interval_left_rotate(T, x):

@@ -1,7 +1,7 @@
 import math
 
-from chapter13.ex13_2_1 import right_rotate
-from chapter13.textbook import rb_search, left_rotate, rb_successor
+from chapter13.exercise13_2_1 import right_rotate
+from chapter13.textbook13_2 import left_rotate, rb_successor, rb_search
 from datastructures.red_black_tree import Red, Black
 
 

@@ -1,5 +1,5 @@
-from chapter13.textbook import rb_search
-from chapter14.textbook import os_insert, os_delete, os_rank
+from chapter13.textbook13_2 import rb_search
+from chapter14.textbook14_1 import os_insert, os_rank, os_delete
 from datastructures.array import Array
 from datastructures.red_black_tree import RedBlackTree, OSNode
 from util import between

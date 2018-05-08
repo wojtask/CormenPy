@@ -1,5 +1,5 @@
-from chapter10.ex10_2_1 import singly_linked_list_insert
-from chapter14.textbook import os_insert, os_select, os_delete
+from chapter10.exercise10_2_1 import singly_linked_list_insert
+from chapter14.textbook14_1 import os_insert, os_select, os_delete
 from datastructures.list import List, SNode
 from datastructures.red_black_tree import RedBlackTree, OSNode
 from util import between, rbetween

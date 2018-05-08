@@ -1,4 +1,4 @@
-from chapter14.textbook import os_rank, os_select
+from chapter14.textbook14_1 import os_rank, os_select
 
 
 def os_successor(T, x, i):

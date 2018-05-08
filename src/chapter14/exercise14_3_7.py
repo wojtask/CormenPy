@@ -1,5 +1,5 @@
-from chapter14.ex14_3_5 import interval_insert_exactly, interval_search_exactly
-from chapter14.textbook import interval_search, interval_delete
+from chapter14.exercise14_3_5 import interval_insert_exactly, interval_search_exactly
+from chapter14.textbook14_3 import interval_search, interval_delete
 from datastructures.red_black_tree import RedBlackTree, IntervalNode
 
 

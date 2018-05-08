@@ -1,4 +1,4 @@
-from chapter14.textbook import interval_search, overlap
+from chapter14.textbook14_3 import interval_search, overlap
 
 
 def min_interval_search(T, i):
