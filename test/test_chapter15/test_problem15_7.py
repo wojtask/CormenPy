@@ -50,7 +50,7 @@ class TestProblem15_7(TestCase):
         expected_max_profit = get_optimal_schedule_bruteforce(
             Array(times_elements), Array(profits_elements), Array(deadlines_elements))
         assert_that(actual_max_profits[actual_max_profits.length - 1], is_(equal_to(expected_max_profit)))
-        scheduled_jobs = [int(re.search('a(\d)+', job).group(1)) for job in captured_output.getvalue().splitlines()]
+        scheduled_jobs = [int(re.search('a(\d+)', job).group(1)) for job in captured_output.getvalue().splitlines()]
         profit_from_schedule = get_schedule_total_profit(
             scheduled_jobs, Array(times_elements), Array(profits_elements), Array(deadlines_elements))
         assert_that(profit_from_schedule, is_(equal_to(expected_max_profit)))
