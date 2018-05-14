@@ -9,7 +9,6 @@ from heap_util import assert_max_heap, get_random_max_heap
 
 class TestTextbook6_5(TestCase):
 
-
     def test_heap_maximum(self):
         heap, elements = get_random_max_heap()
 

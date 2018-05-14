@@ -36,7 +36,7 @@ class TestExercise16_2_2(TestCase):
         n = random.randint(1, 15)
         weights, _ = get_random_array(min_size=n, max_size=n)
         values, _ = get_random_array(min_size=n, max_size=n)
-        max_weight = random.randint(1, n * 200)
+        max_weight = random.randint(1, n * 1000)
         captured_output = io.StringIO()
 
         actual_knapsack = knapsack(weights, values, max_weight)
