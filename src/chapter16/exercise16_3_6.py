@@ -8,16 +8,15 @@ from util import between, rbetween
 
 def ternary_huffman(C):
     n = len(C)
+    if n % 2 == 0:
+        C.add(('#', 0))
     Q = _build_min_priority_queue(C)
     for i in between(1, math.floor(n / 2)):
         w = Node(None)
         w.left = x = _heap_extract_min(Q)
         w.middle = y = _heap_extract_min(Q)
-        if i == 1 and n % 2 == 0:
-            w.f = x.f + y.f
-        else:
-            w.right = z = _heap_extract_min(Q)
-            w.f = x.f + y.f + z.f
+        w.right = z = _heap_extract_min(Q)
+        w.f = x.f + y.f + z.f
         _min_heap_insert(Q, w)
     return _heap_extract_min(Q)
 
