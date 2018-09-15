@@ -16,7 +16,7 @@ def decode_tasks(tasks):
     return Array([int(re.search('a(\d+)', task).group(1)) for task in tasks])
 
 
-def assert_early_first_form(schedule, deadlines):
+def assert_canonical_form(schedule, deadlines):
     n = schedule.length
     i = 1
     prev_deadline = -math.inf
@@ -59,7 +59,7 @@ class TestTextbook16_5(TestCase):
         actual_schedule = tasks_scheduling(deadlines, penalties)
 
         schedule_ids = decode_tasks(actual_schedule)
-        assert_early_first_form(schedule_ids, deadlines)
+        assert_canonical_form(schedule_ids, deadlines)
         expected_min_total_penalty = get_min_total_penalty_bruteforce(deadlines, penalties)
         actual_total_penalty = get_total_penalty(schedule_ids, deadlines, penalties)
         assert_that(actual_total_penalty, is_(equal_to(expected_min_total_penalty)))
