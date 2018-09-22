@@ -1,4 +1,4 @@
-from datastructures.list import XorNode
+from datastructures.list import XORNode
 
 
 def xor_linked_list_search(L, k):
@@ -14,11 +14,11 @@ def xor_linked_list_search(L, k):
 def _xor(x, y):
     if x is None:
         x = 0
-    elif isinstance(x, XorNode):
+    elif isinstance(x, XORNode):
         x = id(x)
     if y is None:
         y = 0
-    elif isinstance(y, XorNode):
+    elif isinstance(y, XORNode):
         y = id(y)
     return x ^ y
 

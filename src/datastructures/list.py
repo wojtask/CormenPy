@@ -15,13 +15,13 @@ class SNode:
         self.next = None
 
 
-class XorList:
+class XORList:
     def __init__(self):
         self.head = self.tail = None
         self.addr_to_node = {0: None}
 
 
-class XorNode:
+class XORNode:
     def __init__(self, key, xor_list):
         self.key = key
         self.np = 0

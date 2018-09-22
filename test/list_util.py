@@ -4,7 +4,7 @@ from hamcrest import *
 
 from datastructures.array import Array
 from datastructures.array_list import MultipleArrayList, SingleArrayList
-from datastructures.list import List, Node, SNode, XorNode, XorList
+from datastructures.list import List, Node, SNode, XORNode, XORList
 
 
 def get_random_doubly_linked_list(min_size=1, max_size=20, max_value=999):
@@ -115,13 +115,13 @@ def get_circular_list_keys(list_):
 
 
 def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
-    list_ = XorList()
+    list_ = XORList()
     size = random.randint(min_size, max_size)
     if size == 0:
         return list_, [], []
 
     keys = [random.randint(0, max_value) for _ in range(size)]
-    nodes = [XorNode(key, list_) for key in keys]
+    nodes = [XORNode(key, list_) for key in keys]
 
     prev_node = None
     curr_node = nodes[0]
