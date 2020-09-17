@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter18.textbook18_2 import b_tree_search
+from chapter18.textbook18_2 import b_tree_search, b_tree_create
 from datastructures import b_tree
 from datastructures.array import Array
 from datastructures.b_tree import BTree, allocate_node, disk_write
@@ -55,3 +55,13 @@ class TestTextbook18_2(TestCase):
         result = b_tree_search(tree.root, 9)
 
         assert_that(result, is_(None))
+
+    def test_b_tree_create(self):
+        T = BTree()
+
+        b_tree_create(T)
+
+        assert_that(T.root, is_(not_(None)))
+        assert_that(T.root.n, is_(equal_to(0)))
+        assert_that(T.root.leaf, is_(True))
+        assert_that(b_tree.unsaved_nodes, is_(set()))
