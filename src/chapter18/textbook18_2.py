@@ -43,3 +43,38 @@ def b_tree_split_child(x, i, y, t=2):
     disk_write(y)
     disk_write(z)
     disk_write(x)
+
+
+def b_tree_insert(T, k, t=2):
+    r = T.root
+    if r.n == 2 * t - 1:
+        s = allocate_node(t)
+        T.root = s
+        s.leaf = False
+        s.n = 0
+        s.c[1] = r
+        b_tree_split_child(s, 1, r, t)
+        b_tree_insert_nonfull(s, k, t)
+    else:
+        b_tree_insert_nonfull(r, k, t)
+
+
+def b_tree_insert_nonfull(x, k, t=2):
+    i = x.n
+    if x.leaf:
+        while i >= 1 and k < x.key[i]:
+            x.key[i + 1] = x.key[i]
+            i -= 1
+        x.key[i + 1] = k
+        x.n += 1
+        disk_write(x)
+    else:
+        while i >= 1 and k < x.key[i]:
+            i -= 1
+        i += 1
+        disk_read(x.c[i])
+        if x.c[i].n == 2 * t - 1:
+            b_tree_split_child(x, i, x.c[i], t)
+            if k > x.key[i]:
+                i += 1
+        b_tree_insert_nonfull(x.c[i], k, t)
