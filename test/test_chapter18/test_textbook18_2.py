@@ -5,7 +5,7 @@ from hamcrest import *
 from chapter18.textbook18_2 import b_tree_search, b_tree_create, b_tree_split_child
 from datastructures import b_tree
 from datastructures.array import Array
-from datastructures.b_tree import BTree, allocate_node, disk_write
+from datastructures.b_tree import BTree, allocate_node
 
 
 def get_b_tree():
@@ -14,25 +14,25 @@ def get_b_tree():
     child3 = allocate_node()
     root = allocate_node()
     child1.n = 1
-    child1.key = Array([1])
+    child1.key[1] = 'A'
     child1.leaf = True
     child2.n = 3
-    child2.key = Array([3, 4, 5])
+    child2.key[1] = 'C'
+    child2.key[2] = 'D'
+    child2.key[3] = 'E'
     child2.leaf = True
-    child3.n = 2
-    child3.key = Array([7, 8])
+    child3.n = 1
+    child3.key[1] = 'G'
     child3.leaf = True
     root.n = 2
-    root.key = Array([2, 6])
+    root.key[1] = 'B'
+    root.key[2] = 'F'
     root.leaf = False
     root.c = Array([child1, child2, child3])
-    disk_write(child1)
-    disk_write(child2)
-    disk_write(child3)
-    disk_write(root)
 
     # the B-tree procedures assume that the root of the B-tree is always in main memory; let's remove everything else
     b_tree.in_memory_nodes = {root}
+    b_tree.unsaved_nodes = set()
 
     return BTree(root)
 
@@ -42,7 +42,7 @@ class TestTextbook18_2(TestCase):
     def test_b_tree_search(self):
         tree = get_b_tree()
 
-        result = b_tree_search(tree.root, 5)
+        result = b_tree_search(tree.root, 'E')
 
         assert_that(result[0], is_(tree.root.c[2]))
         assert_that(result[1], is_(equal_to(3)))
@@ -51,7 +51,7 @@ class TestTextbook18_2(TestCase):
     def test_b_tree_search_unsuccessful(self):
         tree = get_b_tree()
 
-        result = b_tree_search(tree.root, 9)
+        result = b_tree_search(tree.root, 'H')
 
         assert_that(result, is_(none()))
 
@@ -67,27 +67,31 @@ class TestTextbook18_2(TestCase):
     def test_b_tree_split_child(self):
         x = allocate_node()
         y = allocate_node()
-        y.n = 7
-        y.key = Array(['P', 'Q', 'R', 'S', 'T', 'U', 'V'])
+        y.n = 3
+        y.key[1] = 'C'
+        y.key[2] = 'D'
+        y.key[3] = 'E'
         y.leaf = False
-        y_children = [allocate_node() for _ in range(8)]
+        y_children = [allocate_node() for _ in range(4)]
         y.c = Array(y_children)
         x.n = 2
-        x.key = Array(['N', 'W'])
+        x.key[1] = 'B'
+        x.key[2] = 'F'
         x.leaf = False
-        x.c = Array([None, y, None])
+        x.c[2] = y
+        b_tree.in_memory_nodes = {x, y}
+        b_tree.unsaved_nodes = set()
 
-        b_tree_split_child(x, 2, y, t=4)
+        b_tree_split_child(x, 2, y)
 
         assert_that(x.n, is_(equal_to(3)))
-        assert_that(x.key.elements, is_(equal_to(['N', 'S', 'W'])))
-        assert_that(x.c.length, is_(equal_to(4)))
+        assert_that(x.key.elements[:3], contains_exactly('B', 'D', 'F'))
         y1 = x.c[2]
         y2 = x.c[3]
-        assert_that(y1.n, is_(equal_to(3)))
-        assert_that(y1.key.elements[:3], contains_exactly('P', 'Q', 'R'))
-        assert_that(y1.c.elements[:4], contains_exactly(*y_children[:4]))
-        assert_that(y2.n, is_(equal_to(3)))
-        assert_that(y2.key.elements[:3], contains_exactly('T', 'U', 'V'))
-        assert_that(y2.c.elements[:4], contains_exactly(*y_children[4:]))
+        assert_that(y1.n, is_(equal_to(1)))
+        assert_that(y1.key.elements[:1], contains_exactly('C'))
+        assert_that(y1.c.elements[:2], contains_exactly(y_children[0], y_children[1]))
+        assert_that(y2.n, is_(equal_to(1)))
+        assert_that(y2.key.elements[:1], contains_exactly('E'))
+        assert_that(y2.c.elements[:2], contains_exactly(y_children[2], y_children[3]))
         assert_that(b_tree.unsaved_nodes, is_(set()))
