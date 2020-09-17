@@ -1,3 +1,4 @@
+from datastructures.array import Array
 from datastructures.rooted_tree import RootedTree
 
 in_memory_nodes = set()
@@ -31,8 +32,10 @@ def disk_write(x):
     unsaved_nodes.remove(x)
 
 
-def allocate_node():
+def allocate_node(t=2):
     print("Allocating one disk page for a new node")
     x = Node()
     in_memory_nodes.add(x)
+    x.key = Array.indexed(1, 2 * t - 1)
+    x.c = Array.indexed(1, 2 * t)
     return x
