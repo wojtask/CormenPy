@@ -48,7 +48,6 @@ class TestTextbook18_2(TestCase):
 
         assert_that(result[0], is_(T.root.c[2]))
         assert_that(result[1], is_(equal_to(3)))
-        assert_that(b_tree.unsaved_nodes, is_(set()))
 
     def test_b_tree_search_unsuccessful(self):
         T = get_b_tree()
