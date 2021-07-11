@@ -1,4 +1,5 @@
 # CormenPy
+![Build & test](https://github.com/wojtask/CormenPy/actions/workflows/build.yml/badge.svg)
 
 **CormenPy** provides implementations of algorithms and data structures from *Introduction to Algorithms*, ed. 2
 by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein.
