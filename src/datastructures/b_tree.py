@@ -1,8 +1,8 @@
 from datastructures.array import Array
 from datastructures.rooted_tree import RootedTree
 
-in_memory_nodes = set()
-unsaved_nodes = set()
+in_memory_node_ids = set()
+unsaved_node_ids = set()
 
 
 class BTree(RootedTree):
@@ -11,31 +11,28 @@ class BTree(RootedTree):
 
 class Node:
     def __getattribute__(self, name):
-        if self not in in_memory_nodes:
+        if id(self) not in in_memory_node_ids:
             raise AttributeError("Attempted to read an attribute of a node before reading it from disk")
         return super().__getattribute__(name)
 
     def __setattr__(self, name, value):
-        if self not in in_memory_nodes:
+        if id(self) not in in_memory_node_ids:
             raise AttributeError("Attempted to change an attribute of a node before reading it from disk")
-        unsaved_nodes.add(self)
+        unsaved_node_ids.add(id(self))
         super().__setattr__(name, value)
 
 
 def disk_read(x):
-    print("Reading node from disk")
-    in_memory_nodes.add(x)
+    in_memory_node_ids.add(id(x))
 
 
 def disk_write(x):
-    print("Writing node to disk")
-    unsaved_nodes.remove(x)
+    unsaved_node_ids.remove(id(x))
 
 
 def allocate_node(t=2):
-    print("Allocating one disk page for a new node")
     x = Node()
-    in_memory_nodes.add(x)
+    in_memory_node_ids.add(id(x))
     x.key = Array.indexed(1, 2 * t - 1)
     x.c = Array.indexed(1, 2 * t)
     return x
