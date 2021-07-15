@@ -4,8 +4,7 @@ from hamcrest import *
 
 from chapter18.textbook18_2 import b_tree_search, b_tree_create, b_tree_split_child, b_tree_insert
 from datastructures import b_tree
-from datastructures.array import Array
-from datastructures.b_tree import BTree, allocate_node, disk_read
+from datastructures.b_tree import BTree, allocate_node, GuardedArray
 
 
 def get_b_tree():
@@ -86,7 +85,7 @@ class TestTextbook18_2(TestCase):
     def test_b_tree_insert_full_root(self):
         x = allocate_node()
         x.n = 3
-        x.key = Array(['A', 'D', 'F'])
+        x.key = GuardedArray(['A', 'D', 'F'], id(x))
         x.leaf = True
         T = BTree()
         T.root = x
