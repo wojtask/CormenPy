@@ -10,14 +10,27 @@ class BTree(RootedTree):
 
 
 class Node:
+    def __init__(self, t=2):
+        in_memory_node_ids.add(id(self))
+        self.n = 0
+        # temporarily make the node internal to safely initialize key and c attributes, then change to leaf
+        self.leaf = False
+        self.key = GuardedArray([None] * (2 * t - 1), id(self))
+        self.c = GuardedArray([None] * (2 * t), id(self))
+        self.leaf = True
+
     def __getattribute__(self, name):
         if id(self) not in in_memory_node_ids:
             raise AttributeError("Attempted to read an attribute of a node before reading it from disk")
+        if name == "c" and self.leaf:
+            raise AttributeError("Attempted to read children in a leaf")
         return super().__getattribute__(name)
 
     def __setattr__(self, name, value):
         if id(self) not in in_memory_node_ids:
             raise AttributeError("Attempted to write an attribute of a node before reading it from disk")
+        if name == "c" and self.leaf:
+            raise AttributeError("Attempted to write children in a leaf")
         unsaved_node_ids.add(id(self))
         super().__setattr__(name, value)
 
@@ -44,11 +57,7 @@ def disk_write(x):
 
 
 def allocate_node(t=2):
-    x = Node()
-    in_memory_node_ids.add(id(x))
-    x.key = GuardedArray([None] * (2 * t - 1), id(x))
-    x.c = GuardedArray([None] * (2 * t), id(x))
-    return x
+    return Node(t)
 
 
 def free_node(x):
