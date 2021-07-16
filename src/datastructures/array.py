@@ -17,7 +17,7 @@ class Array:
         if isinstance(index, tuple):
             row = self.elements[index[0] - self.start]
             return row.elements[index[1] - row.start]
-        return Array(self.elements[index.start - self.start:index.stop - self.start + 1])
+        return Array(self.elements[index.start - self.start:index.stop - self.start + 1], start=index.start)
 
     def __setitem__(self, index, item):
         if isinstance(index, int):
@@ -28,7 +28,8 @@ class Array:
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.length == other.length and self.start == other.start and self.elements == other.elements
+            return self.length == other.length and self.start == other.start and self.elements[:self.length] == \
+                   other.elements[:other.length]
         return NotImplemented
 
     def __ne__(self, other):
@@ -37,7 +38,13 @@ class Array:
         return NotImplemented
 
     def __hash__(self):
-        return hash((self.length, self.start, self.elements))
+        return hash((self.length, self.start, self.elements[:self.length]))
 
     def __iter__(self):
-        return (x for x in self.elements)
+        return (item for item in self.elements)
+
+    def __contains__(self, item):
+        return item in self.elements
+
+    def __str__(self):
+        return "%s indexed from %d" % (self.elements[:self.length], self.start)
