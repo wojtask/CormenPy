@@ -14,7 +14,7 @@ class TestArray(TestCase):
         assert_that(self.array.length, is_(equal_to(5)))
 
     def test_gets_element(self):
-        assert_that(self.array[3], 1)
+        assert_that(self.array[3], is_(equal_to(1)))
 
     def test_sets_element(self):
         self.array[2] = 3
@@ -31,7 +31,7 @@ class TestArray(TestCase):
 
     def test_gets_subarray(self):
         actual_subarray = self.array[3:4]
-        expected_subarray = Array([1, 0])
+        expected_subarray = Array([1, 0], start=3)
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_instantiate_with_custom_start_index(self):
