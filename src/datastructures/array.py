@@ -17,7 +17,11 @@ class Array:
         if isinstance(index, tuple):
             row = self.elements[index[0] - self.start]
             return row.elements[index[1] - row.start]
-        return Array(self.elements[index.start - self.start:index.stop - self.start + 1], start=index.start)
+        start = index.start if index.start is not None else self.start
+        stop = index.stop if index.stop is not None else self.length
+        if start < self.start or stop - self.start + 1 > self.length:
+            raise IndexError('Invalid indexes used when addressing Array')
+        return Array(self.elements[start - self.start:stop - self.start + 1], start=start)
 
     def __setitem__(self, index, item):
         if isinstance(index, int):

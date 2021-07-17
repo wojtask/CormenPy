@@ -29,10 +29,27 @@ class TestArray(TestCase):
         actual_elements = [x for x in self.array]
         assert_that(actual_elements, is_(equal_to([4, 5, 1, 0, 2])))
 
-    def test_gets_subarray(self):
+    def test_gets_infix_subarray(self):
         actual_subarray = self.array[3:4]
         expected_subarray = Array([1, 0], start=3)
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
+
+    def test_gets_prefix_subarray(self):
+        actual_subarray = self.array[:4]
+        expected_subarray = Array([4, 5, 1, 0], start=1)
+        assert_that(actual_subarray, is_(equal_to(expected_subarray)))
+
+    def test_gets_suffix_subarray(self):
+        actual_subarray = self.array[3:]
+        expected_subarray = Array([1, 0, 2], start=3)
+        assert_that(actual_subarray, is_(equal_to(expected_subarray)))
+
+    def test_addressing_by_invalid_indexes(self):
+        try:
+            self.array[3:10]
+        except IndexError:
+            return
+        self.fail()
 
     def test_instantiate_with_custom_start_index(self):
         array = Array([4, 5, 1, 0, 2], start=2)
