@@ -1,6 +1,6 @@
 def single_array_allocate_object(L):
     if L.free is None:
-        raise RuntimeError('out of space')
+        raise ValueError('out of space')
     x = L.free
     L.free = L.A[x + 1]
     return x

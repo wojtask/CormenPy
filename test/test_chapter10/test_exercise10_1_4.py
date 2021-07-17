@@ -31,7 +31,7 @@ class TestExercise10_1_4(TestCase):
         x = random.randint(0, 999)
 
         if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
-            assert_that(calling(enqueue_).with_args(queue, x), raises(RuntimeError, 'overflow'))
+            assert_that(calling(enqueue_).with_args(queue, x), raises(ValueError, 'overflow'))
         else:
             expected_elements = get_queue_elements(queue) + [x]
 
@@ -47,7 +47,7 @@ class TestExercise10_1_4(TestCase):
         queue.tail = random.randint(1, size)
 
         if queue.head == queue.tail:
-            assert_that(calling(dequeue_).with_args(queue), raises(RuntimeError, 'underflow'))
+            assert_that(calling(dequeue_).with_args(queue), raises(ValueError, 'underflow'))
         else:
             expected_elements = get_queue_elements(queue)
             del expected_elements[0]

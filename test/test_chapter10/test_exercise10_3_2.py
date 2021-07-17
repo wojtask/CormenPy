@@ -13,7 +13,7 @@ class TestExercise10_3_2(TestCase):
         list_ = get_random_single_array_list()
 
         if list_.free is None:
-            assert_that(calling(single_array_allocate_object).with_args(list_), raises(RuntimeError, 'out of space'))
+            assert_that(calling(single_array_allocate_object).with_args(list_), raises(ValueError, 'out of space'))
         else:
             expected_free = list_.free
             expected_keys = get_single_array_list_keys(list_)

@@ -24,7 +24,7 @@ def in_place_chained_hash_insert(T, x, h):
 
 def _allocate_hash_table_position(T, i, element):
     if T.free == -1:
-        raise RuntimeError('overflow')
+        raise ValueError('overflow')
     position = T[i]
     if position.next != -1:
         T[position.next].prev = position.prev

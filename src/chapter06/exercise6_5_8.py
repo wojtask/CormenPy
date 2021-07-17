@@ -38,7 +38,7 @@ def _min_heap_insert_pair(A, pair):
 
 def _heap_decrease_pair_key(A, i, pair):
     if pair[0].key > A[i][0].key:
-        raise RuntimeError('new key is larger than current key')
+        raise ValueError('new key is larger than current key')
     A[i] = pair
     while i > 1 and A[parent(i)][0].key > A[i][0].key:
         A[i], A[parent(i)] = A[parent(i)], A[i]
@@ -47,7 +47,7 @@ def _heap_decrease_pair_key(A, i, pair):
 
 def _heap_extract_min_pair(A):
     if A.heap_size < 1:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     min_pair = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1

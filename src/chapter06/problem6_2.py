@@ -25,7 +25,7 @@ def multiary_max_heapify(A, d, i):
 
 def multiary_heap_extract_max(A, d):
     if A.heap_size < 1:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1

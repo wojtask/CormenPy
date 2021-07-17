@@ -10,7 +10,7 @@ def singly_linked_list_push(L, k):
 
 def singly_linked_list_pop(L):
     if L.head is None:
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     x = L.head
     L.head = x.next
     return x.key

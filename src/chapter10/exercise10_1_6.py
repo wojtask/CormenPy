@@ -8,7 +8,7 @@ def stack_enqueue(S, x):
 
 def stack_dequeue(S):
     if stack_empty(S):
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     S_ = Array.indexed(1, S.length)
     S_.top = 0
     while not stack_empty(S):

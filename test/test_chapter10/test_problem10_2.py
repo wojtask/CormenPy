@@ -46,7 +46,7 @@ class TestProblem10_2(TestCase):
             assert_that(actual_extracted_min, is_(equal_to(expected_min)))
             assert_sorted_list(heap1)
         else:
-            assert_that(calling(sorted_list_heap_extract_min).with_args(heap1), raises(RuntimeError, 'heap underflow'))
+            assert_that(calling(sorted_list_heap_extract_min).with_args(heap1), raises(ValueError, 'heap underflow'))
 
         if elements2:
             actual_min = sorted_list_heap_minimum(heap2)
@@ -57,7 +57,7 @@ class TestProblem10_2(TestCase):
             assert_that(actual_extracted_min, is_(equal_to(expected_min)))
             assert_sorted_list(heap2)
         else:
-            assert_that(calling(sorted_list_heap_extract_min).with_args(heap2), raises(RuntimeError, 'heap underflow'))
+            assert_that(calling(sorted_list_heap_extract_min).with_args(heap2), raises(ValueError, 'heap underflow'))
 
         merged_heap = sorted_list_min_heap_union(heap1, heap2)
 
@@ -88,7 +88,7 @@ class TestProblem10_2(TestCase):
             assert_that(actual_min, is_(equal_to(expected_min)))
             assert_that(actual_extracted_min, is_(equal_to(expected_min)))
         else:
-            assert_that(calling(list_heap_extract_min).with_args(heap1), raises(RuntimeError, 'heap underflow'))
+            assert_that(calling(list_heap_extract_min).with_args(heap1), raises(ValueError, 'heap underflow'))
 
         if elements2:
             actual_min = list_heap_minimum(heap2)
@@ -98,7 +98,7 @@ class TestProblem10_2(TestCase):
             assert_that(actual_min, is_(equal_to(expected_min)))
             assert_that(actual_extracted_min, is_(equal_to(expected_min)))
         else:
-            assert_that(calling(list_heap_extract_min).with_args(heap2), raises(RuntimeError, 'heap underflow'))
+            assert_that(calling(list_heap_extract_min).with_args(heap2), raises(ValueError, 'heap underflow'))
 
         merged_heap = list_min_heap_union(heap1, heap2)
 

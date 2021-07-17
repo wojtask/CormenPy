@@ -36,7 +36,7 @@ class TestExercise17_3_6(TestCase):
         stack2.top = random.randint(0, capacity)
 
         if stack1.top == 0 and stack2.top == 0:
-            assert_that(calling(effective_stack_dequeue).with_args(stack1, stack2), raises(RuntimeError, 'underflow'))
+            assert_that(calling(effective_stack_dequeue).with_args(stack1, stack2), raises(ValueError, 'underflow'))
         else:
             expected_elements = get_queue_elements(stack1, stack2)
             del expected_elements[0]

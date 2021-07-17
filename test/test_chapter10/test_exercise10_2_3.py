@@ -25,7 +25,7 @@ class TestExercise10_2_3(TestCase):
 
         if list_.head is None:
             list_.tail = None
-            assert_that(calling(singly_linked_list_dequeue).with_args(list_), raises(RuntimeError, 'underflow'))
+            assert_that(calling(singly_linked_list_dequeue).with_args(list_), raises(ValueError, 'underflow'))
         else:
             list_.tail = nodes[-1]
 

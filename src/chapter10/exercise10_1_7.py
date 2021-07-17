@@ -10,7 +10,7 @@ def queue_push(Q, x):
 
 def queue_pop(Q):
     if queue_empty(Q):
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     Q_ = Array.indexed(1, Q.length - 1)
     Q_.head = Q_.tail = 1
     n = 0

@@ -18,7 +18,7 @@ def _min_heap_insert_element(A, x):
 
 def _heap_decrease_element_key(A, i, x):
     if x.key > A[i].key:
-        raise RuntimeError('new key is larger than current key')
+        raise ValueError('new key is larger than current key')
     A[i] = x
     while i > 1 and A[parent(i)].key > A[i].key:
         A[i], A[parent(i)] = A[parent(i)], A[i]
@@ -31,7 +31,7 @@ def priority_dequeue(Q):
 
 def _heap_extract_min_element(A):
     if A.heap_size < 1:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     min = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1
@@ -67,7 +67,7 @@ def _max_heap_insert_element(A, x):
 
 def _heap_increase_element_key(A, i, x):
     if x.key < A[i].key:
-        raise RuntimeError('new key is smaller than current key')
+        raise ValueError('new key is smaller than current key')
     A[i] = x
     while i > 1 and A[parent(i)].key < A[i].key:
         A[i], A[parent(i)] = A[parent(i)], A[i]
@@ -80,7 +80,7 @@ def priority_pop(Q):
 
 def _heap_extract_max_element(A):
     if A.heap_size < 1:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
     A.heap_size = A.heap_size - 1

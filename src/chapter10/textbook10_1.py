@@ -12,7 +12,7 @@ def push(S, x):
 
 def pop(S):
     if stack_empty(S):
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     else:
         S.top = S.top - 1
         return S[S.top + 1]

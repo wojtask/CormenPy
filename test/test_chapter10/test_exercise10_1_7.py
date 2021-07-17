@@ -35,7 +35,7 @@ class TestExercise10_1_7(TestCase):
         queue.tail = random.randint(1, size)
 
         if queue.head == queue.tail:
-            assert_that(calling(queue_pop).with_args(queue), raises(RuntimeError, 'underflow'))
+            assert_that(calling(queue_pop).with_args(queue), raises(ValueError, 'underflow'))
         else:
             expected_elements = get_queue_elements(queue)
             del expected_elements[-1]

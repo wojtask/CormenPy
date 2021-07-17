@@ -7,7 +7,7 @@ from util import between
 
 def matrix_multiply(A, B):
     if A.columns != B.rows:
-        raise RuntimeError('incompatible dimensions')
+        raise ValueError('incompatible dimensions')
     else:
         C = Matrix.of_dimensions(A.rows, B.columns)
         for i in between(1, A.rows):

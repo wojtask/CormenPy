@@ -31,7 +31,7 @@ def sorted_list_heap_minimum(heap):
 
 def sorted_list_heap_extract_min(heap):
     if heap.head is None:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     min = heap.head.key
     heap.head = heap.head.next
     return min
@@ -73,7 +73,7 @@ def list_heap_minimum(heap):
 
 def list_heap_extract_min(heap):
     if heap.head is None:
-        raise RuntimeError('heap underflow')
+        raise ValueError('heap underflow')
     min = heap.head.key
     heap.head = heap.head.next
     if heap.head is None:

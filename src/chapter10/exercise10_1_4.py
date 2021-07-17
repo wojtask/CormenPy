@@ -10,13 +10,13 @@ def queue_empty(Q):
 
 def enqueue_(Q, x):
     if Q.head == Q.tail + 1:
-        raise RuntimeError('overflow')
+        raise ValueError('overflow')
     if Q.head == 1 and Q.tail == Q.length:
-        raise RuntimeError('overflow')
+        raise ValueError('overflow')
     enqueue(Q, x)
 
 
 def dequeue_(Q):
     if queue_empty(Q):
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     return dequeue(Q)

@@ -99,7 +99,7 @@ Accessing array's range of values, or subarray <img alt="$A[i\twodots j]$" src="
 
 * Signaling an error by <img alt='$\Error\ ``\text{message}"$' src="png//bdd898b1996e7a9d8e11de1b1077db19.png?invert_in_darkmode" align=middle width="121.04597999999999pt" height="22.745910000000016pt"/> translates to
    ```Python
-   raise RuntimeError('message')
+   raise ValueError('message')
    ```
 
 * Other constructs including plain English descriptions instead of formally written pseudocode instructions translate

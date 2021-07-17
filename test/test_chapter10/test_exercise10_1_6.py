@@ -28,7 +28,7 @@ class TestExercise10_1_6(TestCase):
         stack.top = random.randint(0, size)
 
         if stack.top == 0:
-            assert_that(calling(stack_dequeue).with_args(stack), raises(RuntimeError, 'underflow'))
+            assert_that(calling(stack_dequeue).with_args(stack), raises(ValueError, 'underflow'))
         else:
             expected_elements = get_stack_elements(stack)
             del expected_elements[0]
