@@ -35,6 +35,23 @@ class Node:
         super().__setattr__(name, value)
 
 
+class GuardedArray(Array):
+    """Meant to use as a type of key and c attributes in BTree nodes. Ensures that setting an item in its instance will
+    require the owning node to be saved on disk."""
+
+    def __init__(self, elements, node_id):
+        super(GuardedArray, self).__init__(elements, start=1)
+        self.node_id = node_id
+
+    def __setitem__(self, index, item):
+        unsaved_node_ids.add(self.node_id)
+        super().__setitem__(index, item)
+
+
+class Tree234(BTree):
+    pass
+
+
 class Node234:
     def __init__(self):
         self.n = 0
@@ -51,19 +68,6 @@ class Node234:
         if name == "c" and self.height == 0:
             raise AttributeError("Attempted to write children in a leaf")
         super().__setattr__(name, value)
-
-
-class GuardedArray(Array):
-    """Meant to use as a type of key and c attributes in BTree nodes. Ensures that setting an item in its instance will
-    require the owning node to be saved on disk."""
-
-    def __init__(self, elements, node_id):
-        super(GuardedArray, self).__init__(elements, start=1)
-        self.node_id = node_id
-
-    def __setitem__(self, index, item):
-        unsaved_node_ids.add(self.node_id)
-        super().__setitem__(index, item)
 
 
 def disk_read(x):

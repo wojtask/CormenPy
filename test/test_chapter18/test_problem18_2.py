@@ -4,8 +4,9 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_unique_array
-from chapter18.problem18_2 import tree_2_3_4_create, tree_2_3_4_insert, tree_2_3_4_search, tree_2_3_4_delete
-from datastructures.b_tree import BTree
+from chapter18.problem18_2 import tree_2_3_4_create, tree_2_3_4_insert, tree_2_3_4_search, tree_2_3_4_delete, \
+    tree_2_3_4_join
+from datastructures.b_tree import Tree234
 from util import between
 
 
@@ -52,7 +53,7 @@ class TestProblem18_2(TestCase):
         Create an empty 2-3-4 tree. Keep adding new keys to the tree, and sometimes delete an existing key. After each
         operation assert that the actual tree is 2-3-4 tree and that it has all expected keys.
         """
-        tree = BTree()
+        tree = Tree234()
         tree_2_3_4_create(tree)
         assert_2_3_4_tree(tree)
 
@@ -77,3 +78,55 @@ class TestProblem18_2(TestCase):
                 assert_that(actual_result[0].key[actual_result[1]], is_(equal_to(key)))
             else:
                 assert_that(actual_result, is_(none()))
+
+    def test_tree_2_3_4_join_random(self):
+        """
+        Select a key k and create 2-3-4 trees T' and T'', s.t. for each key k' in T' and for each key k'' in T'',
+        k' < k < k''. Join T' and T'' with k. Assert that the resulting tree is a valid 2-3-4 tree with all keys merged.
+        """
+        tree1 = Tree234()
+        tree2 = Tree234()
+        tree_2_3_4_create(tree1)
+        tree_2_3_4_create(tree2)
+
+        max_value = 1000
+        k = random.randint(1, max_value - 1)
+        keys1, _ = get_random_unique_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1)
+        keys2, _ = get_random_unique_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value)
+        for key in keys1:
+            tree_2_3_4_insert(tree1, key)
+        for key in keys2:
+            tree_2_3_4_insert(tree2, key)
+
+        actual_tree = tree_2_3_4_join(tree1, tree2, k)
+
+        assert_2_3_4_tree(actual_tree)
+        actual_tree_elements = get_2_3_4_tree_elements(actual_tree)
+        assert_that(actual_tree_elements, is_(equal_to(sorted(keys1) + [k] + sorted(keys2))))
+
+    def test_tree_2_3_4_join_empty(self):
+        """
+        Same scenario as in test_tree_2_3_4_join_random but at least one of the trees is empty.
+        """
+        tree1 = Tree234()
+        tree2 = Tree234()
+        tree_2_3_4_create(tree1)
+        tree_2_3_4_create(tree2)
+
+        max_value = 1000
+        k = random.randint(1, max_value - 1)
+        r = random.random()
+        max_size1 = 0 if r < 0.6 else k - 1
+        max_size2 = 0 if r > 0.4 else max_value - k
+        keys1, _ = get_random_unique_array(min_size=0, max_size=max_size1, min_value=0, max_value=k - 1)
+        keys2, _ = get_random_unique_array(min_size=0, max_size=max_size2, min_value=k + 1, max_value=max_value)
+        for key in keys1:
+            tree_2_3_4_insert(tree1, key)
+        for key in keys2:
+            tree_2_3_4_insert(tree2, key)
+
+        actual_tree = tree_2_3_4_join(tree1, tree2, k)
+
+        assert_2_3_4_tree(actual_tree)
+        actual_tree_elements = get_2_3_4_tree_elements(actual_tree)
+        assert_that(actual_tree_elements, is_(equal_to(sorted(keys1) + [k] + sorted(keys2))))

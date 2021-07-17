@@ -1,4 +1,4 @@
-from datastructures.b_tree import Node234
+from datastructures.b_tree import Node234, Tree234
 from util import rbetween, between
 
 
@@ -193,3 +193,65 @@ def tree_2_3_4_delete(T, k):
     tree_2_3_4_safe_delete(r, k)
     if r.n == 0 and r.height > 0:
         T.root = r.c[1]
+
+
+def tree_2_3_4_join(T_, T__, k):
+    if T_.root.n == 0:
+        tree_2_3_4_insert(T__, k)
+        return T__
+    if T__.root.n == 0:
+        tree_2_3_4_insert(T_, k)
+        return T_
+    h_ = T_.root.height
+    h__ = T__.root.height
+    if h_ < h__:
+        x = tree_2_3_4_insert_at(T__, k, height=h_ + 1)
+        x.c[1] = T_.root
+        return T__
+    if h_ > h__:
+        x = tree_2_3_4_insert_at(T_, k, height=h__ + 1)
+        x.c[x.n + 1] = T__.root
+        return T_
+    T = Tree234()
+    tree_2_3_4_create(T)
+    tree_2_3_4_insert(T, k)
+    T.root.height = h_ + 1
+    T.root.c[1] = T_.root
+    T.root.c[2] = T__.root
+    return T
+
+
+def tree_2_3_4_insert_at(T, k, height):
+    r = T.root
+    if r.n == 3:
+        s = Node234()
+        T.root = s
+        s.height = r.height + 1
+        s.n = 0
+        s.c[1] = r
+        tree_2_3_4_split_child(s, 1, r)
+        return tree_2_3_4_insert_nonfull_at(s, k, height)
+    else:
+        return tree_2_3_4_insert_nonfull_at(r, k, height)
+
+
+def tree_2_3_4_insert_nonfull_at(x, k, height):
+    i = x.n
+    if x.height == height:
+        x.n += 1
+        x.c[x.n + 1] = x.c[x.n]
+        while i >= 1 and k < x.key[i]:
+            x.key[i + 1] = x.key[i]
+            x.c[i + 1] = x.c[i]
+            i -= 1
+        x.key[i + 1] = k
+        return x
+    else:
+        while i >= 1 and k < x.key[i]:
+            i -= 1
+        i += 1
+        if x.c[i].n == 3:
+            tree_2_3_4_split_child(x, i, x.c[i])
+            if k > x.key[i]:
+                i += 1
+        return tree_2_3_4_insert_nonfull_at(x.c[i], k, height)
