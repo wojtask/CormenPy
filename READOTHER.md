@@ -122,7 +122,7 @@ inclusive, and `rbetween(a, b)` is an alias for `range(a, b - 1, -1)`.
 
 * Signaling an error by $\Error\ ``\text{message}"$ translates to
 ```Python
-raise RuntimeError('message')
+raise ValueError('message')
 ```
 
 * Other constructs including plain English descriptions instead of formally written pseudocode instructions translate

@@ -52,7 +52,7 @@ class TestTextbook15_2(TestCase):
 
         if columns1 != rows2:
             assert_that(calling(matrix_multiply).with_args(matrix1, matrix2),
-                        raises(RuntimeError, 'incompatible dimensions'))
+                        raises(ValueError, 'incompatible dimensions'))
         else:
             actual_product = matrix_multiply(matrix1, matrix2)
             assert_that(actual_product.rows, is_(equal_to(rows1)))

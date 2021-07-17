@@ -28,4 +28,4 @@ def hash_insert_(T, k, h):
             i = i + 1
         if i == m:
             break
-    raise RuntimeError('hash table overflow')
+    raise ValueError('hash table overflow')

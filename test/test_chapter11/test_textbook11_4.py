@@ -15,7 +15,7 @@ class TestTextbook11_4(TestCase):
 
         if len(keys) == table.length:
             assert_that(calling(hash_insert).with_args(table, new_key, h),
-                        raises(RuntimeError, 'hash table overflow'))
+                        raises(ValueError, 'hash table overflow'))
         else:
             hash_insert(table, new_key, h)
 

@@ -14,7 +14,7 @@ def singly_linked_list_enqueue(L, k):
 
 def singly_linked_list_dequeue(L):
     if L.head is None:
-        raise RuntimeError('underflow')
+        raise ValueError('underflow')
     x = L.head
     L.head = x.next
     if L.tail is x:

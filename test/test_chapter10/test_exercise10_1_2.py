@@ -17,7 +17,7 @@ class TestExercise10_1_2(TestCase):
         x = random.randint(0, 999)
 
         if array.left_top == array.right_top - 1:
-            assert_that(calling(left_stack_push).with_args(array, x), raises(RuntimeError, 'overflow'))
+            assert_that(calling(left_stack_push).with_args(array, x), raises(ValueError, 'overflow'))
         else:
             expected_left_keys = array[1:array.left_top].elements + [x]
             expected_right_keys = array[array.right_top:array.length].elements
@@ -36,7 +36,7 @@ class TestExercise10_1_2(TestCase):
         array.right_top = random.randint(array.left_top + 1, size + 1)
 
         if array.left_top == 0:
-            assert_that(calling(left_stack_pop).with_args(array), raises(RuntimeError, 'underflow'))
+            assert_that(calling(left_stack_pop).with_args(array), raises(ValueError, 'underflow'))
         else:
             expected_left_elements = array[1:array.left_top - 1].elements
             expected_right_elements = array[array.right_top:array.length].elements
@@ -59,7 +59,7 @@ class TestExercise10_1_2(TestCase):
         x = random.randint(0, 999)
 
         if array.left_top == array.right_top - 1:
-            assert_that(calling(right_stack_push).with_args(array, x), raises(RuntimeError, 'overflow'))
+            assert_that(calling(right_stack_push).with_args(array, x), raises(ValueError, 'overflow'))
         else:
             expected_left_elements = array[1:array.left_top].elements
             expected_right_elements = [x] + array[array.right_top:array.length].elements
@@ -78,7 +78,7 @@ class TestExercise10_1_2(TestCase):
         array.right_top = random.randint(array.left_top + 1, size + 1)
 
         if array.right_top == array.length + 1:
-            assert_that(calling(right_stack_pop).with_args(array), raises(RuntimeError, 'underflow'))
+            assert_that(calling(right_stack_pop).with_args(array), raises(ValueError, 'underflow'))
         else:
             expected_left_elements = array[1:array.left_top].elements
             expected_right_elements = array[array.right_top + 1:array.length].elements

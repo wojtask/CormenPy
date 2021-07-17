@@ -1,6 +1,6 @@
 def allocate_object(L):
     if L.free is None:
-        raise RuntimeError('out of space')
+        raise ValueError('out of space')
     else:
         x = L.free
         L.free = L.next[x]

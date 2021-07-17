@@ -30,7 +30,7 @@ class TestExercise11_4_2(TestCase):
 
         if len(keys) == table.length:
             assert_that(calling(hash_insert_).with_args(table, new_key, h),
-                        raises(RuntimeError, 'hash table overflow'))
+                        raises(ValueError, 'hash table overflow'))
         else:
             hash_insert_(table, new_key, h)
 

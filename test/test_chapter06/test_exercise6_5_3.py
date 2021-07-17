@@ -35,7 +35,7 @@ class TestExercise6_5_3(TestCase):
 
         if new_key > old_key:
             assert_that(calling(heap_decrease_key).with_args(heap, i, new_key),
-                        raises(RuntimeError, 'new key is larger than current key'))
+                        raises(ValueError, 'new key is larger than current key'))
         else:
             heap_decrease_key(heap, i, new_key)
 

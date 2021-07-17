@@ -40,7 +40,7 @@ class TestTextbook10_1(TestCase):
         stack.top = random.randint(0, size)
 
         if stack.top == 0:
-            assert_that(calling(pop).with_args(stack), raises(RuntimeError, 'underflow'))
+            assert_that(calling(pop).with_args(stack), raises(ValueError, 'underflow'))
         else:
             expected_keys = get_stack_elements(stack)
             del expected_keys[-1]

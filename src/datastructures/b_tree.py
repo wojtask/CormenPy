@@ -13,11 +13,9 @@ class Node:
     def __init__(self, t=2):
         in_memory_node_ids.add(id(self))
         self.n = 0
-        # temporarily make the node internal to safely initialize key and c attributes, then change to leaf
-        self.leaf = False
-        self.key = GuardedArray([None] * (2 * t - 1), id(self))
-        self.c = GuardedArray([None] * (2 * t), id(self))
         self.leaf = True
+        self.key = GuardedArray([None] * (2 * t - 1), id(self))
+        super().__setattr__("c", GuardedArray([None] * (2 * t), id(self)))
 
     def __getattribute__(self, name):
         if id(self) not in in_memory_node_ids:
@@ -40,7 +38,7 @@ class GuardedArray(Array):
     require the owning node to be saved on disk."""
 
     def __init__(self, elements, node_id):
-        super(GuardedArray, self).__init__(elements, start=1)
+        super().__init__(elements, start=1)
         self.node_id = node_id
 
     def __setitem__(self, index, item):
