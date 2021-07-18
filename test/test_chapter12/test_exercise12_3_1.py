@@ -1,17 +1,17 @@
-import random
 from unittest import TestCase
 
 from hamcrest import *
 
+from array_util import get_random_array
 from chapter12.exercise12_3_1 import recursive_tree_insert_wrapper
 from datastructures.binary_tree import BinaryTree, Node
-from tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, get_binary_tree_keys
+from tree_util import assert_binary_search_tree, assert_parent_pointers_consistent, get_binary_tree_inorder_keys
 
 
 class TestExercise12_3_1(TestCase):
 
     def test_recursive_tree_insert(self):
-        keys = [random.randrange(1000) for _ in range(20)]
+        keys = get_random_array(min_size=1, max_size=20)
         tree = BinaryTree()
 
         for key in keys:
@@ -20,5 +20,5 @@ class TestExercise12_3_1(TestCase):
             assert_binary_search_tree(tree)
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = get_binary_tree_keys(tree)
+        actual_keys = get_binary_tree_inorder_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))

@@ -64,8 +64,8 @@ def _partition_around_median(A, w, p, r):
 
 
 def post_office_manhattan(A, w):
-    X = Array([p.x for p in A])
-    Y = Array([p.y for p in A])
+    X = Array(p.x for p in A)
+    Y = Array(p.y for p in A)
     post_office_x = weighted_median(X, Array(w.elements), 1, X.length)
     post_office_y = weighted_median(Y, Array(w.elements), 1, Y.length)
     return Point2D(post_office_x, post_office_y)

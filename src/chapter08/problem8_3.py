@@ -5,8 +5,8 @@ from util import between, rbetween
 
 def integers_sort(A):
     n = sum(len(str(integer)) for integer in A)
-    nonnegative = Array([integer for integer in A if integer >= 0])
-    negative = Array([-integer for integer in A if integer < 0])
+    nonnegative = Array(integer for integer in A if integer >= 0)
+    negative = Array(-integer for integer in A if integer < 0)
     sorted_nonnegative = _nonnegative_integers_sort(nonnegative, n)
     sorted_negative = _nonnegative_integers_sort(negative, n)
     A.elements = list(reversed([-integer for integer in sorted_negative])) + sorted_nonnegative

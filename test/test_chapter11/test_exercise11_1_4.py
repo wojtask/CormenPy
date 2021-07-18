@@ -1,10 +1,11 @@
+import copy
 import random
 from unittest import TestCase
 
 from hamcrest import *
 
 from chapter11.exercise11_1_4 import huge_array_search, huge_array_insert, huge_array_delete
-from hash_table_util import get_random_huge_array
+from hash_table_util import get_random_huge_array, assert_huge_array_consistent
 from queue_util import get_stack_elements
 from util import Element
 
@@ -12,8 +13,11 @@ from util import Element
 class TestExercise11_1_4(TestCase):
 
     def test_huge_array_search(self):
-        table, stack, keys = get_random_huge_array(max_value=20)
-        key_to_find = random.randint(0, 19)
+        max_value = 20
+        table, stack, keys = get_random_huge_array(max_value=max_value)
+        original_table = copy.deepcopy(table)
+        original_stack = copy.deepcopy(stack)
+        key_to_find = random.randint(0, max_value)
 
         actual_found = huge_array_search(table, stack, key_to_find)
 
@@ -21,6 +25,8 @@ class TestExercise11_1_4(TestCase):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
+        assert_that(original_table, is_(equal_to(table)))
+        assert_that(original_stack, is_(equal_to(stack)))
 
     def test_huge_array_insert(self):
         table, stack, keys = get_random_huge_array()
@@ -33,16 +39,16 @@ class TestExercise11_1_4(TestCase):
             table[y.key] = table[new_key]
         # also make sure there is a space in stack for the new element
         if stack.top == stack.length:
-            stack.elements.append(None)
-            stack.length += 1
+            stack.append(None)
+        original_stack = copy.deepcopy(stack)
         new_element = Element(new_key)
-
-        expected_elements = get_stack_elements(stack) + [new_element]
 
         huge_array_insert(table, stack, new_element)
 
         actual_elements = get_stack_elements(stack)
-        assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        original_elements = get_stack_elements(original_stack)
+        assert_that(actual_elements, contains_inanyorder(*original_elements, new_element))
+        assert_huge_array_consistent(table, stack)
 
     def test_huge_array_delete(self):
         table, stack, keys = get_random_huge_array()
@@ -52,7 +58,8 @@ class TestExercise11_1_4(TestCase):
             keys.append(key)
             stack[1] = Element(key)
             table[key] = stack.top = 1
-        expected_elements = get_stack_elements(stack)
+        original_stack = copy.deepcopy(stack)
+        expected_elements = get_stack_elements(original_stack)
         element_to_delete = random.choice(expected_elements)
         expected_elements.remove(element_to_delete)
 
@@ -60,3 +67,4 @@ class TestExercise11_1_4(TestCase):
 
         actual_elements = get_stack_elements(stack)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
+        assert_huge_array_consistent(table, stack)

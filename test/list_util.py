@@ -2,15 +2,16 @@ import random
 
 from hamcrest import *
 
+from array_util import get_random_array
 from datastructures.array import Array
 from datastructures.array_list import MultipleArrayList, SingleArrayList
 from datastructures.list import List, Node, SNode, XORNode, XORList
+from util import between
 
 
 def get_random_doubly_linked_list(min_size=1, max_size=20, max_value=999):
-    size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value) for _ in range(size)]
-    nodes = [Node(key) for key in keys]
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(Node(key) for key in keys)
     list_ = List()
     prev_node = list_.head
     for node in nodes:
@@ -29,7 +30,7 @@ def get_linked_list_keys(list_):
     while node is not None:
         keys.append(node.key)
         node = node.next
-    return keys
+    return Array(keys)
 
 
 def assert_prev_next_pointers_consistent(list_):
@@ -46,9 +47,8 @@ def assert_prev_next_pointers_consistent(list_):
 
 
 def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_value=999):
-    size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value) for _ in range(size)]
-    nodes = [Node(key) for key in keys]
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(Node(key) for key in keys)
     list_ = List()
     list_.nil = sentinel = Node(None)
     sentinel.prev = sentinel.next = sentinel
@@ -63,7 +63,7 @@ def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_val
 
 
 def get_doubly_linked_list_with_sentinel_keys(list_):
-    keys = []
+    keys = Array()
     node = list_.nil.next
     while node is not list_.nil:
         keys.append(node.key)
@@ -82,9 +82,8 @@ def assert_prev_next_pointers_consistent_with_sentinel(list_):
 
 
 def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
-    size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value) for _ in range(size)]
-    nodes = [SNode(key) for key in keys]
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(SNode(key) for key in keys)
     list_ = List()
     prev_node = list_.head
     for node in nodes:
@@ -99,39 +98,39 @@ def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
 def get_random_circular_list(min_size=1, max_size=20, max_value=999):
     list_, nodes, keys = get_random_singly_linked_list(min_size, max_size, max_value)
     if list_.head is not None:
-        nodes[-1].next = list_.head
+        nodes[nodes.length].next = list_.head
     return list_, nodes, keys
 
 
 def get_circular_list_keys(list_):
     if list_.head is None:
-        return []
+        return Array()
     keys = [list_.head.key]
     node = list_.head.next
     while node is not list_.head:
         keys.append(node.key)
         node = node.next
-    return keys
+    return Array(keys)
 
 
 def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
     list_ = XORList()
     size = random.randint(min_size, max_size)
     if size == 0:
-        return list_, [], []
+        return list_, Array(), Array()
 
-    keys = [random.randint(0, max_value) for _ in range(size)]
-    nodes = [XORNode(key, list_) for key in keys]
+    keys = get_random_array(min_size=size, max_size=size, min_value=0, max_value=max_value)
+    nodes = Array(XORNode(key, list_) for key in keys)
 
     prev_node = None
-    curr_node = nodes[0]
-    for next_node in nodes[1:]:
+    curr_node = nodes[1]
+    for next_node in nodes[2:]:
         curr_node.np = (id(prev_node) if prev_node is not None else 0) ^ id(next_node)
         next_node.np = id(curr_node)
         prev_node = curr_node
         curr_node = next_node
-    list_.head = nodes[0]
-    list_.tail = nodes[-1]
+    list_.head = nodes[1]
+    list_.tail = nodes[nodes.length]
 
     return list_, nodes, keys
 
@@ -146,14 +145,14 @@ def get_xor_linked_list_keys(list_):
         next_node = list_.addr_to_node[next_node_addr]
         prev_node = curr_node
         curr_node = next_node
-    return keys
+    return Array(keys)
 
 
 def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
     key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
-    list_indexes = random.sample(range(1, array_size + 1), list_size)
+    list_indexes = random.sample(between(1, array_size), list_size)
 
     head = None
     prev_index = None
@@ -166,7 +165,7 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
             prev[index] = prev_index
         prev_index = index
 
-    free_indexes = [i for i in range(1, array_size + 1) if i not in list_indexes]
+    free_indexes = [i for i in between(1, array_size) if i not in list_indexes]
     random.shuffle(free_indexes)
 
     free = None
@@ -246,7 +245,7 @@ def get_single_array_list_keys(list_):
     while idx is not None:
         keys.append(list_.A[idx])
         idx = list_.A[idx + 1]
-    return keys
+    return Array(keys)
 
 
 def get_single_array_list_free_cells(list_):
@@ -271,7 +270,7 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = random.randint(list_size, max_size)
     key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
-    list_indexes = random.sample(range(1, list_size + 1), list_size)
+    list_indexes = random.sample(between(1, list_size), list_size)
 
     head = None
     prev_index = None
@@ -285,7 +284,7 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
         prev_index = index
 
     free = list_size + 1 if list_size < array_size else None
-    for free_index in range(list_size + 2, array_size + 1):
+    for free_index in between(list_size + 2, array_size):
         next[free_index - 1] = free_index
 
     return MultipleArrayList(key, next, prev, head, free)
@@ -293,10 +292,10 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
 
 def assert_compact_list(list_):
     idx = list_.head
-    elements = 0
+    nelements = 0
     max_idx = 0
     while idx is not None:
-        elements += 1
+        nelements += 1
         max_idx = max(max_idx, idx)
         idx = list_.next[idx]
-    assert_that(max_idx == elements)
+    assert_that(max_idx, is_(equal_to(nelements)))

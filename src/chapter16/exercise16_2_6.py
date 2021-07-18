@@ -35,8 +35,8 @@ def _effective_fractional_knapsack(items, K, W):
     G = Array([item for item in items if item.value / item.weight > m])
     E = Array([item for item in items if item.value / item.weight == m])
     L = Array([item for item in items if item.value / item.weight < m])
-    w_G = sum([item.weight for item in G])
-    w_E = sum([item.weight for item in E])
+    w_G = sum(item.weight for item in G)
+    w_E = sum(item.weight for item in E)
     if w_G >= W:
         return _effective_fractional_knapsack(G, K, W)
     for item in G:

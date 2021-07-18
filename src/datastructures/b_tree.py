@@ -15,20 +15,20 @@ class Node:
         self.n = 0
         self.leaf = True
         self.key = GuardedArray([None] * (2 * t - 1), id(self))
-        super().__setattr__("c", GuardedArray([None] * (2 * t), id(self)))
+        super().__setattr__('c', GuardedArray([None] * (2 * t), id(self)))
 
     def __getattribute__(self, name):
         if id(self) not in in_memory_node_ids:
-            raise AttributeError("Attempted to read an attribute of a node before reading it from disk")
-        if name == "c" and self.leaf:
-            raise AttributeError("Attempted to read children in a leaf")
+            raise AttributeError('Attempted to read an attribute of a node before reading it from disk')
+        if name == 'c' and self.leaf:
+            raise AttributeError('Attempted to read children in a leaf')
         return super().__getattribute__(name)
 
     def __setattr__(self, name, value):
         if id(self) not in in_memory_node_ids:
-            raise AttributeError("Attempted to write an attribute of a node before reading it from disk")
-        if name == "c" and self.leaf:
-            raise AttributeError("Attempted to write children in a leaf")
+            raise AttributeError('Attempted to write an attribute of a node before reading it from disk')
+        if name == 'c' and self.leaf:
+            raise AttributeError('Attempted to write children in a leaf')
         unsaved_node_ids.add(id(self))
         super().__setattr__(name, value)
 
@@ -55,16 +55,16 @@ class Node234:
         self.n = 0
         self.height = 0
         self.key = Array.indexed(1, 3)
-        super().__setattr__("c", Array.indexed(1, 4))
+        super().__setattr__('c', Array.indexed(1, 4))
 
     def __getattribute__(self, name):
-        if name == "c" and self.height == 0:
-            raise AttributeError("Attempted to read children in a leaf")
+        if name == 'c' and self.height == 0:
+            raise AttributeError('Attempted to read children in a leaf')
         return super().__getattribute__(name)
 
     def __setattr__(self, name, value):
-        if name == "c" and self.height == 0:
-            raise AttributeError("Attempted to write children in a leaf")
+        if name == 'c' and self.height == 0:
+            raise AttributeError('Attempted to write children in a leaf')
         super().__setattr__(name, value)
 
 

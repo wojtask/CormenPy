@@ -1,3 +1,4 @@
+import copy
 import io
 import itertools
 import random
@@ -37,20 +38,22 @@ class TestProblem15_7(TestCase):
 
     def test_jobs_scheduling(self):
         n = random.randint(1, 8)
-        times, times_elements = get_random_array(min_size=n, max_size=n, min_value=1, max_value=n)
-        profits, profits_elements = get_random_array(min_size=n, max_size=n)
-        deadlines_elements = [random.randint(times_elements[j], n ** 2 + 10) for j in range(n)]
-        deadlines = Array(deadlines_elements)
+        times = get_random_array(size=n, min_value=1, max_value=n)
+        profits = get_random_array(size=n)
+        deadlines = Array(random.randint(times[j], n ** 2 + 10) for j in between(1, n))
+        original_times = copy.deepcopy(times)
+        original_profits = copy.deepcopy(profits)
+        original_deadlines = copy.deepcopy(deadlines)
         captured_output = io.StringIO()
 
         actual_max_profits, actual_schedule, sorted_job_ids = jobs_scheduling(times, profits, deadlines)
         with redirect_stdout(captured_output):
             print_schedule(actual_schedule, sorted_job_ids, times, deadlines, n, actual_schedule[0].length - 1)
 
-        expected_max_profit = get_optimal_schedule_bruteforce(
-            Array(times_elements), Array(profits_elements), Array(deadlines_elements))
+        expected_max_profit = get_optimal_schedule_bruteforce(original_times, original_profits, original_deadlines)
         assert_that(actual_max_profits[actual_max_profits.length - 1], is_(equal_to(expected_max_profit)))
-        scheduled_jobs = [int(re.search('a(\d+)', job).group(1)) for job in captured_output.getvalue().splitlines()]
-        profit_from_schedule = get_schedule_total_profit(
-            scheduled_jobs, Array(times_elements), Array(profits_elements), Array(deadlines_elements))
+        scheduled_jobs = Array(
+            int(re.search(r'a(\d+)', job).group(1)) for job in captured_output.getvalue().splitlines())
+        profit_from_schedule = get_schedule_total_profit(scheduled_jobs, original_times, original_profits,
+                                                         original_deadlines)
         assert_that(profit_from_schedule, is_(equal_to(expected_max_profit)))

@@ -38,7 +38,7 @@ class TestProblem16_1(TestCase):
     def test_make_change(self):
         n = random.randint(1, 20)
         k = random.randint(1, 5)
-        d, _ = get_random_unique_array(max_size=k, min_value=2, max_value=20)
+        d = get_random_unique_array(max_size=k, min_value=2, max_value=20)
         d[1] = 1
         captured_output = io.StringIO()
 
@@ -48,6 +48,6 @@ class TestProblem16_1(TestCase):
 
         expected_change_size = get_min_change_size_bruteforce(n, d)
         assert_that(actual_change[n], is_(equal_to(expected_change_size)))
-        actual_change_denoms = [int(d) for d in captured_output.getvalue().splitlines()]
+        actual_change_denoms = Array(int(d) for d in captured_output.getvalue().splitlines())
         assert_that(sum(actual_change_denoms), is_(equal_to(n)))
-        assert_that(len(actual_change_denoms), is_(equal_to(expected_change_size)))
+        assert_that(actual_change_denoms.length, is_(equal_to(expected_change_size)))

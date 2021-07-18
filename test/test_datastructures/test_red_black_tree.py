@@ -29,4 +29,4 @@ class TestRedBlackTree(TestCase):
         assert_that(tree.root, is_(root))
         assert_that(root.left, is_(left))
         assert_that(root.right, is_(right))
-        assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+        assert_parent_pointers_consistent(tree)

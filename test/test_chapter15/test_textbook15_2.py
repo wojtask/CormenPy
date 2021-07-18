@@ -7,10 +7,16 @@ from unittest import TestCase
 import numpy
 from hamcrest import *
 
-from array_util import get_random_matrix
+from array_util import get_random_array
 from chapter15.textbook15_2 import matrix_multiply, matrix_chain_order, print_optimal_parens
 from datastructures.array import Array
+from datastructures.matrix import Matrix
 from util import between
+
+
+def get_random_matrix(rows, columns):
+    elements = [[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)]
+    return Matrix(elements)
 
 
 def get_minimum_matrix_product_cost(dimensions, i, j):
@@ -47,8 +53,8 @@ class TestTextbook15_2(TestCase):
         columns1 = random.randint(1, 3)
         rows2 = random.randint(1, 3)
         columns2 = random.randint(1, 3)
-        matrix1, elements1 = get_random_matrix(rows1, columns1)
-        matrix2, elements2 = get_random_matrix(rows2, columns2)
+        matrix1 = get_random_matrix(rows1, columns1)
+        matrix2 = get_random_matrix(rows2, columns2)
 
         if columns1 != rows2:
             assert_that(calling(matrix_multiply).with_args(matrix1, matrix2),
@@ -57,12 +63,12 @@ class TestTextbook15_2(TestCase):
             actual_product = matrix_multiply(matrix1, matrix2)
             assert_that(actual_product.rows, is_(equal_to(rows1)))
             assert_that(actual_product.columns, is_(equal_to(columns2)))
-            expected_product = numpy.dot(elements1, elements2)
+            expected_product = numpy.dot(matrix1.elements, matrix2.elements)
             assert_that(actual_product.elements, is_(equal_to(expected_product.tolist())))
 
     def test_matrix_chain_order(self):
         n = random.randint(1, 10)
-        dimensions = Array([random.randint(1, 999) for _ in range(n + 1)], start=0)
+        dimensions = get_random_array(size=n + 1, start=0)
 
         actual_minimum_costs, optimal_solution = matrix_chain_order(dimensions)
 
@@ -82,6 +88,6 @@ class TestTextbook15_2(TestCase):
         with redirect_stdout(captured_output):
             print_optimal_parens(s, 1, n)
 
-        actual_output = captured_output.getvalue().splitlines()[0]
-        expected_output = get_optimal_parens_bruteforce(s, 1, n)
+        actual_output = Array(captured_output.getvalue().splitlines()[0])
+        expected_output = Array(get_optimal_parens_bruteforce(s, 1, n))
         assert_that(actual_output, is_(equal_to(expected_output)))

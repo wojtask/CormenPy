@@ -6,6 +6,7 @@ from hamcrest import *
 from array_util import get_random_unique_array
 from chapter18.problem18_2 import tree_2_3_4_create, tree_2_3_4_insert, tree_2_3_4_search, tree_2_3_4_delete, \
     tree_2_3_4_join
+from datastructures.array import Array
 from datastructures.b_tree import Tree234
 from util import between
 
@@ -19,7 +20,7 @@ def assert_2_3_4_subtree(node, min_keys):
     assert_that(node.n, is_(less_than_or_equal_to(3)))
     if node.height == 0:
         return
-    assert_that(node.key.elements[:node.n], is_(equal_to(sorted(node.key.elements[:node.n]))))
+    assert_that(node.key[:node.n], is_(equal_to(node.key[:node.n].sort())))
     for i in between(1, node.n):
         left_child = node.c[i]
         right_child = node.c[i + 1]
@@ -31,18 +32,18 @@ def assert_2_3_4_subtree(node, min_keys):
         assert_2_3_4_subtree(child, min_keys=1)
 
 
-def get_2_3_4_tree_elements(tree):
-    return get_2_3_4_subtree_elements(tree.root)
+def get_2_3_4_tree_keys(tree):
+    return get_2_3_4_subtree_keys(tree.root)
 
 
-def get_2_3_4_subtree_elements(node):
+def get_2_3_4_subtree_keys(node):
     if node.height == 0:
-        return node.key.elements[:node.n]
-    elements = []
+        return node.key[:node.n]
+    elements = Array()
     for i in between(1, node.n):
-        elements += get_2_3_4_subtree_elements(node.c[i])
+        elements += get_2_3_4_subtree_keys(node.c[i])
         elements.append(node.key[i])
-    elements += get_2_3_4_subtree_elements(node.c[node.n + 1])
+    elements += get_2_3_4_subtree_keys(node.c[node.n + 1])
     return elements
 
 
@@ -58,14 +59,14 @@ class TestProblem18_2(TestCase):
         assert_2_3_4_tree(tree)
 
         max_key_value = 10000
-        keys, _ = get_random_unique_array(min_size=1000, max_size=1000, max_value=max_key_value)
-        keys_in_tree = []
+        keys = get_random_unique_array(size=1000, max_value=max_key_value)
+        keys_in_tree = Array()
         for key in keys:
             tree_2_3_4_insert(tree, key)
             keys_in_tree.append(key)
             assert_2_3_4_tree(tree)
-            actual_tree_elements = get_2_3_4_tree_elements(tree)
-            assert_that(actual_tree_elements, is_(equal_to(sorted(keys_in_tree))))
+            actual_tree_keys = get_2_3_4_tree_keys(tree)
+            assert_that(actual_tree_keys, is_(equal_to(keys_in_tree.sort())))
             if random.random() <= 1 / 3:
                 key_to_delete = random.choice(keys_in_tree)
                 tree_2_3_4_delete(tree, key_to_delete)
@@ -91,8 +92,8 @@ class TestProblem18_2(TestCase):
 
         max_value = 1000
         k = random.randint(1, max_value - 1)
-        keys1, _ = get_random_unique_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1)
-        keys2, _ = get_random_unique_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value)
+        keys1 = get_random_unique_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1)
+        keys2 = get_random_unique_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value)
         for key in keys1:
             tree_2_3_4_insert(tree1, key)
         for key in keys2:
@@ -101,8 +102,9 @@ class TestProblem18_2(TestCase):
         actual_tree = tree_2_3_4_join(tree1, tree2, k)
 
         assert_2_3_4_tree(actual_tree)
-        actual_tree_elements = get_2_3_4_tree_elements(actual_tree)
-        assert_that(actual_tree_elements, is_(equal_to(sorted(keys1) + [k] + sorted(keys2))))
+        actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
+        expected_tree_keys = keys1.sort() + Array([k]) + keys2.sort()
+        assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))
 
     def test_tree_2_3_4_join_empty(self):
         """
@@ -118,8 +120,8 @@ class TestProblem18_2(TestCase):
         r = random.random()
         max_size1 = 0 if r < 0.6 else k - 1
         max_size2 = 0 if r > 0.4 else max_value - k
-        keys1, _ = get_random_unique_array(min_size=0, max_size=max_size1, min_value=0, max_value=k - 1)
-        keys2, _ = get_random_unique_array(min_size=0, max_size=max_size2, min_value=k + 1, max_value=max_value)
+        keys1 = get_random_unique_array(min_size=0, max_size=max_size1, min_value=0, max_value=k - 1)
+        keys2 = get_random_unique_array(min_size=0, max_size=max_size2, min_value=k + 1, max_value=max_value)
         for key in keys1:
             tree_2_3_4_insert(tree1, key)
         for key in keys2:
@@ -128,5 +130,6 @@ class TestProblem18_2(TestCase):
         actual_tree = tree_2_3_4_join(tree1, tree2, k)
 
         assert_2_3_4_tree(actual_tree)
-        actual_tree_elements = get_2_3_4_tree_elements(actual_tree)
-        assert_that(actual_tree_elements, is_(equal_to(sorted(keys1) + [k] + sorted(keys2))))
+        actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
+        expected_tree_keys = keys1.sort() + Array([k]) + keys2.sort()
+        assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))

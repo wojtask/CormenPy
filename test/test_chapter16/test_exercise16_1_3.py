@@ -33,8 +33,8 @@ class TestExercise16_1_3(TestCase):
 
     def test_activity_scheduler(self):
         n = random.randint(1, 15)
-        start_times, _ = get_random_array(min_size=n, max_size=n, max_value=49)
-        finish_times = Array([start_time + random.randint(1, 50) for start_time in start_times])
+        start_times = get_random_array(size=n, max_value=49)
+        finish_times = Array(start_time + random.randint(1, 50) for start_time in start_times)
 
         actual_schedule = activity_scheduler(start_times, finish_times)
 

@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.exercise10_1_7 import queue_push, queue_pop
+from datastructures.array import Array
 from queue_util import get_queue_elements
 
 
@@ -12,7 +13,7 @@ class TestExercise10_1_7(TestCase):
 
     def test_queue_push(self):
         size = 5
-        queue, _ = get_random_array(min_size=size, max_size=size)
+        queue = get_random_array(size=size)
         queue.head = random.randint(1, size)
         queue.tail = random.randint(1, size)
 
@@ -21,7 +22,7 @@ class TestExercise10_1_7(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_elements = get_queue_elements(queue) + [x]
+        expected_elements = get_queue_elements(queue) + Array([x])
 
         queue_push(queue, x)
 
@@ -30,7 +31,7 @@ class TestExercise10_1_7(TestCase):
 
     def test_queue_pop(self):
         size = 5
-        queue, _ = get_random_array(min_size=size, max_size=size)
+        queue = get_random_array(size=size)
         queue.head = random.randint(1, size)
         queue.tail = random.randint(1, size)
 
@@ -38,7 +39,7 @@ class TestExercise10_1_7(TestCase):
             assert_that(calling(queue_pop).with_args(queue), raises(ValueError, 'underflow'))
         else:
             expected_elements = get_queue_elements(queue)
-            del expected_elements[-1]
+            expected_elements.remove(expected_elements[expected_elements.length])
             expected_deleted = queue[queue.tail - 1]
 
             actual_deleted = queue_pop(queue)

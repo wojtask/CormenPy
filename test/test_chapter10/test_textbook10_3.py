@@ -3,7 +3,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.textbook10_3 import allocate_object, free_object
-from list_util import get_random_multiple_array_list, get_multiple_array_list_keys, get_multiple_array_list_free_cells,\
+from list_util import get_random_multiple_array_list, get_multiple_array_list_keys, get_multiple_array_list_free_cells, \
     assert_multiple_array_list_consistent
 
 

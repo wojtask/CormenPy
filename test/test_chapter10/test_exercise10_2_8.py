@@ -5,6 +5,7 @@ from hamcrest import *
 
 from chapter10.exercise10_2_8 import xor_linked_list_search, xor_linked_list_insert, xor_linked_list_delete, \
     xor_linked_list_reverse
+from datastructures.array import Array
 from datastructures.list import XORNode
 from list_util import get_random_xor_linked_list, get_xor_linked_list_keys
 
@@ -31,18 +32,18 @@ class TestExercise10_2_8(TestCase):
         xor_linked_list_insert(list_, new_node)
 
         actual_keys = get_xor_linked_list_keys(list_)
-        expected_keys = [new_key] + keys
+        expected_keys = Array([new_key]) + keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_xor_linked_list_delete(self):
         list_, nodes, keys = get_random_xor_linked_list(min_size=1, max_size=5)
-        node_idx = random.randrange(len(nodes))
+        node_idx = random.randint(1, nodes.length)
         node_to_delete = nodes[node_idx]
 
         xor_linked_list_delete(list_, node_to_delete)
 
         actual_keys = get_xor_linked_list_keys(list_)
-        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
+        expected_keys = keys[:node_idx - 1] + keys[node_idx + 1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_xor_linked_list_reverse(self):
@@ -51,5 +52,5 @@ class TestExercise10_2_8(TestCase):
         xor_linked_list_reverse(list_)
 
         actual_keys = get_xor_linked_list_keys(list_)
-        expected_keys = list(reversed(keys))
+        expected_keys = reversed(keys)
         assert_that(actual_keys, is_(equal_to(expected_keys)))

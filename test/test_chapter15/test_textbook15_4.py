@@ -12,10 +12,10 @@ from util import between
 
 
 def is_subsequence_of(subsequence, sequence):
-    pos = 0
+    pos = 1
     for c in subsequence:
         try:
-            pos += sequence.elements[pos:].index(c) + 1
+            pos += sequence[pos:].index(c)
         except ValueError:
             return False
     return True
@@ -25,7 +25,7 @@ def get_maximum_lcs_length_bruteforce(sequence1, sequence2):
     max_length = 0
     for i in between(1, min(sequence1.length, sequence2.length)):
         for subsequence in itertools.combinations(sequence1, i):
-            if is_subsequence_of(subsequence, sequence2):
+            if is_subsequence_of(Array(subsequence), sequence2):
                 max_length = len(subsequence)
     return max_length
 
@@ -33,8 +33,8 @@ def get_maximum_lcs_length_bruteforce(sequence1, sequence2):
 class TestTextbook15_4(TestCase):
 
     def test_lcs_length(self):
-        sequence1 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
-        sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        sequence1 = Array(''.join(random.choice('ABCD') for _ in between(1, random.randint(1, 10))))
+        sequence2 = Array(''.join(random.choice('ABCD') for _ in between(1, random.randint(1, 10))))
         captured_output = io.StringIO()
 
         actual_maximum_lengths, optimal_solution = lcs_length(sequence1, sequence2)
@@ -44,7 +44,7 @@ class TestTextbook15_4(TestCase):
 
         expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
-        actual_lcs = captured_output.getvalue().splitlines()[0]
-        assert_that(len(actual_lcs), is_(equal_to(expected_maximum_length)))
+        actual_lcs = Array(captured_output.getvalue().splitlines()[0])
+        assert_that(actual_lcs.length, is_(equal_to(expected_maximum_length)))
         assert_that(is_subsequence_of(actual_lcs, sequence1))
         assert_that(is_subsequence_of(actual_lcs, sequence2))

@@ -5,24 +5,24 @@ from hamcrest import *
 
 from chapter14.exercise14_1_8 import intersecting_chords
 from datastructures.array import Array
+from util import between
 
 
 class TestExercise14_1_8(TestCase):
 
     def test_intersecting_chords(self):
         n = random.randint(1, 20)
-        endpoints = [i for i in range(1, n + 1)] * 2
-        random.shuffle(endpoints)
-        chords = Array(endpoints)
+        chords = Array([i for i in between(1, n)] * 2)
+        random.shuffle(chords)
 
         actual_intersections = intersecting_chords(chords)
 
         expected_intersections = 0
-        for endpoint in range(1, n + 1):
-            idx1 = endpoints.index(endpoint)
-            idx2 = endpoints.index(endpoint, idx1 + 1)
-            inner_endpoints = endpoints[idx1 + 1:idx2]
-            outer_endpoints = endpoints[:idx1] + endpoints[idx2 + 1:]
+        for endpoint in between(1, n):
+            idx1 = chords.index(endpoint)
+            idx2 = chords.index(endpoint, idx1 + 1)
+            inner_endpoints = chords[idx1 + 1:idx2 - 1]
+            outer_endpoints = chords[:idx1 - 1] + chords[idx2 + 1:]
             # count how many inner endpoints have their outer counterparts
             for inner_endpoint in inner_endpoints:
                 expected_intersections += outer_endpoints.count(inner_endpoint)  # count will return either 0 or 1

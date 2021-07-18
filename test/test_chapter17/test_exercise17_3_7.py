@@ -18,8 +18,7 @@ class TestExercise17_3_7(TestCase):
         dlh_insert(S, new_node)
 
         actual_keys = get_linked_list_keys(S)
-        expected_keys = [new_key] + keys
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        assert_that(actual_keys, contains_exactly(new_key, *keys))
         assert_prev_next_pointers_consistent(S)
 
     def test_delete_larger_half(self):
@@ -28,6 +27,6 @@ class TestExercise17_3_7(TestCase):
         delete_larger_half(S)
 
         actual_keys = get_linked_list_keys(S)
-        expected_keys = sorted(keys)[:len(keys) // 2]
+        expected_keys = keys.sort()[:keys.length // 2]
         assert_that(actual_keys, contains_inanyorder(*expected_keys))
         assert_prev_next_pointers_consistent(S)

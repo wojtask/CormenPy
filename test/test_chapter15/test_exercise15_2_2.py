@@ -3,11 +3,17 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_matrix
+from array_util import get_random_array
 from chapter15.exercise15_2_2 import matrix_chain_multiply
 from chapter15.textbook15_2 import matrix_multiply, matrix_chain_order
 from datastructures.array import Array
+from datastructures.matrix import Matrix
 from util import between
+
+
+def get_random_matrix(rows, columns):
+    elements = [[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)]
+    return Matrix(elements)
 
 
 def get_matrix_product(A):
@@ -22,10 +28,10 @@ class TestExercise15_2_2(TestCase):
 
     def test_matrix_chain_multiply(self):
         n = random.randint(1, 10)
-        dimensions = Array([random.randint(1, 10) for _ in range(n + 1)], start=0)
+        dimensions = get_random_array(size=n + 1, min_value=1, max_value=10, start=0)
         A = Array.indexed(1, n)
         for i in between(1, n):
-            A[i], _ = get_random_matrix(dimensions[i - 1], dimensions[i])
+            A[i] = get_random_matrix(dimensions[i - 1], dimensions[i])
         _, optimal_solution = matrix_chain_order(dimensions)
 
         actual_product = matrix_chain_multiply(A, optimal_solution, 1, n)

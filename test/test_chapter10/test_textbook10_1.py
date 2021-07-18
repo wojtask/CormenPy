@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.textbook10_1 import stack_empty, push, pop, enqueue, dequeue
+from datastructures.array import Array
 from queue_util import get_stack_elements, get_queue_elements
 
 
@@ -12,7 +13,7 @@ class TestTextbook10_1(TestCase):
 
     def test_stack_empty(self):
         size = 3
-        stack, _ = get_random_array(min_size=size, max_size=size)
+        stack = get_random_array(size=size)
         stack.top = random.randint(0, size)
 
         actual_empty = stack_empty(stack)
@@ -24,10 +25,10 @@ class TestTextbook10_1(TestCase):
 
     def test_push(self):
         size = 10
-        stack, _ = get_random_array(min_size=size, max_size=size)
+        stack = get_random_array(size=size)
         stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
-        expected_keys = get_stack_elements(stack) + [x]
+        expected_keys = get_stack_elements(stack) + Array([x])
 
         push(stack, x)
 
@@ -36,14 +37,14 @@ class TestTextbook10_1(TestCase):
 
     def test_pop(self):
         size = 10
-        stack, _ = get_random_array(min_size=size, max_size=size)
+        stack = get_random_array(size=size)
         stack.top = random.randint(0, size)
 
         if stack.top == 0:
             assert_that(calling(pop).with_args(stack), raises(ValueError, 'underflow'))
         else:
             expected_keys = get_stack_elements(stack)
-            del expected_keys[-1]
+            expected_keys.remove(expected_keys[expected_keys.length])
             expected_deleted = stack[stack.top]
 
             actual_deleted = pop(stack)
@@ -54,7 +55,7 @@ class TestTextbook10_1(TestCase):
 
     def test_enqueue(self):
         size = 10
-        queue, _ = get_random_array(min_size=size, max_size=size)
+        queue = get_random_array(size=size)
         queue.head = random.randint(1, size)
         queue.tail = random.randint(1, size)
 
@@ -63,7 +64,7 @@ class TestTextbook10_1(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_keys = get_queue_elements(queue) + [x]
+        expected_keys = get_queue_elements(queue) + Array([x])
 
         enqueue(queue, x)
 
@@ -72,7 +73,7 @@ class TestTextbook10_1(TestCase):
 
     def test_dequeue(self):
         size = 10
-        queue, _ = get_random_array(min_size=size, max_size=size)
+        queue = get_random_array(size=size)
         queue.head = random.randint(1, size)
         queue.tail = random.randint(1, size)
 
@@ -81,7 +82,7 @@ class TestTextbook10_1(TestCase):
             queue.tail = queue.tail - 1 if queue.tail > 1 else queue.length
 
         expected_keys = get_queue_elements(queue)
-        del expected_keys[0]
+        expected_keys.remove(expected_keys[1])
         expected_deleted = queue[queue.head]
 
         actual_deleted = dequeue(queue)

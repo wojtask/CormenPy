@@ -9,24 +9,24 @@ from tree_util import get_random_binary_search_tree, assert_binary_search_tree
 
 def assign_size_attributes(node):
     node.size = 1
-    if node.left is not None:
+    if node.left:
         node.size += assign_size_attributes(node.left)
-    if node.right is not None:
+    if node.right:
         node.size += assign_size_attributes(node.right)
     return node.size
 
 
 def assert_subtree_weight_balanced(node, alpha=.5):
     assert_node_weight_balanced(node, alpha)
-    if node.left is not None:
+    if node.left:
         assert_subtree_weight_balanced(node.left, alpha)
-    if node.right is not None:
+    if node.right:
         assert_subtree_weight_balanced(node.right, alpha)
 
 
 def assert_node_weight_balanced(node, alpha=.5):
-    left_size = node.left.size if node.left is not None else 0
-    right_size = node.right.size if node.right is not None else 0
+    left_size = node.left.size if node.left else 0
+    right_size = node.right.size if node.right else 0
     assert_that(left_size, is_(less_than_or_equal_to(alpha * node.size)))
     assert_that(right_size, is_(less_than_or_equal_to(alpha * node.size)))
 
@@ -34,9 +34,9 @@ def assert_node_weight_balanced(node, alpha=.5):
 class TestProblem17_3(TestCase):
 
     def test_balance_subtree(self):
-        tree, nodes, _ = get_random_binary_search_tree()
+        tree, inorder_nodes, _ = get_random_binary_search_tree()
         assign_size_attributes(tree.root)
-        node = random.choice(nodes)
+        node = random.choice(inorder_nodes)
 
         actual_balanced_node = balance_subtree(tree, node)
 

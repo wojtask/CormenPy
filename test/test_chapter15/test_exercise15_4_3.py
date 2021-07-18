@@ -6,13 +6,14 @@ from hamcrest import *
 from chapter15.exercise15_4_3 import memoized_lcs_length
 from datastructures.array import Array
 from test_chapter15.test_textbook15_4 import get_maximum_lcs_length_bruteforce
+from util import between
 
 
 class TestExercise15_4_3(TestCase):
 
     def test_memoized_lcs_length(self):
-        sequence1 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
-        sequence2 = Array(''.join(random.choice('ABCD') for _ in range(random.randint(1, 10))))
+        sequence1 = Array(''.join(random.choice('ABCD') for _ in between(1, random.randint(1, 10))))
+        sequence2 = Array(''.join(random.choice('ABCD') for _ in between(1, random.randint(1, 10))))
 
         actual_maximum_length = memoized_lcs_length(sequence1, sequence2)
 

@@ -9,15 +9,16 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter16.exercise16_2_2 import knapsack, print_knapsack
+from datastructures.array import Array
 from util import between
 
 
 def items_total_weight(item_ids, w):
-    return sum([w[i] for i in item_ids])
+    return sum(w[i] for i in item_ids)
 
 
 def items_total_value(item_ids, v):
-    return sum([v[i] for i in item_ids])
+    return sum(v[i] for i in item_ids)
 
 
 def knapsack_bruteforce(w, v, W):
@@ -34,8 +35,8 @@ class TestExercise16_2_2(TestCase):
 
     def test_knapsack(self):
         n = random.randint(1, 15)
-        weights, _ = get_random_array(min_size=n, max_size=n)
-        values, _ = get_random_array(min_size=n, max_size=n)
+        weights = get_random_array(size=n)
+        values = get_random_array(size=n)
         max_weight = random.randint(1, n * 1000)
         captured_output = io.StringIO()
 
@@ -45,6 +46,7 @@ class TestExercise16_2_2(TestCase):
 
         expected_knapsack_value = knapsack_bruteforce(weights, values, max_weight)
         assert_that(actual_knapsack[n, max_weight], is_(equal_to(expected_knapsack_value)))
-        actual_items = [int(re.search('a(\d+)', item).group(1)) for item in captured_output.getvalue().splitlines()]
+        actual_items = Array(
+            int(re.search(r'a(\d+)', item).group(1)) for item in captured_output.getvalue().splitlines())
         actual_knapsack_value_from_items = items_total_value(actual_items, values)
         assert_that(actual_knapsack_value_from_items, is_(equal_to(expected_knapsack_value)))

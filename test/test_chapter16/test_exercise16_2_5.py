@@ -5,12 +5,13 @@ from hamcrest import *
 
 from chapter16.exercise16_2_5 import points_cover
 from datastructures.array import Array
+from util import between
 
 
 def all_points_covered(cover, points):
     for point in points:
-        intervals_covering = [interval for interval in cover if interval.low <= point <= interval.high]
-        if len(intervals_covering) == 0:
+        intervals_covering = Array(interval for interval in cover if interval.low <= point <= interval.high)
+        if intervals_covering.length == 0:
             return False
     return True
 
@@ -26,7 +27,7 @@ class TestExercise16_2_5(TestCase):
 
     def test_points_cover(self):
         n = random.randint(1, 20)
-        points_elements = [random.random() * 20.0 - 10.0 for _ in range(n)]
+        points_elements = Array(random.random() * 20.0 - 10.0 for _ in between(1, n))
         points = Array(points_elements)
 
         actual_intervals = points_cover(points)

@@ -41,12 +41,10 @@ class TestExercise15_1_4(TestCase):
 
     def test_fastest_way_(self):
         n = random.randint(1, 10)
-        a = Array([get_random_array(min_size=n, max_size=n)[0],
-                   get_random_array(min_size=n, max_size=n)[0]])
-        t = Array([get_random_array(min_size=n - 1, max_size=n - 1)[0],
-                   get_random_array(min_size=n - 1, max_size=n - 1)[0]])
-        e, _ = get_random_array(min_size=2, max_size=2)
-        x, _ = get_random_array(min_size=2, max_size=2)
+        a = Array([get_random_array(size=n), get_random_array(size=n)])
+        t = Array([get_random_array(size=n - 1), get_random_array(size=n - 1)])
+        e = get_random_array(size=2)
+        x = get_random_array(size=2)
 
         actual_assembly_time, lines, last_line = fastest_way_(a, t, e, x, n)
 

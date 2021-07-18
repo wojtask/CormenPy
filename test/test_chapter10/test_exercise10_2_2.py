@@ -4,6 +4,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.exercise10_2_2 import singly_linked_list_push, singly_linked_list_pop
+from datastructures.array import Array
 from list_util import get_random_singly_linked_list, get_linked_list_keys
 
 
@@ -16,7 +17,7 @@ class TestExercise10_2_2(TestCase):
         singly_linked_list_push(list_, x)
 
         actual_keys = get_linked_list_keys(list_)
-        expected_keys = [x] + keys
+        expected_keys = Array([x]) + keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_pop(self):
@@ -24,7 +25,6 @@ class TestExercise10_2_2(TestCase):
 
         actual_deleted = singly_linked_list_pop(list_)
 
-        assert_that(actual_deleted, is_(equal_to(keys[0])))
+        assert_that(actual_deleted, is_(equal_to(keys[1])))
         actual_keys = get_linked_list_keys(list_)
-        expected_keys = keys[1:]
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        assert_that(actual_keys, is_(equal_to(keys[2:])))

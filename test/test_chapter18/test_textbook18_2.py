@@ -62,7 +62,7 @@ class TestTextbook18_2(TestCase):
 
         assert_that(T.root.n, is_(equal_to(0)))
         assert_that(T.root.leaf, is_(True))
-        assert_that(b_tree.unsaved_node_ids, is_(set()))
+        assert_that(b_tree.unsaved_node_ids, is_(empty()))
 
     def test_b_tree_split_child(self):
         T = get_b_tree()
@@ -73,14 +73,14 @@ class TestTextbook18_2(TestCase):
         b_tree_split_child(x, 2, y)
 
         assert_that(x.n, is_(equal_to(3)))
-        assert_that(x.key.elements[:3], contains_exactly('B', 'D', 'G'))
+        assert_that(x.key[:3], contains_exactly('B', 'D', 'G'))
         c2 = x.c[2]
         c3 = x.c[3]
         assert_that(c2.n, is_(equal_to(1)))
-        assert_that(c2.key.elements[:1], contains_exactly('C'))
+        assert_that(c2.key[:1], contains_exactly('C'))
         assert_that(c3.n, is_(equal_to(1)))
-        assert_that(c3.key.elements[:1], contains_exactly('F'))
-        assert_that(b_tree.unsaved_node_ids, is_(set()))
+        assert_that(c3.key[:1], contains_exactly('F'))
+        assert_that(b_tree.unsaved_node_ids, is_(empty()))
 
     def test_b_tree_insert_full_root(self):
         x = allocate_node()
@@ -95,14 +95,14 @@ class TestTextbook18_2(TestCase):
         b_tree_insert(T, 'B')
 
         assert_that(T.root.n, is_(equal_to(1)))
-        assert_that(T.root.key.elements[:1], contains_exactly('D'))
+        assert_that(T.root.key[:1], contains_exactly('D'))
         c1 = T.root.c[1]
         c2 = T.root.c[2]
         assert_that(c1.n, is_(equal_to(2)))
-        assert_that(c1.key.elements[:2], contains_exactly('A', 'B'))
+        assert_that(c1.key[:2], contains_exactly('A', 'B'))
         assert_that(c2.n, is_(equal_to(1)))
-        assert_that(c2.key.elements[:1], contains_exactly('F'))
-        assert_that(b_tree.unsaved_node_ids, is_(set()))
+        assert_that(c2.key[:1], contains_exactly('F'))
+        assert_that(b_tree.unsaved_node_ids, is_(empty()))
 
     def test_b_tree_insert_nonfull_root(self):
         T = get_b_tree()
@@ -110,18 +110,18 @@ class TestTextbook18_2(TestCase):
         b_tree_insert(T, 'E')
 
         assert_that(T.root.n, is_(equal_to(3)))
-        assert_that(T.root.key.elements[:3], contains_exactly('B', 'D', 'G'))
+        assert_that(T.root.key[:3], contains_exactly('B', 'D', 'G'))
         child1 = T.root.c[1]
         child2 = T.root.c[2]
         child3 = T.root.c[3]
         child4 = T.root.c[4]
         b_tree.in_memory_node_ids = {id(T.root), id(child1), id(child2), id(child3), id(child4)}
         assert_that(child1.n, is_(equal_to(1)))
-        assert_that(child1.key.elements[:1], contains_exactly('A'))
+        assert_that(child1.key[:1], contains_exactly('A'))
         assert_that(child2.n, is_(equal_to(1)))
-        assert_that(child2.key.elements[:1], contains_exactly('C'))
+        assert_that(child2.key[:1], contains_exactly('C'))
         assert_that(child3.n, is_(equal_to(2)))
-        assert_that(child3.key.elements[:2], contains_exactly('E', 'F'))
+        assert_that(child3.key[:2], contains_exactly('E', 'F'))
         assert_that(child4.n, is_(equal_to(1)))
-        assert_that(child4.key.elements[:1], contains_exactly('H'))
-        assert_that(b_tree.unsaved_node_ids, is_(set()))
+        assert_that(child4.key[:1], contains_exactly('H'))
+        assert_that(b_tree.unsaved_node_ids, is_(empty()))
