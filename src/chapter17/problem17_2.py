@@ -20,7 +20,7 @@ def dynamic_binary_insert(A, x):
     while A[i].length != 0:
         B = Array(A[i].elements + B.elements)
         merge(B, 1, A[i].length, B.length)
-        A[i] = Array([])
+        A[i] = Array()
         i = i + 1
     A[i] = Array(B.elements)
 
@@ -44,4 +44,4 @@ def dynamic_binary_delete(A, x):
         A[r] = Array.indexed(1, 2 ** r)
         for t in between(1, 2 ** r):
             A[r][t] = A[i][2 ** r - 2 + t]
-    A[i] = Array([])
+    A[i] = Array()

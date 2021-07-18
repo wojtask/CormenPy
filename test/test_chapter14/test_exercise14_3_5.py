@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter14.exercise14_3_5 import interval_insert_exactly, interval_search_exactly
+from datastructures.array import Array
 from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalNode
 from tree_util import assert_interval_tree
@@ -13,9 +14,9 @@ from tree_util import assert_interval_tree
 class TestExercise14_3_5(TestCase):
 
     def test_interval_search_exactly_positive(self):
-        _, keys = get_random_array(max_size=100, max_value=89)
+        keys = get_random_array(max_size=100, max_value=89)
         tree = RedBlackTree(sentinel=IntervalNode(None, None))
-        intervals = []
+        intervals = Array()
 
         for key in keys:
             i = Interval(key, key + random.randint(0, 10))
@@ -30,9 +31,9 @@ class TestExercise14_3_5(TestCase):
         assert_that(actual_found.int, is_(equal_to(interval)))
 
     def test_interval_search_exactly_random(self):
-        _, keys = get_random_array(max_size=100, max_value=89)
+        keys = get_random_array(max_size=100, max_value=89)
         tree = RedBlackTree(sentinel=IntervalNode(None, None))
-        intervals = []
+        intervals = Array()
 
         for key in keys:
             i = Interval(key, key + random.randint(0, 10))

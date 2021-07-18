@@ -3,17 +3,19 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_unique_array
-from chapter11.textbook_problem11_5 import perfect_hashing_init, perfect_hashing_search
+from chapter11.textbook11_5 import perfect_hashing_init, perfect_hashing_search
+from util import between
 
 
-class TestTextbookProblem11_5(TestCase):
+class TestTextbook11_5(TestCase):
 
     def test_perfect_hashing(self):
-        keys, _ = get_random_unique_array(max_value=99)
+        max_value = 99
+        keys = get_random_unique_array(min_size=1, max_value=max_value)
 
         table, h = perfect_hashing_init(keys)
 
-        for key in range(100):
+        for key in between(0, max_value):
             actual_found = perfect_hashing_search(table, key, h)
             if key in keys:
                 assert_that(actual_found, is_(not_none()))

@@ -8,22 +8,22 @@ from chapter13.textbook13_2 import rb_minimum, rb_maximum, rb_predecessor, rb_su
 from chapter14.exercise14_2_1 import effective_os_insert, effective_os_minimum, effective_os_maximum, \
     effective_os_predecessor, effective_os_successor, effective_os_delete
 from datastructures.red_black_tree import RedBlackTree, OSNode
-from tree_util import get_binary_tree_nodes
+from tree_util import get_binary_tree_inorder_nodes
 
 
 class TestExercise14_2_1(TestCase):
 
     def test_effective_os_tree(self):
-        _, keys = get_random_array()
+        keys = get_random_array()
         tree = RedBlackTree(sentinel=OSNode(None))
         tree.nil.min = tree.nil.max = tree.nil.pred = tree.nil.succ = tree.nil
 
         for key in keys:
             effective_os_insert(tree, OSNode(key))
 
-        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+        inorder_nodes = get_binary_tree_inorder_nodes(tree)
 
-        while nodes:
+        while inorder_nodes:
             actual_minimum = effective_os_minimum(tree)
             actual_maximum = effective_os_maximum(tree)
             expected_minimum = rb_minimum(tree.root, sentinel=tree.nil)
@@ -31,7 +31,7 @@ class TestExercise14_2_1(TestCase):
             assert_that(actual_minimum, is_(expected_minimum))
             assert_that(actual_maximum, is_(expected_maximum))
 
-            node = random.choice(nodes)
+            node = random.choice(inorder_nodes)
             actual_predecessor = effective_os_predecessor(tree, node)
             actual_successor = effective_os_successor(tree, node)
             expected_predecessor = rb_predecessor(node, sentinel=tree.nil)
@@ -41,4 +41,4 @@ class TestExercise14_2_1(TestCase):
 
             effective_os_delete(tree, node)
 
-            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+            inorder_nodes = get_binary_tree_inorder_nodes(tree)

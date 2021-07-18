@@ -35,7 +35,7 @@ class TestExercise16_2_4(TestCase):
     def test_greedy_refueling(self):
         n = random.randint(1, 100)
         m = random.randint(1, 15)
-        stations, _ = get_random_array(min_size=m + 1, max_size=m + 1, max_value=n)
+        stations = get_random_array(size=m + 1, max_value=n)
 
         actual_stops = greedy_refueling(stations, n)
 

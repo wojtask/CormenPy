@@ -1,61 +1,68 @@
+import math
 import random
 
-import math
 from hamcrest import *
 
 from array_util import get_random_unique_array, get_random_array
 from datastructures import binary_tree as bt, red_black_tree as rb
+from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
 from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, Red, Black
 
 
-def get_binary_tree_keys(tree, sentinel=None):
-    return get_binary_subtree_keys(tree.root, sentinel)
+def get_binary_tree_inorder_keys(tree):
+    return get_binary_subtree_inorder_keys(tree.root, sentinel=getattr(tree, 'nil', None))
 
 
-def get_binary_subtree_keys(node, sentinel):
+def get_binary_subtree_inorder_keys(node, sentinel):
     if node is sentinel:
-        return []
-    return get_binary_subtree_keys(node.left, sentinel) + [node.key] + get_binary_subtree_keys(node.right, sentinel)
+        return Array()
+    return get_binary_subtree_inorder_keys(node.left, sentinel) + Array([node.key]) + get_binary_subtree_inorder_keys(
+        node.right,
+        sentinel)
 
 
-def get_binary_tree_nodes(tree, sentinel=None):
-    return get_binary_subtree_nodes(tree.root, sentinel)
+def get_binary_tree_inorder_nodes(tree):
+    return get_binary_subtree_inorder_nodes(tree.root, sentinel=getattr(tree, 'nil', None))
 
 
-def get_binary_subtree_nodes(node, sentinel):
+def get_binary_subtree_inorder_nodes(node, sentinel):
     if node is sentinel:
-        return []
-    return get_binary_subtree_nodes(node.left, sentinel) + [node] + get_binary_subtree_nodes(node.right, sentinel)
+        return Array()
+    return get_binary_subtree_inorder_nodes(node.left, sentinel) + Array([node]) + get_binary_subtree_inorder_nodes(
+        node.right,
+        sentinel)
 
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
-    keys = sorted(random.sample(range(0, max_value + 1), tree_size))
-    nodes = [bt.Node(key) for key in keys]
+    inorder_keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=0,
+                                           max_value=max_value).sort()
+    inorder_nodes = Array(bt.Node(key) for key in inorder_keys)
     tree = BinaryTree()
-    tree.root = get_random_binary_search_subtree(nodes)
-    return tree, nodes, keys
+    tree.root = get_random_binary_search_subtree(inorder_nodes)
+    return tree, inorder_nodes, inorder_keys
 
 
-def get_random_binary_search_subtree(nodes):
-    if not nodes:
+def get_random_binary_search_subtree(inorder_nodes):
+    if not inorder_nodes:
         return None
-    i = random.randrange(len(nodes))
-    node = nodes[i]
-    left_node = get_random_binary_search_subtree(nodes[:i])
+    i = random.randint(1, inorder_nodes.length)
+    node = inorder_nodes[i]
+    left_node = get_random_binary_search_subtree(inorder_nodes[:i - 1])
     if left_node is not None:
         node.left = left_node
         left_node.p = node
-    right_node = get_random_binary_search_subtree(nodes[i + 1:])
+    right_node = get_random_binary_search_subtree(inorder_nodes[i + 1:])
     if right_node is not None:
         node.right = right_node
         right_node.p = node
     return node
 
 
-def assert_parent_pointers_consistent(tree, sentinel=None):
+def assert_parent_pointers_consistent(tree):
+    sentinel = getattr(tree, 'nil', None)
     if tree.root is not sentinel:
         assert_that(tree.root.p, is_(sentinel))
         assert_subtree_parent_pointers_consistent(tree.root, sentinel)
@@ -70,32 +77,34 @@ def assert_subtree_parent_pointers_consistent(node, sentinel):
         assert_subtree_parent_pointers_consistent(node.right, sentinel)
 
 
-def assert_binary_search_tree(tree, sentinel=None):
+def assert_binary_search_tree(tree):
+    sentinel = getattr(tree, 'nil', None)
     if tree.root is not sentinel:
         assert_binary_search_subtree(tree.root, sentinel)
 
 
 def assert_binary_search_subtree(node, sentinel):
     if node.left is not sentinel:
-        left_keys = get_binary_subtree_keys(node.left, sentinel)
+        left_keys = get_binary_subtree_inorder_keys(node.left, sentinel)
         for left_key in left_keys:
             assert_that(left_key, is_(less_than_or_equal_to(node.key)))
         assert_binary_search_subtree(node.left, sentinel)
     if node.right is not sentinel:
-        right_keys = get_binary_subtree_keys(node.right, sentinel)
+        right_keys = get_binary_subtree_inorder_keys(node.right, sentinel)
         for right_key in right_keys:
             assert_that(right_key, is_(greater_than_or_equal_to(node.key)))
         assert_binary_search_subtree(node.right, sentinel)
 
 
 def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentinel=rb.Node(None)):
-    nodes = []
-    tree = RedBlackTree(get_random_red_black_subtree(black_height, nodes), sentinel=sentinel)
-    tree_size = len(nodes)
-    _, keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=min_value, max_value=max_value)
-    keys.sort()
-    fill_subtree_with_keys(tree.root, keys, tree.nil)
-    return tree, nodes, keys
+    nodes = Array([])
+    tree = RedBlackTree(get_random_red_black_subtree(black_height, nodes), sentinel)
+    tree_size = nodes.length
+    inorder_keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=min_value,
+                                           max_value=max_value).sort()
+    fill_subtree_with_keys(tree.root, inorder_keys, sentinel=tree.nil)
+    inorder_nodes = nodes.sort(key=lambda node: node.key)
+    return tree, inorder_nodes, inorder_keys
 
 
 def get_random_red_black_subtree(black_height, nodes):
@@ -127,28 +136,29 @@ def create_red_node_in_subtree(black_height, nodes):
     return subtree_root
 
 
-def fill_subtree_with_keys(node, keys, sentinel):
+def fill_subtree_with_keys(node, inorder_keys, sentinel):
     if node is sentinel:
         return
     left_subtree_size = get_subtree_size(node.left, sentinel)
-    node.key = keys[left_subtree_size]
-    fill_subtree_with_keys(node.left, keys[:left_subtree_size], sentinel)
-    fill_subtree_with_keys(node.right, keys[left_subtree_size + 1:], sentinel)
+    node.key = inorder_keys[left_subtree_size + 1]
+    fill_subtree_with_keys(node.left, inorder_keys[:left_subtree_size], sentinel)
+    fill_subtree_with_keys(node.right, inorder_keys[left_subtree_size + 2:], sentinel)
 
 
-def get_subtree_size(node, sentinel=None):
+def get_subtree_size(node, sentinel):
     if node is sentinel:
         return 0
     return 1 + get_subtree_size(node.left, sentinel) + get_subtree_size(node.right, sentinel)
 
 
-def assert_red_black_tree(tree, sentinel=None):
+def assert_red_black_tree(tree):
+    sentinel = getattr(tree, 'nil', None)
     if tree.root is not None:
         assert_that(tree.root.color, is_(Black))
     if sentinel is not None:
         assert_that(tree.nil.color, is_(Black))
     if tree.root is not sentinel:
-        assert_binary_search_tree(tree, sentinel)
+        assert_binary_search_tree(tree)
         assert_red_black_property_4(tree.root, sentinel)
         assert_red_black_property_5(tree.root, sentinel)
 
@@ -206,9 +216,10 @@ def assert_subtreap(node):
 
 
 def get_random_os_tree(black_height=3, max_value=999):
-    tree, nodes, keys = get_random_red_black_tree(black_height, max_value=max_value, sentinel=rb.OSNode(None))
+    tree, inorder_nodes, inorder_keys = get_random_red_black_tree(black_height, max_value=max_value,
+                                                                  sentinel=rb.OSNode(None))
     augment_to_os_tree(tree)
-    return tree, nodes, keys
+    return tree, inorder_nodes, inorder_keys
 
 
 def augment_to_os_tree(tree):
@@ -228,8 +239,8 @@ def augment_to_os_subtree(node, sentinel):
 
 
 def assert_os_tree(tree):
-    assert_red_black_tree(tree, sentinel=tree.nil)
-    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+    assert_red_black_tree(tree)
+    assert_parent_pointers_consistent(tree)
     if tree.root is not tree.nil:
         assert_os_subtree(tree.root, tree.nil)
 
@@ -245,26 +256,25 @@ def assert_os_subtree(node, sentinel):
 def get_random_interval_tree(black_height=3, max_value=999):
     # we treat max_value as the upper bound for high endpoints
     # the procedure is generating intervals at most (.1 * max_value) units wide
-    tree, nodes, keys = get_random_red_black_tree(black_height, max_value=int(.9 * max_value),
-                                                  sentinel=rb.IntervalNode(None, None))
+    tree, inorder_nodes, inorder_keys = get_random_red_black_tree(black_height, max_value=int(.9 * max_value),
+                                                                  sentinel=rb.IntervalNode(None, None))
     # we will allow keys and intervals to be non unique
-    tree_size = len(nodes)
-    _, keys = get_random_array(min_size=tree_size, max_size=tree_size, max_value=max_value)
-    keys.sort()
-    fill_subtree_with_intervals(tree.root, keys, max_value, sentinel=tree.nil)
+    tree_size = inorder_nodes.length
+    inorder_keys = get_random_array(min_size=tree_size, max_size=tree_size, max_value=max_value).sort()
+    fill_subtree_with_intervals(tree.root, inorder_keys, max_value, sentinel=tree.nil)
     augment_to_interval_tree(tree)
-    return tree, nodes, keys
+    return tree, inorder_nodes, inorder_keys
 
 
-def fill_subtree_with_intervals(node, keys, max_value, sentinel):
+def fill_subtree_with_intervals(node, inorder_keys, max_value, sentinel):
     if node is sentinel:
         return
     left_subtree_size = get_subtree_size(node.left, sentinel)
-    node.key = keys[left_subtree_size]
+    node.key = inorder_keys[left_subtree_size + 1]
     high_endpoint = random.randint(node.key, node.key + int(.1 * max_value))
     node.int = Interval(node.key, high_endpoint)
-    fill_subtree_with_intervals(node.left, keys[:left_subtree_size], max_value, sentinel)
-    fill_subtree_with_intervals(node.right, keys[left_subtree_size + 1:], max_value, sentinel)
+    fill_subtree_with_intervals(node.left, inorder_keys[:left_subtree_size], max_value, sentinel)
+    fill_subtree_with_intervals(node.right, inorder_keys[left_subtree_size + 2:], max_value, sentinel)
 
 
 def augment_to_interval_tree(tree):
@@ -284,8 +294,8 @@ def augment_to_interval_subtree(node, sentinel):
 
 
 def assert_interval_tree(tree):
-    assert_red_black_tree(tree, sentinel=tree.nil)
-    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+    assert_red_black_tree(tree)
+    assert_parent_pointers_consistent(tree)
     if tree.root is not tree.nil:
         assert_interval_subtree(tree.root, tree.nil)
 
@@ -300,8 +310,8 @@ def assert_interval_subtree(node, sentinel):
 
 
 def assert_interval_pom_tree(tree):
-    assert_red_black_tree(tree, sentinel=tree.nil)
-    assert_parent_pointers_consistent(tree, sentinel=tree.nil)
+    assert_red_black_tree(tree)
+    assert_parent_pointers_consistent(tree)
     if tree.root is not tree.nil:
         assert_interval_pom_subtree(tree.root, tree.nil)
 

@@ -4,24 +4,23 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter13.textbook13_4 import rb_delete
-from tree_util import get_binary_tree_keys, assert_red_black_tree, assert_parent_pointers_consistent, \
-    get_random_red_black_tree, get_binary_tree_nodes
+from tree_util import get_binary_tree_inorder_keys, assert_red_black_tree, assert_parent_pointers_consistent, \
+    get_random_red_black_tree, get_binary_tree_inorder_nodes
 
 
 class TestTextbook13_4(TestCase):
 
     def test_rb_delete(self):
-        tree, _, keys = get_random_red_black_tree()
-        nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+        tree, inorder_nodes, inorder_keys = get_random_red_black_tree()
 
-        while nodes:
-            node = random.choice(nodes)
-            keys.remove(node.key)
+        while inorder_nodes:
+            node = random.choice(inorder_nodes)
+            inorder_keys.remove(node.key)
 
             rb_delete(tree, node, sentinel=tree.nil)
 
-            assert_red_black_tree(tree, sentinel=tree.nil)
-            assert_parent_pointers_consistent(tree, sentinel=tree.nil)
-            actual_keys = get_binary_tree_keys(tree, sentinel=tree.nil)
-            assert_that(actual_keys, contains_inanyorder(*keys))
-            nodes = get_binary_tree_nodes(tree, sentinel=tree.nil)
+            assert_red_black_tree(tree)
+            assert_parent_pointers_consistent(tree)
+            actual_keys = get_binary_tree_inorder_keys(tree)
+            assert_that(actual_keys, contains_inanyorder(*inorder_keys))
+            inorder_nodes = get_binary_tree_inorder_nodes(tree)

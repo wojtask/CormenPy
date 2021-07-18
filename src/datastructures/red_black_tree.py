@@ -1,18 +1,18 @@
 import math
 
-from datastructures import binary_tree as bt
+from datastructures import binary_tree
 
 Red = 0
 Black = 1
 
 
-class Node(bt.Node):
+class Node(binary_tree.Node):
     def __init__(self, key, data=None, left=None, right=None, color=Black):
         super().__init__(key, data, left, right)
         self.color = color
 
 
-class RedBlackTree(bt.BinaryTree):
+class RedBlackTree(binary_tree.BinaryTree):
     def __init__(self, root=None, sentinel=Node(None)):
         super().__init__(root)
         self.nil = sentinel
@@ -36,7 +36,7 @@ class RedBlackTree(bt.BinaryTree):
             self._assign_sentinel_to_empty_children(node.right)
 
 
-class ParentlessNode(bt.ParentlessNode):
+class ParentlessNode(binary_tree.ParentlessNode):
     def __init__(self, key, data=None, left=None, right=None, color=Black):
         super().__init__(key, data, left, right)
         self.color = color

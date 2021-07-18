@@ -1,3 +1,4 @@
+import copy
 import io
 from contextlib import redirect_stdout
 from unittest import TestCase
@@ -5,18 +6,22 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter12.textbook_exercise12_2_7 import inorder_tree_walk_
-from tree_util import get_random_binary_search_tree
+from datastructures.array import Array
+from tree_util import get_random_binary_search_tree, get_binary_tree_inorder_keys
 
 
 class TestTextbookExercise12_2_7(TestCase):
 
     def test_inorder_tree_walk_(self):
-        tree, nodes, keys = get_random_binary_search_tree(min_size=0)
+        tree, inorder_nodes, inorder_keys = get_random_binary_search_tree(min_size=0)
+        original = copy.deepcopy(tree)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
             inorder_tree_walk_(tree)
 
-        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
-        expected_output = sorted(keys)
-        assert_that(actual_output, is_(equal_to(expected_output)))
+        actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
+        assert_that(actual_output, is_(equal_to(inorder_keys)))
+        actual_keys = get_binary_tree_inorder_keys(tree)
+        original_keys = get_binary_tree_inorder_keys(original)
+        assert_that(actual_keys, is_(equal_to(original_keys)))

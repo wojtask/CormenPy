@@ -5,6 +5,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.exercise10_4_5 import stackless_inorder_tree_walk
+from datastructures.array import Array
 from tree_util import get_random_binary_search_tree
 
 
@@ -17,6 +18,6 @@ class TestExercise10_4_5(TestCase):
         with redirect_stdout(captured_output):
             stackless_inorder_tree_walk(tree)
 
-        actual_output = [int(x) for x in captured_output.getvalue().splitlines()]
-        expected_output = sorted(keys)
+        actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
+        expected_output = keys.sort()
         assert_that(actual_output, is_(equal_to(expected_output)))

@@ -29,8 +29,8 @@ class TestExercise16_2_7(TestCase):
 
     def test_sets_reordering(self):
         n = random.randint(1, 8)
-        bases, _ = get_random_array(min_size=n, max_size=n, min_value=1, max_value=10)
-        exponents, _ = get_random_array(min_size=n, max_size=n, min_value=1, max_value=10)
+        bases = get_random_array(size=n, min_value=1, max_value=10)
+        exponents = get_random_array(size=n, min_value=1, max_value=10)
 
         sets_reordering(bases, exponents)
 

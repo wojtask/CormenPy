@@ -31,17 +31,17 @@ class TestArray(TestCase):
 
     def test_gets_infix_subarray(self):
         actual_subarray = self.array[3:4]
-        expected_subarray = Array([1, 0], start=3)
+        expected_subarray = Array([1, 0])
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_gets_prefix_subarray(self):
         actual_subarray = self.array[:4]
-        expected_subarray = Array([4, 5, 1, 0], start=1)
+        expected_subarray = Array([4, 5, 1, 0])
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_gets_suffix_subarray(self):
         actual_subarray = self.array[3:]
-        expected_subarray = Array([1, 0, 2], start=3)
+        expected_subarray = Array([1, 0, 2])
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_addressing_by_invalid_indexes(self):

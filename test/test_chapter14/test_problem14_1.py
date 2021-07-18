@@ -5,9 +5,11 @@ from hamcrest import *
 
 from chapter14.problem14_1 import interval_pom_insert, find_pom, interval_pom_delete
 from chapter14.textbook14_3 import overlap
+from datastructures.array import Array
 from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalPomNode
 from tree_util import assert_interval_pom_tree
+from util import between
 
 
 def get_expected_poms(intervals):
@@ -32,9 +34,9 @@ class TestProblem14_1(TestCase):
     def test_find_pom_tree(self):
         n = random.randint(1, 30)
         tree = RedBlackTree(sentinel=IntervalPomNode(None))
-        intervals = []
-        node_pairs = []
-        for _ in range(n):
+        intervals = Array()
+        node_pairs = Array()
+        for _ in between(1, n):
             low_endpoint = random.randint(0, 899)
             high_endpoint = low_endpoint + random.randint(0, 100)
             interval = Interval(low_endpoint, high_endpoint)

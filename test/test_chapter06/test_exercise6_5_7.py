@@ -1,3 +1,4 @@
+import copy
 import random
 from unittest import TestCase
 
@@ -10,7 +11,8 @@ from heap_util import get_random_max_heap, assert_max_heap
 class TestExercise6_5_7(TestCase):
 
     def test_max_heap_delete(self):
-        heap, elements = get_random_max_heap()
+        heap = get_random_max_heap()
+        original = copy.deepcopy(heap)
         i = random.randint(1, heap.heap_size)
         key_to_delete = heap[i]
 
@@ -18,7 +20,6 @@ class TestExercise6_5_7(TestCase):
 
         assert_that(actual_deleted_key, is_(equal_to(key_to_delete)))
         assert_max_heap(heap)
-        actual_heap_keys = heap[1:heap.heap_size]
-        expected_heap_keys = list(elements)
+        expected_heap_keys = original.elements
         expected_heap_keys.remove(key_to_delete)
-        assert_that(actual_heap_keys, contains_inanyorder(*expected_heap_keys))
+        assert_that(heap, contains_inanyorder(*expected_heap_keys))

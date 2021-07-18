@@ -11,10 +11,10 @@ from util import between
 
 def get_probabilities_for_optimal_bst():
     n = random.randint(1, 10)
-    p, _ = get_random_array(min_size=n, max_size=n)
-    q, _ = get_random_array(min_size=n + 1, max_size=n + 1)
+    p = get_random_array(size=n)
+    q = get_random_array(size=n + 1)
     q.start = 0
-    total = sum([x for x in p.elements + q.elements])
+    total = sum(x for x in p.elements + q.elements)
     for i in between(1, n):
         p[i] /= total
     for i in between(0, n):

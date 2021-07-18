@@ -8,6 +8,7 @@ from hamcrest import *
 
 from chapter15.problem15_3 import edit_distance, print_operations, optimal_alignment
 from datastructures.array import Array
+from util import between
 
 
 def get_edit_distance_bruteforce(x, y, cost, i=1, j=1):
@@ -42,15 +43,15 @@ def assert_valid_operations(operations, word1, word2):
             result[j] = word1[i]
             i += 1
             j += 1
-        elif op[:11] == 'replace by ':
-            ch = op[11:]
+        elif op.startswith('replace by '):
+            ch = op[len('replace by '):]
             result[j] = ch
             i += 1
             j += 1
         elif op == 'delete':
             i += 1
-        elif op[:7] == 'insert ':
-            ch = op[7:]
+        elif op.startswith('insert '):
+            ch = op[len('insert '):]
             result[j] = ch
             j += 1
         elif op == 'twiddle':
@@ -60,7 +61,7 @@ def assert_valid_operations(operations, word1, word2):
             j += 2
         else:
             assert_that(op, is_(equal_to('kill')))
-            assert_that(op, is_(equal_to(operations[-1])))
+            assert_that(op, is_(equal_to(operations[operations.length])))
             i = m + 1
     assert_that(i, is_(equal_to(m + 1)))
     assert_that(result, is_(equal_to(word2)))
@@ -69,9 +70,9 @@ def assert_valid_operations(operations, word1, word2):
 def get_operations_cost(operations, cost):
     c = 0
     for op in operations:
-        if op[:7] == 'replace':
+        if op.startswith('replace'):
             c += cost['replace']
-        elif op[:6] == 'insert':
+        elif op.startswith('insert'):
             c += cost['insert']
         else:
             c += cost[op]
@@ -101,8 +102,8 @@ class TestProblem15_3(TestCase):
     def test_edit_distance(self):
         len1 = random.randint(0, 8)
         len2 = random.randint(0, 8)
-        word1 = Array(''.join(random.choice('abcde') for _ in range(len1)))
-        word2 = Array(''.join(random.choice('abcde') for _ in range(len2)))
+        word1 = Array(''.join(random.choice('abcde') for _ in between(1, len1)))
+        word2 = Array(''.join(random.choice('abcde') for _ in between(1, len2)))
         cost_insert = random.randint(0, 10)
         cost_delete = random.randint(0, 10)
         cost = {'copy': random.randint(0, max(10, cost_insert + cost_delete)),
@@ -119,7 +120,7 @@ class TestProblem15_3(TestCase):
 
         expected_cost = get_edit_distance_bruteforce(word1, word2, cost)
         assert_that(actual_costs[len1, len2], is_(equal_to(expected_cost)))
-        actual_operations = captured_output.getvalue().splitlines()
+        actual_operations = Array(captured_output.getvalue().splitlines())
         assert_valid_operations(actual_operations, word1, word2)
         cost_of_operations = get_operations_cost(actual_operations, cost)
         assert_that(cost_of_operations, is_(equal_to(expected_cost)))
@@ -127,8 +128,8 @@ class TestProblem15_3(TestCase):
     def test_optimal_alignment(self):
         len1 = random.randint(0, 8)
         len2 = random.randint(0, 8)
-        word1 = Array(''.join(random.choice('ACGT') for _ in range(len1)))
-        word2 = Array(''.join(random.choice('ACGT') for _ in range(len2)))
+        word1 = Array(''.join(random.choice('ACGT') for _ in between(1, len1)))
+        word2 = Array(''.join(random.choice('ACGT') for _ in between(1, len2)))
 
         actual_score, _, _, _ = optimal_alignment(word1, word2)
 

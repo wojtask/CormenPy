@@ -4,7 +4,7 @@ class Interval:
         self.high = high
 
     def __str__(self):
-        return '[' + str(self.low) + ', ' + str(self.high) + ']'
+        return '[%d, %d]' % (self.low, self.high)
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

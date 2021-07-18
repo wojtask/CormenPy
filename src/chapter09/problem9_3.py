@@ -53,7 +53,7 @@ def _select_with_cascaded_swaps(B, m, p, r, i):
     fives = [Array(B.elements[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
     for group in fives:
         insertion_sort(group)
-    medians = Array([group[(group.length + 1) // 2] for group in fives])
+    medians = Array(group[(group.length + 1) // 2] for group in fives)
     x = select(medians, 1, medians.length, (medians.length + 1) // 2)
     q = _partition_around_with_cascaded_swaps(B, m, p, r, x)
     k = q - p + 1

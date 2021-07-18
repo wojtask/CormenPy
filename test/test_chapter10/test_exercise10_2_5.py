@@ -4,6 +4,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.exercise10_2_5 import circular_list_insert, circular_list_delete, circular_list_search
+from datastructures.array import Array
 from datastructures.list import SNode
 from list_util import get_random_circular_list, get_circular_list_keys
 
@@ -19,20 +20,20 @@ class TestExercise10_2_5(TestCase):
 
         actual_keys = get_circular_list_keys(list_)
         if nodes:
-            expected_keys = [keys[0]] + [new_key] + keys[1:]
+            expected_keys = Array([keys[1], new_key]) + keys[2:]
         else:
-            expected_keys = [new_key]
+            expected_keys = Array([new_key])
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_circular_list_delete(self):
         list_, nodes, keys = get_random_circular_list(min_size=1, max_size=5)
-        node_idx = random.randrange(len(nodes))
+        node_idx = random.randint(1, nodes.length)
         node_to_delete = nodes[node_idx]
 
         circular_list_delete(list_, node_to_delete)
 
         actual_keys = get_circular_list_keys(list_)
-        expected_keys = keys[:node_idx] + keys[node_idx + 1:]
+        expected_keys = keys[:node_idx - 1] + keys[node_idx + 1:]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_circular_list_search(self):

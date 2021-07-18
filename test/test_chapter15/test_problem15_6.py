@@ -18,34 +18,34 @@ def checkerboard_profit(profit, x, y):
     return profit[x][y[1] - x[1] + 1]
 
 
-def get_optimal_checkerboard_path_bruteforce(n, p):
+def get_optimal_checkerboard_path_bruteforce(n, predicate):
     max_profit = -math.inf
     for j in between(1, n):
-        max_profit = max(max_profit, get_optimal_checkerboard_subpath_bruteforce((1, j), n, p))
+        max_profit = max(max_profit, get_optimal_checkerboard_subpath_bruteforce((1, j), n, predicate))
     return max_profit
 
 
-def get_optimal_checkerboard_subpath_bruteforce(x, n, p):
+def get_optimal_checkerboard_subpath_bruteforce(x, n, predicate):
     if x[0] == n:
         return 0
     y = (x[0] + 1, x[1])
-    result = p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p)
+    result = predicate(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, predicate)
     if x[1] > 1:
         y = (x[0] + 1, x[1] - 1)
-        result = max(result, p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p))
+        result = max(result, predicate(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, predicate))
     if x[1] < n:
         y = (x[0] + 1, x[1] + 1)
-        result = max(result, p(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, p))
+        result = max(result, predicate(x, y) + get_optimal_checkerboard_subpath_bruteforce(y, n, predicate))
     return result
 
 
 def assert_squares_path(n, lines, profit, max_profit):
-    comp = re.compile('\((\d+), (\d+)\)')
-    actual_squares_path = [(int(comp.search(line).group(1)), int(comp.search(line).group(2))) for line in lines]
-    assert_that(actual_squares_path, has_length(n))
-    assert_that(actual_squares_path[0][0], is_(equal_to(1)))
+    comp = re.compile(r'\((\d+), (\d+)\)')
+    actual_squares_path = Array((int(comp.search(line).group(1)), int(comp.search(line).group(2))) for line in lines)
+    assert_that(actual_squares_path.length, is_(equal_to(n)))
+    assert_that(actual_squares_path[1][0], is_(equal_to(1)))
     profit_from_path = 0
-    for k in range(1, n):
+    for k in between(2, n):
         profit_from_path += checkerboard_profit(profit, actual_squares_path[k - 1], actual_squares_path[k])
     assert_that(profit_from_path, is_(equal_to(max_profit)))
 
@@ -72,4 +72,4 @@ class TestProblem15_6(TestCase):
         expected_maximum_profit = \
             get_optimal_checkerboard_path_bruteforce(n, lambda x, y: checkerboard_profit(profit, x, y))
         assert_that(actual_maximum_profit, is_(equal_to(expected_maximum_profit)))
-        assert_squares_path(n, captured_output.getvalue().splitlines(), profit, expected_maximum_profit)
+        assert_squares_path(n, Array(captured_output.getvalue().splitlines()), profit, expected_maximum_profit)

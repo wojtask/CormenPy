@@ -6,7 +6,7 @@ from util import between
 
 def bucket_sort(A):
     n = A.length
-    B = Array([[] for _ in range(n)], start=0)
+    B = Array(([] for _ in range(n)), start=0)
     for i in between(1, n):
         B[math.floor(n * A[i])].append(A[i])
     for i in between(0, n - 1):

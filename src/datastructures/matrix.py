@@ -20,3 +20,24 @@ class Matrix:
     def __setitem__(self, indexes, item):
         i, j = indexes
         self.elements[i - 1][j - 1] = item
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            if self.rows != other.rows or self.columns != other.columns:
+                return False
+            for i in range(self.rows):
+                if self.elements[i][:self.columns] != other.elements[i][:self.columns]:
+                    return False
+            return True
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash((self.rows, self.columns, [row[:self.columns] for row in self.elements[:self.rows]]))
+
+    def __iter__(self):
+        return (row[:self.columns] for row in self.elements[:self.rows])

@@ -1,3 +1,4 @@
+import copy
 import math
 import random
 from unittest import TestCase
@@ -6,8 +7,8 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter06.problem6_3 import young_extract_min, youngify, young_insert, young_sort, young_search
-from datastructures.array import Array
 from datastructures.matrix import Matrix
+from util import between
 
 
 def random_young_tableau(max_value=999):
@@ -28,94 +29,102 @@ def random_young_tableau(max_value=999):
             else:
                 row.append(math.inf)
         elements.append(sorted([x if x <= threshold else math.inf for x in row]))
-    return Matrix(elements), elements
+    return Matrix(elements)
 
 
 def assert_young_tableau(matrix):
     m, n = matrix.rows, matrix.columns
-    for j in range(2, n + 1):
+    for j in between(2, n):
         assert_that(matrix[1, j], is_(greater_than_or_equal_to(matrix[1, j - 1])))
-    for i in range(2, m + 1):
+    for i in between(2, m):
         assert_that(matrix[i, 1], is_(greater_than_or_equal_to(matrix[i - 1, 1])))
-        for j in range(2, n + 1):
+        for j in between(2, n):
             assert_that(matrix[i, j], is_(greater_than_or_equal_to(matrix[i, j - 1])))
             assert_that(matrix[i, j], is_(greater_than_or_equal_to(matrix[i - 1, j])))
+
+
+def get_young_tableau_elements(young):
+    return [x for row in young for x in row if x != math.inf]
 
 
 class TestProblem6_3(TestCase):
 
     def test_young_extract_min(self):
-        young, elements = random_young_tableau()
+        young = random_young_tableau()
         m, n = young.rows, young.columns
-        # make sure the young tableau is not empty
+        # make sure the Young tableau is not empty
         if young[1, 1] == math.inf:
-            young[1, 1] = elements[0][0] = random.randrange(1000)
+            young[1, 1] = random.randrange(1000)
+        original = copy.deepcopy(young)
 
         actual_min = young_extract_min(young, m, n, 1, 1)
 
         assert_young_tableau(young)
-        assert_that(actual_min, is_(equal_to(min(min(row for row in elements)))))
-        actual_elements = [x for row in young.elements for x in row]
-        expected_elements = [x for row in elements for x in row]
+        assert_that(actual_min, is_(equal_to(min(min(original)))))
+        actual_elements = get_young_tableau_elements(young)
+        expected_elements = get_young_tableau_elements(original)
         expected_elements.remove(actual_min)
-        expected_elements.append(math.inf)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_youngify(self):
-        young, elements = random_young_tableau()
+        young = random_young_tableau()
         m, n = young.rows, young.columns
-        # make sure the young tableau is not full
+        # make sure the Young tableau is not full
         if young[m, n] < math.inf:
-            young[m, n] = elements[m - 1][n - 1] = math.inf
+            young[m, n] = math.inf
 
-        # randomly decrease value of randomly chosen element
+        # randomly decrease the value of a randomly chosen element
         i = random.randint(1, m)
         j = random.randint(1, n)
         if young[i, j] < math.inf:
-            young[i, j] = elements[i - 1][j - 1] = random.randint(0, young[i, j])
+            young[i, j] = random.randint(0, young[i, j])
+        original = copy.deepcopy(young)
 
         youngify(young, i, j)
 
         assert_young_tableau(young)
-        actual_elements = [x for row in young.elements for x in row]
-        expected_elements = [x for row in elements for x in row]
+        actual_elements = get_young_tableau_elements(young)
+        expected_elements = get_young_tableau_elements(original)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_young_insert(self):
-        young, elements = random_young_tableau()
+        young = random_young_tableau()
         m, n = young.rows, young.columns
-        # make sure the young tableau is not full
+        # make sure the Young tableau is not full
         if young[m, n] < math.inf:
-            young[m, n] = elements[m - 1][n - 1] = math.inf
+            young[m, n] = math.inf
+        original = copy.deepcopy(young)
 
         new_key = random.randint(0, 999)
 
         young_insert(young, m, n, new_key)
 
         assert_young_tableau(young)
-        actual_elements = [x for row in young.elements for x in row]
-        expected_elements = [x for row in elements for x in row]
-        expected_elements.remove(math.inf)
+        actual_elements = get_young_tableau_elements(young)
+        expected_elements = get_young_tableau_elements(original)
         expected_elements.append(new_key)
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_young_sort(self):
         n = random.randint(1, 5)
-        array, elements = get_random_array(min_size=n * n, max_size=n * n)
+        array = get_random_array(size=n * n)
+        original = copy.deepcopy(array)
 
         young_sort(array)
 
-        expected_array = Array(sorted(elements))
+        expected_array = original.sort()
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_young_search(self):
-        young, elements = random_young_tableau(max_value=20)
+        young = random_young_tableau(max_value=20)
+        original = copy.deepcopy(young)
         m, n = young.rows, young.columns
         v = random.randint(0, 20)
 
         actual_found = young_search(young, m, n, v)
 
-        if v in [x for row in elements for x in row]:
+        if v in get_young_tableau_elements(young):
             assert_that(actual_found, is_(True))
         else:
             assert_that(actual_found, is_(False))
+        assert_that(young, is_(equal_to(original)))

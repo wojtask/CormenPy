@@ -1,3 +1,4 @@
+import copy
 from unittest import TestCase
 
 from hamcrest import *
@@ -11,10 +12,11 @@ class TestTextbookExercise8_2_3(TestCase):
 
     def test_unstable_counting_sort(self):
         k = 20
-        array, elements = get_random_array(max_value=k)
+        array = get_random_array(max_value=k)
+        original = copy.deepcopy(array)
         actual_sorted_array = Array.indexed(1, array.length)
 
         unstable_counting_sort(array, actual_sorted_array, k)
 
-        expected_array = Array(sorted(elements))
+        expected_array = original.sort()
         assert_that(actual_sorted_array, is_(equal_to(expected_array)))

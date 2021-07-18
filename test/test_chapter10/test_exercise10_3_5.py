@@ -7,10 +7,10 @@ from list_util import get_random_multiple_array_list, get_multiple_array_list_ke
 
 
 def make_free_list_doubly_linked(list_):
-    if list_.free is None:
+    if not list_.free:
         return
     x = list_.free
-    while list_.next[x] is not None:
+    while list_.next[x]:
         list_.prev[list_.next[x]] = x
         x = list_.next[x]
 

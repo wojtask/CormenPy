@@ -12,8 +12,8 @@ class TestTextbookProblem16_4(TestCase):
 
     def test_tasks_scheduling_(self):
         n = random.randint(1, 8)
-        deadlines, _ = get_random_array(min_size=n, max_size=n, min_value=1, max_value=n)
-        penalties, _ = get_random_array(min_size=n, max_size=n)
+        deadlines = get_random_array(size=n, min_value=1, max_value=n)
+        penalties = get_random_array(size=n)
 
         actual_schedule = tasks_scheduling_(deadlines, penalties)
 
