@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter18.problem18_2 import tree_2_3_4_create, tree_2_3_4_insert, tree_2_3_4_search, tree_2_3_4_delete, \
     tree_2_3_4_join
 from datastructures.array import Array
@@ -59,7 +59,7 @@ class TestProblem18_2(TestCase):
         assert_2_3_4_tree(tree)
 
         max_key_value = 10000
-        keys = get_random_unique_array(size=1000, max_value=max_key_value)
+        keys = get_random_array(size=1000, max_value=max_key_value, unique=True)
         keys_in_tree = Array()
         for key in keys:
             tree_2_3_4_insert(tree, key)
@@ -67,7 +67,7 @@ class TestProblem18_2(TestCase):
             assert_2_3_4_tree(tree)
             actual_tree_keys = get_2_3_4_tree_keys(tree)
             assert_that(actual_tree_keys, is_(equal_to(keys_in_tree.sort())))
-            if random.random() <= 1 / 3:
+            if random.uniform(0, 1) <= 1 / 3:
                 key_to_delete = keys_in_tree[random.randint(1, keys_in_tree.length)]
                 tree_2_3_4_delete(tree, key_to_delete)
                 assert_2_3_4_tree(tree)
@@ -92,8 +92,8 @@ class TestProblem18_2(TestCase):
 
         max_value = 1000
         k = random.randint(1, max_value - 1)
-        keys1 = get_random_unique_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1)
-        keys2 = get_random_unique_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value)
+        keys1 = get_random_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1, unique=True)
+        keys2 = get_random_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value, unique=True)
         for key in keys1:
             tree_2_3_4_insert(tree1, key)
         for key in keys2:
@@ -120,8 +120,8 @@ class TestProblem18_2(TestCase):
         r = random.random()
         max_size1 = 0 if r < 0.6 else k - 1
         max_size2 = 0 if r > 0.4 else max_value - k
-        keys1 = get_random_unique_array(min_size=0, max_size=max_size1, min_value=0, max_value=k - 1)
-        keys2 = get_random_unique_array(min_size=0, max_size=max_size2, min_value=k + 1, max_value=max_value)
+        keys1 = get_random_array(min_size=0, max_size=max_size1, min_value=0, max_value=k - 1, unique=True)
+        keys2 = get_random_array(min_size=0, max_size=max_size2, min_value=k + 1, max_value=max_value, unique=True)
         for key in keys1:
             tree_2_3_4_insert(tree1, key)
         for key in keys2:

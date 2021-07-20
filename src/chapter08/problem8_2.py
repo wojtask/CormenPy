@@ -21,8 +21,8 @@ def counting_sort_in_place(A, k):
     for j in between(1, A.length):
         C[A[j]] += 1
     for i in between(1, k):
-        C[i] = C[i] + C[i - 1]
-    C_ = Array(C.elements, start=0)
+        C[i] += C[i - 1]
+    C_ = Array(C, start=0)
     i = 1
     while i <= A.length - 1:
         key = A[i]

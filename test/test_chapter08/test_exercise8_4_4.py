@@ -1,4 +1,3 @@
-import cmath
 import copy
 import math
 import random
@@ -12,13 +11,20 @@ from datastructures.point_2d import Point2D
 from util import between
 
 
+def generate_unit_circle_points_sample(n):
+    for _ in between(1, n):
+        length = math.sqrt(random.uniform(0, 1))
+        angle = random.uniform(0, 1) * math.tau
+        x = length * math.cos(angle)
+        y = length * math.sin(angle)
+        yield Point2D(x, y)
+
+
 class TestExercise8_4_4(TestCase):
 
     def test_unit_circle_sort(self):
         n = random.randint(1, 20)
-        coords = [cmath.rect(random.random(), random.uniform(-math.pi, math.pi)) for _ in between(1, n)]
-        points = [Point2D(coord.real, coord.imag) for coord in coords]
-        array = Array(points)
+        array = Array(generate_unit_circle_points_sample(n))
         original = copy.deepcopy(array)
 
         unit_circle_sort(array)

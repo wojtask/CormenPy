@@ -37,7 +37,7 @@ class TestTextbook14_1(TestCase):
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
 
     def test_os_insert(self):
-        keys = get_random_array(min_size=20, max_size=20)
+        keys = get_random_array(size=20)
         tree = RedBlackTree(sentinel=OSNode(None))
 
         for i, key in enumerate(keys, start=1):

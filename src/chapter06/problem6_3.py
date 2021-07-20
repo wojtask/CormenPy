@@ -1,14 +1,14 @@
 import math
 
-from datastructures.matrix import Matrix
+from datastructures.array import Array
 from util import between
 
 
 def young_extract_min(Y, m, n, i, j):
     if (i, j) == (m, n):
-        min = Y[i, j]
+        y = Y[i, j]
         Y[i, j] = math.inf
-        return min
+        return y
     (i_, j_) = (i, j + 1)
     if i < m:
         if j == n or Y[i + 1, j] < Y[i, j + 1]:
@@ -35,7 +35,7 @@ def young_insert(Y, m, n, key):
 
 def young_sort(A):
     n = int(math.sqrt(A.length))
-    Y = Matrix([[math.inf] * n] * n)
+    Y = Array(Array([math.inf] * n) for _ in between(1, n))
     for i in between(1, n ** 2):
         young_insert(Y, n, n, A[i])
     for i in between(1, n ** 2):

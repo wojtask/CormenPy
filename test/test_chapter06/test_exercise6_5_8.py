@@ -14,7 +14,7 @@ from util import between
 def get_random_sorted_singly_linked_list():
     size = random.randint(1, 5)
     keys = get_random_array(size=size).sort()
-    nodes = [SNode(key) for key in keys]
+    nodes = Array(SNode(key) for key in keys)
     list_ = List()
     prev_node = list_.head
     for node in nodes:

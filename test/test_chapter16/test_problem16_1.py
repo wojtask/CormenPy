@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter16.problem16_1 import greedy_make_change, make_change, print_change
 from datastructures.array import Array
 from util import between
@@ -38,7 +38,7 @@ class TestProblem16_1(TestCase):
     def test_make_change(self):
         n = random.randint(1, 20)
         k = random.randint(1, 5)
-        d = get_random_unique_array(max_size=k, min_value=2, max_value=20)
+        d = get_random_array(max_size=k, min_value=2, max_value=20, unique=True)
         d[1] = 1
         captured_output = io.StringIO()
 

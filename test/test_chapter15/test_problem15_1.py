@@ -55,8 +55,8 @@ class TestProblem15_1(TestCase):
 
         expected_bitonic_path_length = get_shortest_bitonic_path_length_bruteforce(points)
         assert_that(actual_path_lengths[n, n], is_(close_to(expected_bitonic_path_length, 1e-7)))
-        pattern = re.compile(r'\((\d+), (\d+)\)')
-        actual_bitonic_path = Array(Point2D(int(pattern.match(point).group(1)), int(pattern.match(point).group(2)))
+        pattern = re.compile(r'\(([+-]?(\d*\.)?\d+), ([+-]?(\d*\.)?\d+)\)')
+        actual_bitonic_path = Array(Point2D(float(pattern.match(point).group(1)), float(pattern.match(point).group(3)))
                                     for point in captured_output.getvalue().splitlines())
         assert_that(actual_bitonic_path.length, is_(equal_to(n)))
         path_length_from_bitonic_path = get_path_length_from_bitonic_path(actual_bitonic_path)

@@ -14,7 +14,7 @@ class TestProblem8_4(TestCase):
     def test_jugs_group(self):
         n = random.randint(1, 20)
         reds_array = get_random_array(size=n)
-        blues_array = Array(random.sample(reds_array.elements, n))
+        blues_array = Array(reds_array).shuffle()
         reds_original = copy.deepcopy(reds_array)
 
         jugs_group(reds_array, blues_array)
@@ -25,7 +25,7 @@ class TestProblem8_4(TestCase):
     def test_jugs_match(self):
         n = random.randint(1, 20)
         reds_array = get_random_array(size=n)
-        blues_array = Array(random.sample(reds_array.elements, n))
+        blues_array = Array(reds_array).shuffle()
         reds_original = copy.deepcopy(reds_array)
 
         jugs_match(reds_array, blues_array, 1, n)

@@ -50,7 +50,7 @@ def _select_with_cascaded_swaps(B, m, p, r, i):
     n = r - p + 1
     if n == 1:
         return p
-    fives = [Array(B.elements[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
+    fives = Array(B[k:min(k + 5, r)] for k in between(p, r, step=5))
     for group in fives:
         insertion_sort(group)
     medians = Array(group[(group.length + 1) // 2] for group in fives)
@@ -88,6 +88,5 @@ def _cascaded_swap(B, m, i, j):
 
 def _cascaded_align(B, m, i):
     while i >= 1:
-        B.elements.insert(i - 1, math.inf)
-        B.length += 1
+        B.insert(i, math.inf)
         i -= m

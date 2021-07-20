@@ -4,14 +4,14 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter02.exercise2_3_7 import sum_search
 
 
 class TestExercise2_3_7(TestCase):
 
     def test_sum_search(self):
-        array = get_random_unique_array(max_value=20)
+        array = get_random_array(max_value=20, unique=True)
         original = copy.deepcopy(array)
         sum_to_find = random.randint(0, 40)
 

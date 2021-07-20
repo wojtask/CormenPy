@@ -8,13 +8,12 @@ def permute_by_sorting(A):
     P = Array.indexed(1, n)
     for i in between(1, n):
         P[i] = random(1, n ** 3)
-    _sort_using_priorities(A, P)
+    A = _sort_using_priorities(A, P)
     return A
 
 
 def _sort_using_priorities(A, P):
-    sorted_list_with_priorities = sorted(zip(A, P), key=lambda x: x[1])
-    A.elements = [x[0] for x in sorted_list_with_priorities]
+    return Array(x[0] for x in (sorted(zip(A, P), key=lambda x: x[1])))
 
 
 def randomize_in_place(A):

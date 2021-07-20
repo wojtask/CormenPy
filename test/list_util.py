@@ -25,12 +25,12 @@ def get_random_doubly_linked_list(min_size=1, max_size=20, max_value=999):
 
 
 def get_linked_list_keys(list_):
-    keys = []
+    keys = Array()
     node = list_.head
     while node is not None:
         keys.append(node.key)
         node = node.next
-    return Array(keys)
+    return keys
 
 
 def assert_prev_next_pointers_consistent(list_):
@@ -105,12 +105,12 @@ def get_random_circular_list(min_size=1, max_size=20, max_value=999):
 def get_circular_list_keys(list_):
     if list_.head is None:
         return Array()
-    keys = [list_.head.key]
+    keys = Array(list_.head.key)
     node = list_.head.next
     while node is not list_.head:
         keys.append(node.key)
         node = node.next
-    return Array(keys)
+    return keys
 
 
 def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
@@ -119,7 +119,7 @@ def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
     if size == 0:
         return list_, Array(), Array()
 
-    keys = get_random_array(min_size=size, max_size=size, min_value=0, max_value=max_value)
+    keys = get_random_array(size=size, min_value=0, max_value=max_value)
     nodes = Array(XORNode(key, list_) for key in keys)
 
     prev_node = None
@@ -136,7 +136,7 @@ def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
 
 
 def get_xor_linked_list_keys(list_):
-    keys = []
+    keys = Array()
     prev_node = None
     curr_node = list_.head
     while curr_node is not None:
@@ -145,7 +145,7 @@ def get_xor_linked_list_keys(list_):
         next_node = list_.addr_to_node[next_node_addr]
         prev_node = curr_node
         curr_node = next_node
-    return Array(keys)
+    return keys
 
 
 def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
@@ -154,8 +154,7 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
     list_indexes = random.sample(between(1, array_size), list_size)
 
-    head = None
-    prev_index = None
+    head = prev_index = None
     for index in list_indexes:
         key[index] = random.randint(0, max_value)
         if prev_index is None:
@@ -165,11 +164,9 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
             prev[index] = prev_index
         prev_index = index
 
-    free_indexes = [i for i in between(1, array_size) if i not in list_indexes]
-    random.shuffle(free_indexes)
+    free_indexes = Array(i for i in between(1, array_size) if i not in list_indexes).shuffle()
 
-    free = None
-    prev_free_index = None
+    free = prev_free_index = None
     for free_index in free_indexes:
         if prev_free_index is None:
             free = free_index
@@ -182,7 +179,7 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
 
 def get_multiple_array_list_keys(list_):
     idx = list_.head
-    keys = []
+    keys = Array()
     while idx is not None:
         keys.append(list_.key[idx])
         idx = list_.next[idx]
@@ -211,10 +208,9 @@ def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = 3 * random.randint(list_size, max_size)
     A = Array.indexed(1, array_size)
-    list_indexes = random.sample(range(1, array_size + 1, 3), list_size)
+    list_indexes = random.sample(between(1, array_size, step=3), list_size)
 
-    head = None
-    prev_index = None
+    head = prev_index = None
     for index in list_indexes:
         A[index] = random.randint(0, max_value)
         if prev_index is None:
@@ -224,11 +220,9 @@ def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
             A[index + 2] = prev_index
         prev_index = index
 
-    free_indexes = [i for i in range(1, array_size + 1, 3) if i not in list_indexes]
-    random.shuffle(free_indexes)
+    free_indexes = Array(i for i in between(1, array_size, step=3) if i not in list_indexes).shuffle()
 
-    free = None
-    prev_free_index = None
+    free = prev_free_index = None
     for free_index in free_indexes:
         if prev_free_index is None:
             free = free_index
@@ -241,11 +235,11 @@ def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
 
 def get_single_array_list_keys(list_):
     idx = list_.head
-    keys = []
+    keys = Array()
     while idx is not None:
         keys.append(list_.A[idx])
         idx = list_.A[idx + 1]
-    return Array(keys)
+    return keys
 
 
 def get_single_array_list_free_cells(list_):
@@ -272,8 +266,7 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
     key, next, prev = Array.indexed(1, array_size), Array.indexed(1, array_size), Array.indexed(1, array_size)
     list_indexes = random.sample(between(1, list_size), list_size)
 
-    head = None
-    prev_index = None
+    head = prev_index = None
     for index in list_indexes:
         key[index] = random.randint(0, max_value)
         if prev_index is None:

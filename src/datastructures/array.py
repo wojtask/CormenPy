@@ -2,6 +2,8 @@ import random
 from builtins import len
 from collections.abc import MutableSequence
 
+from util import between
+
 
 class Array(MutableSequence):
     def __init__(self, *elements, **kwargs):
@@ -27,20 +29,26 @@ class Array(MutableSequence):
         if isinstance(index, slice):
             start = index.start if index.start is not None else self.start
             stop = index.stop if index.stop is not None else self.length
-            if start < self.start or stop - self.start + 1 > self.length:
-                raise IndexError('Invalid indexes used for addressing Array')
-            return Array(self.elements[start - self.start:stop - self.start + 1], start=self.start)
+            return Array((self[i] for i in between(start, stop)), start=self.start)
         if isinstance(index, tuple):
-            row = self.elements[index[0] - self.start]
-            return row.elements[index[1] - row.start]
+            return self[index[0]][index[1]]
         raise TypeError('Invalid type of index used for indexing Array')
 
     def __setitem__(self, index, value):
         if isinstance(index, int):
+            if index < self.start or index > self.length:
+                raise IndexError('Invalid index used for updating an Array\'s cell')
             self.elements[index - self.start] = value
+        elif isinstance(index, slice):
+            it = iter(value)
+            start = index.start if index.start is not None else self.start
+            stop = index.stop if index.stop is not None else self.length
+            if len(value) != stop - start + 1:
+                raise IndexError('The iterable used for updating an Array\'s fragment has different size')
+            for i in between(start, stop):
+                self[i] = next(it)
         elif isinstance(index, tuple):
-            row = self.elements[index[0] - self.start]
-            row.elements[index[1] - row.start] = value
+            self[index[0]][index[1]] = value
         else:
             raise TypeError('Invalid type of index used for indexing Array')
 
@@ -55,9 +63,6 @@ class Array(MutableSequence):
 
     def __len__(self):
         return self.length
-
-    def __bool__(self):
-        return self.length > 0
 
     def __iter__(self):
         return (element for element in self.elements[:self.length])

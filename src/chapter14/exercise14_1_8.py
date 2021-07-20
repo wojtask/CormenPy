@@ -23,6 +23,6 @@ def intersecting_chords(C):
             os_insert(T, OSNode(k))
         else:
             x = os_search(T, P[j])
-            intersections = intersections + T.root.size - os_rank(T, x)
+            intersections += T.root.size - os_rank(T, x)
             os_delete(T, x)
     return intersections

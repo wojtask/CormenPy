@@ -8,9 +8,9 @@ def count_inversions(A, p, r):
     inversions = 0
     if p < r:
         q = math.floor((p + r) / 2)
-        inversions = inversions + count_inversions(A, p, q)
-        inversions = inversions + count_inversions(A, q + 1, r)
-        inversions = inversions + merge_inversions(A, p, q, r)
+        inversions += count_inversions(A, p, q)
+        inversions += count_inversions(A, q + 1, r)
+        inversions += merge_inversions(A, p, q, r)
     return inversions
 
 
@@ -33,5 +33,5 @@ def merge_inversions(A, p, q, r):
         else:
             A[k] = R[j]
             j += 1
-            inversions = inversions + n1 - i + 1
+            inversions += n1 - i + 1
     return inversions

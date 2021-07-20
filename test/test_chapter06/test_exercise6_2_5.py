@@ -13,7 +13,7 @@ class TestExercise6_2_5(TestCase):
     def test_iterative_max_heapify(self):
         heap = get_random_max_heap()
         i = random.randint(1, heap.heap_size)
-        heap[i] = random.randint(0, heap[i])  # randomly decrease the value of a randomly chosen element
+        heap[i] -= random.randint(0, 500)  # randomly decrease the value of a randomly chosen element
         original = copy.deepcopy(heap)
 
         iterative_max_heapify(heap, i)

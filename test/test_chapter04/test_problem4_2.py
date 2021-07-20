@@ -18,5 +18,5 @@ class TestProblem4_2(TestCase):
 
         actual_missing = missing_integer(array)
 
-        expected_missing = [x for x in between(0, n) if x not in original][0]
+        expected_missing = Array(x for x in between(0, n) if x not in original)[1]
         assert_that(actual_missing, is_(equal_to(expected_missing)))

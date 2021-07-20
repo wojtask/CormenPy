@@ -9,16 +9,16 @@ def integers_sort(A):
     negative = Array(-integer for integer in A if integer < 0)
     sorted_nonnegative = _nonnegative_integers_sort(nonnegative, n)
     sorted_negative = _nonnegative_integers_sort(negative, n)
-    A.elements = list(reversed([-integer for integer in sorted_negative])) + sorted_nonnegative
+    A[:] = Array(-integer for integer in reversed(sorted_negative)) + sorted_nonnegative
 
 
 def _nonnegative_integers_sort(nonnegative, n):
     integers_by_length = _sort_by_length(nonnegative, n)
-    sorted_integers = []
-    for length, integers in enumerate(integers_by_length.elements):
+    sorted_integers = Array()
+    for length, integers in enumerate(integers_by_length, start=1):
         if integers is not None:
             radix_sort(integers, length + 1)
-            sorted_integers.extend(integers.elements)
+            sorted_integers.extend(integers)
     return sorted_integers
 
 
@@ -26,7 +26,7 @@ def _sort_by_length(A, n):
     numbers_by_length = Array.indexed(1, n)
     for number in A:
         if numbers_by_length[len(str(number))] is None:
-            numbers_by_length[len(str(number))] = []
+            numbers_by_length[len(str(number))] = Array()
         numbers_by_length[len(str(number))].append(number)
     for i in between(1, n):
         if numbers_by_length[i] is not None:
@@ -72,4 +72,4 @@ def _sort_by_character(A, p, r, position):
         x = ord(A[j][position - 1]) - ord('a')
         B[C[x]] = A[j]
         C[x] -= 1
-    A.elements[p - 1:r] = B.elements
+    A[p:r] = B

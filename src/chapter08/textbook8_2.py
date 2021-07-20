@@ -9,7 +9,7 @@ def counting_sort(A, B, k):
     for j in between(1, A.length):
         C[A[j]] += 1
     for i in between(1, k):
-        C[i] = C[i] + C[i - 1]
+        C[i] += C[i - 1]
     for j in rbetween(A.length, 1):
         B[C[A[j]]] = A[j]
         C[A[j]] -= 1

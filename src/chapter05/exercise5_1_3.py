@@ -1,6 +1,6 @@
 import random
 
-unfair_coin_probability = random.random()
+unfair_coin_probability = random.uniform(0, 1)
 
 
 def unbiased_random():
@@ -13,4 +13,4 @@ def unbiased_random():
 
 
 def _biased_random():
-    return 1 if random.random() <= unfair_coin_probability else 0
+    return 1 if random.uniform(0, 1) <= unfair_coin_probability else 0

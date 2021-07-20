@@ -5,7 +5,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter09.exercise9_3_6 import quantiles
 from datastructures.array import Array
 from util import between
@@ -29,7 +29,7 @@ def assert_valid_subarray_length(n, k, subarray_length):
 class TestExercise9_3_6(TestCase):
 
     def test_quantiles(self):
-        array = get_random_unique_array()
+        array = get_random_array(unique=True)
         original = copy.deepcopy(array)
         k = random.randint(1, array.length + 1)
 

@@ -3,7 +3,7 @@ import random
 
 from hamcrest import *
 
-from array_util import get_random_unique_array, get_random_array
+from array_util import get_random_array
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
@@ -37,8 +37,7 @@ def get_binary_subtree_inorder_nodes(node, sentinel):
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
-    inorder_keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=0,
-                                           max_value=max_value).sort()
+    inorder_keys = get_random_array(size=tree_size, min_value=0, max_value=max_value, unique=True).sort()
     inorder_nodes = Array(bt.Node(key) for key in inorder_keys)
     tree = BinaryTree()
     tree.root = get_random_binary_search_subtree(inorder_nodes)
@@ -100,8 +99,7 @@ def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentin
     nodes = Array()
     tree = RedBlackTree(get_random_red_black_subtree(black_height, nodes), sentinel)
     tree_size = nodes.length
-    inorder_keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=min_value,
-                                           max_value=max_value).sort()
+    inorder_keys = get_random_array(size=tree_size, min_value=min_value, max_value=max_value, unique=True).sort()
     fill_subtree_with_keys(tree.root, inorder_keys, sentinel=tree.nil)
     inorder_nodes = nodes.sort(key=lambda node: node.key)
     return tree, inorder_nodes, inorder_keys
@@ -260,7 +258,7 @@ def get_random_interval_tree(black_height=3, max_value=999):
                                                                   sentinel=rb.IntervalNode(None, None))
     # we will allow keys and intervals to be non unique
     tree_size = inorder_nodes.length
-    inorder_keys = get_random_array(min_size=tree_size, max_size=tree_size, max_value=max_value).sort()
+    inorder_keys = get_random_array(size=tree_size, max_value=max_value).sort()
     fill_subtree_with_intervals(tree.root, inorder_keys, max_value, sentinel=tree.nil)
     augment_to_interval_tree(tree)
     return tree, inorder_nodes, inorder_keys

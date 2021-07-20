@@ -5,7 +5,7 @@ def compact_list_search(L, n, k):
     i = L.head
     while i is not None and L.key[i] < k:
         j = random(1, n)
-        if L.key[i] < L.key[j] and L.key[j] <= k:
+        if L.key[i] < L.key[j] <= k:
             i = j
             if L.key[i] == k:
                 return i

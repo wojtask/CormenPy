@@ -7,7 +7,7 @@ def select(A, p, r, i):
     n = r - p + 1
     if n == 1:
         return A[p]
-    fives = [Array(A.elements[k:min(k + 5, r)]) for k in range(p - 1, r, 5)]
+    fives = Array(A[k:min(k + 5, r)] for k in between(p, r, step=5))
     for group in fives:
         insertion_sort(group)
     medians = Array(group[(group.length + 1) // 2] for group in fives)

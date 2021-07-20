@@ -41,7 +41,5 @@ def dynamic_binary_delete(A, x):
     while l < A[j].length and A[j][l] > A[j][l + 1]:
         A[j][l], A[j][l + 1] = A[j][l + 1], A[j][l]
     for r in between(0, i - 1):
-        A[r] = Array.indexed(1, 2 ** r)
-        for t in between(1, 2 ** r):
-            A[r][t] = A[i][2 ** r - 1 + t]
+        A[r] = A[i][2 ** r:2 ** (r + 1) - 1]
     A[i] = Array()

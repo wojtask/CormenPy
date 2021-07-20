@@ -3,6 +3,7 @@ import random
 
 from hamcrest import *
 
+from datastructures.array import Array
 from datastructures.heap import Heap
 from util import between
 
@@ -19,19 +20,35 @@ def assert_min_heap(heap, arity=2):
         assert_that(heap[parent_idx], is_(less_than_or_equal_to(heap[i])))
 
 
-def get_random_max_heap(arity=2, min_size=1, max_size=20, max_value=999):
-    size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value)]
-    for i in between(2, size):
-        bound = keys[(i - 2) // arity]
-        keys.append(random.randint(0, bound))
-    return Heap(keys)
+def get_random_max_heap(arity=2):
+    size = random.randint(1, 20)
+    array = Array.indexed(1, size)
+    fill_max_subheap(array, 1, size, 999, arity)
+    return Heap(array)
 
 
-def get_random_min_heap(arity=2, min_size=1, max_size=20, max_value=999):
-    size = random.randint(min_size, max_size)
-    keys = [random.randint(0, max_value)]
-    for i in between(2, size):
-        bound = keys[(i - 2) // arity]
-        keys.append(random.randint(bound, max_value))
-    return Heap(keys)
+def fill_max_subheap(array, i, size, upper_bound, arity):
+    if i > size:
+        return
+    max_diff = 100
+    array[i] = random.randint(upper_bound - max_diff, upper_bound)
+    for k in between(1, arity):
+        child_idx = arity * (i - 1) + k + 1
+        fill_max_subheap(array, child_idx, size, array[i], arity)
+
+
+def get_random_min_heap(arity=2):
+    size = random.randint(1, 20)
+    array = Array.indexed(1, size)
+    fill_min_subheap(array, 1, size, 0, arity)
+    return Heap(array)
+
+
+def fill_min_subheap(array, i, size, lower_bound, arity):
+    if i > size:
+        return
+    max_diff = 100
+    array[i] = random.randint(lower_bound, lower_bound + max_diff)
+    for k in between(1, arity):
+        child_idx = arity * (i - 1) + k + 1
+        fill_min_subheap(array, child_idx, size, array[i], arity)

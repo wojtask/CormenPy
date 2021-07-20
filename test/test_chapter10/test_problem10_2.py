@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter10.problem10_2 import sorted_list_make_min_heap, sorted_list_min_heap_insert, sorted_list_heap_minimum, \
     sorted_list_heap_extract_min, sorted_list_min_heap_union, list_make_min_heap, list_min_heap_insert, \
     list_heap_minimum, list_heap_extract_min, list_min_heap_union, list_min_heap_disjoint_union
@@ -24,8 +24,8 @@ def assert_sorted_list(list_):
 class TestProblem10_2(TestCase):
 
     def test_mergeable_heap_on_sorted_list(self):
-        array1 = get_random_unique_array(min_size=0)
-        array2 = get_random_unique_array(min_size=0)
+        array1 = get_random_array(min_size=0, unique=True)
+        array2 = get_random_array(min_size=0, unique=True)
 
         heap1 = sorted_list_make_min_heap()
         heap2 = sorted_list_make_min_heap()
@@ -69,8 +69,8 @@ class TestProblem10_2(TestCase):
         assert_sorted_list(merged_heap)
 
     def test_mergeable_heap_on_unsorted_list(self):
-        array1 = get_random_unique_array(min_size=0)
-        array2 = get_random_unique_array(min_size=0)
+        array1 = get_random_array(min_size=0, unique=True)
+        array2 = get_random_array(min_size=0, unique=True)
 
         heap1 = list_make_min_heap()
         heap2 = list_make_min_heap()
@@ -109,7 +109,7 @@ class TestProblem10_2(TestCase):
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
     def test_list_min_heap_disjoint_union(self):
-        array = get_random_unique_array(min_size=0)
+        array = get_random_array(min_size=0, unique=True)
         original = copy.deepcopy(array)
         heap1_size = random.randint(0, array.length)
         heap1 = list_make_min_heap()
