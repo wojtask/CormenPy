@@ -68,7 +68,7 @@ class TestProblem18_2(TestCase):
             actual_tree_keys = get_2_3_4_tree_keys(tree)
             assert_that(actual_tree_keys, is_(equal_to(keys_in_tree.sort())))
             if random.random() <= 1 / 3:
-                key_to_delete = random.choice(keys_in_tree)
+                key_to_delete = keys_in_tree[random.randint(1, keys_in_tree.length)]
                 tree_2_3_4_delete(tree, key_to_delete)
                 assert_2_3_4_tree(tree)
                 keys_in_tree.remove(key_to_delete)

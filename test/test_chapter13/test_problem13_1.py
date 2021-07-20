@@ -62,7 +62,7 @@ class TestProblem13_1(TestCase):
         inorder_nodes = get_binary_tree_inorder_nodes(tree)
 
         while inorder_nodes:
-            node = random.choice(inorder_nodes)
+            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
 
             new_tree = persistent_rb_delete(tree, node)
 

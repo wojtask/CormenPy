@@ -13,7 +13,7 @@ class TestExercise12_2_3(TestCase):
     def test_tree_predecessor(self):
         tree, inorder_nodes, inorder_keys = get_random_binary_search_tree()
         original = copy.deepcopy(tree)
-        given_node = random.choice(inorder_nodes)
+        given_node = inorder_nodes[random.randint(1, inorder_nodes.length)]
 
         actual_predecessor = tree_predecessor(given_node)
 

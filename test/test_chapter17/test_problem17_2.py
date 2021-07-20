@@ -12,13 +12,13 @@ from util import between
 
 def _create_arrays():
     k = random.randint(1, 5)
-    array = Array.indexed(0, k - 1)
+    arrays = Array.indexed(0, k - 1)
     for i in between(0, k - 1):
         if random.randint(0, 1) == 0:
-            array[i] = Array()
+            arrays[i] = Array()
         else:
-            array[i] = get_random_array(size=2 ** i, max_value=2 ** (k - 1)).sort()
-    return array, k
+            arrays[i] = get_random_array(size=2 ** i, max_value=2 ** (k - 1)).sort()
+    return arrays, k
 
 
 class TestProblem17_2(TestCase):
@@ -59,7 +59,7 @@ class TestProblem17_2(TestCase):
         if elements_before.length == 0:
             arrays[0] = Array([random.randint(0, 2 ** (k - 1))])
             elements_before.append(arrays[0][1])
-        element = random.choice(elements_before)
+        element = elements_before[random.randint(1, elements_before.length)]
 
         dynamic_binary_delete(arrays, element)
 

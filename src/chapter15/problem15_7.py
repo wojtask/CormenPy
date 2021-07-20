@@ -12,7 +12,7 @@ def _sort_jobs_by_deadlines(a, t, p, d):
 
 def jobs_scheduling(t, p, d):
     n = p.length
-    a = Array(list(between(1, n)))
+    a = Array(between(1, n))
     _sort_jobs_by_deadlines(a, t, p, d)
     for i in between(1, n):
         d[i] = min(d[i], n ** 2)

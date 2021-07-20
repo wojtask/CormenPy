@@ -11,7 +11,7 @@ class TestExercise14_1_4(TestCase):
 
     def test_os_key_rank(self):
         tree, inorder_nodes, inorder_keys = get_random_os_tree()
-        key_to_find = random.choice(inorder_keys)
+        key_to_find = inorder_keys[random.randint(1, inorder_keys.length)]
 
         actual_rank = os_key_rank(tree.root, key_to_find)
 

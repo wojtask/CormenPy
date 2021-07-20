@@ -36,7 +36,7 @@ class TestProblem17_3(TestCase):
     def test_balance_subtree(self):
         tree, inorder_nodes, _ = get_random_binary_search_tree()
         assign_size_attributes(tree.root)
-        node = random.choice(inorder_nodes)
+        node = inorder_nodes[random.randint(1, inorder_nodes.length)]
 
         actual_balanced_node = balance_subtree(tree, node)
 

@@ -41,9 +41,9 @@ class GuardedArray(Array):
         super().__init__(elements, start=1)
         self.node_id = node_id
 
-    def __setitem__(self, index, item):
+    def __setitem__(self, index, value):
         unsaved_node_ids.add(self.node_id)
-        super().__setitem__(index, item)
+        super().__setitem__(index, value)
 
 
 class Tree234(BTree):
