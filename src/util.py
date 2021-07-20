@@ -1,8 +1,8 @@
 from builtins import range
 
 
-def between(start, end):
-    return range(start, end + 1)
+def between(start, end, step=1):
+    return range(start, end + 1, step)
 
 
 def rbetween(start, end):
@@ -19,10 +19,5 @@ class Element:
             return self.key == other.key and self.data == other.data
         return NotImplemented
 
-    def __ne__(self, other):
-        if isinstance(other, self.__class__):
-            return not self.__eq__(other)
-        return NotImplemented
-
-    def __hash__(self) -> int:
+    def __hash__(self):
         return hash((self.key, self.data))

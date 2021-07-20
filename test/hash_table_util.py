@@ -2,7 +2,7 @@ import random
 
 from hamcrest import *
 
-from array_util import get_random_array, get_random_unique_array
+from array_util import get_random_array
 from chapter11.exercise11_4_2 import Deleted
 from datastructures.array import Array
 from datastructures.hash_table import Element, ChainedElement
@@ -13,7 +13,7 @@ from util import between
 def get_random_direct_address_table():
     table_size = random.randint(1, 10)
     nelements = random.randint(0, table_size)
-    keys = get_random_unique_array(min_size=nelements, max_size=nelements, max_value=table_size - 1)
+    keys = get_random_array(size=nelements, max_value=table_size - 1, unique=True)
     elements = Array(Element(key) for key in keys)
     table = Array.indexed(0, table_size - 1)
     for element in elements:
@@ -24,7 +24,7 @@ def get_random_direct_address_table():
 def get_random_bit_vector():
     bit_vector_size = random.randint(1, 10)
     nelements = random.randint(0, bit_vector_size)
-    keys = get_random_unique_array(min_size=nelements, max_size=nelements, max_value=bit_vector_size)
+    keys = get_random_array(size=nelements, max_value=bit_vector_size, unique=True)
     bit_vector = Array((1 if i in keys else 0 for i in between(1, bit_vector_size)), start=0)
     return bit_vector
 
@@ -32,7 +32,7 @@ def get_random_bit_vector():
 def get_random_chained_direct_address_table():
     table_size = random.randint(1, 10)
     nelements = random.randint(0, table_size)
-    keys = get_random_array(min_size=nelements, max_size=nelements, max_value=table_size - 1)
+    keys = get_random_array(size=nelements, max_value=table_size - 1)
     elements = Array(ChainedElement(key) for key in keys)
     table = Array.indexed(0, table_size - 1)
 
@@ -48,7 +48,7 @@ def get_random_chained_direct_address_table():
 def get_random_chained_hash_table(max_value=999):
     table_size = random.randint(1, 10)
     nelements = random.randint(0, 3 * table_size)
-    keys = get_random_array(min_size=nelements, max_size=nelements, max_value=max_value)
+    keys = get_random_array(size=nelements, max_value=max_value)
     elements = Array(ChainedElement(key) for key in keys)
     table = Array.indexed(0, table_size - 1)
     h = modular_hash
@@ -77,7 +77,7 @@ def get_random_huge_array(max_value=999):
     nelements = random.randint(0, table_capacity)
     table = Array.indexed(0, max_value)
     stack = Array.indexed(1, table_capacity)
-    keys = get_random_unique_array(min_size=nelements, max_size=nelements, max_value=max_value)
+    keys = get_random_array(size=nelements, max_value=max_value, unique=True)
 
     for i, key in enumerate(keys, start=1):
         table[key] = i
@@ -101,7 +101,7 @@ def get_random_hash_table_linear_probing(max_value=999):
 
 def get_random_hash_table_quadratic_probing(max_value=999):
     # make sure the table size is a power of 2
-    table_size = random.choice([2 ** n for n in range(6)])
+    table_size = random.choice([2 ** n for n in between(0, 5)])
     table, keys = random_hash_table(quadratic_hash, table_size, max_value)
     return table, keys, modular_hash
 
@@ -121,7 +121,7 @@ def quadratic_hash(k, i, m):
 def random_hash_table(h, table_size, max_value):
     table = Array.indexed(0, table_size - 1)
     nelements = random.randint(0, table.length)
-    keys = get_random_array(min_size=nelements, max_size=nelements, max_value=max_value)
+    keys = get_random_array(size=nelements, max_value=max_value)
     for key in keys:
         i = 0
         while table[h(key, i, table_size)] is not None:

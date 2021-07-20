@@ -16,7 +16,6 @@ class TestTextbookProblem6_1(TestCase):
 
         build_max_heap_(array)
 
-        assert_that(array, has_property('heap_size'))
         assert_that(array.heap_size, is_(equal_to(array.length)))
         assert_max_heap(array)
         assert_that(array, contains_inanyorder(*original))

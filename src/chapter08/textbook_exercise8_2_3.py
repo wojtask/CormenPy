@@ -9,7 +9,7 @@ def unstable_counting_sort(A, B, k):
     for j in between(1, A.length):
         C[A[j]] += 1
     for i in between(1, k):
-        C[i] = C[i] + C[i - 1]
+        C[i] += C[i - 1]
     for j in between(1, A.length):
         B[C[A[j]]] = A[j]
         C[A[j]] -= 1

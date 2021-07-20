@@ -19,8 +19,8 @@ def bit_reversal(A):
 def bit_reversed_increment(a, k):
     m = 1 << (k - 1)
     while a & m != 0:
-        a = a ^ m
-        m = m >> 1
+        a ^= m
+        m >>= 1
     return a | m
 
 

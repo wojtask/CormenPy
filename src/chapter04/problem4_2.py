@@ -6,13 +6,13 @@ def missing_integer(A):
     missing = 0
     j = 0
     while n > 0:
-        zeros = [a for a in A if _get_bit(a, j) == 0]
-        ones = [a for a in A if _get_bit(a, j) == 1]
-        if len(zeros) == n // 2 + 1:
-            A = Array(ones)
+        zeros = Array(a for a in A if _get_bit(a, j) == 0)
+        ones = Array(a for a in A if _get_bit(a, j) == 1)
+        if zeros.length == n // 2 + 1:
+            A = ones
             missing |= (1 << j)
         else:
-            A = Array(zeros)
+            A = zeros
         n = A.length
         j += 1
     return missing

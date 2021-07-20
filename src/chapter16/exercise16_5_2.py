@@ -9,7 +9,7 @@ def tasks_independent(A, k):
     for j in between(1, A.length):
         C[A[j]] += 1
     for i in between(1, k):
-        C[i] = C[i] + C[i - 1]
+        C[i] += C[i - 1]
     for t in between(1, k):
         if C[t] > t:
             return False

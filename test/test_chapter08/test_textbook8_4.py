@@ -13,7 +13,7 @@ class TestTextbook8_4(TestCase):
 
     def test_bucket_sort(self):
         n = random.randint(1, 20)
-        array = Array(random.random() for _ in between(1, n))
+        array = Array(random.uniform(0, 1) for _ in between(1, n))
         original = copy.deepcopy(array)
 
         bucket_sort(array)

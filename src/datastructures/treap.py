@@ -10,4 +10,4 @@ class Treap(binary_tree.BinaryTree):
 class Node(binary_tree.Node):
     def __init__(self, key, data=None, left=None, right=None):
         super().__init__(key, data, left, right)
-        self.priority = random.random()
+        self.priority = random.uniform(0, 1)

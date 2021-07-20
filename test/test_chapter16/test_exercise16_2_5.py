@@ -28,7 +28,7 @@ class TestExercise16_2_5(TestCase):
 
     def test_points_cover(self):
         n = random.randint(1, 20)
-        points = Array(random.random() * 20.0 - 10.0 for _ in between(1, n))
+        points = Array(random.uniform(-10, 10) for _ in between(1, n))
         original = copy.deepcopy(points)
 
         actual_intervals = points_cover(points)

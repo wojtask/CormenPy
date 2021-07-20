@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter11.exercise11_2_4 import in_place_chained_hash_insert, in_place_chained_hash_search, \
     in_place_chained_hash_delete
 from datastructures.array import Array
@@ -27,7 +27,7 @@ class TestExercise11_2_4(TestCase):
 
     def test_in_place_chained_hash_table(self):
         max_value = 99
-        keys = get_random_unique_array(max_value=max_value)
+        keys = get_random_array(max_value=max_value, unique=True)
         elements = Array(Element(key) for key in keys)
         table = Array.indexed(0, keys.length - 1)
         table.free = 0

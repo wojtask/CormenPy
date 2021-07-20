@@ -14,9 +14,8 @@ class TestProblem7_6(TestCase):
 
     def test_fuzzy_sort(self):
         n = random.randint(1, 20)
-        endpoints_list = [sorted([random.randint(0, 20), random.randint(0, 20)]) for _ in between(1, n)]
-        elements = [Interval(*endpoints) for endpoints in endpoints_list]
-        array = Array(elements)
+        endpoints_list = Array((random.randint(0, 20), random.randint(0, 20)) for _ in between(1, n))
+        array = Array(Interval(min(endpoints), max(endpoints)) for endpoints in endpoints_list)
         original = copy.deepcopy(array)
 
         fuzzy_sort(array, 1, array.length)

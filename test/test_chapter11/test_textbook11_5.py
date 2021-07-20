@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter11.textbook11_5 import perfect_hashing_init, perfect_hashing_search
 from util import between
 
@@ -11,7 +11,7 @@ class TestTextbook11_5(TestCase):
 
     def test_perfect_hashing(self):
         max_value = 99
-        keys = get_random_unique_array(min_size=1, max_value=max_value)
+        keys = get_random_array(min_size=1, max_value=max_value, unique=True)
 
         table, h = perfect_hashing_init(keys)
 

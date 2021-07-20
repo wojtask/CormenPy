@@ -13,7 +13,7 @@ class TestExercise6_2_2(TestCase):
     def test_min_heapify(self):
         heap = get_random_min_heap()
         i = random.randint(1, heap.heap_size)
-        heap[i] = random.randint(heap[i], 999)  # randomly increase the value of a randomly chosen element
+        heap[i] += random.randint(0, 500)  # randomly increase the value of a randomly chosen element
         original = copy.deepcopy(heap)
 
         min_heapify(heap, i)

@@ -16,7 +16,7 @@ class TestTextbook6_5(TestCase):
 
         actual_max = heap_maximum(heap)
 
-        assert_that(actual_max, is_(equal_to(max(heap))))
+        assert_that(actual_max, is_(equal_to(max(original))))
         assert_that(heap, is_(equal_to(original)))
 
     def test_extract_max(self):
@@ -35,7 +35,7 @@ class TestTextbook6_5(TestCase):
         original = copy.deepcopy(heap)
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
-        new_key = random.randrange(1000)
+        new_key = random.randint(0, 999)
 
         if new_key < old_key:
             assert_that(calling(heap_increase_key).with_args(heap, i, new_key),
@@ -44,17 +44,15 @@ class TestTextbook6_5(TestCase):
             heap_increase_key(heap, i, new_key)
 
             assert_max_heap(heap)
-            expected_heap_keys = original.elements
-            expected_heap_keys.remove(old_key)
-            expected_heap_keys.append(new_key)
-            assert_that(heap, contains_inanyorder(*expected_heap_keys))
+            original.remove(old_key)
+            original.append(new_key)
+            assert_that(heap, contains_inanyorder(*original))
 
     def test_max_heap_insert(self):
         heap = get_random_max_heap()
         original = copy.deepcopy(heap)
-        heap.elements.append(None)  # to increase the heap's capacity for the new element
-        heap.length += 1
-        new_key = random.randrange(1000)
+        heap.append(None)  # to increase the heap's capacity for the new element
+        new_key = random.randint(0, 999)
 
         max_heap_insert(heap, new_key)
 

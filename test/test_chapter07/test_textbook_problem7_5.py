@@ -15,8 +15,8 @@ class TestTextbookProblem7_5(TestCase):
 
         pivot = median_of_3_partition(array, 1, array.length)
 
-        for x in array[1:pivot]:
+        for x in array[:pivot]:
             assert_that(x, is_(less_than_or_equal_to(array[pivot])))
-        for x in array[pivot + 1:array.length]:
+        for x in array[pivot + 1:]:
             assert_that(x, is_(greater_than_or_equal_to(array[pivot])))
         assert_that(array, contains_inanyorder(*original))

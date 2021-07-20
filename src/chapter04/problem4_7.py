@@ -1,12 +1,11 @@
 import math
 
 from datastructures.array import Array
-from datastructures.matrix import Matrix
 from util import between
 
 
 def monge_minimums(A):
-    m = A.rows
+    m = A.length
     minimums_indices = _monge_minimums_indices(A)
     minimums = Array.indexed(1, m)
     for i in between(1, m):
@@ -15,11 +14,11 @@ def monge_minimums(A):
 
 
 def _monge_minimums_indices(A):
-    m = A.rows
-    n = A.columns
+    m = A.length
     if m == 0:
         return Array()
-    A_ = Matrix([A[2 * j] for j in between(1, m // 2)])
+    n = A[1].length
+    A_ = Array(A[2 * j] for j in between(1, m // 2))
     minimums_indices_even_rows = _monge_minimums_indices(A_)
     minimums_indices = Array.indexed(1, m)
     for j in between(1, m // 2):

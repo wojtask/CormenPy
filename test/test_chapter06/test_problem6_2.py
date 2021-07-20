@@ -23,7 +23,7 @@ class TestProblem6_2(TestCase):
         arity = random.randint(2, 7)
         heap = get_random_max_heap(arity=arity)
         i = random.randint(1, heap.heap_size)
-        heap[i] = random.randint(0, heap[i])  # randomly decrease the value of a randomly chosen element
+        heap[i] -= random.randint(0, 500)  # randomly decrease the value of a randomly chosen element
         original = copy.deepcopy(heap)
 
         multiary_max_heapify(heap, arity, i)
@@ -47,9 +47,8 @@ class TestProblem6_2(TestCase):
         arity = random.randint(2, 7)
         heap = get_random_max_heap(arity=arity)
         original = copy.deepcopy(heap)
-        heap.elements.append(None)  # to increase the heap's capacity for the new element
-        heap.length += 1
-        new_key = random.randrange(1000)
+        heap.append(None)  # to increase the heap's capacity for the new element
+        new_key = random.randint(0, 999)
 
         multiary_max_heap_insert(heap, arity, new_key)
 
@@ -62,13 +61,12 @@ class TestProblem6_2(TestCase):
         original = copy.deepcopy(heap)
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
-        new_key = random.randrange(1000)
+        new_key = random.randint(0, 999)
         real_new_key = max(old_key, new_key)
 
         multiary_heap_increase_key(heap, arity, i, new_key)
 
         assert_max_heap(heap, arity=arity)
-        expected_heap_keys = original.elements
-        expected_heap_keys.remove(old_key)
-        expected_heap_keys.append(real_new_key)
-        assert_that(heap, contains_inanyorder(*expected_heap_keys))
+        original.remove(old_key)
+        original.append(real_new_key)
+        assert_that(heap, contains_inanyorder(*original))

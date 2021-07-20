@@ -14,7 +14,7 @@ from tree_util import assert_parent_pointers_consistent, get_binary_tree_inorder
 class TestTextbook14_3(TestCase):
 
     def test_interval_insert(self):
-        keys = get_random_array(min_size=20, max_size=20, max_value=949)
+        keys = get_random_array(size=20, max_value=949)
         tree = RedBlackTree(sentinel=IntervalNode(None, None))
 
         for key in keys:

@@ -20,18 +20,18 @@ class TestExercise6_5_6(TestCase):
         nelements = random.randint(1, size)
 
         for i in between(1, nelements):
-            new_element = Element(None, 'element ' + str(i))
+            new_element = Element(None, 'element %d' % i)
             priority_enqueue(min_priority_queue, new_element)
 
         for element in min_priority_queue:
-            assert_that(element.data, is_(equal_to('element ' + str(element.key))))
+            assert_that(element.data, is_(equal_to('element %d' % element.key)))
 
     def test_priority_dequeue(self):
         min_priority_queue = get_random_min_heap()
         # transform the numbers in the queue to elements with keys and data
-        expected_elements = []
+        expected_elements = Array()
         for i in between(1, min_priority_queue.heap_size):
-            min_priority_queue[i] = Element(min_priority_queue[i], 'element ' + str(min_priority_queue[i]))
+            min_priority_queue[i] = Element(min_priority_queue[i], 'element %d' % min_priority_queue[i])
             expected_elements.append(min_priority_queue[i])
 
         expected_deleted = min(min_priority_queue, key=lambda e: e.key)
@@ -50,18 +50,18 @@ class TestExercise6_5_6(TestCase):
         nelements = random.randint(1, size)
 
         for i in between(1, nelements):
-            new_element = Element(None, 'element ' + str(i))
+            new_element = Element(None, 'element %d' % i)
             priority_push(max_priority_queue, new_element)
 
         for element in max_priority_queue:
-            assert_that(element.data, is_(equal_to('element ' + str(element.key))))
+            assert_that(element.data, is_(equal_to('element %d' % element.key)))
 
     def test_priority_pop(self):
         max_priority_queue = get_random_max_heap()
         # transform the numbers in the queue to elements with keys and data
-        expected_elements = []
+        expected_elements = Array()
         for i in between(1, max_priority_queue.heap_size):
-            max_priority_queue[i] = Element(max_priority_queue[i], 'element ' + str(max_priority_queue[i]))
+            max_priority_queue[i] = Element(max_priority_queue[i], 'element %d' % max_priority_queue[i])
             expected_elements.append(max_priority_queue[i])
 
         expected_deleted = max(max_priority_queue, key=lambda e: e.key)

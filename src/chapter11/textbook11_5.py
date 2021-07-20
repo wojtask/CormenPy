@@ -3,6 +3,7 @@ import random
 from sympy import sieve
 
 from datastructures.array import Array
+from util import between
 
 
 def perfect_hashing_init(K):
@@ -12,7 +13,7 @@ def perfect_hashing_init(K):
     m = K.length
     T = Array.indexed(0, m - 1)
     h = _get_random_universal_hash_function(p, m)
-    mapped_keys = [[] for _ in range(m)]
+    mapped_keys = [[] for _ in between(1, m)]
     for k in K:
         mapped_keys[h(k)].append(k)
     secondary_sizes = [len(keys) ** 2 for keys in mapped_keys]

@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter14.exercise14_3_6 import min_gap_insert, min_gap_search, min_gap_delete, min_gap
 from datastructures.red_black_tree import RedBlackTree, Node
 from tree_util import get_binary_tree_inorder_nodes
@@ -22,7 +22,7 @@ def get_expected_min_gap(keys):
 class TestExercise14_3_6(TestCase):
 
     def test_min_gap_tree(self):
-        keys = get_random_unique_array()
+        keys = get_random_array(unique=True)
         tree = RedBlackTree()
         tree.nil.min_key = tree.nil.min_gap = math.inf
         tree.nil.max_key = -math.inf

@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from array_util import get_random_unique_array
+from array_util import get_random_array
 from chapter09.exercise9_3_7 import median_neighbors, median_nearest
 from datastructures.array import Array
 
@@ -20,7 +20,7 @@ def get_expected_neighbors(elements, k):
 class TestExercise9_3_7(TestCase):
 
     def test_median_neighbors(self):
-        array = get_random_unique_array()
+        array = get_random_array(unique=True)
         original = copy.deepcopy(array)
         k = random.randint(1, array.length)
 
@@ -30,7 +30,7 @@ class TestExercise9_3_7(TestCase):
         assert_that(expected_neighbors, is_(equal_to(actual_neighbors)))
 
     def test_median_nearest(self):
-        array = get_random_unique_array(max_value=30)
+        array = get_random_array(max_value=30, unique=True)
         original = copy.deepcopy(array)
         n = array.length
         k = random.randint(1, n)
