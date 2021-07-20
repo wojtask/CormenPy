@@ -32,15 +32,15 @@ def weighted_median(A, w, p, r):
     q = math.floor((p + r) / 2)
     WL = 0
     for i in between(p, q - 1):
-        WL = WL + w[i]
+        WL += w[i]
     WR = 1 - WL - w[q]
     if WL < 1/2 and WR < 1/2:
         return A[q]
     if WL >= 1/2:
-        w[q] = w[q] + WR
+        w[q] += WR
         return weighted_median(A, w, p, q)
     else:
-        w[q] = w[q] + WL
+        w[q] += WL
         return weighted_median(A, w, q, r)
 
 
@@ -55,7 +55,7 @@ def _partition_around_median(A, w, p, r):
     i = p - 1
     for j in between(p, r - 1):
         if A[j] <= median:
-            i = i + 1
+            i += 1
             A[i], A[j] = A[j], A[i]
             w[i], w[j] = w[j], w[i]
     A[i + 1], A[r] = A[r], A[i + 1]

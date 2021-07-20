@@ -7,6 +7,6 @@ def polynomial_evaluate(a, x):
     for i in between(0, n):
         s = a[i]
         for j in between(1, i):
-            s = s * x
-        y = y + s
+            s *= x
+        y += s
     return y

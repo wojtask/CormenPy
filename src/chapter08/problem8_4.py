@@ -7,7 +7,7 @@ def jugs_group(R, B):
     for i in between(1, n - 1):
         j = i
         while R[i] != B[j]:
-            j = j + 1
+            j += 1
         B[i], B[j] = B[j], B[i]
 
 
@@ -24,18 +24,18 @@ def jugs_partition(R, B, p, r):
     x = R[r]
     i = p
     while B[i] != x:
-        i = i + 1
+        i += 1
     B[i], B[r] = B[r], B[i]
     i = p - 1
     for j in between(p, r - 1):
         if B[j] < x:
-            i = i + 1
+            i += 1
             B[i], B[j] = B[j], B[i]
     B[i + 1], B[r] = B[r], B[i + 1]
     i = p - 1
     for j in between(p, r - 1):
         if R[j] < x:
-            i = i + 1
+            i += 1
             R[i], R[j] = R[j], R[i]
     R[i + 1], R[r] = R[r], R[i + 1]
     return i + 1

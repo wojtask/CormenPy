@@ -16,12 +16,12 @@ def fuzzy_partition(A, p, r):
     i = p - 1
     for j in between(p, r - 1):
         if A[j].low <= x:
-            i = i + 1
+            i += 1
             A[i], A[j] = A[j], A[i]
     A[i + 1], A[r] = A[r], A[i + 1]
     q = i + 1
     for k in rbetween(i, p):
         if A[k].high >= x:
-            q = q - 1
+            q -= 1
             A[q], A[k] = A[k], A[q]
     return q, i + 1

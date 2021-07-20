@@ -49,7 +49,7 @@ def young_search(Y, m, n, v):
         if v == Y[i, j]:
             return True
         if v > Y[i, j]:
-            i = i + 1
+            i += 1
         else:
-            j = j - 1
+            j -= 1
     return False

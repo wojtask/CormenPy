@@ -4,11 +4,11 @@ def hoare_partition(A, p, r):
     j = r + 1
     while True:
         while True:
-            j = j - 1
+            j -= 1
             if A[j] <= x:
                 break
         while True:
-            i = i + 1
+            i += 1
             if A[i] >= x:
                 break
         if i < j:

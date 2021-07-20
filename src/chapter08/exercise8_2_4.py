@@ -7,7 +7,7 @@ def counting_in_range(A, k, a, b):
     for i in between(0, k):
         C[i] = 0
     for j in between(1, A.length):
-        C[A[j]] = C[A[j]] + 1
+        C[A[j]] += 1
     for i in between(1, k):
         C[i] = C[i] + C[i - 1]
     if 0 < a <= b <= k:

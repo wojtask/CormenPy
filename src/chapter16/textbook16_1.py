@@ -4,7 +4,7 @@ from util import between
 def recursive_activity_selector(s, f, i, n):
     m = i + 1
     while m <= n and s[m] < f[i]:
-        m = m + 1
+        m += 1
     if m <= n:
         return {'a' + str(m)} | recursive_activity_selector(s, f, m, n)
     else:

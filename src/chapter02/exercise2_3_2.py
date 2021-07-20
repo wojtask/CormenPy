@@ -16,16 +16,16 @@ def merge_(A, p, q, r):
     while i <= n1 and j <= n2:
         if L[i] <= R[j]:
             A[k] = L[i]
-            i = i + 1
+            i += 1
         else:
             A[k] = R[j]
-            j = j + 1
-        k = k + 1
+            j += 1
+        k += 1
     while i <= n1:
         A[k] = L[i]
-        i = i + 1
-        k = k + 1
+        i += 1
+        k += 1
     while j <= n2:
         A[k] = R[j]
-        j = j + 1
-        k = k + 1
+        j += 1
+        k += 1

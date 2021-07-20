@@ -7,7 +7,7 @@ def table_insert(T, x):
         T.table = new_table
         T.size = 2 * T.size
     T.table[T.num] = x
-    T.num = T.num + 1
+    T.num += 1
 
 
 def table_delete(T, x):
@@ -17,4 +17,4 @@ def table_delete(T, x):
         T.size = T.size // 2
     T.table.remove(x)
     T.table.append(None)
-    T.num = T.num - 1
+    T.num -= 1

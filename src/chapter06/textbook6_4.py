@@ -7,5 +7,5 @@ def heapsort(A):
     build_max_heap(A)
     for i in rbetween(A.length, 2):
         A[1], A[i] = A[i], A[1]
-        A.heap_size = A.heap_size - 1
+        A.heap_size -= 1
         max_heapify(A, 1)

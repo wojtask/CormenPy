@@ -20,10 +20,10 @@ def merge(A, p, q, r):
     for k in between(p, r):
         if L[i] <= R[j]:
             A[k] = L[i]
-            i = i + 1
+            i += 1
         else:
             A[k] = R[j]
-            j = j + 1
+            j += 1
 
 
 def merge_sort(A, p, r):

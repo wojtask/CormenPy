@@ -6,7 +6,7 @@ def stack_empty(S):
 
 
 def push(S, x):
-    S.top = S.top + 1
+    S.top += 1
     S[S.top] = x
 
 
@@ -14,7 +14,7 @@ def pop(S):
     if stack_empty(S):
         raise ValueError('underflow')
     else:
-        S.top = S.top - 1
+        S.top -= 1
         return S[S.top + 1]
 
 
@@ -23,7 +23,7 @@ def enqueue(Q, x):
     if Q.tail == Q.length:
         Q.tail = 1
     else:
-        Q.tail = Q.tail + 1
+        Q.tail += 1
 
 
 def dequeue(Q):
@@ -31,5 +31,5 @@ def dequeue(Q):
     if Q.head == Q.length:
         Q.head = 1
     else:
-        Q.head = Q.head + 1
+        Q.head += 1
     return x

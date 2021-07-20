@@ -9,9 +9,9 @@ def bitwise_sort(A):
     while i < j:
         A[i], A[j] = A[j], A[i]
         while i <= n and A[i] == 0:
-            i = i + 1
+            i += 1
         while j >= 1 and A[j] == 1:
-            j = j - 1
+            j -= 1
 
 
 def counting_sort_in_place(A, k):
@@ -19,7 +19,7 @@ def counting_sort_in_place(A, k):
     for i in between(0, k):
         C[i] = 0
     for j in between(1, A.length):
-        C[A[j]] = C[A[j]] + 1
+        C[A[j]] += 1
     for i in between(1, k):
         C[i] = C[i] + C[i - 1]
     C_ = Array(C.elements, start=0)
@@ -27,7 +27,7 @@ def counting_sort_in_place(A, k):
     while i <= A.length - 1:
         key = A[i]
         if C_[key - 1] < i <= C_[key]:
-            i = i + 1
+            i += 1
         else:
             A[i], A[C[key]] = A[C[key]], A[i]
-            C[key] = C[key] - 1
+            C[key] -= 1

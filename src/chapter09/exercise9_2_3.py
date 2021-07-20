@@ -11,5 +11,5 @@ def iterative_randomized_select(A, p, r, i):
             r = q - 1
         else:
             p = q + 1
-            i = i - k
+            i -= k
     return A[p]
