@@ -14,7 +14,7 @@ class TestTextbook13_4(TestCase):
         tree, inorder_nodes, inorder_keys = get_random_red_black_tree()
 
         while inorder_nodes:
-            node = random.choice(inorder_nodes)
+            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
             inorder_keys.remove(node.key)
 
             rb_delete(tree, node, sentinel=tree.nil)

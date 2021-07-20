@@ -17,7 +17,7 @@ class TestExercise15_1_1(TestCase):
         l = Array([Array.indexed(1, n), Array.indexed(1, n)])
         l[1, 1], l[2, 1] = 0, 0
         for i in between(2, n):
-            l[1, i], l[2, i] = random.choice(Array([(1, 1), (1, 2), (2, 2)]))
+            l[1, i], l[2, i] = random.choice([(1, 1), (1, 2), (2, 2)])
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 
@@ -31,4 +31,5 @@ class TestExercise15_1_1(TestCase):
         for j in rbetween(n, 2):
             i = l[i, j]
             expected_output.append('line %d, station %d' % (i, j - 1))
-        assert_that(actual_output, is_(equal_to(reversed(expected_output))))
+        expected_output = Array(reversed(expected_output))
+        assert_that(actual_output, is_(equal_to(expected_output)))

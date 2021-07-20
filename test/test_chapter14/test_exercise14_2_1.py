@@ -31,7 +31,7 @@ class TestExercise14_2_1(TestCase):
             assert_that(actual_minimum, is_(expected_minimum))
             assert_that(actual_maximum, is_(expected_maximum))
 
-            node = random.choice(inorder_nodes)
+            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
             actual_predecessor = effective_os_predecessor(tree, node)
             actual_successor = effective_os_successor(tree, node)
             expected_predecessor = rb_predecessor(node, sentinel=tree.nil)

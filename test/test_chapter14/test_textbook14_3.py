@@ -31,7 +31,7 @@ class TestTextbook14_3(TestCase):
         inorder_nodes = get_binary_tree_inorder_nodes(tree)
 
         while inorder_nodes:
-            node = random.choice(inorder_nodes)
+            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
             inorder_keys.remove(node.key)
 
             interval_delete(tree, node)

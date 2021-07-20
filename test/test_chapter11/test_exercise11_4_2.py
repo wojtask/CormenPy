@@ -16,7 +16,7 @@ class TestExercise11_4_2(TestCase):
             key = random.randint(0, 999)
             keys.append(key)
             table[h(key, 0, table.length)] = key
-        key_to_delete = random.choice(keys)
+        key_to_delete = keys[random.randint(1, keys.length)]
 
         hash_delete(table, key_to_delete, h)
 

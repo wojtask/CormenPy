@@ -60,7 +60,7 @@ class TestExercise11_1_4(TestCase):
             table[key] = stack.top = 1
         original_stack = copy.deepcopy(stack)
         expected_elements = get_stack_elements(original_stack)
-        element_to_delete = random.choice(expected_elements)
+        element_to_delete = expected_elements[random.randint(1, expected_elements.length)]
         expected_elements.remove(element_to_delete)
 
         huge_array_delete(table, stack, element_to_delete)

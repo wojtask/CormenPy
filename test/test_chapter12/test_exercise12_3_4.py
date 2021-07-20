@@ -1,4 +1,3 @@
-import random
 from unittest import TestCase
 
 from hamcrest import *
@@ -12,7 +11,7 @@ class TestExercise12_3_4(TestCase):
 
     def test_safe_tree_delete(self):
         tree, inorder_nodes, inorder_keys = get_random_binary_search_tree()
-        random.shuffle(inorder_nodes)
+        inorder_nodes.shuffle()
 
         for node in inorder_nodes:
             inorder_keys.remove(node.key)

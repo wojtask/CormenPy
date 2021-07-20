@@ -48,7 +48,7 @@ class TestProblem15_7(TestCase):
 
         actual_max_profits, actual_schedule, sorted_job_ids = jobs_scheduling(times, profits, deadlines)
         with redirect_stdout(captured_output):
-            print_schedule(actual_schedule, sorted_job_ids, times, deadlines, n, actual_schedule[0].length - 1)
+            print_schedule(actual_schedule, sorted_job_ids, times, deadlines, n, actual_schedule[1].length - 1)
 
         expected_max_profit = get_optimal_schedule_bruteforce(original_times, original_profits, original_deadlines)
         assert_that(actual_max_profits[actual_max_profits.length - 1], is_(equal_to(expected_max_profit)))

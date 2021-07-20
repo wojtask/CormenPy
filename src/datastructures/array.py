@@ -1,7 +1,9 @@
+import random
 from builtins import len
+from collections.abc import MutableSequence
 
 
-class Array:
+class Array(MutableSequence):
     def __init__(self, elements=None, start=1):
         self.elements = list(elements or [])
         self.length = len(self.elements)
@@ -13,6 +15,8 @@ class Array:
 
     def __getitem__(self, index):
         if isinstance(index, int):
+            if index < self.start or index > self.length:
+                raise IndexError('Invalid index used for addressing Array')
             return self.elements[index - self.start]
         if isinstance(index, slice):
             start = index.start if index.start is not None else self.start
@@ -23,79 +27,60 @@ class Array:
         if isinstance(index, tuple):
             row = self.elements[index[0] - self.start]
             return row.elements[index[1] - row.start]
-        raise IndexError('Invalid type of index used for indexing Array')
+        raise TypeError('Invalid type of index used for indexing Array')
 
-    def __setitem__(self, index, item):
+    def __setitem__(self, index, value):
         if isinstance(index, int):
-            self.elements[index - self.start] = item
-        else:
+            self.elements[index - self.start] = value
+        elif isinstance(index, tuple):
             row = self.elements[index[0] - self.start]
-            row.elements[index[1] - row.start] = item
+            row.elements[index[1] - row.start] = value
+        else:
+            raise TypeError('Invalid type of index used for indexing Array')
+
+    def __delitem__(self, index):
+        del self.elements[index - self.start]
+        self.length -= 1
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return self.length == other.length and self.start == other.start and self.elements[:self.length] == \
-                   other.elements[:other.length]
+            return self.start == other.start and [element for element in self] == [element for element in other]
         return NotImplemented
-
-    def __ne__(self, other):
-        if isinstance(other, self.__class__):
-            return not self.__eq__(other)
-        return NotImplemented
-
-    def __hash__(self):
-        return hash((self.length, self.start, self.elements[:self.length]))
-
-    def __bool__(self):
-        return self.length > 0
 
     def __len__(self):
         return self.length
 
-    def __iter__(self):
-        return (item for item in self.elements)
+    def __bool__(self):
+        return self.length > 0
 
-    def __contains__(self, item):
-        return item in self.elements
+    def __iter__(self):
+        return (element for element in self.elements[:self.length])
 
     def __reversed__(self):
-        return Array(list(reversed(self.elements)), start=self.start)
+        return reversed([element for element in self])
 
     def __add__(self, other):
-        return Array(self.elements + other.elements, start=self.start)
+        return Array([element for element in self] + [element for element in other], start=self.start)
 
-    def __str__(self):
-        return '%s indexed from %d' % (self.elements[:self.length], self.start)
+    def __repr__(self):
+        return '%s indexed from %d' % ([element for element in self], self.start)
 
-    def sort(self, **kwargs):
-        return Array(sorted(self.elements, **kwargs), start=self.start)
-
-    def index(self, value, start=None):
-        if start:
-            return self.elements.index(value, start - self.start) + self.start
-        return self.elements.index(value) + self.start
-
-    def count(self, value):
-        return sum(1 for v in self if v is value or v == value)
-
-    def append(self, value):
-        self.length += 1
-        if self.length < len(self.elements):
-            self.elements[self.length] = value
-        else:
-            self.elements.append(value)
+    def index(self, value, start=None, stop=None):
+        if start is None:
+            start = self.start
+        return super().index(value, start)
 
     def insert(self, index, value):
         self.elements.insert(index - self.start, value)
         self.length += 1
 
-    def pop(self, index):
-        value = self.elements.pop(index - self.start)
-        self.length -= 1
-        return value
+    def append(self, value):
+        self.insert(self.length + 1, value)
 
-    def remove(self, value):
-        if self.elements.index(value) >= self.length:
-            raise ValueError('Array doesn\'t have the requested value')
-        self.elements.remove(value)
-        self.length -= 1
+    def sort(self, **kwargs):
+        self.elements.sort(**kwargs)
+        return self
+
+    def shuffle(self):
+        random.shuffle(self.elements)
+        return self

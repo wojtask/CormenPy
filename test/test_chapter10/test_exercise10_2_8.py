@@ -52,5 +52,5 @@ class TestExercise10_2_8(TestCase):
         xor_linked_list_reverse(list_)
 
         actual_keys = get_xor_linked_list_keys(list_)
-        expected_keys = reversed(keys)
+        expected_keys = Array(reversed(keys))
         assert_that(actual_keys, is_(equal_to(expected_keys)))

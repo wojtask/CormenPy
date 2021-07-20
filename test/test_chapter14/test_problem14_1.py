@@ -51,7 +51,7 @@ class TestProblem14_1(TestCase):
             expected_poms = get_expected_poms(intervals)
             assert_that(actual_pom, is_in(expected_poms))
 
-            node_pair = random.choice(node_pairs)
+            node_pair = node_pairs[random.randint(1, node_pairs.length)]
             node_pairs.remove(node_pair)
             interval_to_delete = Interval(node_pair[0].key, node_pair[1].key)
             intervals.remove(interval_to_delete)

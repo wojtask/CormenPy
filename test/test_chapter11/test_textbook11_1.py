@@ -54,7 +54,7 @@ class TestTextbook11_1(TestCase):
             key = random.randint(0, table.length - 1)
             table[key] = Element(key)
             actual_elements.append(table[key])
-        element_to_delete = random.choice(actual_elements)
+        element_to_delete = actual_elements[random.randint(1, actual_elements.length)]
         original = copy.deepcopy(table)
         expected_elements = get_direct_access_table_elements(original)
         expected_elements.remove(element_to_delete)

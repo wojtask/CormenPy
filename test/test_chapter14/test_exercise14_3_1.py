@@ -1,4 +1,3 @@
-import random
 from unittest import TestCase
 
 from hamcrest import *
@@ -9,7 +8,7 @@ from util import between
 
 
 def pick_node_with_right_child(nodes, tree):
-    random.shuffle(nodes)
+    nodes.shuffle()
     for i in between(1, nodes.length):
         node = nodes[i]
         if node.right is not tree.nil:

@@ -24,7 +24,7 @@ class TestExercise14_3_5(TestCase):
             interval_insert_exactly(tree, IntervalNode(key, i))
             assert_interval_tree(tree)
 
-        interval = random.choice(intervals)
+        interval = intervals[random.randint(1, intervals.length)]
 
         actual_found = interval_search_exactly(tree, interval)
 
