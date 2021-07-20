@@ -85,7 +85,9 @@ class TestTextbook18_2(TestCase):
     def test_b_tree_insert_full_root(self):
         x = allocate_node()
         x.n = 3
-        x.key = GuardedArray(['A', 'D', 'F'], id(x))
+        x.key[1] = 'A'
+        x.key[2] = 'D'
+        x.key[3] = 'F'
         x.leaf = True
         T = BTree()
         T.root = x

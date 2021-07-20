@@ -26,7 +26,7 @@ class TestProblem16_1(TestCase):
 
     def test_greedy_make_change(self):
         n = random.randint(1, 20)
-        d = Array([1, 2, 5, 10, 20, 50])
+        d = Array(1, 2, 5, 10, 20, 50)
 
         actual_change = greedy_make_change(n)
 

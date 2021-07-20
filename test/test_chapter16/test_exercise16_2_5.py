@@ -1,3 +1,4 @@
+import copy
 import random
 from unittest import TestCase
 
@@ -27,10 +28,10 @@ class TestExercise16_2_5(TestCase):
 
     def test_points_cover(self):
         n = random.randint(1, 20)
-        points_elements = Array(random.random() * 20.0 - 10.0 for _ in between(1, n))
-        points = Array(points_elements)
+        points = Array(random.random() * 20.0 - 10.0 for _ in between(1, n))
+        original = copy.deepcopy(points)
 
         actual_intervals = points_cover(points)
 
-        assert_that(all_points_covered(actual_intervals, points_elements), is_(True))
+        assert_that(all_points_covered(actual_intervals, original), is_(True))
         remove_one_interval_heuristic(actual_intervals, points)

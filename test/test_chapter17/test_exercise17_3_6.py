@@ -22,7 +22,7 @@ class TestExercise17_3_6(TestCase):
         stack2 = get_random_array(size=capacity)
         stack2.top = random.randint(0, capacity)
         x = random.randint(0, 999)
-        expected_elements = get_queue_elements(stack1, stack2) + Array([x])
+        expected_elements = get_queue_elements(stack1, stack2) + [x]
 
         effective_stack_enqueue(stack1, x)
 

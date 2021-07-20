@@ -10,7 +10,7 @@ def weighted_median_using_sorting(A, w):
     _sort_array_with_weights(A, w)
     weight_sum = 0.0
     i = 1
-    while i <= A.length and weight_sum < 1/2:
+    while i <= A.length and weight_sum < 1 / 2:
         weight_sum += w[i]
         i += 1
     return A[i - 1]
@@ -34,9 +34,9 @@ def weighted_median(A, w, p, r):
     for i in between(p, q - 1):
         WL += w[i]
     WR = 1 - WL - w[q]
-    if WL < 1/2 and WR < 1/2:
+    if WL < 1 / 2 and WR < 1 / 2:
         return A[q]
-    if WL >= 1/2:
+    if WL >= 1 / 2:
         w[q] += WR
         return weighted_median(A, w, p, q)
     else:

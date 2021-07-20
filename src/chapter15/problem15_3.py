@@ -7,10 +7,10 @@ from util import between
 def edit_distance(x, y, cost):
     m = x.length
     n = y.length
-    c = Array([Array.indexed(0, n) for _ in between(0, m)])
-    op = Array([Array.indexed(0, n) for _ in between(0, m)])
-    l = Array([Array.indexed(0, n) for _ in between(0, m)])
-    r = Array([Array.indexed(0, n) for _ in between(0, m)])
+    c = Array(Array.indexed(0, n) for _ in between(0, m))
+    op = Array(Array.indexed(0, n) for _ in between(0, m))
+    l = Array(Array.indexed(0, n) for _ in between(0, m))
+    r = Array(Array.indexed(0, n) for _ in between(0, m))
     for i in between(0, m):
         c[i, 0] = i * cost['delete']
         (op[i, 0], l[i, 0], r[i, 0]) = ('delete', i - 1, 0)

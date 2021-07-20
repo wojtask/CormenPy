@@ -15,8 +15,8 @@ def _distance(p1, p2):
 def bitonic_tsp(p):
     n = p.length
     _sort_by_x_coordinates(p)
-    b = Array([Array.indexed(1, n) for _ in between(1, n)])
-    r = Array([Array.indexed(1, n) for _ in between(1, n)])
+    b = Array(Array.indexed(1, n) for _ in between(1, n))
+    r = Array(Array.indexed(1, n) for _ in between(1, n))
     b[1, 1] = 0
     for j in between(2, n):
         for i in between(1, j):

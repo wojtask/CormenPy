@@ -31,4 +31,4 @@ class TestExercise10_4_4(TestCase):
             tree_walk(tree.root)
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
-        assert_that(actual_output, is_(equal_to(Array([1, 2, 5, 3, 4, 6, 7]))))
+        assert_that(actual_output, is_(equal_to(Array(1, 2, 5, 3, 4, 6, 7))))

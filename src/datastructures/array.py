@@ -4,10 +4,16 @@ from collections.abc import MutableSequence
 
 
 class Array(MutableSequence):
-    def __init__(self, elements=None, start=1):
-        self.elements = list(elements or [])
+    def __init__(self, *elements, **kwargs):
+        self.elements = []
+        for element in elements:
+            try:
+                iter(element)
+                self.elements.extend(list(element) or [])
+            except TypeError:
+                self.elements.append(element)
         self.length = len(self.elements)
-        self.start = start
+        self.start = kwargs['start'] if 'start' in kwargs else 1
 
     @classmethod
     def indexed(cls, _from, _to):
@@ -57,7 +63,7 @@ class Array(MutableSequence):
         return (element for element in self.elements[:self.length])
 
     def __reversed__(self):
-        return reversed([element for element in self])
+        return (rev for rev in reversed([element for element in self]))
 
     def __add__(self, other):
         return Array([element for element in self] + [element for element in other], start=self.start)

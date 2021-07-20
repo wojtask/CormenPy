@@ -18,7 +18,7 @@ class TestExercise17_2_3(TestCase):
         if highest == -1:
             array = Array([0] * k, start=0)
         else:
-            array = get_random_array(size=highest, max_value=1, start=0) + Array([1]) + Array([0] * (k - 1 - highest))
+            array = get_random_array(size=highest, max_value=1, start=0) + [1] + [0] * (k - 1 - highest)
         array.highest = highest
         original = copy.deepcopy(array)
 
@@ -40,7 +40,7 @@ class TestExercise17_2_3(TestCase):
         if highest == -1:
             array = Array([0] * k, start=0)
         else:
-            array = get_random_array(size=highest, max_value=1, start=0) + Array([1]) + Array([0] * (k - 1 - highest))
+            array = get_random_array(size=highest, max_value=1, start=0) + [1] + [0] * (k - 1 - highest)
         array.highest = highest
 
         reset(array)

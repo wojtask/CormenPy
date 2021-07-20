@@ -15,7 +15,7 @@ class TestTextbook15_3(TestCase):
     def test_recursive_matrix_chain(self):
         n = random.randint(1, 10)
         dimensions = get_random_array(size=n + 1, start=0)
-        m = Array([Array.indexed(1, n) for _ in between(1, n)])
+        m = Array(Array.indexed(1, n) for _ in between(1, n))
 
         actual_minimum_cost = recursive_matrix_chain(dimensions, m, 1, n)
 

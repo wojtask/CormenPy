@@ -5,7 +5,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.exercise10_1_6 import stack_enqueue, stack_dequeue
-from datastructures.array import Array
 from queue_util import get_stack_elements
 
 
@@ -16,7 +15,7 @@ class TestExercise10_1_6(TestCase):
         stack = get_random_array(size=size)
         stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
-        expected_elements = get_stack_elements(stack) + Array([x])
+        expected_elements = get_stack_elements(stack) + [x]
 
         stack_enqueue(stack, x)
 

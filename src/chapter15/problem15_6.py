@@ -5,8 +5,8 @@ from util import between
 
 
 def checkerboard(n, p):
-    g = Array([Array.indexed(1, n) for _ in between(1, n)])
-    m = Array([Array.indexed(1, n) for _ in between(1, n)])
+    g = Array(Array.indexed(1, n) for _ in between(1, n))
+    m = Array(Array.indexed(1, n) for _ in between(1, n))
     for j in between(1, n):
         g[1, j] = 0
     for i in between(2, n):

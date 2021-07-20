@@ -38,7 +38,7 @@ def sorted_list_heap_extract_min(heap):
 
 
 def sorted_list_min_heap_union(heap1, heap2):
-    merged_heaps = merge_sorted_lists(Array([heap1, heap2]))
+    merged_heaps = merge_sorted_lists(Array(heap1, heap2))
     x = merged_heaps.head
     while x is not None:
         y = x.next

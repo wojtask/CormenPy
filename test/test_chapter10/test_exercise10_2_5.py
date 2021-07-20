@@ -20,9 +20,9 @@ class TestExercise10_2_5(TestCase):
 
         actual_keys = get_circular_list_keys(list_)
         if nodes:
-            expected_keys = Array([keys[1], new_key]) + keys[2:]
+            expected_keys = Array(keys[1], new_key, keys[2:])
         else:
-            expected_keys = Array([new_key])
+            expected_keys = Array(new_key)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_circular_list_delete(self):

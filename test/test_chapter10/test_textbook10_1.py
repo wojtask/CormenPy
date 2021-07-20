@@ -5,7 +5,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.textbook10_1 import stack_empty, push, pop, enqueue, dequeue
-from datastructures.array import Array
 from queue_util import get_stack_elements, get_queue_elements
 
 
@@ -28,7 +27,7 @@ class TestTextbook10_1(TestCase):
         stack = get_random_array(size=size)
         stack.top = random.randint(0, size - 1)
         x = random.randint(0, 999)
-        expected_keys = get_stack_elements(stack) + Array([x])
+        expected_keys = get_stack_elements(stack) + [x]
 
         push(stack, x)
 
@@ -64,7 +63,7 @@ class TestTextbook10_1(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_keys = get_queue_elements(queue) + Array([x])
+        expected_keys = get_queue_elements(queue) + [x]
 
         enqueue(queue, x)
 
