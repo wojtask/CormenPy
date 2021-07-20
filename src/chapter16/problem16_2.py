@@ -51,7 +51,7 @@ def preemptive_act_schedule(p, r):
             a = heap_minimum(Q)
             if t + a.p <= r[i + 1]:
                 heap_extract_min(Q)
-                t = t + a.p
+                t += a.p
                 c[a.id] = t
             else:
                 a_ = Activity(a.id, a.p - (r[i + 1] - t), a.r)

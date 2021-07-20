@@ -21,19 +21,19 @@ def dynamic_binary_insert(A, x):
         B = Array(A[i].elements + B.elements)
         merge(B, 1, A[i].length, B.length)
         A[i] = Array()
-        i = i + 1
+        i += 1
     A[i] = Array(B.elements)
 
 
 def dynamic_binary_delete(A, x):
     i = 0
     while A[i].length == 0:
-        i = i + 1
+        i += 1
     y = A[i][2 ** i]
     j = -1
     l = None
     while l is None:
-        j = j + 1
+        j += 1
         l = iterative_binary_search(A[j], x)
     A[j][l] = y
     while l > 1 and A[j][l] < A[j][l - 1]:

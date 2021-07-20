@@ -29,4 +29,4 @@ def make_change(n, d):
 def print_change(n, denom):
     while n > 0:
         print(denom[n])
-        n = n - denom[n]
+        n -= denom[n]

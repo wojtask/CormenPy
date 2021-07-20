@@ -12,7 +12,7 @@ def rb_join_point(T1, T2):
         else:
             y = y.left
         if y is None or y.color == Black:
-            b = b - 1
+            b -= 1
     return y
 
 
@@ -25,7 +25,7 @@ def rb_symmetric_join_point(T1, T2):
         else:
             y = y.right
         if y is None or y.color == Black:
-            b = b - 1
+            b -= 1
     return y
 
 
@@ -124,7 +124,7 @@ def joinable_rb_insert_fixup(T, z):
                 z.p.p.color = Red
                 left_rotate(T, z.p.p)
     if T.root.color == Red:
-        T.bh = T.bh + 1
+        T.bh += 1
     T.root.color = Black
 
 
@@ -177,7 +177,7 @@ def joinable_rb_delete_fixup(T, x):
                 w.color = Red
                 x = x.p
                 if x is T.root:
-                    T.bh = T.bh - 1
+                    T.bh -= 1
             else:
                 if w.right is None or w.right.color == Black:
                     if w.left is not None:
@@ -202,7 +202,7 @@ def joinable_rb_delete_fixup(T, x):
                 w.color = Red
                 x = x.p
                 if x is T.root:
-                    T.bh = T.bh - 1
+                    T.bh -= 1
             else:
                 if w.left is None or w.left.color == Black:
                     if w.right is not None:

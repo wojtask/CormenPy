@@ -15,5 +15,5 @@ def random_search(A, x):
             return i
         if not B[i]:
             B[i] = True
-            checked = checked + 1
+            checked += 1
     return None

@@ -11,7 +11,7 @@ def hash_delete(T, k, h):
         if T[j] == k:
             T[j] = Deleted
             return
-        i = i + 1
+        i += 1
         if T[j] is None or i == m:
             break
 
@@ -25,7 +25,7 @@ def hash_insert_(T, k, h):
             T[j] = k
             return j
         else:
-            i = i + 1
+            i += 1
         if i == m:
             break
     raise ValueError('hash table overflow')

@@ -9,7 +9,7 @@ def compactify_list(L):
             x = L.next[x]
         else:
             while L.prev[y] == -1:
-                y = y + 1
+                y += 1
             _swap_all_fields(L, x, y)
             if L.next[x] is not None:
                 L.prev[L.next[x]] = x

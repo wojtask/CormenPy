@@ -16,7 +16,7 @@ def multiary_max_heapify(A, d, i):
     while k <= d and child <= A.heap_size:
         if A[child] > A[largest]:
             largest = child
-        k = k + 1
+        k += 1
         child = multiary_child(d, i, k)
     if largest != i:
         A[i], A[largest] = A[largest], A[i]
@@ -28,13 +28,13 @@ def multiary_heap_extract_max(A, d):
         raise ValueError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     multiary_max_heapify(A, d, 1)
     return max
 
 
 def multiary_max_heap_insert(A, d, key):
-    A.heap_size = A.heap_size + 1
+    A.heap_size += 1
     A[A.heap_size] = -math.inf
     multiary_heap_increase_key(A, d, A.heap_size, key)
 

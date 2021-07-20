@@ -7,7 +7,7 @@ def quadratic_probing_search(T, k, h):
             return None
         if T[i] == k:
             return i
-        j = j + 1
+        j += 1
         if j == m:
             return None
         else:

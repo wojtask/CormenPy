@@ -40,7 +40,8 @@ class TestExercise10_1_7(TestCase):
         else:
             expected_elements = get_queue_elements(queue)
             expected_elements.remove(expected_elements[expected_elements.length])
-            expected_deleted = queue[queue.tail - 1]
+            index_of_deleted_element = queue.tail - 1 if queue.tail > 1 else queue.length
+            expected_deleted = queue[index_of_deleted_element]
 
             actual_deleted = queue_pop(queue)
 

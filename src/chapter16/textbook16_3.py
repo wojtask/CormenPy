@@ -53,13 +53,13 @@ def _min_heapify(A, i):
 def _heap_extract_min(A):
     min = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     _min_heapify(A, 1)
     return min
 
 
 def _min_heap_insert(A, z):
-    A.heap_size = A.heap_size + 1
+    A.heap_size += 1
     i = A.heap_size
     A[i] = z
     while i > 1 and A[parent(i)].f > A[i].f:

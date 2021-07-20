@@ -7,7 +7,7 @@ def hash_insert(T, k, h):
             T[j] = k
             return j
         else:
-            i = i + 1
+            i += 1
         if i == m:
             break
     raise ValueError('hash table overflow')
@@ -20,7 +20,7 @@ def hash_search(T, k, h):
         j = h(k, i, m)
         if T[j] == k:
             return j
-        i = i + 1
+        i += 1
         if T[j] is None or i == m:
             break
     return None

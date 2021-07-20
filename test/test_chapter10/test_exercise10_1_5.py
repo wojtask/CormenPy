@@ -79,7 +79,8 @@ class TestExercise10_1_5(TestCase):
 
         expected_elements = get_queue_elements(deque)
         expected_elements.remove(expected_elements[expected_elements.length])
-        expected_deleted = deque[deque.tail - 1]
+        index_of_deleted_element = deque.tail - 1 if deque.tail > 1 else deque.length
+        expected_deleted = deque[index_of_deleted_element]
 
         actual_deleted = tail_dequeue(deque)
 

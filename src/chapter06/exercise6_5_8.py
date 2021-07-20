@@ -31,7 +31,7 @@ def merge_sorted_lists(lists):
 
 
 def _min_heap_insert_pair(A, pair):
-    A.heap_size = A.heap_size + 1
+    A.heap_size += 1
     A[A.heap_size] = (SNode(math.inf), None)
     _heap_decrease_pair_key(A, A.heap_size, pair)
 
@@ -50,7 +50,7 @@ def _heap_extract_min_pair(A):
         raise ValueError('heap underflow')
     min_pair = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     _min_heapify_pair(A, 1)
     return min_pair
 

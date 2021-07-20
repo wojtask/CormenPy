@@ -13,7 +13,7 @@ def heap_extract_max(A):
         raise ValueError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     max_heapify(A, 1)
     return max
 

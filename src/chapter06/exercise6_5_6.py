@@ -11,7 +11,7 @@ def priority_enqueue(Q, x):
 
 
 def _min_heap_insert_element(A, x):
-    A.heap_size = A.heap_size + 1
+    A.heap_size += 1
     A[A.heap_size] = Element(math.inf)
     _heap_decrease_element_key(A, A.heap_size, x)
 
@@ -34,7 +34,7 @@ def _heap_extract_min_element(A):
         raise ValueError('heap underflow')
     min = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     _min_heapify_element(A, 1)
     return min
 
@@ -83,7 +83,7 @@ def _heap_extract_max_element(A):
         raise ValueError('heap underflow')
     max = A[1]
     A[1] = A[A.heap_size]
-    A.heap_size = A.heap_size - 1
+    A.heap_size -= 1
     _max_heapify_element(A, 1)
     return max
 
