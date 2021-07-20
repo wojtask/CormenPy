@@ -20,8 +20,8 @@ def matrix_multiply(A, B):
 
 def matrix_chain_order(p):
     n = p.length - 1
-    m = Array([Array.indexed(1, n) for _ in between(1, n)])
-    s = Array([Array.indexed(1, n) for _ in between(1, n)])
+    m = Array(Array.indexed(1, n) for _ in between(1, n))
+    s = Array(Array.indexed(1, n) for _ in between(1, n))
     for i in between(1, n):
         m[i, i] = 0
     for l in between(2, n):

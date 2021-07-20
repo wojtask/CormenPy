@@ -4,7 +4,7 @@ from util import between
 
 def knapsack(w, v, W):
     n = w.length
-    K = Array([Array.indexed(0, W) for _ in between(0, n)], start=0)
+    K = Array((Array.indexed(0, W) for _ in between(0, n)), start=0)
     for j in between(0, W):
         K[0, j] = 0
     for i in between(1, n):

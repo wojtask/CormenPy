@@ -5,8 +5,8 @@ from util import between
 def lcs_length(X, Y):
     m = X.length
     n = Y.length
-    c = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
-    b = Array([Array.indexed(1, n) for _ in between(1, m)])
+    c = Array((Array.indexed(0, n) for _ in between(0, m)), start=0)
+    b = Array(Array.indexed(1, n) for _ in between(1, m))
     for i in between(1, m):
         c[i, 0] = 0
     for j in between(0, n):

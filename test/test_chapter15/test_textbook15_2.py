@@ -79,7 +79,7 @@ class TestTextbook15_2(TestCase):
 
     def test_print_optimal_parens(self):
         n = random.randint(1, 10)
-        s = Array([Array.indexed(1, n) for _ in between(1, n)])
+        s = Array(Array.indexed(1, n) for _ in between(1, n))
         for i in between(1, n - 1):
             for j in between(i + 1, n):
                 s[i, j] = random.randint(i, j - 1)

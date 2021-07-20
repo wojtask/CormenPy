@@ -6,7 +6,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter08.problem8_2 import bitwise_sort, counting_sort_in_place
-from datastructures.array import Array
 
 
 class TestProblem8_2(TestCase):

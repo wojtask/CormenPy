@@ -5,7 +5,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.exercise10_1_7 import queue_push, queue_pop
-from datastructures.array import Array
 from queue_util import get_queue_elements
 
 
@@ -22,7 +21,7 @@ class TestExercise10_1_7(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_elements = get_queue_elements(queue) + Array([x])
+        expected_elements = get_queue_elements(queue) + [x]
 
         queue_push(queue, x)
 

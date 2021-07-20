@@ -17,7 +17,7 @@ def jobs_scheduling(t, p, d):
     for i in between(1, n):
         d[i] = min(d[i], n ** 2)
     P = Array.indexed(0, d[n])
-    s = Array([Array.indexed(0, d[n]) for _ in between(1, n)])
+    s = Array(Array.indexed(0, d[n]) for _ in between(1, n))
     for j in between(0, d[n]):
         P[j] = 0
     for i in between(1, n):

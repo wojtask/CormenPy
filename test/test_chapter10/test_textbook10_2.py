@@ -33,7 +33,7 @@ class TestTextbook10_2(TestCase):
         list_insert(list_, new_node)
 
         actual_keys = get_linked_list_keys(list_)
-        expected_keys = Array([new_key]) + keys
+        expected_keys = Array(new_key, keys)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent(list_)
 
@@ -81,6 +81,6 @@ class TestTextbook10_2(TestCase):
         list_insert_(list_, new_node)
 
         actual_keys = get_doubly_linked_list_with_sentinel_keys(list_)
-        expected_keys = Array([new_key]) + keys
+        expected_keys = Array(new_key, keys)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
         assert_prev_next_pointers_consistent_with_sentinel(list_)

@@ -18,7 +18,7 @@ def perfect_hashing_init(K):
     secondary_sizes = [len(keys) ** 2 for keys in mapped_keys]
     for j, size in enumerate(secondary_sizes):
         if size == 1:
-            T[j] = (lambda _: 0, Array([mapped_keys[j][0]], start=0))
+            T[j] = (lambda _: 0, Array(mapped_keys[j][0], start=0))
         elif size > 1:
             h_ = None
             S = None

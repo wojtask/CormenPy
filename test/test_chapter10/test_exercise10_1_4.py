@@ -5,7 +5,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.exercise10_1_4 import queue_empty, enqueue_, dequeue_
-from datastructures.array import Array
 from queue_util import get_queue_elements
 
 
@@ -34,7 +33,7 @@ class TestExercise10_1_4(TestCase):
         if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
             assert_that(calling(enqueue_).with_args(queue, x), raises(ValueError, 'overflow'))
         else:
-            expected_elements = get_queue_elements(queue) + Array([x])
+            expected_elements = get_queue_elements(queue) + [x]
 
             enqueue_(queue, x)
 

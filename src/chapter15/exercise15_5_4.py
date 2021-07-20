@@ -5,9 +5,9 @@ from util import between
 
 
 def effective_optimal_bst(p, q, n):
-    e = Array([Array.indexed(0, n) for _ in between(1, n + 1)])
-    w = Array([Array.indexed(0, n) for _ in between(1, n + 1)])
-    root = Array([Array.indexed(1, n) for _ in between(1, n)])
+    e = Array(Array.indexed(0, n) for _ in between(1, n + 1))
+    w = Array(Array.indexed(0, n) for _ in between(1, n + 1))
+    root = Array(Array.indexed(1, n) for _ in between(1, n))
     for i in between(1, n + 1):
         e[i, i - 1] = q[i - 1]
         w[i, i - 1] = q[i - 1]

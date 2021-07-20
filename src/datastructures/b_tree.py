@@ -14,8 +14,8 @@ class Node:
         in_memory_node_ids.add(id(self))
         self.n = 0
         self.leaf = True
-        self.key = GuardedArray([None] * (2 * t - 1), id(self))
-        super().__setattr__('c', GuardedArray([None] * (2 * t), id(self)))
+        self.key = GuardedArray(2 * t - 1, id(self))
+        super().__setattr__('c', GuardedArray(2 * t, id(self)))
 
     def __getattribute__(self, name):
         if id(self) not in in_memory_node_ids:
@@ -37,8 +37,8 @@ class GuardedArray(Array):
     """Meant to use as a type of key and c attributes in BTree nodes. Ensures that setting an item in its instance will
     require the owning node to be saved on disk."""
 
-    def __init__(self, elements, node_id):
-        super().__init__(elements, start=1)
+    def __init__(self, nelements, node_id):
+        super().__init__([None] * nelements, start=1)
         self.node_id = node_id
 
     def __setitem__(self, index, value):

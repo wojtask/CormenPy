@@ -103,7 +103,7 @@ class TestProblem18_2(TestCase):
 
         assert_2_3_4_tree(actual_tree)
         actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
-        expected_tree_keys = keys1.sort() + Array([k]) + keys2.sort()
+        expected_tree_keys = keys1.sort() + [k] + keys2.sort()
         assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))
 
     def test_tree_2_3_4_join_empty(self):
@@ -131,5 +131,5 @@ class TestProblem18_2(TestCase):
 
         assert_2_3_4_tree(actual_tree)
         actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
-        expected_tree_keys = keys1.sort() + Array([k]) + keys2.sort()
+        expected_tree_keys = keys1.sort() + [k] + keys2.sort()
         assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))

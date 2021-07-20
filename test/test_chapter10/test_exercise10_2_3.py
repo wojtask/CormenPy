@@ -4,7 +4,6 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.exercise10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
-from datastructures.array import Array
 from list_util import get_random_singly_linked_list, get_linked_list_keys
 
 
@@ -18,7 +17,7 @@ class TestExercise10_2_3(TestCase):
         singly_linked_list_enqueue(list_, x)
 
         actual_keys = get_linked_list_keys(list_)
-        expected_keys = keys + Array([x])
+        expected_keys = keys + [x]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_dequeue(self):

@@ -18,7 +18,7 @@ def get_binary_tree_inorder_keys(tree):
 def get_binary_subtree_inorder_keys(node, sentinel):
     if node is sentinel:
         return Array()
-    return get_binary_subtree_inorder_keys(node.left, sentinel) + Array([node.key]) + get_binary_subtree_inorder_keys(
+    return get_binary_subtree_inorder_keys(node.left, sentinel) + [node.key] + get_binary_subtree_inorder_keys(
         node.right,
         sentinel)
 
@@ -30,7 +30,7 @@ def get_binary_tree_inorder_nodes(tree):
 def get_binary_subtree_inorder_nodes(node, sentinel):
     if node is sentinel:
         return Array()
-    return get_binary_subtree_inorder_nodes(node.left, sentinel) + Array([node]) + get_binary_subtree_inorder_nodes(
+    return get_binary_subtree_inorder_nodes(node.left, sentinel) + [node] + get_binary_subtree_inorder_nodes(
         node.right,
         sentinel)
 
@@ -97,7 +97,7 @@ def assert_binary_search_subtree(node, sentinel):
 
 
 def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentinel=rb.Node(None)):
-    nodes = Array([])
+    nodes = Array()
     tree = RedBlackTree(get_random_red_black_subtree(black_height, nodes), sentinel)
     tree_size = nodes.length
     inorder_keys = get_random_unique_array(min_size=tree_size, max_size=tree_size, min_value=min_value,

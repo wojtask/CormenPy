@@ -32,7 +32,7 @@ class TestExercise10_2_8(TestCase):
         xor_linked_list_insert(list_, new_node)
 
         actual_keys = get_xor_linked_list_keys(list_)
-        expected_keys = Array([new_key]) + keys
+        expected_keys = Array(new_key, keys)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_xor_linked_list_delete(self):

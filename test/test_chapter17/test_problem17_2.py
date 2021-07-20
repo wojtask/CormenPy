@@ -47,7 +47,7 @@ class TestProblem17_2(TestCase):
         dynamic_binary_insert(arrays, element)
 
         actual_elements_after = Array(x for arr in arrays for x in arr)
-        expected_elements_after = elements_before + Array([element])
+        expected_elements_after = elements_before + [element]
         assert_that(actual_elements_after, contains_inanyorder(*expected_elements_after))
         for i in between(0, k - 1):
             assert_that(arrays[i].length, is_(any_of(0, 2 ** i)))
@@ -57,7 +57,7 @@ class TestProblem17_2(TestCase):
         elements_before = Array(x for arr in arrays for x in arr)
         # make sure there is an element to remove
         if elements_before.length == 0:
-            arrays[0] = Array([random.randint(0, 2 ** (k - 1))])
+            arrays[0] = Array(random.randint(0, 2 ** (k - 1)))
             elements_before.append(arrays[0][1])
         element = elements_before[random.randint(1, elements_before.length)]
 

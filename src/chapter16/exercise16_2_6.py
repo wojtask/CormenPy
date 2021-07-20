@@ -21,7 +21,7 @@ def _sort_by_value_per_weight_unit(w, v):
 def effective_fractional_knapsack(w, v, W):
     n = w.length
     _sort_by_value_per_weight_unit(w, v)
-    items = Array([Item(i, w[i], v[i]) for i in between(1, n)])
+    items = Array(Item(i, w[i], v[i]) for i in between(1, n))
     K = Array([0] * n)
     return _effective_fractional_knapsack(items, K, W)
 
@@ -30,11 +30,11 @@ def _effective_fractional_knapsack(items, K, W):
     n = items.length
     if n == 0:
         return K
-    unit_values = Array([item.value / item.weight for item in items])
+    unit_values = Array(item.value / item.weight for item in items)
     m = select(unit_values, 1, n, math.floor((n + 1) / 2))
-    G = Array([item for item in items if item.value / item.weight > m])
-    E = Array([item for item in items if item.value / item.weight == m])
-    L = Array([item for item in items if item.value / item.weight < m])
+    G = Array(item for item in items if item.value / item.weight > m)
+    E = Array(item for item in items if item.value / item.weight == m)
+    L = Array(item for item in items if item.value / item.weight < m)
     w_G = sum(item.weight for item in G)
     w_E = sum(item.weight for item in E)
     if w_G >= W:

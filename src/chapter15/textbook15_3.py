@@ -17,7 +17,7 @@ def recursive_matrix_chain(p, m, i, j):
 
 def memoized_matrix_chain(p):
     n = p.length - 1
-    m = Array([Array.indexed(1, n) for _ in between(1, n)])
+    m = Array(Array.indexed(1, n) for _ in between(1, n))
     for i in between(1, n):
         for j in between(i, n):
             m[i, j] = math.inf

@@ -13,7 +13,7 @@ from util import between
 
 
 def decode_tasks(tasks):
-    return Array([int(re.search(r'a(\d+)', task).group(1)) for task in tasks])
+    return Array(int(re.search(r'a(\d+)', task).group(1)) for task in tasks)
 
 
 def assert_canonical_form(schedule, deadlines):
