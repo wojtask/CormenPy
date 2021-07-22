@@ -1,3 +1,4 @@
+from datastructures.array import Array
 from datastructures.b_tree import Node234, Tree234
 from util import rbetween, between
 
@@ -205,11 +206,11 @@ def tree_2_3_4_join(T_, T__, k):
     h_ = T_.root.height
     h__ = T__.root.height
     if h_ < h__:
-        x = tree_2_3_4_insert_at(T__, k, height=h_ + 1)
+        x = tree_2_3_4_insert_at(T__, k, h=h_ + 1)
         x.c[1] = T_.root
         return T__
     if h_ > h__:
-        x = tree_2_3_4_insert_at(T_, k, height=h__ + 1)
+        x = tree_2_3_4_insert_at(T_, k, h=h__ + 1)
         x.c[x.n + 1] = T__.root
         return T_
     T = Tree234()
@@ -221,7 +222,7 @@ def tree_2_3_4_join(T_, T__, k):
     return T
 
 
-def tree_2_3_4_insert_at(T, k, height):
+def tree_2_3_4_insert_at(T, k, h):
     r = T.root
     if r.n == 3:
         s = Node234()
@@ -230,14 +231,14 @@ def tree_2_3_4_insert_at(T, k, height):
         s.n = 0
         s.c[1] = r
         tree_2_3_4_split_child(s, 1, r)
-        return tree_2_3_4_insert_nonfull_at(s, k, height)
+        return tree_2_3_4_insert_nonfull_at(s, k, h)
     else:
-        return tree_2_3_4_insert_nonfull_at(r, k, height)
+        return tree_2_3_4_insert_nonfull_at(r, k, h)
 
 
-def tree_2_3_4_insert_nonfull_at(x, k, height):
+def tree_2_3_4_insert_nonfull_at(x, k, h):
     i = x.n
-    if x.height == height:
+    if x.height == h:
         x.n += 1
         x.c[x.n + 1] = x.c[x.n]
         while i >= 1 and k < x.key[i]:
@@ -254,4 +255,58 @@ def tree_2_3_4_insert_nonfull_at(x, k, height):
             tree_2_3_4_split_child(x, i, x.c[i])
             if k > x.key[i]:
                 i += 1
-        return tree_2_3_4_insert_nonfull_at(x.c[i], k, height)
+        return tree_2_3_4_insert_nonfull_at(x.c[i], k, h)
+
+
+def tree_2_3_4_left_partition(T, k):
+    h = T.root.height
+    L = Array.indexed(0, 3 * h + 2)
+    K = Array.indexed(1, 3 * h + 2)
+    m = 0
+    x = T.root
+    while True:
+        i = 1
+        while i <= x.n and k >= x.key[i]:
+            T_star = Tree234()
+            tree_2_3_4_create(T_star)
+            if x.height > 0:
+                T_star.root = x.c[i]
+            L[m] = T_star
+            if k == x.key[i]:
+                return L[0:m], K[1:m]
+            m += 1
+            K[m] = x.key[i]
+            i += 1
+        x = x.c[i]
+
+
+def tree_2_3_4_right_partition(T, k):
+    h = T.root.height
+    L = Array.indexed(0, 3 * h + 2)
+    K = Array.indexed(1, 3 * h + 2)
+    m = 0
+    x = T.root
+    while True:
+        i = x.n
+        while i >= 1 and k <= x.key[i]:
+            T_star = Tree234()
+            tree_2_3_4_create(T_star)
+            if x.height > 0:
+                T_star.root = x.c[i + 1]
+            L[m] = T_star
+            if k == x.key[i]:
+                return L[0:m], K[1:m]
+            m += 1
+            K[m] = x.key[i]
+            i -= 1
+        x = x.c[i + 1]
+
+
+def tree_2_3_4_split(T, k):
+    L_, K_ = tree_2_3_4_left_partition(T, k)
+    L__, K__ = tree_2_3_4_right_partition(T, k)
+    for i in rbetween(K_.length, 1):
+        L_[i - 1] = tree_2_3_4_join(L_[i - 1], L_[i], K_[i])
+    for i in rbetween(K__.length, 1):
+        L__[i - 1] = tree_2_3_4_join(L__[i], L__[i - 1], K__[i])
+    return L_[0], L__[0]

@@ -5,7 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter18.problem18_2 import tree_2_3_4_create, tree_2_3_4_insert, tree_2_3_4_search, tree_2_3_4_delete, \
-    tree_2_3_4_join
+    tree_2_3_4_join, tree_2_3_4_split
 from datastructures.array import Array
 from datastructures.b_tree import Tree234
 from util import between
@@ -133,3 +133,30 @@ class TestProblem18_2(TestCase):
         actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
         expected_tree_keys = keys1.sort() + [k] + keys2.sort()
         assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))
+
+    def test_tree_2_3_4_split_random(self):
+        """
+        Generate a random 2-3-4 tree T (create empty, then insert a random set of keys). Pick a key k in T at random.
+        Split T around k and expect that returned trees T', T'' are both valid 2-3-4 trees, T' has no greater key
+        than k, T'' has no less key than k, and the union of keys in T', T'', along with k, is the same set of keys
+        as in T.
+        """
+        tree = Tree234()
+        tree_2_3_4_create(tree)
+        max_key_value = 10000
+        keys = get_random_array(size=1000, max_value=max_key_value, unique=True)
+        for key in keys:
+            tree_2_3_4_insert(tree, key)
+        split_key = random.choice(keys.elements)
+
+        actual_tree1, actual_tree2 = tree_2_3_4_split(tree, split_key)
+
+        assert_2_3_4_tree(actual_tree1)
+        assert_2_3_4_tree(actual_tree2)
+        actual_tree1_keys = get_2_3_4_tree_keys(actual_tree1)
+        actual_tree2_keys = get_2_3_4_tree_keys(actual_tree2)
+        for key in actual_tree1_keys:
+            assert_that(key, is_(less_than_or_equal_to(split_key)))
+        for key in actual_tree2_keys:
+            assert_that(key, is_(greater_than_or_equal_to(split_key)))
+        assert_that(actual_tree1_keys + [split_key] + actual_tree2_keys, contains_inanyorder(*keys))
