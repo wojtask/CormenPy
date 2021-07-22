@@ -33,6 +33,27 @@ class Node:
         super().__setattr__(name, value)
 
 
+class CapaciousLeaf:
+    def __init__(self, t=2):
+        in_memory_node_ids.add(id(self))
+        self.n = 0
+        self.leaf = True
+        self.key = GuardedArray(4 * t - 1, id(self))
+
+    def __getattribute__(self, name):
+        if id(self) not in in_memory_node_ids:
+            raise AttributeError('Attempted to read an attribute of a node before reading it from disk')
+        return super().__getattribute__(name)
+
+    def __setattr__(self, name, value):
+        if id(self) not in in_memory_node_ids:
+            raise AttributeError('Attempted to write an attribute of a node before reading it from disk')
+        if name == 'leaf' and value is False:
+            raise AttributeError('Attempted to change leaf value to False')
+        unsaved_node_ids.add(id(self))
+        super().__setattr__(name, value)
+
+
 class GuardedArray(Array):
     """Meant to use as a type of key and c attributes in BTree nodes. Ensures that setting an item in its instance will
     require the owning node to be saved on disk."""
@@ -87,3 +108,7 @@ def free_node(x):
     except KeyError:
         pass
     del x
+
+
+def allocate_capacious_leaf(t=2):
+    return CapaciousLeaf(t)
