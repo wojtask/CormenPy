@@ -35,8 +35,8 @@ class TestExercise16_2_2(TestCase):
 
     def test_knapsack(self):
         n = random.randint(1, 15)
-        weights = get_random_array(size=n)
-        values = get_random_array(size=n)
+        weights = get_random_array(size=n, min_value=1)
+        values = get_random_array(size=n, min_value=1)
         max_weight = random.randint(1, n * 1000)
         captured_output = io.StringIO()
 
