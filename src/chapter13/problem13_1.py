@@ -5,7 +5,7 @@ from datastructures import binary_tree as bt
 from datastructures import red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
-from datastructures.red_black_tree import Red, Black, RedBlackTree
+from datastructures.red_black_tree import Color, RedBlackTree
 
 
 def new_node(k):
@@ -67,7 +67,7 @@ def persistent_rb_insert(T, z):
         else:
             y_.right = z
     z.left = z.right = T.nil
-    z.color = Red
+    z.color = Color.RED
     _persistent_rb_insert_fixup(T_, S, z)
     return T_
 
@@ -86,41 +86,41 @@ def _get_path_length_from_root_to_node(T, z):
 
 def _persistent_rb_insert_fixup(T, S, z):
     p = pop(S)
-    while p.color == Red:
+    while p.color == Color.RED:
         r = pop(S)
         if p is r.left:
             y = r.right
-            if y.color == Red:
+            if y.color == Color.RED:
                 r.right = rb.ParentlessNode.clone(y)
-                r.right.color = Black
-                p.color = Black
-                r.color = Red
+                r.right.color = Color.BLACK
+                p.color = Color.BLACK
+                r.color = Color.RED
                 z = r
                 p = pop(S)
             else:
                 if z is p.right:
                     z, p = p, z
                     parentless_rb_left_rotate(T, z, r)
-                p.color = Black
-                r.color = Red
+                p.color = Color.BLACK
+                r.color = Color.RED
                 parentless_rb_right_rotate(T, r, pop(S))
         else:
             y = r.left
-            if y.color is Red:
+            if y.color is Color.RED:
                 r.left = rb.ParentlessNode.clone(y)
-                r.left.color = Black
-                p.color = Black
-                r.color = Red
+                r.left.color = Color.BLACK
+                p.color = Color.BLACK
+                r.color = Color.RED
                 z = r
                 p = pop(S)
             else:
                 if z is p.left:
                     z, p = p, z
                     parentless_rb_right_rotate(T, z, r)
-                p.color = Black
-                r.color = Red
+                p.color = Color.BLACK
+                r.color = Color.RED
                 parentless_rb_left_rotate(T, r, pop(S))
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def persistent_rb_delete(T, z):
@@ -160,7 +160,7 @@ def persistent_rb_delete(T, z):
         x = y.left
     else:
         x = y.right
-    if y.color == Black:
+    if y.color == Color.BLACK:
         if x is not T.nil:
             x_ = rb.ParentlessNode.clone(x)
         else:
@@ -189,59 +189,59 @@ def persistent_rb_delete(T, z):
 
 def persistent_rb_delete_fixup(T, S, x):
     p = pop(S)
-    while x is not T.root and x.color == Black:
+    while x is not T.root and x.color == Color.BLACK:
         r = pop(S)
         if x is p.left:
             w = rb.ParentlessNode.clone(p.right)
             p.right = w
-            if w.color == Red:
-                w.color = Black
-                p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                p.color = Color.RED
                 parentless_rb_left_rotate(T, p, r)
                 r = w
                 w = rb.ParentlessNode.clone(p.right)
                 p.right = w
-            if w.left.color == Black and w.right.color == Black:
-                w.color = Red
+            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
+                w.color = Color.RED
                 x = p
             else:
-                if w.right.color == Black:
+                if w.right.color == Color.BLACK:
                     w.left = rb.ParentlessNode.clone(w.left)
-                    w.left.color = Black
-                    w.color = Red
+                    w.left.color = Color.BLACK
+                    w.color = Color.RED
                     parentless_rb_right_rotate(T, w, p)
                     w = p.right
                 w.color = p.color
-                p.color = Black
+                p.color = Color.BLACK
                 w.right = rb.ParentlessNode.clone(w.right)
-                w.right.color = Black
+                w.right.color = Color.BLACK
                 parentless_rb_left_rotate(T, p, r)
                 x = T.root
         else:
             w = rb.ParentlessNode.clone(p.left)
             p.left = w
-            if w.color == Red:
-                w.color = Black
-                p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                p.color = Color.RED
                 parentless_rb_right_rotate(T, p, r)
                 r = w
                 w = rb.ParentlessNode.clone(p.left)
                 p.left = w
-            if w.left.color == Black and w.right.color == Black:
-                w.color = Red
+            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
+                w.color = Color.RED
                 x = p
             else:
-                if w.left.color == Black:
+                if w.left.color == Color.BLACK:
                     w.right = rb.ParentlessNode.clone(w.right)
-                    w.right.color = Black
-                    w.color = Red
+                    w.right.color = Color.BLACK
+                    w.color = Color.RED
                     parentless_rb_left_rotate(T, w, p)
                     w = p.left
                 w.color = p.color
-                p.color = Black
+                p.color = Color.BLACK
                 w.left = rb.ParentlessNode.clone(w.left)
-                w.left.color = Black
+                w.left.color = Color.BLACK
                 parentless_rb_right_rotate(T, p, r)
                 x = T.root
         p = r
-    x.color = Black
+    x.color = Color.BLACK

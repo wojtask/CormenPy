@@ -1,6 +1,6 @@
 from chapter13.exercise13_2_1 import right_rotate
 from chapter14.exercise14_3_1 import interval_left_rotate
-from datastructures.red_black_tree import Black, Red
+from datastructures.red_black_tree import Color
 
 
 def interval_right_rotate(T, x):
@@ -28,7 +28,7 @@ def interval_insert_exactly(T, z):
             y.right = z
     z.left = T.nil
     z.right = T.nil
-    z.color = Red
+    z.color = Color.RED
     z.max = z.int.high
     x = y
     while x is not T.nil:
@@ -42,36 +42,36 @@ def _update_max_field(x):
 
 
 def interval_insert_exactly_fixup(T, z):
-    while z.p.color == Red:
+    while z.p.color == Color.RED:
         if z.p is z.p.p.left:
             y = z.p.p.right
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.right:
                     z = z.p
                     interval_left_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.left:
                     z = z.p
                     interval_right_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_left_rotate(T, z.p.p)
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def interval_search_exactly(T, i):

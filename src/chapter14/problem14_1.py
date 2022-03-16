@@ -1,6 +1,6 @@
 from chapter13.exercise13_2_1 import right_rotate
 from chapter13.textbook13_2 import rb_search, left_rotate, rb_successor
-from datastructures.red_black_tree import Red, Black, IntervalPomNode
+from datastructures.red_black_tree import Color, IntervalPomNode
 
 
 def interval_pom_search(T, k):
@@ -53,7 +53,7 @@ def _interval_pom_insert_node(T, z):
         else:
             y.right = z
     z.left = z.right = T.nil
-    z.color = Red
+    z.color = Color.RED
     z.sum = z.low - z.high
     z.max = z.low
     z.pom = z.key
@@ -76,36 +76,36 @@ def _update_additional_fields(x):
 
 
 def _interval_pom_insert_fixup(T, z):
-    while z.p.color == Red:
+    while z.p.color == Color.RED:
         if z.p is z.p.p.left:
             y = z.p.p.right
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.right:
                     z = z.p
                     interval_pom_left_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_pom_right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.left:
                     z = z.p
                     interval_pom_right_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_pom_left_rotate(T, z.p.p)
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def interval_pom_left_rotate(T, x):
@@ -182,56 +182,56 @@ def _interval_pom_delete(T, z):
     while w is not T.nil:
         _update_additional_fields(w)
         w = w.p
-    if y.color == Black:
+    if y.color == Color.BLACK:
         _interval_pom_delete_fixup(T, x)
     return y
 
 
 def _interval_pom_delete_fixup(T, x):
-    while x is not T.root and x.color == Black:
+    while x is not T.root and x.color == Color.BLACK:
         if x is x.p.left:
             w = x.p.right
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 interval_pom_left_rotate(T, x.p)
                 w = x.p.right
-            if w.left.color == Black and w.right.color == Black:
-                w.color = Red
+            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.right.color == Black:
-                    w.left.color = Black
-                    w.color = Red
+                if w.right.color == Color.BLACK:
+                    w.left.color = Color.BLACK
+                    w.color = Color.RED
                     interval_pom_right_rotate(T, w)
                     w = x.p.right
                 w.color = x.p.color
-                x.p.color = Black
-                w.right.color = Black
+                x.p.color = Color.BLACK
+                w.right.color = Color.BLACK
                 interval_pom_left_rotate(T, x.p)
                 x = T.root
         else:
             w = x.p.left
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 interval_pom_right_rotate(T, x.p)
                 w = x.p.left
-            if w.right.color == Black and w.left.color == Black:
-                w.color = Red
+            if w.right.color == Color.BLACK and w.left.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.left.color == Black:
-                    w.right.color = Black
-                    w.color = Red
+                if w.left.color == Color.BLACK:
+                    w.right.color = Color.BLACK
+                    w.color = Color.RED
                     interval_pom_left_rotate(T, w)
                     w = x.p.left
                 w.color = x.p.color
-                x.p.color = Black
-                w.left.color = Black
+                x.p.color = Color.BLACK
+                w.left.color = Color.BLACK
                 interval_pom_right_rotate(T, x.p)
                 x = T.root
-    x.color = Black
+    x.color = Color.BLACK
 
 
 def _copy_all_fields(z, y):

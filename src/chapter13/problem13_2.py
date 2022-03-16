@@ -1,6 +1,6 @@
 from chapter13.exercise13_2_1 import right_rotate
 from chapter13.textbook13_2 import left_rotate, rb_successor
-from datastructures.red_black_tree import Black, RedBlackTree, Red, Node
+from datastructures.red_black_tree import Color, RedBlackTree, Node
 
 
 def rb_join_point(T1, T2):
@@ -11,7 +11,7 @@ def rb_join_point(T1, T2):
             y = y.right
         else:
             y = y.left
-        if y is None or y.color == Black:
+        if y is None or y.color == Color.BLACK:
             b -= 1
     return y
 
@@ -24,7 +24,7 @@ def rb_symmetric_join_point(T1, T2):
             y = y.left
         else:
             y = y.right
-        if y is None or y.color == Black:
+        if y is None or y.color == Color.BLACK:
             b -= 1
     return y
 
@@ -65,7 +65,7 @@ def rb_join(T1, x, T2):
             T.root = T2.root
             x.p = y.p
         T1.root.p = y.p = x
-    x.color = Red
+    x.color = Color.RED
     joinable_rb_insert_fixup(T, x)
     return T
 
@@ -89,43 +89,43 @@ def joinable_rb_insert(T, z):
             y.right = z
     z.left = None
     z.right = None
-    z.color = Red
+    z.color = Color.RED
     joinable_rb_insert_fixup(T, z)
 
 
 def joinable_rb_insert_fixup(T, z):
-    while z.p is not None and z.p.color == Red:
+    while z.p is not None and z.p.color == Color.RED:
         if z.p is z.p.p.left:
             y = z.p.p.right
-            if y is not None and y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y is not None and y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.right:
                     z = z.p
                     left_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
-            if y is not None and y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y is not None and y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.left:
                     z = z.p
                     right_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 left_rotate(T, z.p.p)
-    if T.root.color == Red:
+    if T.root.color == Color.RED:
         T.bh += 1
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def joinable_rb_delete(T, z):
@@ -150,7 +150,7 @@ def joinable_rb_delete(T, z):
     if y is not z:
         z.key = y.key
         z.data = y.data
-    if y.color == Black:
+    if y.color == Color.BLACK:
         joinable_rb_delete_fixup(T, x)
     if x.key is None:  # if x is the dummy node replace it with None
         if x is T.root:
@@ -165,55 +165,55 @@ def joinable_rb_delete(T, z):
 
 
 def joinable_rb_delete_fixup(T, x):
-    while x is not T.root and x.color == Black:
+    while x is not T.root and x.color == Color.BLACK:
         if x is x.p.left:
             w = x.p.right
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 left_rotate(T, x.p)
                 w = x.p.right
-            if (w.left is None or w.left.color == Black) and (w.right is None or w.right.color == Black):
-                w.color = Red
+            if (w.left is None or w.left.color == Color.BLACK) and (w.right is None or w.right.color == Color.BLACK):
+                w.color = Color.RED
                 x = x.p
                 if x is T.root:
                     T.bh -= 1
             else:
-                if w.right is None or w.right.color == Black:
+                if w.right is None or w.right.color == Color.BLACK:
                     if w.left is not None:
-                        w.left.color = Black
-                    w.color = Red
+                        w.left.color = Color.BLACK
+                    w.color = Color.RED
                     right_rotate(T, w)
                     w = x.p.right
                 w.color = x.p.color
-                x.p.color = Black
+                x.p.color = Color.BLACK
                 if w.right is not None:
-                    w.right.color = Black
+                    w.right.color = Color.BLACK
                 left_rotate(T, x.p)
                 x = T.root
         else:
             w = x.p.left
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 right_rotate(T, x.p)
                 w = x.p.left
-            if (w.right is None or w.right.color == Black) and (w.left is None or w.left.color == Black):
-                w.color = Red
+            if (w.right is None or w.right.color == Color.BLACK) and (w.left is None or w.left.color == Color.BLACK):
+                w.color = Color.RED
                 x = x.p
                 if x is T.root:
                     T.bh -= 1
             else:
-                if w.left is None or w.left.color == Black:
+                if w.left is None or w.left.color == Color.BLACK:
                     if w.right is not None:
-                        w.right.color = Black
-                    w.color = Red
+                        w.right.color = Color.BLACK
+                    w.color = Color.RED
                     left_rotate(T, w)
                     w = x.p.left
                 w.color = x.p.color
-                x.p.color = Black
+                x.p.color = Color.BLACK
                 if w.left is not None:
-                    w.left.color = Black
+                    w.left.color = Color.BLACK
                 right_rotate(T, x.p)
                 x = T.root
-    x.color = Black
+    x.color = Color.BLACK

@@ -1,13 +1,16 @@
 import math
+from enum import Enum, auto
 
 from datastructures import binary_tree
 
-Red = 0
-Black = 1
+
+class Color(Enum):
+    RED = auto()
+    BLACK = auto()
 
 
 class Node(binary_tree.Node):
-    def __init__(self, key, data=None, left=None, right=None, color=Black):
+    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
         super().__init__(key, data, left, right)
         self.color = color
 
@@ -37,7 +40,7 @@ class RedBlackTree(binary_tree.BinaryTree):
 
 
 class ParentlessNode(binary_tree.ParentlessNode):
-    def __init__(self, key, data=None, left=None, right=None, color=Black):
+    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
         super().__init__(key, data, left, right)
         self.color = color
 

@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from datastructures.red_black_tree import RedBlackTree, Node, Black
+from datastructures.red_black_tree import RedBlackTree, Node, Color
 from tree_util import assert_parent_pointers_consistent
 
 
@@ -12,7 +12,7 @@ class TestRedBlackTree(TestCase):
         tree = RedBlackTree()
 
         assert_that(tree.root, is_(tree.nil))
-        assert_that(tree.nil.color, is_(Black))
+        assert_that(tree.nil.color, is_(Color.BLACK))
 
     def test_create_empty_red_black_tree_without_sentinel(self):
         tree = RedBlackTree(sentinel=None)
