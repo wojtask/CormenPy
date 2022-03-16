@@ -5,6 +5,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter06.exercise6_5_3 import heap_minimum, heap_extract_min, heap_decrease_key, min_heap_insert
+from datastructures.array import Array
 from heap_util import get_random_min_heap, assert_min_heap
 
 
@@ -21,7 +22,7 @@ class TestExercise6_5_3(TestCase):
 
     def test_extract_min(self):
         heap = get_random_min_heap()
-        original = copy.deepcopy(heap)
+        original = Array(heap)
 
         actual_min = heap_extract_min(heap)
 
@@ -32,7 +33,7 @@ class TestExercise6_5_3(TestCase):
 
     def test_heap_decrease_key(self):
         heap = get_random_min_heap()
-        original = copy.deepcopy(heap)
+        original = Array(heap)
         i = random.randint(1, heap.heap_size)
         old_key = heap[i]
         new_key = random.randint(0, 999)
@@ -49,7 +50,7 @@ class TestExercise6_5_3(TestCase):
 
     def test_min_heap_insert(self):
         heap = get_random_min_heap()
-        original = copy.deepcopy(heap)
+        original = Array(heap)
         heap.append(None)  # to increase the heap's capacity for the new element
         new_key = random.randint(0, 999)
 

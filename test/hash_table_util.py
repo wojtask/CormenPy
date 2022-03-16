@@ -6,7 +6,6 @@ from array_util import get_random_array
 from chapter11.exercise11_4_2 import Deleted
 from datastructures.array import Array
 from datastructures.hash_table import Element, ChainedElement
-from queue_util import get_stack_elements
 from util import between
 
 
@@ -73,24 +72,23 @@ def get_chained_hash_table_elements(table):
 
 
 def get_random_huge_array(max_value=999):
-    table_capacity = random.randint(1, min(20, max_value))
-    nelements = random.randint(0, table_capacity)
-    table = Array.indexed(0, max_value)
-    stack = Array.indexed(1, table_capacity)
+    capacity = random.randint(1, min(20, max_value))
+    nelements = random.randint(0, capacity)
+    huge_array = Array.indexed(0, max_value)
+    stack_array = Array.indexed(1, capacity)
     keys = get_random_array(size=nelements, max_value=max_value, unique=True)
 
     for i, key in enumerate(keys, start=1):
-        table[key] = i
-        stack[i] = Element(key)
-    stack.top = keys.length
+        huge_array[key] = i
+        stack_array[i] = Element(key)
+    stack_array.top = keys.length
 
-    return table, stack, keys
+    return huge_array, stack_array, keys
 
 
-def assert_huge_array_consistent(table, stack):
-    elements = get_stack_elements(stack)
-    for i, element in enumerate(elements, start=1):
-        assert_that(table[element.key], is_(equal_to(i)))
+def assert_huge_array_consistent(huge_array, stack_array):
+    for i, element in enumerate(stack_array[1:stack_array.top], start=1):
+        assert_that(huge_array[element.key], is_(equal_to(i)))
 
 
 def get_random_hash_table_linear_probing(max_value=999):

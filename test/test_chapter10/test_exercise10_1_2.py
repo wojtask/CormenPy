@@ -9,11 +9,11 @@ from datastructures.array import Array
 
 
 def get_left_stack_elements(array):
-    return Array(array[1:array.left_top].elements)
+    return array[1:array.left_top]
 
 
 def get_right_stack_elements(array):
-    return Array(array[array.right_top:array.length].elements)
+    return array[array.right_top:array.length]
 
 
 class TestExercise10_1_2(TestCase):
@@ -48,7 +48,7 @@ class TestExercise10_1_2(TestCase):
             assert_that(calling(left_stack_pop).with_args(array), raises(ValueError, 'underflow'))
         else:
             expected_left_elements = get_left_stack_elements(array)
-            expected_left_elements.remove(expected_left_elements[expected_left_elements.length])
+            expected_left_elements.pop(expected_left_elements.length)
             expected_right_elements = get_right_stack_elements(array)
             expected_deleted = array[array.left_top]
 
@@ -91,7 +91,7 @@ class TestExercise10_1_2(TestCase):
         else:
             expected_left_elements = get_left_stack_elements(array)
             expected_right_elements = get_right_stack_elements(array)
-            expected_right_elements.remove(expected_right_elements[1])
+            expected_right_elements.pop(1)
             expected_deleted = array[array.right_top]
 
             actual_deleted = right_stack_pop(array)

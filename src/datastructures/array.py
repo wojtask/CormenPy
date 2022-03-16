@@ -56,25 +56,25 @@ class Array(MutableSequence):
         del self.elements[index - self.start]
         self.length -= 1
 
-    def __eq__(self, other):
-        if isinstance(other, self.__class__):
-            return self.start == other.start and [element for element in self] == [element for element in other]
-        return NotImplemented
-
     def __len__(self):
         return self.length
 
     def __iter__(self):
-        return (element for element in self.elements[:self.length])
+        return iter(self.elements[:self.length])
 
     def __reversed__(self):
-        return (rev for rev in reversed([element for element in self]))
+        return reversed(list(iter(self)))
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.start == other.start and list(iter(self)) == list(iter(other))
+        return NotImplemented
 
     def __add__(self, other):
-        return Array([element for element in self] + [element for element in other], start=self.start)
+        return Array(list(iter(self)) + list(iter(other)), start=self.start)
 
     def __repr__(self):
-        return '%s indexed from %d' % ([element for element in self], self.start)
+        return '%s indexed from %d' % (list(iter(self)), self.start)
 
     def index(self, value, start=None, stop=None):
         if start is None:

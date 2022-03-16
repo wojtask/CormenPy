@@ -1,26 +1,28 @@
 from datastructures.array import Array
 
 
-class Heap(Array):
-    def __init__(self, *elements):
+class Stack(Array):
+    def __init__(self, *elements, top=0):
+        if top < 0 or top > len(*elements):
+            raise IndexError('Invalid top attribute')
         super().__init__(*elements)
-        self.heap_size = self.length
+        self.top = top
 
     def __getitem__(self, index):
         if not isinstance(index, int):
-            TypeError('Cannot address Heap with indexes other than int')
+            TypeError('Cannot address Stack with indexes other than int')
         return super().__getitem__(index)
 
     def __setitem__(self, index, value):
         if not isinstance(index, int):
-            TypeError('Cannot address Heap with indexes other than int')
+            TypeError('Cannot address Stack with indexes other than int')
         return super().__setitem__(index, value)
 
     def __len__(self):
-        return self.heap_size
+        return self.top
 
     def __iter__(self):
-        return iter(super().__getitem__(slice(None, self.heap_size)))
+        return reversed(super().__getitem__(slice(None, self.top)))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
