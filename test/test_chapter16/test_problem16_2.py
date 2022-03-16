@@ -57,7 +57,7 @@ def get_min_schedule(activities, schedule, time):
 def get_min_preemptive_act_bruteforce(processing_times, release_times):
     n = processing_times.length
     activities = Array(Activity(i, processing_times[i], release_times[i]) for i in between(1, n))
-    schedule = Array([None] * n)
+    schedule = Array.indexed(1, n)
     return sum(get_min_schedule(activities, schedule, 0)) / n
 
 
