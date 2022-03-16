@@ -6,9 +6,8 @@ class TernaryTree(RootedTree):
 
 
 class Node:
-    def __init__(self, key, data=None, left=None, middle=None, right=None):
+    def __init__(self, key, left=None, middle=None, right=None):
         self.key = key
-        self.data = data
         self.left = left
         if left is not None:
             left.p = self
