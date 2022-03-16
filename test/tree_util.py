@@ -8,7 +8,7 @@ from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
 from datastructures.interval import Interval
-from datastructures.red_black_tree import RedBlackTree, Red, Black
+from datastructures.red_black_tree import RedBlackTree, Color
 
 
 def get_binary_tree_inorder_keys(tree):
@@ -110,13 +110,13 @@ def get_random_red_black_subtree(black_height, nodes):
         return None
 
     # at each level of the tree we try to create an extra red node in the left subtree
-    if random.choice([Black, Red]) == Red:
+    if random.choice(list(Color)) == Color.RED:
         left_subtree_root = create_red_node_in_subtree(black_height, nodes)
     else:
         left_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
 
     # ...and we repeat the same for the right subtree
-    if random.choice([Black, Red]) == Red:
+    if random.choice(list(Color)) == Color.RED:
         right_subtree_root = create_red_node_in_subtree(black_height, nodes)
     else:
         right_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
@@ -129,7 +129,7 @@ def get_random_red_black_subtree(black_height, nodes):
 def create_red_node_in_subtree(black_height, nodes):
     left_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
     right_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
-    subtree_root = rb.Node(None, left=left_subtree_root, right=right_subtree_root, color=Red)
+    subtree_root = rb.Node(None, left=left_subtree_root, right=right_subtree_root, color=Color.RED)
     nodes.append(subtree_root)
     return subtree_root
 
@@ -152,9 +152,9 @@ def get_subtree_size(node, sentinel):
 def assert_red_black_tree(tree):
     sentinel = getattr(tree, 'nil', None)
     if tree.root is not None:
-        assert_that(tree.root.color, is_(Black))
+        assert_that(tree.root.color, is_(Color.BLACK))
     if sentinel is not None:
-        assert_that(tree.nil.color, is_(Black))
+        assert_that(tree.nil.color, is_(Color.BLACK))
     if tree.root is not sentinel:
         assert_binary_search_tree(tree)
         assert_red_black_property_4(tree.root, sentinel)
@@ -162,11 +162,11 @@ def assert_red_black_tree(tree):
 
 
 def assert_red_black_property_4(node, sentinel):
-    if node.color == Red:
+    if node.color == Color.RED:
         if node.left is not sentinel:
-            assert_that(node.left.color, is_(Black))
+            assert_that(node.left.color, is_(Color.BLACK))
         if node.right is not sentinel:
-            assert_that(node.right.color, is_(Black))
+            assert_that(node.right.color, is_(Color.BLACK))
     if node.left is not sentinel:
         assert_red_black_property_4(node.left, sentinel)
     if node.right is not sentinel:
@@ -176,9 +176,13 @@ def assert_red_black_property_4(node, sentinel):
 def assert_red_black_property_5(node, sentinel):
     left_bh = right_bh = 0
     if node.left is not sentinel:
-        left_bh = assert_red_black_property_5(node.left, sentinel) + node.left.color
+        left_bh = assert_red_black_property_5(node.left, sentinel)
+        if node.left.color == Color.BLACK:
+            left_bh += 1
     if node.right is not sentinel:
-        right_bh = assert_red_black_property_5(node.right, sentinel) + node.right.color
+        right_bh = assert_red_black_property_5(node.right, sentinel)
+        if node.right.color == Color.BLACK:
+            right_bh += 1
     assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
 

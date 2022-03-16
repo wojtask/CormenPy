@@ -1,6 +1,6 @@
 from chapter13.exercise13_2_1 import right_rotate
 from chapter13.textbook13_2 import rb_successor, left_rotate
-from datastructures.red_black_tree import Red, Black
+from datastructures.red_black_tree import Color
 
 
 def rb_delete(T, z, sentinel=None):
@@ -23,53 +23,53 @@ def rb_delete(T, z, sentinel=None):
     if y is not z:
         z.key = y.key
         z.data = y.data
-    if y.color == Black:
+    if y.color == Color.BLACK:
         rb_delete_fixup(T, x, sentinel)
     return y
 
 
 def rb_delete_fixup(T, x, sentinel=None):
-    while x is not T.root and x.color == Black:
+    while x is not T.root and x.color == Color.BLACK:
         if x is x.p.left:
             w = x.p.right
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 left_rotate(T, x.p, sentinel)
                 w = x.p.right
-            if w.left.color == Black and w.right.color == Black:
-                w.color = Red
+            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.right.color == Black:
-                    w.left.color = Black
-                    w.color = Red
+                if w.right.color == Color.BLACK:
+                    w.left.color = Color.BLACK
+                    w.color = Color.RED
                     right_rotate(T, w, sentinel)
                     w = x.p.right
                 w.color = x.p.color
-                x.p.color = Black
-                w.right.color = Black
+                x.p.color = Color.BLACK
+                w.right.color = Color.BLACK
                 left_rotate(T, x.p, sentinel)
                 x = T.root
         else:
             w = x.p.left
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 right_rotate(T, x.p, sentinel)
                 w = x.p.left
-            if w.right.color == Black and w.left.color == Black:
-                w.color = Red
+            if w.right.color == Color.BLACK and w.left.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.left.color == Black:
-                    w.right.color = Black
-                    w.color = Red
+                if w.left.color == Color.BLACK:
+                    w.right.color = Color.BLACK
+                    w.color = Color.RED
                     left_rotate(T, w, sentinel)
                     w = x.p.left
                 w.color = x.p.color
-                x.p.color = Black
-                w.left.color = Black
+                x.p.color = Color.BLACK
+                w.left.color = Color.BLACK
                 right_rotate(T, x.p, sentinel)
                 x = T.root
-    x.color = Black
+    x.color = Color.BLACK

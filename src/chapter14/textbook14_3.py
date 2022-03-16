@@ -1,7 +1,7 @@
 from chapter13.textbook13_4 import rb_successor
 from chapter14.exercise14_3_1 import interval_left_rotate
 from chapter14.exercise14_3_5 import interval_right_rotate
-from datastructures.red_black_tree import Red, Black
+from datastructures.red_black_tree import Color
 
 
 def overlap(i, i_):
@@ -26,7 +26,7 @@ def interval_insert(T, z):
         else:
             y.right = z
     z.left = z.right = T.nil
-    z.color = Red
+    z.color = Color.RED
     z.max = z.int.high
     x = y
     while x is not T.nil:
@@ -40,36 +40,36 @@ def _update_max_field(x):
 
 
 def interval_insert_fixup(T, z):
-    while z.p.color == Red:
+    while z.p.color == Color.RED:
         if z.p is z.p.p.left:
             y = z.p.p.right
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.right:
                     z = z.p
                     interval_left_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_right_rotate(T, z.p.p)
         else:
             y = z.p.p.left
-            if y.color == Red:
-                z.p.color = Black
-                y.color = Black
-                z.p.p.color = Red
+            if y.color == Color.RED:
+                z.p.color = Color.BLACK
+                y.color = Color.BLACK
+                z.p.p.color = Color.RED
                 z = z.p.p
             else:
                 if z is z.p.left:
                     z = z.p
                     interval_right_rotate(T, z)
-                z.p.color = Black
-                z.p.p.color = Red
+                z.p.color = Color.BLACK
+                z.p.p.color = Color.RED
                 interval_left_rotate(T, z.p.p)
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def interval_delete(T, z):
@@ -92,61 +92,60 @@ def interval_delete(T, z):
     if y is not z:
         z.key = y.key
         z.int = y.int
-        z.data = y.data
     w = x.p
     while w is not T.nil:
         _update_max_field(w)
         w = w.p
-    if y.color == Black:
+    if y.color == Color.BLACK:
         interval_delete_fixup(T, x)
     return y
 
 
 def interval_delete_fixup(T, x):
-    while x is not T.root and x.color == Black:
+    while x is not T.root and x.color == Color.BLACK:
         if x is x.p.left:
             w = x.p.right
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 interval_left_rotate(T, x.p)
                 w = x.p.right
-            if w.left.color == Black and w.right.color == Black:
-                w.color = Red
+            if w.left.color == Color.BLACK and w.right.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.right.color == Black:
-                    w.left.color = Black
-                    w.color = Red
+                if w.right.color == Color.BLACK:
+                    w.left.color = Color.BLACK
+                    w.color = Color.RED
                     interval_right_rotate(T, w)
                     w = x.p.right
                 w.color = x.p.color
-                x.p.color = Black
-                w.right.color = Black
+                x.p.color = Color.BLACK
+                w.right.color = Color.BLACK
                 interval_left_rotate(T, x.p)
                 x = T.root
         else:
             w = x.p.left
-            if w.color == Red:
-                w.color = Black
-                x.p.color = Red
+            if w.color == Color.RED:
+                w.color = Color.BLACK
+                x.p.color = Color.RED
                 interval_right_rotate(T, x.p)
                 w = x.p.left
-            if w.right.color == Black and w.left.color == Black:
-                w.color = Red
+            if w.right.color == Color.BLACK and w.left.color == Color.BLACK:
+                w.color = Color.RED
                 x = x.p
             else:
-                if w.left.color == Black:
-                    w.right.color = Black
-                    w.color = Red
+                if w.left.color == Color.BLACK:
+                    w.right.color = Color.BLACK
+                    w.color = Color.RED
                     interval_left_rotate(T, w)
                     w = x.p.left
                 w.color = x.p.color
-                x.p.color = Black
-                w.left.color = Black
+                x.p.color = Color.BLACK
+                w.left.color = Color.BLACK
                 interval_right_rotate(T, x.p)
                 x = T.root
-    x.color = Black
+    x.color = Color.BLACK
 
 
 def interval_search(T, i):

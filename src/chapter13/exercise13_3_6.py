@@ -1,6 +1,6 @@
 from chapter10.textbook10_1 import push, pop
 from datastructures.array import Array
-from datastructures.red_black_tree import Red, Black
+from datastructures.red_black_tree import Color
 
 
 def parentless_rb_insert(T, z):
@@ -26,7 +26,7 @@ def parentless_rb_insert(T, z):
             y.right = z
     z.left = T.nil
     z.right = T.nil
-    z.color = Red
+    z.color = Color.RED
     parentless_rb_insert_fixup(T, S, z)
 
 
@@ -44,37 +44,37 @@ def _get_path_length_from_root_to_leaf(T, z):
 
 def parentless_rb_insert_fixup(T, S, z):
     p = pop(S)
-    while p.color == Red:
+    while p.color == Color.RED:
         r = pop(S)
         if p is r.left:
             y = r.right
-            if y.color == Red:
-                y.color = p.color = Black
-                r.color = Red
+            if y.color == Color.RED:
+                y.color = p.color = Color.BLACK
+                r.color = Color.RED
                 z = r
                 p = pop(S)
             else:
                 if z is p.right:
                     z, p = p, z
                     parentless_rb_left_rotate(T, z, r)
-                p.color = Black
-                r.color = Red
+                p.color = Color.BLACK
+                r.color = Color.RED
                 parentless_rb_right_rotate(T, r, pop(S))
         else:
             y = r.left
-            if y.color is Red:
-                y.color = p.color = Black
-                r.color = Red
+            if y.color is Color.RED:
+                y.color = p.color = Color.BLACK
+                r.color = Color.RED
                 z = r
                 p = pop(S)
             else:
                 if z is p.left:
                     z, p = p, z
                     parentless_rb_right_rotate(T, z, r)
-                p.color = Black
-                r.color = Red
+                p.color = Color.BLACK
+                r.color = Color.RED
                 parentless_rb_left_rotate(T, r, pop(S))
-    T.root.color = Black
+    T.root.color = Color.BLACK
 
 
 def parentless_rb_left_rotate(T, x, p):

@@ -5,7 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter13.problem13_2 import joinable_rb_insert, joinable_rb_delete, rb_join
-from datastructures.red_black_tree import Black, RedBlackTree, Node
+from datastructures.red_black_tree import Color, RedBlackTree, Node
 from tree_util import assert_red_black_tree, assert_parent_pointers_consistent, get_binary_tree_inorder_keys, \
     get_random_red_black_tree, get_binary_tree_inorder_nodes
 
@@ -13,7 +13,7 @@ from tree_util import assert_red_black_tree, assert_parent_pointers_consistent, 
 def calculate_black_height(node):
     black_height = 0
     while node:
-        if node.color == Black:
+        if node.color == Color.BLACK:
             black_height += 1
         node = node.left  # it doesn't matter which path we choose as long as the tree fulfills property 5
     return black_height
