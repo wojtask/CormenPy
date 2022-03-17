@@ -49,7 +49,7 @@ class TestTextbook11_2(TestCase):
             e = ChainedElement(key)
             table[h(key, table.length)] = e
             actual_elements.append(e)
-        element_to_delete = actual_elements[random.randint(1, actual_elements.length)]
+        element_to_delete = actual_elements.random_choice()
         original = copy.deepcopy(table)
         expected_elements = get_chained_hash_table_elements(original)
         expected_elements.remove(element_to_delete)

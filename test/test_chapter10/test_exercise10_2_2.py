@@ -5,26 +5,29 @@ from hamcrest import *
 
 from chapter10.exercise10_2_2 import singly_linked_list_push, singly_linked_list_pop
 from datastructures.array import Array
-from list_util import get_random_singly_linked_list, get_linked_list_keys
+from list_util import get_random_singly_linked_list
 
 
 class TestExercise10_2_2(TestCase):
 
     def test_singly_linked_list_push(self):
-        list_, nodes, keys = get_random_singly_linked_list()
+        linked_list = get_random_singly_linked_list()
+        original_keys = linked_list.as_keys_array()
         x = random.randint(0, 999)
 
-        singly_linked_list_push(list_, x)
+        singly_linked_list_push(linked_list, x)
 
-        actual_keys = get_linked_list_keys(list_)
-        expected_keys = Array(x) + keys
+        actual_keys = linked_list.as_keys_array()
+        expected_keys = Array(x) + original_keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_pop(self):
-        list_, nodes, keys = get_random_singly_linked_list(max_size=5)
+        linked_list = get_random_singly_linked_list(max_size=5)
+        original_keys = linked_list.as_keys_array()
 
-        actual_deleted = singly_linked_list_pop(list_)
+        actual_deleted = singly_linked_list_pop(linked_list)
 
-        assert_that(actual_deleted, is_(equal_to(keys[1])))
-        actual_keys = get_linked_list_keys(list_)
-        assert_that(actual_keys, is_(equal_to(keys[2:])))
+        assert_that(actual_deleted, is_(equal_to(original_keys[1])))
+        original_keys.pop(1)
+        actual_keys = linked_list.as_keys_array()
+        assert_that(actual_keys, is_(equal_to(original_keys)))

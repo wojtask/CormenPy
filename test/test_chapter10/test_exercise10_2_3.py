@@ -4,35 +4,40 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter10.exercise10_2_3 import singly_linked_list_enqueue, singly_linked_list_dequeue
-from list_util import get_random_singly_linked_list, get_linked_list_keys
+from list_util import get_random_singly_linked_list
 
 
 class TestExercise10_2_3(TestCase):
 
     def test_singly_linked_list_enqueue(self):
-        list_, nodes, keys = get_random_singly_linked_list()
-        list_.tail = nodes[nodes.length]
+        linked_list = get_random_singly_linked_list()
+        original_nodes = linked_list.as_nodes_array()
+        original_keys = linked_list.as_keys_array()
+        linked_list.tail = original_nodes[original_nodes.length]
         x = random.randint(0, 999)
 
-        singly_linked_list_enqueue(list_, x)
+        singly_linked_list_enqueue(linked_list, x)
 
-        actual_keys = get_linked_list_keys(list_)
-        expected_keys = keys + [x]
+        actual_keys = linked_list.as_keys_array()
+        expected_keys = original_keys + [x]
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_dequeue(self):
-        list_, nodes, keys = get_random_singly_linked_list(min_size=0, max_size=5)
+        linked_list = get_random_singly_linked_list(min_size=0, max_size=5)
+        original_nodes = linked_list.as_nodes_array()
+        original_keys = linked_list.as_keys_array()
 
-        if list_.head is None:
-            list_.tail = None
-            assert_that(calling(singly_linked_list_dequeue).with_args(list_), raises(ValueError, 'underflow'))
+        if linked_list.head is None:
+            linked_list.tail = None
+            assert_that(calling(singly_linked_list_dequeue).with_args(linked_list), raises(ValueError, 'underflow'))
         else:
-            list_.tail = nodes[nodes.length]
+            linked_list.tail = original_nodes[original_keys.length]
 
-            actual_deleted = singly_linked_list_dequeue(list_)
+            actual_deleted = singly_linked_list_dequeue(linked_list)
 
-            assert_that(actual_deleted, is_(equal_to(keys[1])))
-            actual_keys = get_linked_list_keys(list_)
-            assert_that(actual_keys, is_(equal_to(keys[2:])))
-            if list_.head is None:
-                assert_that(list_.tail, is_(none()))
+            assert_that(actual_deleted, is_(equal_to(original_keys[1])))
+            actual_keys = linked_list.as_keys_array()
+            original_keys.pop(1)
+            assert_that(actual_keys, is_(equal_to(original_keys)))
+            if linked_list.head is None:
+                assert_that(linked_list.tail, is_(none()))

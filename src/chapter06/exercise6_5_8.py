@@ -2,7 +2,7 @@ import math
 
 from chapter06.textbook6_1 import parent, left, right
 from datastructures.array import Array
-from datastructures.list import List, SNode
+from datastructures.list import List, SinglyLinkedNode
 
 
 def merge_sorted_lists(lists):
@@ -32,7 +32,7 @@ def merge_sorted_lists(lists):
 
 def _min_heap_insert_pair(A, pair):
     A.heap_size += 1
-    A[A.heap_size] = (SNode(math.inf), None)
+    A[A.heap_size] = (SinglyLinkedNode(math.inf), None)
     _heap_decrease_pair_key(A, A.heap_size, pair)
 
 

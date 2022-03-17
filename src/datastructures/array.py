@@ -95,3 +95,6 @@ class Array(MutableSequence):
     def shuffle(self):
         random.shuffle(self.elements)
         return self
+
+    def random_choice(self):
+        return random.choice(self.elements)

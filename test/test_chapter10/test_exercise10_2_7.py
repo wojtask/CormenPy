@@ -4,16 +4,17 @@ from hamcrest import *
 
 from chapter10.exercise10_2_7 import singly_linked_list_reverse
 from datastructures.array import Array
-from list_util import get_random_singly_linked_list, get_linked_list_keys
+from list_util import get_random_singly_linked_list
 
 
 class TestExercise10_2_7(TestCase):
 
     def test_singly_linked_list_reverse(self):
-        list_, nodes, keys = get_random_singly_linked_list()
+        linked_list = get_random_singly_linked_list()
+        original_keys = linked_list.as_keys_array()
 
-        singly_linked_list_reverse(list_)
+        singly_linked_list_reverse(linked_list)
 
-        actual_keys = get_linked_list_keys(list_)
-        expected_keys = Array(reversed(keys))
+        actual_keys = linked_list.as_keys_array()
+        expected_keys = Array(reversed(original_keys))
         assert_that(actual_keys, is_(equal_to(expected_keys)))

@@ -5,82 +5,96 @@ from hamcrest import *
 
 from chapter10.textbook10_2 import list_search, list_insert, list_delete, list_delete_, list_search_, list_insert_
 from datastructures.array import Array
-from datastructures.list import Node
-from list_util import get_random_doubly_linked_list, get_linked_list_keys, assert_prev_next_pointers_consistent, \
-    get_random_doubly_linked_list_with_sentinel, get_doubly_linked_list_with_sentinel_keys, \
-    assert_prev_next_pointers_consistent_with_sentinel
+from datastructures.list import DoublyLinkedNode
+from list_util import get_random_doubly_linked_list, assert_doubly_linked_list_structure_consistent, \
+    get_random_doubly_linked_list_with_sentinel, \
+    assert_doubly_linked_list_with_sentinel_structure_consistent
 
 
 class TestTextbook10_2(TestCase):
 
     def test_list_search(self):
-        list_, nodes, keys = get_random_doubly_linked_list(min_size=10, max_size=20, max_value=20)
+        linked_list = get_random_doubly_linked_list(min_size=10, max_size=20, max_value=20)
+        original_nodes = linked_list.as_nodes_array()
+        original_keys = linked_list.as_keys_array()
         k = random.randint(1, 20)
 
-        actual_node = list_search(list_, k)
+        actual_node = list_search(linked_list, k)
 
-        if k in keys:
-            assert_that(actual_node, is_in(nodes))
+        if k in original_keys:
+            assert_that(actual_node, is_in(original_nodes))
             assert_that(actual_node.key, is_(equal_to(k)))
         else:
             assert_that(actual_node, is_(none()))
+        actual_keys = linked_list.as_keys_array()
+        assert_that(actual_keys, is_(equal_to(original_keys)))
+        assert_doubly_linked_list_structure_consistent(linked_list)
 
     def test_list_insert(self):
-        list_, nodes, keys = get_random_doubly_linked_list()
+        linked_list = get_random_doubly_linked_list()
+        original_keys = linked_list.as_keys_array()
         new_key = random.randint(0, 999)
-        new_node = Node(new_key)
+        new_node = DoublyLinkedNode(new_key)
 
-        list_insert(list_, new_node)
+        list_insert(linked_list, new_node)
 
-        actual_keys = get_linked_list_keys(list_)
-        expected_keys = Array(new_key, keys)
+        actual_keys = linked_list.as_keys_array()
+        expected_keys = Array(new_key, original_keys)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
-        assert_prev_next_pointers_consistent(list_)
+        assert_doubly_linked_list_structure_consistent(linked_list)
 
     def test_list_delete(self):
-        list_, nodes, keys = get_random_doubly_linked_list(max_size=5)
-        node_idx = random.randint(1, nodes.length)
-        node_to_delete = nodes[node_idx]
+        linked_list = get_random_doubly_linked_list(max_size=5)
+        original_keys = linked_list.as_keys_array()
+        original_nodes = linked_list.as_nodes_array()
+        node_to_delete = original_nodes.random_choice()
 
-        list_delete(list_, node_to_delete)
+        list_delete(linked_list, node_to_delete)
 
-        actual_keys = get_linked_list_keys(list_)
-        expected_keys = keys[:node_idx - 1] + keys[node_idx + 1:]
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
-        assert_prev_next_pointers_consistent(list_)
+        actual_keys = linked_list.as_keys_array()
+        original_keys.remove(node_to_delete.key)
+        assert_that(actual_keys, is_(equal_to(original_keys)))
+        assert_doubly_linked_list_structure_consistent(linked_list)
 
     def test_list_delete_(self):
-        list_, nodes, keys = get_random_doubly_linked_list_with_sentinel(max_size=5)
-        node_idx = random.randint(1, nodes.length)
-        node_to_delete = nodes[node_idx]
+        linked_list = get_random_doubly_linked_list_with_sentinel(max_size=5)
+        original_keys = linked_list.as_keys_array()
+        original_nodes = linked_list.as_nodes_array()
+        node_to_delete = original_nodes.random_choice()
 
-        list_delete_(list_, node_to_delete)
+        list_delete_(linked_list, node_to_delete)
 
-        actual_keys = get_doubly_linked_list_with_sentinel_keys(list_)
-        expected_keys = keys[:node_idx - 1] + keys[node_idx + 1:]
-        assert_that(actual_keys, is_(equal_to(expected_keys)))
-        assert_prev_next_pointers_consistent_with_sentinel(list_)
+        actual_keys = linked_list.as_keys_array()
+        original_keys.remove(node_to_delete.key)
+        assert_that(actual_keys, is_(equal_to(original_keys)))
+        assert_doubly_linked_list_with_sentinel_structure_consistent(linked_list)
 
     def test_list_search_(self):
-        list_, nodes, keys = get_random_doubly_linked_list_with_sentinel(min_size=10, max_size=20, max_value=20)
+        linked_list = get_random_doubly_linked_list_with_sentinel(min_size=10, max_size=20, max_value=20)
+        original_nodes = linked_list.as_nodes_array()
+        original_keys = linked_list.as_keys_array()
         k = random.randint(1, 20)
 
-        actual_node = list_search_(list_, k)
+        actual_node = list_search_(linked_list, k)
 
-        if k in keys:
-            assert_that(actual_node, is_in(nodes))
+        if k in original_keys:
+            assert_that(actual_node, is_in(original_nodes))
             assert_that(actual_node.key, is_(equal_to(k)))
         else:
-            assert_that(actual_node, is_(list_.nil))
+            assert_that(actual_node, is_(linked_list.nil))
+        actual_keys = linked_list.as_keys_array()
+        assert_that(actual_keys, is_(equal_to(original_keys)))
+        assert_doubly_linked_list_with_sentinel_structure_consistent(linked_list)
 
     def test_list_insert_(self):
-        list_, nodes, keys = get_random_doubly_linked_list_with_sentinel()
+        linked_list = get_random_doubly_linked_list_with_sentinel()
+        original_keys = linked_list.as_keys_array()
         new_key = random.randint(0, 999)
-        new_node = Node(new_key)
+        new_node = DoublyLinkedNode(new_key)
 
-        list_insert_(list_, new_node)
+        list_insert_(linked_list, new_node)
 
-        actual_keys = get_doubly_linked_list_with_sentinel_keys(list_)
-        expected_keys = Array(new_key, keys)
+        actual_keys = linked_list.as_keys_array()
+        expected_keys = Array(new_key) + original_keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
-        assert_prev_next_pointers_consistent_with_sentinel(list_)
+        assert_doubly_linked_list_with_sentinel_structure_consistent(linked_list)

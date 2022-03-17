@@ -2,7 +2,7 @@ from chapter06.exercise6_5_8 import merge_sorted_lists
 from chapter10.exercise10_2_1 import singly_linked_list_insert, singly_linked_list_delete
 from chapter11.textbook11_5 import perfect_hashing_search, perfect_hashing_init
 from datastructures.array import Array
-from datastructures.list import List, SNode
+from datastructures.list import List, SinglyLinkedNode
 
 
 def sorted_list_make_min_heap():
@@ -10,7 +10,7 @@ def sorted_list_make_min_heap():
 
 
 def sorted_list_min_heap_insert(heap, key):
-    x = SNode(key)
+    x = SinglyLinkedNode(key)
     if heap.head is None:
         heap.head = x
         return
@@ -38,7 +38,7 @@ def sorted_list_heap_extract_min(heap):
 
 
 def sorted_list_min_heap_union(heap1, heap2):
-    merged_heaps = merge_sorted_lists(Array(heap1, heap2))
+    merged_heaps = merge_sorted_lists(Array((heap1, heap2)))
     x = merged_heaps.head
     while x is not None:
         y = x.next
@@ -55,7 +55,7 @@ def list_make_min_heap():
 
 
 def list_min_heap_insert(heap, key):
-    x = SNode(key)
+    x = SinglyLinkedNode(key)
     if heap.head is None or key < heap.head.key:
         singly_linked_list_insert(heap, x)
         if heap.tail is None:

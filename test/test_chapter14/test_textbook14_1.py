@@ -27,7 +27,7 @@ class TestTextbook14_1(TestCase):
 
     def test_os_rank(self):
         tree, inorder_nodes, inorder_keys = get_random_os_tree()
-        node_to_find = inorder_nodes[random.randint(1, inorder_nodes.length)]
+        node_to_find = inorder_nodes.random_choice()
 
         actual_rank = os_rank(tree, node_to_find)
 
@@ -55,7 +55,7 @@ class TestTextbook14_1(TestCase):
         inorder_nodes = get_binary_tree_inorder_nodes(tree)
 
         while inorder_nodes:
-            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
+            node = inorder_nodes.random_choice()
             inorder_keys.remove(node.key)
 
             os_delete(tree, node)

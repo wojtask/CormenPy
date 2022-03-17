@@ -1,8 +1,8 @@
-from datastructures.list import SNode
+from datastructures.list import SinglyLinkedNode
 
 
 def singly_linked_list_enqueue(L, k):
-    x = SNode(None)
+    x = SinglyLinkedNode(None)
     x.next = None
     x.key = k
     if L.tail is not None:
