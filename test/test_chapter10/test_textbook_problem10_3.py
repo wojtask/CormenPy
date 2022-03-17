@@ -5,31 +5,37 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter10.textbook_problem10_3 import compact_list_search
+from datastructures.array import Array
 from list_util import get_random_compact_list
 
 
-def make_sorted_keys_in_multiple_array_list(list_):
-    array_length = list_.key.length
+def make_compact_list_keys_sorted(compact_list):
+    array_length = compact_list.key.length
     sorted_keys = get_random_array(size=array_length).sort()
-    x = list_.head
+    x = compact_list.head
     i = 1
     while x:
-        list_.key[x] = sorted_keys[i]
-        x = list_.next[x]
+        compact_list.key[x] = sorted_keys[i]
+        x = compact_list.next[x]
         i += 1
-    return sorted_keys[:i - 1]
 
 
 class TestTextbookProblem10_3(TestCase):
 
     def test_compact_list_search(self):
-        list_ = get_random_compact_list(min_size=10, max_size=20, max_value=20)
-        keys = make_sorted_keys_in_multiple_array_list(list_)
+        compact_list = get_random_compact_list(min_size=10, max_size=20, max_value=20)
+        make_compact_list_keys_sorted(compact_list)
+        expected_keys = Array(compact_list)
+        expected_free_list_size = compact_list.get_free_list_size()
         key_to_find = random.randint(0, 20)
 
-        actual_index = compact_list_search(list_, keys.length, key_to_find)
+        actual_index = compact_list_search(compact_list, expected_keys.length, key_to_find)
 
-        if key_to_find in keys:
-            assert_that(list_.key[actual_index], is_(equal_to(key_to_find)))
+        if key_to_find in expected_keys:
+            assert_that(compact_list.key[actual_index], is_(equal_to(key_to_find)))
         else:
             assert_that(actual_index, is_(none()))
+        actual_keys = Array(compact_list)
+        actual_free_list_size = compact_list.get_free_list_size()
+        assert_that(actual_keys, is_(equal_to(expected_keys)))
+        assert_that(actual_free_list_size, is_(equal_to(expected_free_list_size)))

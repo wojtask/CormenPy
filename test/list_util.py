@@ -136,33 +136,6 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     return MultipleArrayList(key, next, prev, head, free)
 
 
-def get_multiple_array_list_keys(array_list):
-    idx = array_list.head
-    keys = Array()
-    while idx is not None:
-        keys.append(array_list.key[idx])
-        idx = array_list.next[idx]
-    return keys
-
-
-def get_multiple_array_list_free_cells(array_list):
-    idx = array_list.free
-    free_cells = 0
-    while idx is not None:
-        free_cells += 1
-        idx = array_list.next[idx]
-    return free_cells
-
-
-def assert_multiple_array_list_consistent(array_list):
-    prev_idx = None
-    idx = array_list.head
-    while idx is not None:
-        assert_that(array_list.prev[idx] == prev_idx)
-        prev_idx = idx
-        idx = array_list.next[idx]
-
-
 def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     list_size = random.randint(min_size, max_size)
     array_size = 3 * random.randint(list_size, max_size)
@@ -192,22 +165,13 @@ def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     return SingleArrayList(A, head, free)
 
 
-def get_single_array_list_keys(array_list):
+def assert_multiple_array_list_consistent(array_list):
+    prev_idx = None
     idx = array_list.head
-    keys = Array()
     while idx is not None:
-        keys.append(array_list.A[idx])
-        idx = array_list.A[idx + 1]
-    return keys
-
-
-def get_single_array_list_free_cells(array_list):
-    idx = array_list.free
-    free_cells = 0
-    while idx is not None:
-        free_cells += 1
-        idx = array_list.A[idx + 1]
-    return free_cells
+        assert_that(array_list.prev[idx] == prev_idx)
+        prev_idx = idx
+        idx = array_list.next[idx]
 
 
 def assert_single_array_list_consistent(array_list):
