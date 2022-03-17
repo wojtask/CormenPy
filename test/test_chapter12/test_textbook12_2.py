@@ -69,7 +69,7 @@ class TestTextbook12_2(TestCase):
     def test_tree_successor(self):
         tree, inorder_nodes, inorder_keys = get_random_binary_search_tree()
         original = copy.deepcopy(tree)
-        given_node = inorder_nodes[random.randint(1, inorder_nodes.length)]
+        given_node = inorder_nodes.random_choice()
 
         actual_successor = tree_successor(given_node)
 

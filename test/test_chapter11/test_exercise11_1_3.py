@@ -47,7 +47,7 @@ class TestExercise11_1_3(TestCase):
             key = random.randint(0, table.length - 1)
             table[key] = ChainedElement(key)
             actual_elements.append(table[key])
-        element_to_delete = actual_elements[random.randint(1, actual_elements.length)]
+        element_to_delete = actual_elements.random_choice()
         original = copy.deepcopy(table)
         original_elements = get_chained_hash_table_elements(original)
         original_elements.remove(element_to_delete)

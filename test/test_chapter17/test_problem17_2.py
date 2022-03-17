@@ -59,7 +59,7 @@ class TestProblem17_2(TestCase):
         if elements_before.length == 0:
             arrays[0] = Array(random.randint(0, 2 ** (k - 1)))
             elements_before.append(arrays[0][1])
-        element = elements_before[random.randint(1, elements_before.length)]
+        element = elements_before.random_choice()
 
         dynamic_binary_delete(arrays, element)
 

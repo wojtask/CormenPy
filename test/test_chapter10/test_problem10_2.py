@@ -9,13 +9,12 @@ from chapter10.problem10_2 import sorted_list_make_min_heap, sorted_list_min_hea
     sorted_list_heap_extract_min, sorted_list_min_heap_union, list_make_min_heap, list_min_heap_insert, \
     list_heap_minimum, list_heap_extract_min, list_min_heap_union, list_min_heap_disjoint_union
 from datastructures.array import Array
-from list_util import get_linked_list_keys
 
 
-def assert_sorted_list(list_):
-    if list_.head is None:
+def assert_sorted_list(linked_list):
+    if linked_list.head is None:
         return
-    x = list_.head
+    x = linked_list.head
     while x.next is not None:
         assert_that(x.key < x.next.key)
         x = x.next
@@ -63,7 +62,7 @@ class TestProblem10_2(TestCase):
 
         merged_heap = sorted_list_min_heap_union(heap1, heap2)
 
-        actual_elements = get_linked_list_keys(merged_heap)
+        actual_elements = merged_heap.as_keys_array()
         expected_elements = Array(set(expected_elements)).sort()
         assert_that(actual_elements, is_(equal_to(expected_elements)))
         assert_sorted_list(merged_heap)
@@ -104,7 +103,7 @@ class TestProblem10_2(TestCase):
 
         merged_heap = list_min_heap_union(heap1, heap2)
 
-        actual_elements = get_linked_list_keys(merged_heap)
+        actual_elements = merged_heap.as_keys_array()
         expected_elements = Array(set(expected_elements)).sort()
         assert_that(actual_elements, contains_inanyorder(*expected_elements))
 
@@ -122,5 +121,5 @@ class TestProblem10_2(TestCase):
 
         merged_heap = list_min_heap_disjoint_union(heap1, heap2)
 
-        actual_elements = get_linked_list_keys(merged_heap)
+        actual_elements = merged_heap.as_keys_array()
         assert_that(actual_elements, contains_inanyorder(*original))

@@ -5,122 +5,94 @@ from hamcrest import *
 from array_util import get_random_array
 from datastructures.array import Array
 from datastructures.array_list import MultipleArrayList, SingleArrayList
-from datastructures.list import List, Node, SNode, XORNode, XORList
+from datastructures.list import List, SinglyLinkedNode, DoublyLinkedNode, XORNode, XORList, ListWithSentinel
 from util import between
+
+
+def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(SinglyLinkedNode(key) for key in keys)
+    linked_list = List()
+    prev_node = linked_list.head
+    for node in nodes:
+        if prev_node is None:
+            linked_list.head = node
+        else:
+            prev_node.next = node
+        prev_node = node
+    return linked_list
 
 
 def get_random_doubly_linked_list(min_size=1, max_size=20, max_value=999):
     keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
-    nodes = Array(Node(key) for key in keys)
-    list_ = List()
-    prev_node = list_.head
+    nodes = Array(DoublyLinkedNode(key) for key in keys)
+    linked_list = List()
+    prev_node = linked_list.head
     for node in nodes:
         if prev_node is None:
-            list_.head = node
+            linked_list.head = node
         else:
             prev_node.next = node
         node.prev = prev_node
         prev_node = node
-    return list_, nodes, keys
+    return linked_list
 
 
-def get_linked_list_keys(list_):
-    keys = Array()
-    node = list_.head
-    while node is not None:
-        keys.append(node.key)
-        node = node.next
-    return keys
+def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_value=999):
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(DoublyLinkedNode(key) for key in keys)
+    linked_list = ListWithSentinel()
+    prev_node = linked_list.nil
+    for node in nodes:
+        prev_node.next = node
+        node.prev = prev_node
+        node.next = linked_list.nil
+        linked_list.nil.prev = node
+        prev_node = node
+    return linked_list
 
 
-def assert_prev_next_pointers_consistent(list_):
-    if list_.head is None:
+def get_random_circular_singly_linked_list(min_size=1, max_size=20, max_value=999):
+    linked_list = get_random_singly_linked_list(min_size=min_size, max_size=max_size, max_value=max_value)
+    if linked_list.head is not None:
+        prev_node = linked_list.head
+        while prev_node.next is not None:
+            prev_node = prev_node.next
+        prev_node.next = linked_list.head
+    return linked_list
+
+
+def assert_doubly_linked_list_structure_consistent(linked_list):
+    if linked_list.head is None:
         return
 
-    assert_that(list_.head.prev, is_(none()))
-    node = list_.head.next
-    while node is not None:
+    assert_that(linked_list.head.prev, is_(any_of(none(), linked_list.head)))
+    node = linked_list.head.next
+    while node is not None and node is not linked_list.head:
         assert_that(node.prev.next, is_(node))
         if node.next is not None:
             assert_that(node.next.prev, is_(node))
         node = node.next
 
 
-def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_value=999):
-    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
-    nodes = Array(Node(key) for key in keys)
-    list_ = List()
-    list_.nil = sentinel = Node(None)
-    sentinel.prev = sentinel.next = sentinel
-    prev_node = sentinel
-    for node in nodes:
-        prev_node.next = node
-        node.prev = prev_node
-        node.next = sentinel
-        sentinel.prev = node
-        prev_node = node
-    return list_, nodes, keys
-
-
-def get_doubly_linked_list_with_sentinel_keys(list_):
-    keys = Array()
-    node = list_.nil.next
-    while node is not list_.nil:
-        keys.append(node.key)
-        node = node.next
-    return keys
-
-
-def assert_prev_next_pointers_consistent_with_sentinel(list_):
-    assert_that(list_.nil.next.prev, is_(list_.nil))
-    assert_that(list_.nil.prev.next, is_(list_.nil))
-    node = list_.nil.next
-    while node is not list_.nil:
+def assert_doubly_linked_list_with_sentinel_structure_consistent(linked_list):
+    assert_that(linked_list.nil.next.prev, is_(linked_list.nil))
+    assert_that(linked_list.nil.prev.next, is_(linked_list.nil))
+    node = linked_list.nil.next
+    while node is not linked_list.nil:
         assert_that(node.prev.next, is_(node))
         assert_that(node.next.prev, is_(node))
         node = node.next
 
 
-def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
-    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
-    nodes = Array(SNode(key) for key in keys)
-    list_ = List()
-    prev_node = list_.head
-    for node in nodes:
-        if prev_node is None:
-            list_.head = node
-        else:
-            prev_node.next = node
-        prev_node = node
-    return list_, nodes, keys
-
-
-def get_random_circular_list(min_size=1, max_size=20, max_value=999):
-    list_, nodes, keys = get_random_singly_linked_list(min_size, max_size, max_value)
-    if list_.head is not None:
-        nodes[nodes.length].next = list_.head
-    return list_, nodes, keys
-
-
-def get_circular_list_keys(list_):
-    if list_.head is None:
-        return Array()
-    keys = Array(list_.head.key)
-    node = list_.head.next
-    while node is not list_.head:
-        keys.append(node.key)
-        node = node.next
-    return keys
-
-
 def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
-    list_ = XORList()
+    linked_list = XORList()
     size = random.randint(min_size, max_size)
     if size == 0:
-        return list_, Array(), Array()
+        return linked_list
 
     keys = get_random_array(size=size, min_value=0, max_value=max_value)
-    nodes = Array(XORNode(key, list_) for key in keys)
+    nodes = Array(XORNode(key, linked_list) for key in keys)
 
     prev_node = None
     curr_node = nodes[1]
@@ -129,23 +101,10 @@ def get_random_xor_linked_list(min_size=1, max_size=20, max_value=999):
         next_node.np = id(curr_node)
         prev_node = curr_node
         curr_node = next_node
-    list_.head = nodes[1]
-    list_.tail = nodes[nodes.length]
+    linked_list.head = nodes[1]
+    linked_list.tail = nodes[nodes.length]
 
-    return list_, nodes, keys
-
-
-def get_xor_linked_list_keys(list_):
-    keys = Array()
-    prev_node = None
-    curr_node = list_.head
-    while curr_node is not None:
-        keys.append(curr_node.key)
-        next_node_addr = curr_node.np ^ (id(prev_node) if prev_node is not None else 0)
-        next_node = list_.addr_to_node[next_node_addr]
-        prev_node = curr_node
-        curr_node = next_node
-    return keys
+    return linked_list
 
 
 def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
@@ -177,31 +136,31 @@ def get_random_multiple_array_list(min_size=1, max_size=10, max_value=999):
     return MultipleArrayList(key, next, prev, head, free)
 
 
-def get_multiple_array_list_keys(list_):
-    idx = list_.head
+def get_multiple_array_list_keys(array_list):
+    idx = array_list.head
     keys = Array()
     while idx is not None:
-        keys.append(list_.key[idx])
-        idx = list_.next[idx]
+        keys.append(array_list.key[idx])
+        idx = array_list.next[idx]
     return keys
 
 
-def get_multiple_array_list_free_cells(list_):
-    idx = list_.free
+def get_multiple_array_list_free_cells(array_list):
+    idx = array_list.free
     free_cells = 0
     while idx is not None:
         free_cells += 1
-        idx = list_.next[idx]
+        idx = array_list.next[idx]
     return free_cells
 
 
-def assert_multiple_array_list_consistent(list_):
+def assert_multiple_array_list_consistent(array_list):
     prev_idx = None
-    idx = list_.head
+    idx = array_list.head
     while idx is not None:
-        assert_that(list_.prev[idx] == prev_idx)
+        assert_that(array_list.prev[idx] == prev_idx)
         prev_idx = idx
-        idx = list_.next[idx]
+        idx = array_list.next[idx]
 
 
 def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
@@ -233,31 +192,31 @@ def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
     return SingleArrayList(A, head, free)
 
 
-def get_single_array_list_keys(list_):
-    idx = list_.head
+def get_single_array_list_keys(array_list):
+    idx = array_list.head
     keys = Array()
     while idx is not None:
-        keys.append(list_.A[idx])
-        idx = list_.A[idx + 1]
+        keys.append(array_list.A[idx])
+        idx = array_list.A[idx + 1]
     return keys
 
 
-def get_single_array_list_free_cells(list_):
-    idx = list_.free
+def get_single_array_list_free_cells(array_list):
+    idx = array_list.free
     free_cells = 0
     while idx is not None:
         free_cells += 1
-        idx = list_.A[idx + 1]
+        idx = array_list.A[idx + 1]
     return free_cells
 
 
-def assert_single_array_list_consistent(list_):
+def assert_single_array_list_consistent(array_list):
     prev_idx = None
-    idx = list_.head
+    idx = array_list.head
     while idx is not None:
-        assert_that(list_.A[idx + 2] == prev_idx)
+        assert_that(array_list.A[idx + 2] == prev_idx)
         prev_idx = idx
-        idx = list_.A[idx + 1]
+        idx = array_list.A[idx + 1]
 
 
 def get_random_compact_list(min_size=1, max_size=10, max_value=999):
@@ -283,12 +242,12 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
     return MultipleArrayList(key, next, prev, head, free)
 
 
-def assert_compact_list(list_):
-    idx = list_.head
+def assert_compact_list(compact_list):
+    idx = compact_list.head
     nelements = 0
     max_idx = 0
     while idx is not None:
         nelements += 1
         max_idx = max(max_idx, idx)
-        idx = list_.next[idx]
+        idx = compact_list.next[idx]
     assert_that(max_idx, is_(equal_to(nelements)))

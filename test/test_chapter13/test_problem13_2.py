@@ -42,7 +42,7 @@ class TestProblem13_2(TestCase):
         tree.bh = calculate_black_height(tree.root)
 
         while inorder_nodes:
-            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
+            node = inorder_nodes.random_choice()
             inorder_keys.remove(node.key)
 
             joinable_rb_delete(tree, node)

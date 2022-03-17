@@ -1,16 +1,16 @@
 from chapter10.exercise10_2_1 import singly_linked_list_insert
 from chapter14.textbook14_1 import os_insert, os_select, os_delete
-from datastructures.list import List, SNode
+from datastructures.list import List, SinglyLinkedNode
 from datastructures.red_black_tree import RedBlackTree, OSNode
 from util import between, rbetween
 
 
 def josephus_simulate(n, m):
     L = List()
-    singly_linked_list_insert(L, SNode(n))
+    singly_linked_list_insert(L, SinglyLinkedNode(n))
     x = L.head
     for i in rbetween(n - 1, 1):
-        singly_linked_list_insert(L, SNode(i))
+        singly_linked_list_insert(L, SinglyLinkedNode(i))
     x.next = L.head
     for i in between(1, n):
         for j in between(1, m):

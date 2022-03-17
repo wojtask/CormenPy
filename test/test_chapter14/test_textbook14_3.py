@@ -31,7 +31,7 @@ class TestTextbook14_3(TestCase):
         inorder_nodes = get_binary_tree_inorder_nodes(tree)
 
         while inorder_nodes:
-            node = inorder_nodes[random.randint(1, inorder_nodes.length)]
+            node = inorder_nodes.random_choice()
             inorder_keys.remove(node.key)
 
             interval_delete(tree, node)
@@ -54,6 +54,6 @@ class TestTextbook14_3(TestCase):
             assert_that(overlap(actual_found.int, interval))
         else:
             for node in inorder_nodes:
-                assert_that(not_(overlap(node.int, interval)))
+                assert_that(overlap(node.int, interval), is_(False))
         actual_nodes = get_binary_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
