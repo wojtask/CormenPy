@@ -6,8 +6,8 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter13.problem13_2 import joinable_rb_insert, joinable_rb_delete, rb_join
 from datastructures.red_black_tree import Color, RedBlackTree, Node
-from tree_util import assert_red_black_tree, assert_parent_pointers_consistent, get_binary_tree_inorder_keys, \
-    get_random_red_black_tree, get_binary_tree_inorder_nodes
+from tree_util import assert_red_black_tree, assert_parent_pointers_consistent, get_binary_search_tree_inorder_keys, \
+    get_random_red_black_tree, get_binary_search_tree_inorder_nodes
 
 
 def calculate_black_height(node):
@@ -32,7 +32,7 @@ class TestProblem13_2(TestCase):
             assert_red_black_tree(tree)
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = get_binary_tree_inorder_keys(tree)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
         actual_black_height = calculate_black_height(tree.root)
         assert_that(tree.bh, is_(equal_to(actual_black_height)))
@@ -49,11 +49,11 @@ class TestProblem13_2(TestCase):
 
             assert_red_black_tree(tree)
             assert_parent_pointers_consistent(tree)
-            actual_keys = get_binary_tree_inorder_keys(tree)
+            actual_keys = get_binary_search_tree_inorder_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*inorder_keys))
             actual_black_height = calculate_black_height(tree.root)
             assert_that(tree.bh, is_(equal_to(actual_black_height)))
-            inorder_nodes = get_binary_tree_inorder_nodes(tree)
+            inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
 
     def test_rb_join(self):
         tree1, _, inorder_keys1 = get_random_red_black_tree(black_height=random.randint(0, 4),
@@ -68,5 +68,5 @@ class TestProblem13_2(TestCase):
         actual_joined_tree = rb_join(tree1, x, tree2)
 
         assert_red_black_tree(actual_joined_tree)
-        actual_keys = get_binary_tree_inorder_keys(actual_joined_tree)
+        actual_keys = get_binary_search_tree_inorder_keys(actual_joined_tree)
         assert_that(actual_keys, contains_exactly(*inorder_keys1, middle_key, *inorder_keys2))

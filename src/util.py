@@ -23,4 +23,4 @@ class Element:
         return hash((self.key, self.data))
 
     def __repr__(self):
-        return 'Element(%d)' % self.key
+        return str(self.key) + (' (%s)' % self.data if self.data is not None else '')

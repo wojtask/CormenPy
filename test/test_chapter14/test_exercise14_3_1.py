@@ -3,7 +3,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter14.exercise14_3_1 import interval_left_rotate
-from tree_util import get_random_interval_tree, get_binary_tree_inorder_keys
+from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_keys
 from util import between
 
 
@@ -29,5 +29,5 @@ class TestExercise14_3_1(TestCase):
         node_parent = node.p
         expected_node_parent_max = max(node_parent.int.high, node.max, node_parent.right.max)
         assert_that(node_parent.max, is_(equal_to(expected_node_parent_max)))
-        actual_inorder_keys = get_binary_tree_inorder_keys(tree)
+        actual_inorder_keys = get_binary_search_tree_inorder_keys(tree)
         assert_that(actual_inorder_keys, is_(equal_to(inorder_keys)))

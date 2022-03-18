@@ -10,7 +10,7 @@ from chapter14.exercise14_3_4 import interval_search_all
 from chapter14.textbook14_3 import overlap
 from datastructures.array import Array
 from datastructures.interval import Interval
-from tree_util import get_random_interval_tree, get_binary_tree_inorder_nodes
+from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 
 class TestExercise14_3_4(TestCase):
@@ -36,5 +36,5 @@ class TestExercise14_3_4(TestCase):
 
         for actual_interval in actual_intervals:
             assert_that(overlap(actual_interval, interval))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))

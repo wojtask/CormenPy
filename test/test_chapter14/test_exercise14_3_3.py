@@ -6,7 +6,7 @@ from hamcrest import *
 from chapter14.exercise14_3_3 import min_interval_search
 from chapter14.textbook14_3 import overlap
 from datastructures.interval import Interval
-from tree_util import get_random_interval_tree, get_binary_tree_inorder_nodes
+from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 
 class TestExercise14_3_3(TestCase):
@@ -27,5 +27,5 @@ class TestExercise14_3_3(TestCase):
         else:
             for node in inorder_nodes:
                 assert_that(not overlap(node.int, interval))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))

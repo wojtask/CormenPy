@@ -7,7 +7,7 @@ from hamcrest import *
 
 from chapter14.exercise14_2_5 import rb_enumerate
 from datastructures.array import Array
-from tree_util import get_random_red_black_tree, get_binary_tree_inorder_nodes
+from tree_util import get_random_red_black_tree, get_binary_search_tree_inorder_nodes
 
 
 class TestExercise14_2_5(TestCase):
@@ -28,5 +28,5 @@ class TestExercise14_2_5(TestCase):
         for x in actual_output:
             assert_that(x, is_(greater_than_or_equal_to(lower_bound)))
             assert_that(x, is_(less_than_or_equal_to(upper_bound)))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))

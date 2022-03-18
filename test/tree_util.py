@@ -11,53 +11,51 @@ from datastructures.interval import Interval
 from datastructures.red_black_tree import RedBlackTree, Color
 
 
-def get_binary_tree_inorder_keys(tree):
-    return get_binary_subtree_inorder_keys(tree.root, sentinel=getattr(tree, 'nil', None))
+def get_binary_search_tree_inorder_keys(tree):
+    return get_binary_search_subtree_inorder_keys(tree.root, sentinel=getattr(tree, 'nil', None))
 
 
-def get_binary_subtree_inorder_keys(node, sentinel):
-    if node is sentinel:
+def get_binary_search_subtree_inorder_keys(subtree_root, sentinel):
+    if subtree_root is sentinel:
         return Array()
-    return get_binary_subtree_inorder_keys(node.left, sentinel) + [node.key] + get_binary_subtree_inorder_keys(
-        node.right,
-        sentinel)
+    return get_binary_search_subtree_inorder_keys(subtree_root.left, sentinel) \
+        + [subtree_root.key] \
+        + get_binary_search_subtree_inorder_keys(subtree_root.right, sentinel)
 
 
-def get_binary_tree_inorder_nodes(tree):
-    return get_binary_subtree_inorder_nodes(tree.root, sentinel=getattr(tree, 'nil', None))
+def get_binary_search_tree_inorder_nodes(tree):
+    return get_binary_search_subtree_inorder_nodes(tree.root, sentinel=getattr(tree, 'nil', None))
 
 
-def get_binary_subtree_inorder_nodes(node, sentinel):
-    if node is sentinel:
+def get_binary_search_subtree_inorder_nodes(subtree_root, sentinel):
+    if subtree_root is sentinel:
         return Array()
-    return get_binary_subtree_inorder_nodes(node.left, sentinel) + [node] + get_binary_subtree_inorder_nodes(
-        node.right,
-        sentinel)
+    return get_binary_search_subtree_inorder_nodes(subtree_root.left, sentinel) \
+        + [subtree_root] \
+        + get_binary_search_subtree_inorder_nodes(subtree_root.right, sentinel)
 
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
     tree_size = random.randint(min_size, max_size)
     inorder_keys = get_random_array(size=tree_size, min_value=0, max_value=max_value, unique=True).sort()
     inorder_nodes = Array(bt.Node(key) for key in inorder_keys)
-    tree = BinaryTree()
-    tree.root = get_random_binary_search_subtree(inorder_nodes)
-    return tree, inorder_nodes, inorder_keys
+    return BinaryTree(get_random_binary_search_subtree(inorder_nodes))
 
 
 def get_random_binary_search_subtree(inorder_nodes):
     if not inorder_nodes:
         return None
     i = random.randint(1, inorder_nodes.length)
-    node = inorder_nodes[i]
-    left_node = get_random_binary_search_subtree(inorder_nodes[:i - 1])
-    if left_node is not None:
-        node.left = left_node
-        left_node.p = node
-    right_node = get_random_binary_search_subtree(inorder_nodes[i + 1:])
-    if right_node is not None:
-        node.right = right_node
-        right_node.p = node
-    return node
+    subtree_root = inorder_nodes[i]
+    left_subtree_root = get_random_binary_search_subtree(inorder_nodes[:i - 1])
+    if left_subtree_root is not None:
+        subtree_root.left = left_subtree_root
+        left_subtree_root.p = subtree_root
+    right_subtree_root = get_random_binary_search_subtree(inorder_nodes[i + 1:])
+    if right_subtree_root is not None:
+        subtree_root.right = right_subtree_root
+        right_subtree_root.p = subtree_root
+    return subtree_root
 
 
 def assert_parent_pointers_consistent(tree):
@@ -67,13 +65,13 @@ def assert_parent_pointers_consistent(tree):
         assert_subtree_parent_pointers_consistent(tree.root, sentinel)
 
 
-def assert_subtree_parent_pointers_consistent(node, sentinel):
-    if node.left is not sentinel:
-        assert_that(node.left.p, is_(node))
-        assert_subtree_parent_pointers_consistent(node.left, sentinel)
-    if node.right is not sentinel:
-        assert_that(node.right.p, is_(node))
-        assert_subtree_parent_pointers_consistent(node.right, sentinel)
+def assert_subtree_parent_pointers_consistent(subtree_root, sentinel):
+    if subtree_root.left is not sentinel:
+        assert_that(subtree_root.left.p, is_(subtree_root))
+        assert_subtree_parent_pointers_consistent(subtree_root.left, sentinel)
+    if subtree_root.right is not sentinel:
+        assert_that(subtree_root.right.p, is_(subtree_root))
+        assert_subtree_parent_pointers_consistent(subtree_root.right, sentinel)
 
 
 def assert_binary_search_tree(tree):
@@ -82,17 +80,17 @@ def assert_binary_search_tree(tree):
         assert_binary_search_subtree(tree.root, sentinel)
 
 
-def assert_binary_search_subtree(node, sentinel):
-    if node.left is not sentinel:
-        left_keys = get_binary_subtree_inorder_keys(node.left, sentinel)
-        for left_key in left_keys:
-            assert_that(left_key, is_(less_than_or_equal_to(node.key)))
-        assert_binary_search_subtree(node.left, sentinel)
-    if node.right is not sentinel:
-        right_keys = get_binary_subtree_inorder_keys(node.right, sentinel)
-        for right_key in right_keys:
-            assert_that(right_key, is_(greater_than_or_equal_to(node.key)))
-        assert_binary_search_subtree(node.right, sentinel)
+def assert_binary_search_subtree(subtree_root, sentinel):
+    if subtree_root.left is not sentinel:
+        left_subtree_keys = get_binary_search_subtree_inorder_keys(subtree_root.left, sentinel)
+        for key in left_subtree_keys:
+            assert_that(key, is_(less_than_or_equal_to(subtree_root.key)))
+        assert_binary_search_subtree(subtree_root.left, sentinel)
+    if subtree_root.right is not sentinel:
+        right_subtree_keys = get_binary_search_subtree_inorder_keys(subtree_root.right, sentinel)
+        for key in right_subtree_keys:
+            assert_that(key, is_(greater_than_or_equal_to(subtree_root.key)))
+        assert_binary_search_subtree(subtree_root.right, sentinel)
 
 
 def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentinel=rb.Node(None)):
