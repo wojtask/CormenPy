@@ -2,13 +2,13 @@ from datastructures.hash_table import TakenPosition, FreePosition
 
 
 def in_place_chained_hash_insert(T, x, h):
-    hash = h(x.key, T.length)
+    hash = h(x.key)
     if not T[hash].taken:
         _allocate_hash_table_position(T, hash, x)
         T[hash].next = -1
     else:
         y = T[hash].element
-        y_hash = h(y.key, T.length)
+        y_hash = h(y.key)
         y_new_position = T.free
         _allocate_hash_table_position(T, y_new_position, y)
         T[y_new_position].next = T[hash].next
@@ -36,7 +36,7 @@ def _allocate_hash_table_position(T, i, element):
 
 
 def in_place_chained_hash_delete(T, x, h):
-    hash = h(x.key, T.length)
+    hash = h(x.key)
     if T[hash].element is x:
         if T[hash].next == -1:
             position_to_free = hash
@@ -59,7 +59,7 @@ def in_place_chained_hash_delete(T, x, h):
 
 
 def in_place_chained_hash_search(T, k, h):
-    hash = h(k, T.length)
+    hash = h(k)
     if not T[hash].taken:
         return None
     while hash != -1 and T[hash].element.key != k:

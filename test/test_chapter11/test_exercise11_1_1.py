@@ -1,3 +1,4 @@
+import copy
 from unittest import TestCase
 
 from hamcrest import *
@@ -11,12 +12,14 @@ class TestExercise11_1_1(TestCase):
 
     def test_direct_address_maximum(self):
         table = get_random_direct_address_table()
+        original = copy.deepcopy(table)
 
         actual_maximum = direct_address_maximum(table)
 
-        elements = Array(element for element in table if element)
-        if elements:
-            expected_maximum = max(element.key for element in elements)
+        keys = Array(element.key for element in table if element is not None)
+        if keys:
+            expected_maximum = max(keys)
             assert_that(actual_maximum.key, is_(equal_to(expected_maximum)))
         else:
             assert_that(actual_maximum, is_(none()))
+        assert_that(table, is_(equal_to(original)))

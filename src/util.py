@@ -21,3 +21,6 @@ class Element:
 
     def __hash__(self):
         return hash((self.key, self.data))
+
+    def __repr__(self):
+        return 'Element(%d)' % self.key

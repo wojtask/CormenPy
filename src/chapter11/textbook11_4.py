@@ -2,7 +2,7 @@ def hash_insert(T, k, h):
     m = T.length
     i = 0
     while True:
-        j = h(k, i, m)
+        j = h(k, i)
         if T[j] is None:
             T[j] = k
             return j
@@ -17,7 +17,7 @@ def hash_search(T, k, h):
     m = T.length
     i = 0
     while True:
-        j = h(k, i, m)
+        j = h(k, i)
         if T[j] == k:
             return j
         i += 1

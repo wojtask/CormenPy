@@ -9,6 +9,18 @@ from datastructures.hash_table import Element, ChainedElement
 from util import between
 
 
+def modular_hash(m):
+    return lambda k: k % m
+
+
+def linear_hash(m):
+    return lambda k, i: (modular_hash(m)(k) + i) % m
+
+
+def quadratic_hash(m):
+    return lambda k, i: (modular_hash(m)(k) + i * (i + 1) // 2) % m
+
+
 def get_random_direct_address_table():
     table_size = random.randint(1, 10)
     nelements = random.randint(0, table_size)
@@ -36,10 +48,10 @@ def get_random_chained_direct_address_table():
     table = Array.indexed(0, table_size - 1)
 
     for element in elements:
-        list_ = table[element.key]
-        if list_:
-            list_.prev = element
-        element.next = list_
+        head = table[element.key]
+        if head is not None:
+            head.prev = element
+        element.next = head
         table[element.key] = element
     return table
 
@@ -50,21 +62,21 @@ def get_random_chained_hash_table(max_value=999):
     keys = get_random_array(size=nelements, max_value=max_value)
     elements = Array(ChainedElement(key) for key in keys)
     table = Array.indexed(0, table_size - 1)
-    h = modular_hash
+    h = modular_hash(table_size)
 
     for element in elements:
-        list_ = table[h(element.key, table_size)]
-        if list_:
-            list_.prev = element
-        element.next = list_
-        table[h(element.key, table_size)] = element
+        head = table[h(element.key)]
+        if head is not None:
+            head.prev = element
+        element.next = head
+        table[h(element.key)] = element
     return table, h
 
 
 def get_chained_hash_table_elements(table):
     elements = Array()
-    for list_ in table:
-        x = list_
+    for head in table:
+        x = head
         while x is not None:
             elements.append(x)
             x = x.next
@@ -83,37 +95,26 @@ def get_random_huge_array(max_value=999):
         stack_array[i] = Element(key)
     stack_array.top = keys.length
 
-    return huge_array, stack_array, keys
+    return huge_array, stack_array
 
 
 def assert_huge_array_consistent(huge_array, stack_array):
-    for i, element in enumerate(stack_array[1:stack_array.top], start=1):
+    for i, element in enumerate(stack_array[:stack_array.top], start=1):
         assert_that(huge_array[element.key], is_(equal_to(i)))
 
 
 def get_random_hash_table_linear_probing(max_value=999):
     table_size = random.randint(1, 10)
-    table, keys = random_hash_table(linear_hash, table_size, max_value)
-    return table, keys, linear_hash
+    hash_function = linear_hash(table_size)
+    table = random_hash_table(hash_function, table_size, max_value)
+    return table, hash_function
 
 
 def get_random_hash_table_quadratic_probing(max_value=999):
     # make sure the table size is a power of 2
     table_size = random.choice([2 ** n for n in between(0, 5)])
-    table, keys = random_hash_table(quadratic_hash, table_size, max_value)
-    return table, keys, modular_hash
-
-
-def modular_hash(k, m):
-    return k % m
-
-
-def linear_hash(k, i, m):
-    return (modular_hash(k, m) + i) % m
-
-
-def quadratic_hash(k, i, m):
-    return (modular_hash(k, m) + i * (i + 1) // 2) % m
+    table = random_hash_table(quadratic_hash(table_size), table_size, max_value)
+    return table, modular_hash(table_size)
 
 
 def random_hash_table(h, table_size, max_value):
@@ -122,10 +123,10 @@ def random_hash_table(h, table_size, max_value):
     keys = get_random_array(size=nelements, max_value=max_value)
     for key in keys:
         i = 0
-        while table[h(key, i, table_size)] is not None:
+        while table[h(key, i)] is not None:
             i += 1
-        table[h(key, i, table_size)] = key
-    return table, keys
+        table[h(key, i)] = key
+    return table
 
 
 def get_hash_table_keys(table):
