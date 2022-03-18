@@ -7,6 +7,7 @@ from chapter11.exercise11_2_4 import in_place_chained_hash_insert, in_place_chai
     in_place_chained_hash_delete
 from datastructures.array import Array
 from datastructures.hash_table import FreePosition
+from hash_table_util import modular_hash
 from util import Element, between
 
 
@@ -34,7 +35,7 @@ class TestExercise11_2_4(TestCase):
         for i in between(0, table.length - 1):
             table[i] = FreePosition(i - 1, i + 1)
         table[table.length - 1].next = -1
-        h = lambda k, m: k % m
+        h = modular_hash(table.length)
 
         for element in elements:
             in_place_chained_hash_insert(table, element, h)

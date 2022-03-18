@@ -24,7 +24,7 @@ class TestTextbook11_1(TestCase):
         actual_found = direct_address_search(table, key_to_find)
 
         actual_elements = get_direct_access_table_elements(table)
-        if key_to_find in Array(element.key for element in actual_elements):
+        if key_to_find in (element.key for element in actual_elements):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
@@ -49,12 +49,12 @@ class TestTextbook11_1(TestCase):
     def test_direct_address_delete(self):
         table = get_random_direct_address_table()
         # make sure the table is not empty
-        actual_elements = get_direct_access_table_elements(table)
-        if not actual_elements:
+        original_elements = get_direct_access_table_elements(table)
+        if not original_elements:
             key = random.randint(0, table.length - 1)
             table[key] = Element(key)
-            actual_elements.append(table[key])
-        element_to_delete = actual_elements.random_choice()
+            original_elements.append(table[key])
+        element_to_delete = original_elements.random_choice()
         original = copy.deepcopy(table)
         expected_elements = get_direct_access_table_elements(original)
         expected_elements.remove(element_to_delete)

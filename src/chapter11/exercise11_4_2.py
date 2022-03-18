@@ -7,7 +7,7 @@ def hash_delete(T, k, h):
     m = T.length
     i = 0
     while True:
-        j = h(k, i, m)
+        j = h(k, i)
         if T[j] == k:
             T[j] = Deleted
             return
@@ -20,7 +20,7 @@ def hash_insert_(T, k, h):
     m = T.length
     i = 0
     while True:
-        j = h(k, i, m)
+        j = h(k, i)
         if T[j] is None or T[j] is Deleted:
             T[j] = k
             return j
