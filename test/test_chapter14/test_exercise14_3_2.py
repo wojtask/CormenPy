@@ -5,7 +5,7 @@ from hamcrest import *
 
 from chapter14.exercise14_3_2 import open_interval_search, open_overlap
 from datastructures.interval import Interval
-from tree_util import get_random_interval_tree, get_binary_tree_inorder_nodes
+from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 
 class TestExercise14_3_2(TestCase):
@@ -22,6 +22,6 @@ class TestExercise14_3_2(TestCase):
             assert_that(open_overlap(actual_found.int, interval))
         else:
             for node in inorder_nodes:
-                assert_that(not_(open_overlap(node.int, interval)))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+                assert_that(open_overlap(node.int, interval), is_(False))
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))

@@ -7,8 +7,7 @@ from array_util import get_random_array
 from chapter14.textbook14_1 import os_select, os_rank, os_insert, os_delete
 from datastructures.red_black_tree import RedBlackTree, OSNode
 from tree_util import get_random_os_tree, assert_os_tree, assert_parent_pointers_consistent, \
-    get_binary_tree_inorder_keys, \
-    get_binary_tree_inorder_nodes
+    get_binary_search_tree_inorder_keys, get_binary_search_tree_inorder_nodes
 
 
 class TestTextbook14_1(TestCase):
@@ -22,7 +21,7 @@ class TestTextbook14_1(TestCase):
         assert_that(actual_order_statistic, is_in(inorder_nodes))
         expected_order_statistic = inorder_keys[i]
         assert_that(actual_order_statistic.key, is_(equal_to(expected_order_statistic)))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
 
     def test_os_rank(self):
@@ -33,7 +32,7 @@ class TestTextbook14_1(TestCase):
 
         expected_ranks = [i for i, key in enumerate(inorder_keys, start=1) if key == node_to_find.key]
         assert_that(actual_rank, is_in(expected_ranks))
-        actual_nodes = get_binary_tree_inorder_nodes(tree)
+        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
         assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
 
     def test_os_insert(self):
@@ -47,12 +46,12 @@ class TestTextbook14_1(TestCase):
             assert_that(tree.root.size, is_(equal_to(i)))
             assert_parent_pointers_consistent(tree)
 
-        actual_keys = get_binary_tree_inorder_keys(tree)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
 
     def test_os_delete(self):
         tree, _, inorder_keys = get_random_os_tree()
-        inorder_nodes = get_binary_tree_inorder_nodes(tree)
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
 
         while inorder_nodes:
             node = inorder_nodes.random_choice()
@@ -63,6 +62,6 @@ class TestTextbook14_1(TestCase):
             assert_os_tree(tree)
             assert_parent_pointers_consistent(tree)
             assert_that(tree.root.size, is_(equal_to(inorder_nodes.length - 1)))
-            actual_keys = get_binary_tree_inorder_keys(tree)
+            actual_keys = get_binary_search_tree_inorder_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*inorder_keys))
-            inorder_nodes = get_binary_tree_inorder_nodes(tree)
+            inorder_nodes = get_binary_search_tree_inorder_nodes(tree)

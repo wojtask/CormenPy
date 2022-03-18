@@ -6,34 +6,55 @@ from hamcrest import *
 
 from chapter12.exercise12_1_4 import preorder_tree_walk, postorder_tree_walk
 from datastructures.array import Array
-from datastructures.binary_tree import BinaryTree, Node
+from tree_util import get_random_binary_search_tree
+
+
+def assert_preorder_tree_keys(tree, keys):
+    next_key_position = assert_preorder_subtree_keys(tree.root, keys, 1)
+    assert_that(next_key_position, is_(equal_to(keys.length + 1)))
+
+
+def assert_preorder_subtree_keys(subtree_root, keys, next_key_position):
+    if subtree_root is None:
+        return next_key_position
+    assert_that(subtree_root.key, is_(equal_to(keys[next_key_position])))
+    next_key_position += 1
+    next_key_position = assert_preorder_subtree_keys(subtree_root.left, keys, next_key_position)
+    return assert_preorder_subtree_keys(subtree_root.right, keys, next_key_position)
+
+
+def assert_postorder_tree_keys(tree, keys):
+    next_key_position = assert_postorder_subtree_keys(tree.root, keys, 1)
+    assert_that(next_key_position, is_(equal_to(keys.length + 1)))
+
+
+def assert_postorder_subtree_keys(subtree_root, keys, next_key_position):
+    if subtree_root is None:
+        return next_key_position
+    next_key_position = assert_postorder_subtree_keys(subtree_root.left, keys, next_key_position)
+    next_key_position = assert_postorder_subtree_keys(subtree_root.right, keys, next_key_position)
+    assert_that(subtree_root.key, is_(equal_to(keys[next_key_position])))
+    return next_key_position + 1
 
 
 class TestExercise12_1_4(TestCase):
 
-    def setUp(self):
-        self.tree = BinaryTree(Node(10,
-                                    left=Node(4,
-                                              left=Node(1)),
-                                    right=Node(14,
-                                               left=Node(11),
-                                               right=Node(19,
-                                                          right=Node(20)))))
-
     def test_preorder_tree_walk(self):
+        tree = get_random_binary_search_tree()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
-            preorder_tree_walk(self.tree.root)
+            preorder_tree_walk(tree.root)
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
-        assert_that(actual_output, is_(equal_to(Array(10, 4, 1, 14, 11, 19, 20))))
+        assert_preorder_tree_keys(tree, actual_output)
 
     def test_postorder_tree_walk(self):
+        tree = get_random_binary_search_tree()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
-            postorder_tree_walk(self.tree.root)
+            postorder_tree_walk(tree.root)
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
-        assert_that(actual_output, is_(equal_to(Array(1, 4, 11, 20, 19, 14, 10))))
+        assert_postorder_tree_keys(tree, actual_output)

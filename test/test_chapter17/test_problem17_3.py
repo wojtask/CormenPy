@@ -1,10 +1,9 @@
-import random
 from unittest import TestCase
 
 from hamcrest import *
 
 from chapter17.problem17_3 import balance_subtree
-from tree_util import get_random_binary_search_tree, assert_binary_search_tree
+from tree_util import get_random_binary_search_tree, assert_binary_search_tree, get_binary_search_tree_inorder_nodes
 
 
 def assign_size_attributes(node):
@@ -34,8 +33,9 @@ def assert_node_weight_balanced(node, alpha=.5):
 class TestProblem17_3(TestCase):
 
     def test_balance_subtree(self):
-        tree, inorder_nodes, _ = get_random_binary_search_tree()
+        tree = get_random_binary_search_tree()
         assign_size_attributes(tree.root)
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         node = inorder_nodes.random_choice()
 
         actual_balanced_node = balance_subtree(tree, node)
