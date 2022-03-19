@@ -12,7 +12,7 @@ from tree_util import get_binary_search_tree_inorder_keys, assert_parent_pointer
 class TestProblem13_4(TestCase):
 
     def test_treap_insert(self):
-        keys = get_random_array(min_size=1, max_size=20)
+        keys = get_random_array()
         treap = Treap()
 
         for key in keys:

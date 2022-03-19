@@ -11,7 +11,7 @@ from tree_util import assert_red_black_tree, get_binary_search_tree_inorder_keys
 class TestExercise13_3_6(TestCase):
 
     def test_rb_parentless_insert(self):
-        keys = get_random_array(min_size=1, max_size=20)
+        keys = get_random_array()
         tree = RedBlackTree()
 
         for key in keys:

@@ -95,56 +95,53 @@ def assert_binary_search_subtree(subtree_root, sentinel):
 
 def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, sentinel=rb.Node(None)):
     nodes = Array()
-    tree = RedBlackTree(get_random_red_black_subtree(black_height, nodes), sentinel)
+    tree = RedBlackTree(get_random_red_black_subtree_with_black_root(black_height, nodes, sentinel), sentinel)
     tree_size = nodes.length
     inorder_keys = get_random_array(size=tree_size, min_value=min_value, max_value=max_value, unique=True).sort()
     fill_subtree_with_keys(tree.root, inorder_keys, sentinel=tree.nil)
-    inorder_nodes = nodes.sort(key=lambda node: node.key)
-    return tree, inorder_nodes, inorder_keys
+    return tree
 
 
-def get_random_red_black_subtree(black_height, nodes):
+def get_random_red_black_subtree_with_black_root(black_height, nodes, sentinel):
     if black_height == 0:
-        return None
+        return sentinel
 
-    # at each level of the tree we try to create an extra red node in the left subtree
     if random.choice(list(Color)) == Color.RED:
-        left_subtree_root = create_red_node_in_subtree(black_height, nodes)
+        left_subtree_root = get_random_red_black_subtree_with_red_root(black_height, nodes, sentinel)
     else:
-        left_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
+        left_subtree_root = get_random_red_black_subtree_with_black_root(black_height - 1, nodes, sentinel)
 
-    # ...and we repeat the same for the right subtree
     if random.choice(list(Color)) == Color.RED:
-        right_subtree_root = create_red_node_in_subtree(black_height, nodes)
+        right_subtree_root = get_random_red_black_subtree_with_red_root(black_height, nodes, sentinel)
     else:
-        right_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
+        right_subtree_root = get_random_red_black_subtree_with_black_root(black_height - 1, nodes, sentinel)
 
-    root = rb.Node(None, left=left_subtree_root, right=right_subtree_root)
-    nodes.append(root)
-    return root
+    subtree_root = rb.Node(None, left=left_subtree_root, right=right_subtree_root, color=Color.BLACK)
+    nodes.append(subtree_root)
+    return subtree_root
 
 
-def create_red_node_in_subtree(black_height, nodes):
-    left_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
-    right_subtree_root = get_random_red_black_subtree(black_height - 1, nodes)
+def get_random_red_black_subtree_with_red_root(black_height, nodes, sentinel):
+    left_subtree_root = get_random_red_black_subtree_with_black_root(black_height - 1, nodes, sentinel)
+    right_subtree_root = get_random_red_black_subtree_with_black_root(black_height - 1, nodes, sentinel)
     subtree_root = rb.Node(None, left=left_subtree_root, right=right_subtree_root, color=Color.RED)
     nodes.append(subtree_root)
     return subtree_root
 
 
-def fill_subtree_with_keys(node, inorder_keys, sentinel):
-    if node is sentinel:
+def fill_subtree_with_keys(subtree_root, inorder_keys, sentinel):
+    if subtree_root is sentinel:
         return
-    left_subtree_size = get_subtree_size(node.left, sentinel)
-    node.key = inorder_keys[left_subtree_size + 1]
-    fill_subtree_with_keys(node.left, inorder_keys[:left_subtree_size], sentinel)
-    fill_subtree_with_keys(node.right, inorder_keys[left_subtree_size + 2:], sentinel)
+    left_subtree_size = get_subtree_size(subtree_root.left, sentinel)
+    subtree_root.key = inorder_keys[left_subtree_size + 1]
+    fill_subtree_with_keys(subtree_root.left, inorder_keys[:left_subtree_size], sentinel)
+    fill_subtree_with_keys(subtree_root.right, inorder_keys[left_subtree_size + 2:], sentinel)
 
 
-def get_subtree_size(node, sentinel):
-    if node is sentinel:
+def get_subtree_size(subtree_root, sentinel):
+    if subtree_root is sentinel:
         return 0
-    return 1 + get_subtree_size(node.left, sentinel) + get_subtree_size(node.right, sentinel)
+    return 1 + get_subtree_size(subtree_root.left, sentinel) + get_subtree_size(subtree_root.right, sentinel)
 
 
 def assert_red_black_tree(tree):
@@ -152,34 +149,34 @@ def assert_red_black_tree(tree):
     if tree.root is not None:
         assert_that(tree.root.color, is_(Color.BLACK))
     if sentinel is not None:
-        assert_that(tree.nil.color, is_(Color.BLACK))
+        assert_that(sentinel.color, is_(Color.BLACK))
     if tree.root is not sentinel:
         assert_binary_search_tree(tree)
         assert_red_black_property_4(tree.root, sentinel)
         assert_red_black_property_5(tree.root, sentinel)
 
 
-def assert_red_black_property_4(node, sentinel):
-    if node.color == Color.RED:
-        if node.left is not sentinel:
-            assert_that(node.left.color, is_(Color.BLACK))
-        if node.right is not sentinel:
-            assert_that(node.right.color, is_(Color.BLACK))
-    if node.left is not sentinel:
-        assert_red_black_property_4(node.left, sentinel)
-    if node.right is not sentinel:
-        assert_red_black_property_4(node.right, sentinel)
+def assert_red_black_property_4(subtree_root, sentinel):
+    if subtree_root.color == Color.RED:
+        if subtree_root.left is not sentinel:
+            assert_that(subtree_root.left.color, is_(Color.BLACK))
+        if subtree_root.right is not sentinel:
+            assert_that(subtree_root.right.color, is_(Color.BLACK))
+    if subtree_root.left is not sentinel:
+        assert_red_black_property_4(subtree_root.left, sentinel)
+    if subtree_root.right is not sentinel:
+        assert_red_black_property_4(subtree_root.right, sentinel)
 
 
-def assert_red_black_property_5(node, sentinel):
+def assert_red_black_property_5(subtree_root, sentinel):
     left_bh = right_bh = 0
-    if node.left is not sentinel:
-        left_bh = assert_red_black_property_5(node.left, sentinel)
-        if node.left.color == Color.BLACK:
+    if subtree_root.left is not sentinel:
+        left_bh = assert_red_black_property_5(subtree_root.left, sentinel)
+        if subtree_root.left.color == Color.BLACK:
             left_bh += 1
-    if node.right is not sentinel:
-        right_bh = assert_red_black_property_5(node.right, sentinel)
-        if node.right.color == Color.BLACK:
+    if subtree_root.right is not sentinel:
+        right_bh = assert_red_black_property_5(subtree_root.right, sentinel)
+        if subtree_root.right.color == Color.BLACK:
             right_bh += 1
     assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
@@ -190,14 +187,14 @@ def assert_avl_tree(tree):
     assert_avl_subtree(tree.root)
 
 
-def assert_avl_subtree(node):
-    if node is None:
+def assert_avl_subtree(subtree_root):
+    if subtree_root is None:
         return -1
-    hl = assert_avl_subtree(node.left)
-    hr = assert_avl_subtree(node.right)
-    assert_that(node.h, is_(equal_to(max(hl, hr) + 1)))
+    hl = assert_avl_subtree(subtree_root.left)
+    hr = assert_avl_subtree(subtree_root.right)
+    assert_that(subtree_root.h, is_(equal_to(max(hl, hr) + 1)))
     assert_that(abs(hr - hl), is_(less_than_or_equal_to(1)))
-    return node.h
+    return subtree_root.h
 
 
 def assert_treap(tree):
@@ -206,13 +203,13 @@ def assert_treap(tree):
         assert_subtreap(tree.root)
 
 
-def assert_subtreap(node):
-    if node.left is not None:
-        assert_that(node.priority, is_(less_than(node.left.priority)))
-        assert_subtreap(node.left)
-    if node.right is not None:
-        assert_that(node.priority, is_(less_than(node.right.priority)))
-        assert_subtreap(node.right)
+def assert_subtreap(subtree_root):
+    if subtree_root.left is not None:
+        assert_that(subtree_root.priority, is_(less_than(subtree_root.left.priority)))
+        assert_subtreap(subtree_root.left)
+    if subtree_root.right is not None:
+        assert_that(subtree_root.priority, is_(less_than(subtree_root.right.priority)))
+        assert_subtreap(subtree_root.right)
 
 
 def get_random_os_tree(black_height=3, max_value=999):

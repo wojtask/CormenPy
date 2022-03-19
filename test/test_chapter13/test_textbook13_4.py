@@ -10,7 +10,9 @@ from tree_util import get_binary_search_tree_inorder_keys, assert_red_black_tree
 class TestTextbook13_4(TestCase):
 
     def test_rb_delete(self):
-        tree, inorder_nodes, inorder_keys = get_random_red_black_tree()
+        tree = get_random_red_black_tree()
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = get_binary_search_tree_inorder_keys(tree)
 
         while inorder_nodes:
             node = inorder_nodes.random_choice()

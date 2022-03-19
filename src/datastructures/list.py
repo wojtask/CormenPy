@@ -13,7 +13,8 @@ class SinglyLinkedNode:
 class DoublyLinkedNode:
     def __init__(self, key):
         self.key = key
-        self.prev = self.next = None
+        self.prev = None
+        self.next = None
 
     def __repr__(self):
         return self.key
@@ -81,7 +82,8 @@ class XORNode:
 
 class XORList:
     def __init__(self):
-        self.head = self.tail = None
+        self.head = None
+        self.tail = None
         self.addr_to_node = {0: None}
 
     def __iter__(self):
