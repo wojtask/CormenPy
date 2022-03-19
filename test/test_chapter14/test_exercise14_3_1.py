@@ -3,11 +3,12 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter14.exercise14_3_1 import interval_left_rotate
-from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_keys
+from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_keys, \
+    get_binary_search_tree_inorder_nodes
 from util import between
 
 
-def pick_node_with_right_child(nodes, tree):
+def get_random_node_with_right_child(nodes, tree):
     nodes.shuffle()
     for i in between(1, nodes.length):
         node = nodes[i]
@@ -19,8 +20,11 @@ def pick_node_with_right_child(nodes, tree):
 class TestExercise14_3_1(TestCase):
 
     def test_interval_left_rotate(self):
-        tree, inorder_nodes, inorder_keys = get_random_interval_tree()
-        node = pick_node_with_right_child(inorder_nodes, tree)  # node != tree.nil because the tree has black_height = 3
+        tree = get_random_interval_tree(black_height=3)
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = get_binary_search_tree_inorder_keys(tree)
+        node = get_random_node_with_right_child(inorder_nodes, tree)
+        # node != tree.nil because the tree has black_height = 3
 
         interval_left_rotate(tree, node)
 

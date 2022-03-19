@@ -11,7 +11,8 @@ from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_n
 class TestExercise14_3_2(TestCase):
 
     def test_open_interval_search(self):
-        tree, inorder_nodes, _ = get_random_interval_tree()
+        tree = get_random_interval_tree()
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         low_endpoint = random.randint(0, 949)
         high_endpoint = low_endpoint + random.randint(0, 50)
         interval = Interval(low_endpoint, high_endpoint)

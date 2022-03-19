@@ -38,9 +38,18 @@ class ParentlessNode(binary_tree.ParentlessNode):
 
 
 class OSNode(Node):
+    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
+        super().__init__(key, data, left, right, color)
+        self.size = 0
+
+
+class AugmentedOSNode(OSNode):
     def __init__(self, key, data=None, left=None, right=None):
         super().__init__(key, data, left, right)
-        self.size = 0
+        self.min = self
+        self.max = self
+        self.pred = self
+        self.succ = self
 
 
 class IntervalNode(Node):
@@ -48,6 +57,14 @@ class IntervalNode(Node):
         super().__init__(key, left, right)
         self.int = interval
         self.max = -math.inf
+
+
+class MinGapNode(Node):
+    def __init__(self, key, data=None, left=None, right=None):
+        super().__init__(key, data, left, right)
+        self.min_key = math.inf
+        self.max_key = -math.inf
+        self.min_gap = math.inf
 
 
 class IntervalPomNode(Node):
