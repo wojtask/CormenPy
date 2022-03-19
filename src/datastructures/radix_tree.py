@@ -7,5 +7,6 @@ class RadixTree(binary_tree.BinaryTree):
 
 class Node:
     def __init__(self):
-        self.left = self.right = None
+        self.left = None
+        self.right = None
         self.in_tree = False

@@ -11,7 +11,7 @@ from tree_util import assert_avl_tree, assert_parent_pointers_consistent, get_bi
 class TestProblem13_3(TestCase):
 
     def test_avl_insert(self):
-        keys = get_random_array(min_size=1, max_size=20)
+        keys = get_random_array()
         tree = AVLTree()
 
         for key in keys:

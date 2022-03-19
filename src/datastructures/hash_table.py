@@ -4,7 +4,8 @@ from util import Element
 class ChainedElement(Element):
     def __init__(self, key, data=None):
         super().__init__(key, data)
-        self.prev = self.next = None
+        self.prev = None
+        self.next = None
 
 
 class FreePosition:

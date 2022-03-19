@@ -10,19 +10,20 @@ from tree_util import assert_red_black_tree, assert_parent_pointers_consistent, 
     get_random_red_black_tree, get_binary_search_tree_inorder_nodes
 
 
-def calculate_black_height(node):
+def get_black_height(subtree_root):
     black_height = 0
-    while node:
-        if node.color == Color.BLACK:
+    while subtree_root:
+        if subtree_root.color == Color.BLACK:
             black_height += 1
-        node = node.left  # it doesn't matter which path we choose as long as the tree fulfills property 5
+        # it doesn't matter which path we choose as long as the tree fulfills property 5
+        subtree_root = subtree_root.left
     return black_height
 
 
 class TestProblem13_2(TestCase):
 
     def test_joinable_rb_insert(self):
-        keys = get_random_array(min_size=1, max_size=20)
+        keys = get_random_array()
         tree = RedBlackTree(sentinel=None)
         tree.bh = 0
 
@@ -34,12 +35,14 @@ class TestProblem13_2(TestCase):
 
         actual_keys = get_binary_search_tree_inorder_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
-        actual_black_height = calculate_black_height(tree.root)
+        actual_black_height = get_black_height(tree.root)
         assert_that(tree.bh, is_(equal_to(actual_black_height)))
 
     def test_joinable_rb_delete(self):
-        tree, inorder_nodes, inorder_keys = get_random_red_black_tree(sentinel=None)
-        tree.bh = calculate_black_height(tree.root)
+        tree = get_random_red_black_tree(sentinel=None)
+        tree.bh = get_black_height(tree.root)
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = get_binary_search_tree_inorder_keys(tree)
 
         while inorder_nodes:
             node = inorder_nodes.random_choice()
@@ -51,19 +54,21 @@ class TestProblem13_2(TestCase):
             assert_parent_pointers_consistent(tree)
             actual_keys = get_binary_search_tree_inorder_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*inorder_keys))
-            actual_black_height = calculate_black_height(tree.root)
+            actual_black_height = get_black_height(tree.root)
             assert_that(tree.bh, is_(equal_to(actual_black_height)))
             inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
 
     def test_rb_join(self):
-        tree1, _, inorder_keys1 = get_random_red_black_tree(black_height=random.randint(0, 4),
-                                                            min_value=0, max_value=999, sentinel=None)
-        tree1.bh = calculate_black_height(tree1.root)
+        tree1 = get_random_red_black_tree(black_height=random.randint(0, 4),
+                                          min_value=0, max_value=999, sentinel=None)
+        tree1.bh = get_black_height(tree1.root)
+        inorder_keys1 = get_binary_search_tree_inorder_keys(tree1)
         middle_key = random.randint(1000, 1999)
         x = Node(middle_key)
-        tree2, _, inorder_keys2 = get_random_red_black_tree(black_height=random.randint(0, 4),
-                                                            min_value=2000, max_value=2999, sentinel=None)
-        tree2.bh = calculate_black_height(tree2.root)
+        tree2 = get_random_red_black_tree(black_height=random.randint(0, 4),
+                                          min_value=2000, max_value=2999, sentinel=None)
+        tree2.bh = get_black_height(tree2.root)
+        inorder_keys2 = get_binary_search_tree_inorder_keys(tree2)
 
         actual_joined_tree = rb_join(tree1, x, tree2)
 

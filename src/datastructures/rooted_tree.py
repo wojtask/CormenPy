@@ -6,4 +6,6 @@ class RootedTree:
 class Node:
     def __init__(self, key):
         self.key = key
-        self.p = self.left_child = self.right_sibling = None
+        self.p = None
+        self.left_child = None
+        self.right_sibling = None

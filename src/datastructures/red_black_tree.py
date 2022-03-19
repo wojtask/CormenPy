@@ -25,18 +25,6 @@ class RedBlackTree(binary_tree.BinaryTree):
             self.root = self.nil
         else:
             self.root.p = self.nil
-            if sentinel is not None:
-                self._assign_sentinel_to_empty_children(root)
-
-    def _assign_sentinel_to_empty_children(self, node):
-        if node.left is None:
-            node.left = self.nil
-        else:
-            self._assign_sentinel_to_empty_children(node.left)
-        if node.right is None:
-            node.right = self.nil
-        else:
-            self._assign_sentinel_to_empty_children(node.right)
 
 
 class ParentlessNode(binary_tree.ParentlessNode):
@@ -65,7 +53,8 @@ class IntervalNode(Node):
 class IntervalPomNode(Node):
     def __init__(self, key, left=None, right=None):
         super().__init__(key, left, right)
-        self.low = self.high = 0
+        self.low = 0
+        self.high = 0
         self.sum = 0
         self.max = -math.inf
         self.pom = None
