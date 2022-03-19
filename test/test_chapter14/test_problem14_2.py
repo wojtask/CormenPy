@@ -10,6 +10,16 @@ from datastructures.array import Array
 from util import between
 
 
+def get_expected_josephus_permutation(n, m):
+    persons = Array(between(1, n))
+    expected_permutation = Array()
+    idx = 0
+    while persons:
+        idx = (idx + m) % persons.length
+        expected_permutation.append(persons.pop(idx + 1))
+    return expected_permutation
+
+
 class TestProblem14_2(TestCase):
 
     def test_josephus_simulate(self):
@@ -21,12 +31,7 @@ class TestProblem14_2(TestCase):
         with redirect_stdout(captured_output):
             josephus_simulate(n, m)
 
-        persons = Array(between(1, n))
-        expected_permutation = Array()
-        idx = 0
-        while persons:
-            idx = (idx + m) % persons.length
-            expected_permutation.append(persons.pop(idx + 1))
+        expected_permutation = get_expected_josephus_permutation(n, m)
         actual_permutation = Array(int(x) for x in captured_output.getvalue().splitlines())
         assert_that(actual_permutation, is_(equal_to(expected_permutation)))
 
@@ -39,11 +44,6 @@ class TestProblem14_2(TestCase):
         with redirect_stdout(captured_output):
             josephus(n, m)
 
-        persons = Array(between(1, n))
-        expected_permutation = Array()
-        idx = 0
-        while persons:
-            idx = (idx + m) % persons.length
-            expected_permutation.append(persons.pop(idx + 1))
+        expected_permutation = get_expected_josephus_permutation(n, m)
         actual_permutation = Array(int(x) for x in captured_output.getvalue().splitlines())
         assert_that(actual_permutation, is_(equal_to(expected_permutation)))

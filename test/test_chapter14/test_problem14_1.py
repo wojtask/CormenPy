@@ -26,7 +26,7 @@ def get_expected_poms(intervals):
             poms = {i.low}
         elif overlaps == max_overlaps:
             poms.add(i.low)
-    return poms
+    return Array(poms)
 
 
 class TestProblem14_1(TestCase):

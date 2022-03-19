@@ -1,12 +1,11 @@
 import math
-import random
 from unittest import TestCase
 
 from hamcrest import *
 
 from array_util import get_random_array
 from chapter14.exercise14_3_6 import min_gap_insert, min_gap_search, min_gap_delete, min_gap
-from datastructures.red_black_tree import RedBlackTree, Node
+from datastructures.red_black_tree import RedBlackTree, Node, MinGapNode
 from tree_util import get_binary_search_tree_inorder_nodes
 
 
@@ -23,12 +22,10 @@ class TestExercise14_3_6(TestCase):
 
     def test_min_gap_tree(self):
         keys = get_random_array(unique=True)
-        tree = RedBlackTree()
-        tree.nil.min_key = tree.nil.min_gap = math.inf
-        tree.nil.max_key = -math.inf
+        tree = RedBlackTree(sentinel=MinGapNode(None))
 
         for key in keys:
-            min_gap_insert(tree, Node(key))
+            min_gap_insert(tree, MinGapNode(key))
 
         inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
 

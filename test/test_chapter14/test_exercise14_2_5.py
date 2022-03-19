@@ -13,7 +13,8 @@ from tree_util import get_random_red_black_tree, get_binary_search_tree_inorder_
 class TestExercise14_2_5(TestCase):
 
     def test_rb_enumerate(self):
-        tree, inorder_nodes, _ = get_random_red_black_tree()
+        tree = get_random_red_black_tree()
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         lower_bound = random.randint(0, 999)
         upper_bound = random.randint(0, 999)
         if lower_bound > upper_bound:

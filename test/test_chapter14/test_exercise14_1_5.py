@@ -10,7 +10,8 @@ from tree_util import get_random_os_tree, get_binary_search_tree_inorder_nodes
 class TestExercise14_1_5(TestCase):
 
     def test_os_successor(self):
-        tree, inorder_nodes, _ = get_random_os_tree()
+        tree = get_random_os_tree()
+        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         j = random.randint(1, inorder_nodes.length)
         i = random.randint(0, inorder_nodes.length - j)
 

@@ -1,3 +1,4 @@
+import copy
 import random
 from unittest import TestCase
 
@@ -13,9 +14,11 @@ class TestExercise14_1_8(TestCase):
     def test_intersecting_chords(self):
         n = random.randint(1, 20)
         chords = Array([i for i in between(1, n)] * 2).shuffle()
+        original = copy.deepcopy(chords)
 
         actual_intersections = intersecting_chords(chords)
 
+        assert_that(chords, is_(equal_to(original)))
         expected_intersections = 0
         for endpoint in between(1, n):
             idx1 = chords.index(endpoint)
