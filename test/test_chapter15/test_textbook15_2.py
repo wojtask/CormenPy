@@ -15,8 +15,7 @@ from util import between
 
 
 def get_random_matrix(rows, columns):
-    elements = [[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)]
-    return Matrix(elements)
+    return Matrix([[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)])
 
 
 def get_minimum_matrix_product_cost(dimensions, i, j):

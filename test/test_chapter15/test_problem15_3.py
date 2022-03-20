@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter15.problem15_3 import edit_distance, print_operations, optimal_alignment
+from chapter15.problem15_3 import edit_distance, print_operations, optimal_alignment, EditOperation
 from datastructures.array import Array
 from util import between
 
@@ -18,17 +18,17 @@ def get_edit_distance_bruteforce(x, y, cost, i=1, j=1):
         return 0
     min_cost = math.inf
     if i <= m and j <= n and x[i] == y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost['copy'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost[EditOperation.COPY])
     if i <= m and j <= n and x[i] != y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost['replace'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j + 1) + cost[EditOperation.REPLACE])
     if i <= m:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j) + cost['delete'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 1, j) + cost[EditOperation.DELETE])
     if j <= n:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i, j + 1) + cost['insert'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i, j + 1) + cost[EditOperation.INSERT])
     if i < m and j < n and x[i] == y[j + 1] and x[i + 1] == y[j]:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 2, j + 2) + cost['twiddle'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, i + 2, j + 2) + cost[EditOperation.TWIDDLE])
     if i <= m and j == n + 1:
-        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, m + 1, n + 1) + cost['kill'])
+        min_cost = min(min_cost, get_edit_distance_bruteforce(x, y, cost, m + 1, n + 1) + cost[EditOperation.KILL])
     return min_cost
 
 
@@ -70,12 +70,18 @@ def assert_valid_operations(operations, word1, word2):
 def get_operations_cost(operations, cost):
     c = 0
     for op in operations:
-        if op.startswith('replace'):
-            c += cost['replace']
+        if op == 'copy':
+            c += cost[EditOperation.COPY]
+        elif op.startswith('replace'):
+            c += cost[EditOperation.REPLACE]
         elif op.startswith('insert'):
-            c += cost['insert']
+            c += cost[EditOperation.INSERT]
+        elif op == 'delete':
+            c += cost[EditOperation.DELETE]
+        elif op == 'twiddle':
+            c += cost[EditOperation.TWIDDLE]
         else:
-            c += cost[op]
+            c += cost[EditOperation.KILL]
     return c
 
 
@@ -106,12 +112,12 @@ class TestProblem15_3(TestCase):
         word2 = Array(''.join(random.choice('abcde') for _ in between(1, len2)))
         cost_insert = random.randint(0, 10)
         cost_delete = random.randint(0, 10)
-        cost = {'copy': random.randint(0, max(10, cost_insert + cost_delete)),
-                'replace': random.randint(0, max(10, cost_insert + cost_delete)),
-                'insert': cost_insert,
-                'delete': cost_delete,
-                'twiddle': random.randint(0, 10),
-                'kill': random.randint(0, 10)}
+        cost = {EditOperation.COPY: random.randint(0, max(10, cost_insert + cost_delete)),
+                EditOperation.REPLACE: random.randint(0, max(10, cost_insert + cost_delete)),
+                EditOperation.INSERT: cost_insert,
+                EditOperation.DELETE: cost_delete,
+                EditOperation.TWIDDLE: random.randint(0, 10),
+                EditOperation.KILL: random.randint(0, 10)}
         captured_output = io.StringIO()
 
         actual_costs, actual_op, actual_left, actual_right = edit_distance(word1, word2, cost)
