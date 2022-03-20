@@ -4,8 +4,8 @@ from util import between
 
 def _sort_by_value_per_weight_unit(w, v):
     sorted_tuples = sorted(zip(w, v), key=lambda x: x[1] / x[0], reverse=True)
-    w.elements = [x[0] for x in sorted_tuples]
-    v.elements = [x[1] for x in sorted_tuples]
+    w[:] = Array(x[0] for x in sorted_tuples)
+    v[:] = Array(x[1] for x in sorted_tuples)
 
 
 def fractional_knapsack(w, v, W):

@@ -4,7 +4,7 @@ from util import between
 
 def tasks_scheduling_(d, w):
     n = d.length
-    tasks = list(zip(['a' + str(i) for i in between(1, n)], d, w))
+    tasks = Array(zip(['a' + str(i) for i in between(1, n)], d, w))
     tasks.sort(key=lambda t: t[2], reverse=True)
     schedule = Array.indexed(1, n)
     for task in tasks:

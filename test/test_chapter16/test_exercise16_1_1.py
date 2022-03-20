@@ -4,8 +4,8 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter16.exercise16_1_1 import dynamic_activity_selector
-from test_chapter16.test_textbook16_1 import decode_activities, \
-    activities_compatible, activity_selector_bruteforce, get_activities_sorted_by_finish_time
+from test_chapter16.test_textbook16_1 import decode_activities, activities_compatible, activity_selector_bruteforce, \
+    get_activities_sorted_by_finish_time
 
 
 class TestExercise16_1_1(TestCase):
