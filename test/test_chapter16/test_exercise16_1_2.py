@@ -5,8 +5,8 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter16.exercise16_1_2 import greedy_activity_selector_
-from test_chapter16.test_textbook16_1 import decode_activities, activities_compatible, \
-    activity_selector_bruteforce, get_activities_sorted_by_start_time
+from test_chapter16.test_textbook16_1 import decode_activities, activities_compatible, activity_selector_bruteforce, \
+    get_activities_sorted_by_start_time
 
 
 class TestExercise16_1_2(TestCase):

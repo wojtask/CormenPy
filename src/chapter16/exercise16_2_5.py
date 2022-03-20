@@ -5,7 +5,7 @@ from util import between
 
 
 def points_cover(points):
-    points.elements.sort()
+    points.sort()
     p = -math.inf
     I = set()
     for i in between(1, points.length):

@@ -15,7 +15,6 @@ class TestExercise6_5_6(TestCase):
     def test_priority_enqueue(self):
         size = random.randint(5, 20)
         min_priority_queue = Heap(Array.indexed(1, size))
-        min_priority_queue.heap_size = 0
         min_priority_queue.rank = 1
         nelements = random.randint(1, size)
 
@@ -45,7 +44,6 @@ class TestExercise6_5_6(TestCase):
     def test_priority_push(self):
         size = random.randint(5, 20)
         max_priority_queue = Heap(Array.indexed(1, size))
-        max_priority_queue.heap_size = 0
         max_priority_queue.rank = 1
         nelements = random.randint(1, size)
 

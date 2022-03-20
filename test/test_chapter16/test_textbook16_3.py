@@ -25,7 +25,7 @@ def all_binary_trees(s, d=0):
 
 
 def compute_tree_cost(node, d=0):
-    if not node.left and not node.right:
+    if node.left is None and node.right is None:
         return node.f * d
     return compute_tree_cost(node.left, d + 1) + compute_tree_cost(node.right, d + 1)
 

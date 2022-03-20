@@ -38,7 +38,7 @@ class TestExercise16_1_3(TestCase):
 
         actual_schedule = activity_scheduler(start_times, finish_times)
 
-        actual_halls_needed = len(set([hall_number for hall_number in actual_schedule]))
+        actual_halls_needed = len(set(hall_number for hall_number in actual_schedule))
         expected_halls_needed = max_overlapping_activities(start_times, finish_times)
         assert_that(actual_halls_needed, is_(equal_to(expected_halls_needed)))
         assert_schedule_consistent(actual_schedule, start_times, finish_times)

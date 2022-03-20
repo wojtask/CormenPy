@@ -16,7 +16,7 @@ def stops_valid(stops, stations, max_range):
         if sum(stations[previous_stop + 1:stop]) > max_range:
             return False
         previous_stop = stop
-    return sum(stations[previous_stop + 1:stations.length]) <= max_range
+    return sum(stations[previous_stop + 1:]) <= max_range
 
 
 def refueling_bruteforce(stations, n):

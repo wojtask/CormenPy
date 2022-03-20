@@ -1,6 +1,7 @@
 import math
 
 from chapter09.textbook9_3 import select
+from chapter16.textbook16_2 import _sort_by_value_per_weight_unit
 from datastructures.array import Array
 from util import between
 
@@ -10,12 +11,6 @@ class Item:
         self.id = id
         self.weight = weight
         self.value = value
-
-
-def _sort_by_value_per_weight_unit(w, v):
-    sorted_tuples = sorted(zip(w, v), key=lambda x: x[1] / x[0], reverse=True)
-    w.elements = [x[0] for x in sorted_tuples]
-    v.elements = [x[1] for x in sorted_tuples]
 
 
 def effective_fractional_knapsack(w, v, W):

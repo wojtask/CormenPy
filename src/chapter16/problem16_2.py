@@ -1,19 +1,7 @@
-import math
-
-from chapter06.exercise6_2_2 import min_heapify
 from chapter06.exercise6_5_3 import min_heap_insert, heap_minimum, heap_extract_min, heap_decrease_key
 from datastructures.array import Array
-from util import between, rbetween
-
-
-def act_schedule(p):
-    n = p.length
-    p.elements.sort()
-    c = Array.indexed(1, n)
-    c[1] = p[1]
-    for i in between(2, n):
-        c[i] = c[i - 1] + p[i]
-    return c
+from datastructures.heap import Heap
+from util import between
 
 
 class Activity:
@@ -33,16 +21,19 @@ class Activity:
         return self.p > other.p
 
 
-def _build_min_heap(A):
-    A.heap_size = A.length
-    for i in rbetween(math.floor(A.length / 2), 1):
-        min_heapify(A, i)
+def act_schedule(p):
+    n = p.length
+    p.sort()
+    c = Array.indexed(1, n)
+    c[1] = p[1]
+    for i in between(2, n):
+        c[i] = c[i - 1] + p[i]
+    return c
 
 
 def preemptive_act_schedule(p, r):
     n = p.length
-    Q = Array.indexed(1, n)
-    Q.heap_size = 0
+    Q = Heap(Array.indexed(1, n))
     c = Array.indexed(1, n)
     for i in between(1, n):
         t = r[i]

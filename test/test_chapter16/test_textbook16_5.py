@@ -32,7 +32,7 @@ def assert_canonical_form(schedule, deadlines):
 def get_min_total_penalty_bruteforce(deadlines, penalties):
     min_total_penalty = math.inf
     n = deadlines.length
-    tasks = Array(zip([i for i in between(1, n)], deadlines, penalties))
+    tasks = Array(zip(between(1, n), deadlines, penalties))
     for tasks_reordering in itertools.permutations(tasks):
         schedule_ids = Array(task[0] for task in tasks_reordering)
         min_total_penalty = min(min_total_penalty, get_total_penalty(schedule_ids, deadlines, penalties))

@@ -4,7 +4,7 @@ from util import between
 
 
 def _build_early_first_schedule(A, tasks):
-    schedule = []
+    schedule = Array()
     tasks.sort(key=lambda t: t[1])
     for task in tasks:
         if task[0] in A:
@@ -12,17 +12,17 @@ def _build_early_first_schedule(A, tasks):
     for task in tasks:
         if task[0] not in A:
             schedule.append(task[0])
-    return Array(schedule)
+    return schedule
 
 
 def tasks_scheduling(d, w):
     n = d.length
     A = set()
-    deadlines = []
-    tasks = list(zip(['a' + str(i) for i in between(1, n)], d, w))
+    deadlines = Array()
+    tasks = Array(zip(['a' + str(i) for i in between(1, n)], d, w))
     tasks.sort(key=lambda t: t[2], reverse=True)
     for task in tasks:
-        if tasks_independent(Array(deadlines + [task[1]]), n):
+        if tasks_independent(deadlines + [task[1]], n):
             deadlines.append(task[1])
             A.add(task[0])
     return _build_early_first_schedule(A, tasks)

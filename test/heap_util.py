@@ -24,7 +24,7 @@ def get_random_max_heap(arity=2):
     size = random.randint(1, 20)
     array = Array.indexed(1, size)
     fill_max_subheap(array, 1, size, 999, arity)
-    return Heap(array)
+    return Heap(array, heap_size=size)
 
 
 def fill_max_subheap(array, i, size, upper_bound, arity):
@@ -41,7 +41,7 @@ def get_random_min_heap(arity=2):
     size = random.randint(1, 20)
     array = Array.indexed(1, size)
     fill_min_subheap(array, 1, size, 0, arity)
-    return Heap(array)
+    return Heap(array, heap_size=size)
 
 
 def fill_min_subheap(array, i, size, lower_bound, arity):
