@@ -21,12 +21,14 @@ class TestRedBlackTree(TestCase):
         assert_that(tree.nil, is_(none()))
 
     def test_create_red_black_tree(self):
-        left = Node(3)
-        right = Node(20)
+        sentinel = Node(None)
+        left = Node(3, left=sentinel, right=sentinel)
+        right = Node(20, left=sentinel, right=sentinel)
         root = Node(17, left=left, right=right)
-        tree = RedBlackTree(root)
+        tree = RedBlackTree(root, sentinel)
 
         assert_that(tree.root, is_(root))
+        assert_that(tree.nil, is_(sentinel))
         assert_that(root.left, is_(left))
         assert_that(root.right, is_(right))
         assert_parent_pointers_consistent(tree)
