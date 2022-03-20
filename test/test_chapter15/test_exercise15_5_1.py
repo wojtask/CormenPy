@@ -15,41 +15,27 @@ def assert_optimal_bst_output(actual_output, root):
     n = root.length
     root_id = int(re.search(r'k(\d+) is the root', actual_output[1]).group(1))
     assert_that(root_id, is_(equal_to(root[1, n])))
-    line_no = assert_left_child_output(actual_output, root, 1, root_id - 1, 2)
-    line_no = assert_right_child_output(actual_output, root, root_id + 1, n, line_no + 1)
+    line_no = assert_child_output(actual_output, root, 1, root_id - 1, root_id, 2)
+    line_no = assert_child_output(actual_output, root, root_id + 1, n, root_id, line_no + 1)
     assert_that(actual_output.length, is_(equal_to(line_no)))
 
 
-def assert_left_child_output(actual_output, root, i, j, line_no):
-    parent = j + 1
-    comp = re.compile(r'([kd])(\d+) is the left child of k(\d+)')
+def assert_child_output(actual_output, root, i, j, parent, line_no):
+    comp = re.compile(r'([kd])(\d+) is the (\w+) child of k(\d+)')
     node_type = comp.search(actual_output[line_no]).group(1)
     node_id = int(comp.search(actual_output[line_no]).group(2))
-    actual_parent = int(comp.search(actual_output[line_no]).group(3))
+    node_side = comp.search(actual_output[line_no]).group(3)
+    actual_parent = int(comp.search(actual_output[line_no]).group(4))
     assert_that(actual_parent, is_(equal_to(parent)))
-    if i <= j:
-        assert_that(node_type, is_(equal_to('k')))
-        assert_that(node_id, is_(equal_to(root[i, j])))
-        line_no = assert_left_child_output(actual_output, root, i, node_id - 1, line_no + 1)
-        line_no = assert_right_child_output(actual_output, root, node_id + 1, j, line_no + 1)
+    if parent == j + 1:
+        assert_that(node_side, is_(equal_to('left')))
     else:
-        assert_that(node_type, is_(equal_to('d')))
-        assert_that(node_id, is_(equal_to(j)))
-    return line_no
-
-
-def assert_right_child_output(actual_output, root, i, j, line_no):
-    parent = i - 1
-    comp = re.compile(r'([kd])(\d+) is the right child of k(\d+)')
-    node_type = comp.search(actual_output[line_no]).group(1)
-    node_id = int(comp.search(actual_output[line_no]).group(2))
-    actual_parent = int(comp.search(actual_output[line_no]).group(3))
-    assert_that(actual_parent, is_(equal_to(parent)))
+        assert_that(node_side, is_(equal_to('right')))
     if i <= j:
         assert_that(node_type, is_(equal_to('k')))
         assert_that(node_id, is_(equal_to(root[i, j])))
-        line_no = assert_left_child_output(actual_output, root, i, node_id - 1, line_no + 1)
-        line_no = assert_right_child_output(actual_output, root, node_id + 1, j, line_no + 1)
+        line_no = assert_child_output(actual_output, root, i, node_id - 1, node_id, line_no + 1)
+        line_no = assert_child_output(actual_output, root, node_id + 1, j, node_id, line_no + 1)
     else:
         assert_that(node_type, is_(equal_to('d')))
         assert_that(node_id, is_(equal_to(j)))

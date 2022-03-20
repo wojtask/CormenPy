@@ -53,8 +53,8 @@ class AugmentedOSNode(OSNode):
 
 
 class IntervalNode(Node):
-    def __init__(self, key, interval, left=None, right=None):
-        super().__init__(key, left, right)
+    def __init__(self, key, interval=None, left=None, right=None, color=Color.BLACK):
+        super().__init__(key, None, left, right, color)
         self.int = interval
         self.max = -math.inf
 

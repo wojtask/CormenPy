@@ -7,7 +7,7 @@ from hamcrest import *
 
 from chapter15.problem15_4 import company_party, print_guests
 from datastructures.array import Array
-from datastructures.rooted_tree import RootedTree, Node
+from datastructures.rooted_tree import RootedTree, EmployeeNode
 from util import between
 
 
@@ -15,9 +15,7 @@ def get_company_hierarchy():
     company_size = random.randint(1, 20)
     boss = employee = None
     for i in between(1, company_size):
-        new_employee = Node(None)
-        new_employee.name = 'employee %d' % i
-        new_employee.conv = random.randint(-20, 20)
+        new_employee = EmployeeNode(None, 'employee %d' % i, random.randint(-20, 20))
         if i == 1:
             boss = new_employee
         elif i == 2 or random.randint(0, 1) == 0:

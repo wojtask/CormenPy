@@ -17,7 +17,7 @@ class TestExercise15_1_1(TestCase):
         l = Array([Array.indexed(1, n), Array.indexed(1, n)])
         l[1, 1], l[2, 1] = 0, 0
         for i in between(2, n):
-            l[1, i], l[2, i] = random.choice([(1, 1), (1, 2), (2, 2)])
+            l[1, i], l[2, i] = Array(((1, 1), (1, 2), (2, 2))).random_choice()
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 

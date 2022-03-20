@@ -7,13 +7,8 @@ from array_util import get_random_array
 from chapter15.exercise15_2_2 import matrix_chain_multiply
 from chapter15.textbook15_2 import matrix_multiply, matrix_chain_order
 from datastructures.array import Array
-from datastructures.matrix import Matrix
+from test_chapter15.test_textbook15_2 import get_random_matrix
 from util import between
-
-
-def get_random_matrix(rows, columns):
-    elements = [[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)]
-    return Matrix(elements)
 
 
 def get_matrix_product(A):

@@ -253,7 +253,8 @@ def assert_os_subtree(subtree_root, sentinel):
 def get_random_interval_tree(black_height=3, max_value=999):
     # max_value is treated as the upper bound for high endpoints
     # the procedure generates intervals of lengths at most (.1 * max_value)
-    tree = get_random_red_black_tree(black_height, max_value=int(.9 * max_value), sentinel=rb.IntervalNode(None, None))
+    tree = get_random_red_black_tree(black_height, max_value=int(.9 * max_value), node_ctor=rb.IntervalNode,
+                                     sentinel=rb.IntervalNode(None, None))
     inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
     tree_size = inorder_nodes.length
     # overwrite the previous keys, allow to non-unique keys and intervals
@@ -319,8 +320,9 @@ def assert_interval_pom_subtree(subtree_root, sentinel):
                 is_(equal_to(subtree_root.left.sum + (subtree_root.low - subtree_root.high) + subtree_root.right.sum)))
     assert_that(subtree_root.max, is_(equal_to(max(subtree_root.left.max,
                                                    subtree_root.left.sum + subtree_root.low,
-                                                   subtree_root.left.sum + (
-                                                           subtree_root.low - subtree_root.high) + subtree_root.right.max))))
+                                                   subtree_root.left.sum +
+                                                   (subtree_root.low - subtree_root.high) +
+                                                   subtree_root.right.max))))
     if subtree_root.max == subtree_root.left.max:
         assert_that(subtree_root.pom, is_(equal_to(subtree_root.left.pom)))
     elif subtree_root.max == subtree_root.left.sum + subtree_root.low:
