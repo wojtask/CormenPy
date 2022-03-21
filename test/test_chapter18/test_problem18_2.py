@@ -39,12 +39,12 @@ def get_2_3_4_tree_keys(tree):
 def get_2_3_4_subtree_keys(node):
     if node.height == 0:
         return node.key[:node.n]
-    elements = Array()
+    keys = Array()
     for i in between(1, node.n):
-        elements += get_2_3_4_subtree_keys(node.c[i])
-        elements.append(node.key[i])
-    elements += get_2_3_4_subtree_keys(node.c[node.n + 1])
-    return elements
+        keys += get_2_3_4_subtree_keys(node.c[i])
+        keys.append(node.key[i])
+    keys += get_2_3_4_subtree_keys(node.c[node.n + 1])
+    return keys
 
 
 class TestProblem18_2(TestCase):
@@ -58,8 +58,8 @@ class TestProblem18_2(TestCase):
         tree_2_3_4_create(tree)
         assert_2_3_4_tree(tree)
 
-        max_key_value = 10000
-        keys = get_random_array(size=1000, max_value=max_key_value, unique=True)
+        max_key_value = 99
+        keys = get_random_array(size=20, max_value=max_key_value, unique=True)
         keys_in_tree = Array()
         for key in keys:
             tree_2_3_4_insert(tree, key)
@@ -90,7 +90,7 @@ class TestProblem18_2(TestCase):
         tree_2_3_4_create(tree1)
         tree_2_3_4_create(tree2)
 
-        max_value = 1000
+        max_value = 99
         k = random.randint(1, max_value - 1)
         keys1 = get_random_array(min_size=0, max_size=k - 1, min_value=0, max_value=k - 1, unique=True)
         keys2 = get_random_array(min_size=0, max_size=max_value - k, min_value=k + 1, max_value=max_value, unique=True)
@@ -115,7 +115,7 @@ class TestProblem18_2(TestCase):
         tree_2_3_4_create(tree1)
         tree_2_3_4_create(tree2)
 
-        max_value = 1000
+        max_value = 99
         k = random.randint(1, max_value - 1)
         r = random.random()
         max_size1 = 0 if r < 0.6 else k - 1
@@ -143,8 +143,7 @@ class TestProblem18_2(TestCase):
         """
         tree = Tree234()
         tree_2_3_4_create(tree)
-        max_key_value = 10000
-        keys = get_random_array(size=1000, max_value=max_key_value, unique=True)
+        keys = get_random_array(size=20, unique=True)
         for key in keys:
             tree_2_3_4_insert(tree, key)
         split_key = random.choice(keys.elements)

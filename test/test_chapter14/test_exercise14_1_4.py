@@ -1,4 +1,3 @@
-import random
 from unittest import TestCase
 
 from hamcrest import *

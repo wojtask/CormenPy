@@ -5,7 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter14.exercise14_3_6 import min_gap_insert, min_gap_search, min_gap_delete, min_gap
-from datastructures.red_black_tree import RedBlackTree, Node, MinGapNode
+from datastructures.red_black_tree import RedBlackTree, MinGapNode
 from tree_util import get_binary_search_tree_inorder_nodes
 
 
