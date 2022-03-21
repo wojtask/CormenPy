@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter17.textbook17_1 import multipop, increment
+from datastructures.stack import Stack
 from test_chapter02.test_exercise2_1_4 import bits_to_number
 
 
@@ -13,13 +14,13 @@ class TestTextbook17_1(TestCase):
     def test_multipop(self):
         size = 15
         k = random.randint(1, size)
-        stack = get_random_array(size=size)
-        stack.top = top = random.randint(0, size)
+        stack = Stack(get_random_array(size=size), top=random.randint(0, size))
+        original_top = stack.top
 
         multipop(stack, k)
 
-        if k <= top:
-            assert_that(stack.top, is_(equal_to(top - k)))
+        if k <= original_top:
+            assert_that(stack.top, is_(equal_to(original_top - k)))
         else:
             assert_that(stack.top, is_(equal_to(0)))
 

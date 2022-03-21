@@ -2,14 +2,20 @@ from datastructures.array import Array
 from datastructures.binary_tree import Node
 
 
-def _sort_subtree_nodes(x):
-    return [] if x is None else _sort_subtree_nodes(x.left) + [x.key] + _sort_subtree_nodes(x.right)
+class NodeWithSize(Node):
+    def __init__(self, key):
+        super().__init__(key)
+        self.size = 0
+
+
+def _subtree_inorder_keys(x):
+    return Array() if x is None else _subtree_inorder_keys(x.left) + [x.key] + _subtree_inorder_keys(x.right)
 
 
 def _balance_node(x, A, p, r):
     if p <= r:
         q = (p + r) // 2
-        y = Node(A[q])
+        y = NodeWithSize(A[q])
         y.left = _balance_node(y, A, p, q - 1)
         y.right = _balance_node(y, A, q + 1, r)
         y.p = x
@@ -21,7 +27,7 @@ def _balance_node(x, A, p, r):
 
 
 def balance_subtree(T, x):
-    A = Array(_sort_subtree_nodes(x))
+    A = _subtree_inorder_keys(x)
     y = _balance_node(x.p, A, 1, A.length)
     if x.p is None:
         T.root = y

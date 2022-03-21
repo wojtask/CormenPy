@@ -18,13 +18,14 @@ def _create_arrays():
             arrays[i] = Array()
         else:
             arrays[i] = get_random_array(size=2 ** i, max_value=2 ** (k - 1)).sort()
-    return arrays, k
+    return arrays
 
 
 class TestProblem17_2(TestCase):
 
     def test_dynamic_binary_search(self):
-        arrays, k = _create_arrays()
+        arrays = _create_arrays()
+        k = arrays.length
         element = random.randint(0, 2 ** (k - 1))
 
         p = dynamic_binary_search(arrays, element)
@@ -36,7 +37,8 @@ class TestProblem17_2(TestCase):
                 assert_that(element, not_(is_in(arrays[i])))
 
     def test_dynamic_binary_insert(self):
-        arrays, k = _create_arrays()
+        arrays = _create_arrays()
+        k = arrays.length
         element = random.randint(0, 2 ** (k - 1))
         elements_before = Array(x for arr in arrays for x in arr)
         # make sure there is a place for the new element
@@ -53,7 +55,8 @@ class TestProblem17_2(TestCase):
             assert_that(arrays[i].length, is_(any_of(0, 2 ** i)))
 
     def test_dynamic_binary_delete(self):
-        arrays, k = _create_arrays()
+        arrays = _create_arrays()
+        k = arrays.length
         elements_before = Array(x for arr in arrays for x in arr)
         # make sure there is an element to remove
         if elements_before.length == 0:
