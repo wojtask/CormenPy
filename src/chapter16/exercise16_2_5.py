@@ -1,6 +1,6 @@
 import math
 
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from util import between
 
 

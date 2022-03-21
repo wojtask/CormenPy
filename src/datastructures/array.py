@@ -98,3 +98,9 @@ class Array(MutableSequence):
 
     def random_choice(self):
         return random.choice(self.elements)
+
+
+class ResettableCounter(Array):
+    def __init__(self, *elements):
+        super().__init__(*elements, start=0)
+        self.highest = -1

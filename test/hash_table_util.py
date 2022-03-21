@@ -5,7 +5,8 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter11.exercise11_4_2 import Deleted
 from datastructures.array import Array
-from datastructures.hash_table import Element, ChainedElement
+from datastructures.hash_table import ChainedElement
+from datastructures.essential import Element
 from util import between
 
 

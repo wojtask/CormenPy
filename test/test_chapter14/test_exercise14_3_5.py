@@ -6,7 +6,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter14.exercise14_3_5 import interval_insert_exactly, interval_search_exactly
 from datastructures.array import Array
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalNode
 from tree_util import assert_interval_tree
 

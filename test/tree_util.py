@@ -7,7 +7,7 @@ from array_util import get_random_array
 from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from datastructures.red_black_tree import RedBlackTree, Color
 
 

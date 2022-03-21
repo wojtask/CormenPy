@@ -1,5 +1,7 @@
+import random
+
 from datastructures.rooted_tree import RootedTree
-from util import Element
+from datastructures.essential import Element
 
 
 class BinaryTree(RootedTree):
@@ -23,3 +25,50 @@ class ParentlessNode(Element):
         super().__init__(key, data)
         self.left = left
         self.right = right
+
+
+class RadixNode:
+    def __init__(self):
+        self.left = None
+        self.right = None
+        self.in_tree = False
+
+
+class AVLNode(Node):
+    def __init__(self, key):
+        super().__init__(key)
+        self.h = 0
+
+
+class TreapNode(Node):
+    def __init__(self, key, data=None, left=None, right=None):
+        super().__init__(key, data, left, right)
+        self.priority = random.uniform(0, 1)
+
+
+class HuffmanNode(ParentlessNode):
+    def __init__(self, character=None, frequency=0):
+        super().__init__(frequency, character)
+        self.f = frequency
+
+    def __lt__(self, other):
+        if isinstance(other, float):
+            return self.f < other
+        return self.f < other.f
+
+    def __gt__(self, other):
+        if isinstance(other, float):
+            return self.f > other
+        return self.f > other.f
+
+
+class TernaryHuffmanNode(HuffmanNode):
+    def __init__(self, character=None, frequency=0):
+        super().__init__(character, frequency)
+        self.middle = None
+
+
+class NodeWithSize(Node):
+    def __init__(self, key):
+        super().__init__(key)
+        self.size = 0

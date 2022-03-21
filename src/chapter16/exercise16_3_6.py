@@ -1,15 +1,10 @@
 import math
 
 from chapter06.exercise6_5_3 import heap_extract_min, min_heap_insert
-from chapter16.textbook16_3 import HuffmanNode, _build_min_heap
+from chapter16.textbook16_3 import _build_min_heap
+from datastructures.binary_tree import TernaryHuffmanNode
 from datastructures.heap import Heap
 from util import between
-
-
-class TernaryHuffmanNode(HuffmanNode):
-    def __init__(self, character=None, frequency=0):
-        super().__init__(character, frequency)
-        self.middle = None
 
 
 def ternary_huffman(C):

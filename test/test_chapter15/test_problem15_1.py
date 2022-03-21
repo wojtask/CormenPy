@@ -11,7 +11,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter15.problem15_1 import bitonic_tsp, print_bitonic_path
 from datastructures.array import Array
-from datastructures.point_2d import Point2D
+from datastructures.essential import Point2D
 from util import between, rbetween
 
 

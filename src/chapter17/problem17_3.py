@@ -1,11 +1,5 @@
 from datastructures.array import Array
-from datastructures.binary_tree import Node
-
-
-class NodeWithSize(Node):
-    def __init__(self, key):
-        super().__init__(key)
-        self.size = 0
+from datastructures.binary_tree import NodeWithSize
 
 
 def _subtree_inorder_keys(x):

@@ -5,7 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter14.textbook14_3 import interval_search, overlap, interval_insert, interval_delete
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalNode
 from tree_util import get_binary_search_tree_inorder_keys, get_binary_search_tree_inorder_nodes, \
     get_random_interval_tree, assert_interval_tree

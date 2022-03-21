@@ -6,7 +6,7 @@ from hamcrest import *
 
 from chapter07.problem7_6 import fuzzy_sort
 from datastructures.array import Array
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from util import between
 
 

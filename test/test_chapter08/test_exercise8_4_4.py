@@ -7,7 +7,7 @@ from hamcrest import *
 
 from chapter08.exercise8_4_4 import unit_circle_sort
 from datastructures.array import Array
-from datastructures.point_2d import Point2D
+from datastructures.essential import Point2D
 from util import between
 
 

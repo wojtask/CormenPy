@@ -1,4 +1,4 @@
-from util import Element
+from datastructures.essential import Element
 
 
 class ChainedElement(Element):

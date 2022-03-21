@@ -7,7 +7,7 @@ from hamcrest import *
 from chapter11.textbook11_1 import direct_address_search, direct_address_insert, direct_address_delete
 from datastructures.array import Array
 from hash_table_util import get_random_direct_address_table
-from util import Element
+from datastructures.essential import Element
 
 
 def get_direct_access_table_elements(table):

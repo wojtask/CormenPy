@@ -9,7 +9,7 @@ from hamcrest import *
 from chapter14.exercise14_3_4 import interval_search_all
 from chapter14.textbook14_3 import overlap
 from datastructures.array import Array
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 

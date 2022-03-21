@@ -1,9 +1,9 @@
-from datastructures.radix_tree import RadixTree, Node
+from datastructures.binary_tree import RadixNode, BinaryTree
 from util import between
 
 
 def bit_strings_sort(S):
-    tree = RadixTree()
+    tree = BinaryTree()
     for i in between(1, S.length):
         _radix_tree_insert(tree, S[i])
     _preorder_radix_tree_walk(tree.root, '')
@@ -11,16 +11,16 @@ def bit_strings_sort(S):
 
 def _radix_tree_insert(T, key):
     if T.root is None:
-        T.root = Node()
+        T.root = RadixNode()
     x = T.root
     for d in key:
         if d == '0':
             if x.left is None:
-                x.left = Node()
+                x.left = RadixNode()
             x = x.left
         else:
             if x.right is None:
-                x.right = Node()
+                x.right = RadixNode()
             x = x.right
     x.in_tree = True
 
