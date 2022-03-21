@@ -15,7 +15,7 @@ def dynamic_binary_search(A, x):
 
 
 def dynamic_binary_insert(A, x):
-    B = Array(x)
+    B = Array.of(x)
     i = 0
     while A[i].length != 0:
         B = A[i] + B

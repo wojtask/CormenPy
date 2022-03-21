@@ -103,7 +103,7 @@ class TestProblem18_2(TestCase):
 
         assert_2_3_4_tree(actual_tree)
         actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
-        expected_tree_keys = keys1.sort() + [k] + keys2.sort()
+        expected_tree_keys = keys1.sort() + Array.of(k) + keys2.sort()
         assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))
 
     def test_tree_2_3_4_join_empty(self):
@@ -131,7 +131,7 @@ class TestProblem18_2(TestCase):
 
         assert_2_3_4_tree(actual_tree)
         actual_tree_keys = get_2_3_4_tree_keys(actual_tree)
-        expected_tree_keys = keys1.sort() + [k] + keys2.sort()
+        expected_tree_keys = keys1.sort() + Array.of(k) + keys2.sort()
         assert_that(actual_tree_keys, is_(equal_to(expected_tree_keys)))
 
     def test_tree_2_3_4_split_random(self):
@@ -158,4 +158,4 @@ class TestProblem18_2(TestCase):
             assert_that(key, is_(less_than_or_equal_to(split_key)))
         for key in actual_tree2_keys:
             assert_that(key, is_(greater_than_or_equal_to(split_key)))
-        assert_that(actual_tree1_keys + [split_key] + actual_tree2_keys, contains_inanyorder(*keys))
+        assert_that(actual_tree1_keys + Array.of(split_key) + actual_tree2_keys, contains_inanyorder(*keys))

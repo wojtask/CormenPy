@@ -2,8 +2,8 @@ from datastructures.array import Array
 
 
 class Heap(Array):
-    def __init__(self, *elements, heap_size=0):
-        super().__init__(*elements)
+    def __init__(self, elements, heap_size=0):
+        super().__init__(elements)
         self.heap_size = heap_size
 
     def __getitem__(self, index):

@@ -17,10 +17,10 @@ class EditOperation(Enum):
 def edit_distance(x, y, cost):
     m = x.length
     n = y.length
-    c = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
-    op = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
-    l = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
-    r = Array([Array.indexed(0, n) for _ in between(0, m)], start=0)
+    c = Array((Array.indexed(0, n) for _ in between(0, m)), start=0)
+    op = Array((Array.indexed(0, n) for _ in between(0, m)), start=0)
+    l = Array((Array.indexed(0, n) for _ in between(0, m)), start=0)
+    r = Array((Array.indexed(0, n) for _ in between(0, m)), start=0)
     for i in between(0, m):
         c[i, 0] = i * cost[EditOperation.DELETE]
         (op[i, 0], l[i, 0], r[i, 0]) = ('delete', i - 1, 0)

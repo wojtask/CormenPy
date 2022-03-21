@@ -21,9 +21,9 @@ class TestExercise10_2_5(TestCase):
 
         actual_keys = linked_list.as_keys_array()
         if original_keys.length > 0:
-            expected_keys = Array(original_keys[1], new_key, original_keys[2:])
+            expected_keys = Array.of(original_keys[1], new_key) + original_keys[2:]
         else:
-            expected_keys = Array(new_key)
+            expected_keys = Array.of(new_key)
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_circular_list_delete(self):

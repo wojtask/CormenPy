@@ -22,7 +22,7 @@ def get_shortest_bitonic_path_length_bruteforce(points):
         for combination in itertools.combinations(between(2, n - 1), k):
             right_path = Array(combination)
             left_path = Array(x for x in rbetween(n - 1, 2) if x not in right_path)
-            path_length = get_path_length(points, Array(1, right_path, n, left_path, 1))
+            path_length = get_path_length(points, Array.of(1) + right_path + Array.of(n) + left_path + Array.of(1))
             min_length = min(min_length, path_length)
     return min_length
 

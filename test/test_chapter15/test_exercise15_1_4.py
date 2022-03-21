@@ -13,8 +13,8 @@ class TestExercise15_1_4(TestCase):
 
     def test_fastest_way_(self):
         n = random.randint(1, 10)
-        a = Array([get_random_array(size=n), get_random_array(size=n)])
-        t = Array([get_random_array(size=n - 1), get_random_array(size=n - 1)])
+        a = Array.of(get_random_array(size=n), get_random_array(size=n))
+        t = Array.of(get_random_array(size=n - 1), get_random_array(size=n - 1))
         e = get_random_array(size=2)
         x = get_random_array(size=2)
 

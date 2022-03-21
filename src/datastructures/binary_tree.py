@@ -1,7 +1,7 @@
 import random
 
-from datastructures.rooted_tree import RootedTree
 from datastructures.essential import Element
+from datastructures.rooted_tree import RootedTree
 
 
 class BinaryTree(RootedTree):

@@ -15,7 +15,7 @@ class TestExercise10_1_6(TestCase):
         size = 5
         stack = Stack(get_random_array(size=size), top=random.randint(0, size - 1))
         x = random.randint(0, 999)
-        expected_elements = Array(x, stack)
+        expected_elements = Array.of(x) + stack
 
         stack_enqueue(stack, x)
 

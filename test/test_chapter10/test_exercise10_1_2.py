@@ -28,7 +28,7 @@ class TestExercise10_1_2(TestCase):
         if array.left_top == array.right_top - 1:
             assert_that(calling(left_stack_push).with_args(array, x), raises(ValueError, 'overflow'))
         else:
-            expected_left_keys = get_left_stack_elements(array) + [x]
+            expected_left_keys = get_left_stack_elements(array) + Array.of(x)
             expected_right_keys = get_right_stack_elements(array)
 
             left_stack_push(array, x)
@@ -71,7 +71,7 @@ class TestExercise10_1_2(TestCase):
             assert_that(calling(right_stack_push).with_args(array, x), raises(ValueError, 'overflow'))
         else:
             expected_left_elements = get_left_stack_elements(array)
-            expected_right_elements = Array(x) + get_right_stack_elements(array)
+            expected_right_elements = Array.of(x) + get_right_stack_elements(array)
 
             right_stack_push(array, x)
 

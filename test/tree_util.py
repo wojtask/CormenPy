@@ -19,7 +19,7 @@ def get_binary_search_subtree_inorder_keys(subtree_root, sentinel):
     if subtree_root is sentinel:
         return Array()
     return get_binary_search_subtree_inorder_keys(subtree_root.left, sentinel) \
-        + [subtree_root.key] \
+        + Array.of(subtree_root.key) \
         + get_binary_search_subtree_inorder_keys(subtree_root.right, sentinel)
 
 
@@ -31,7 +31,7 @@ def get_binary_search_subtree_inorder_nodes(subtree_root, sentinel):
     if subtree_root is sentinel:
         return Array()
     return get_binary_search_subtree_inorder_nodes(subtree_root.left, sentinel) \
-        + [subtree_root] \
+        + Array.of(subtree_root) \
         + get_binary_search_subtree_inorder_nodes(subtree_root.right, sentinel)
 
 

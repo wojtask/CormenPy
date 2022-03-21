@@ -14,10 +14,10 @@ class TestExercise15_1_1(TestCase):
 
     def test_print_stations_(self):
         n = random.randint(1, 10)
-        l = Array([Array.indexed(1, n), Array.indexed(1, n)])
+        l = Array.of(Array.indexed(1, n), Array.indexed(1, n))
         l[1, 1], l[2, 1] = 0, 0
         for i in between(2, n):
-            l[1, i], l[2, i] = Array(((1, 1), (1, 2), (2, 2))).random_choice()
+            l[1, i], l[2, i] = Array.of((1, 1), (1, 2), (2, 2)).random_choice()
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 

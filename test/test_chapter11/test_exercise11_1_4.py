@@ -5,8 +5,8 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter11.exercise11_1_4 import huge_array_search, huge_array_insert, huge_array_delete
-from hash_table_util import get_random_huge_array, assert_huge_array_consistent
 from datastructures.essential import Element
+from hash_table_util import get_random_huge_array, assert_huge_array_consistent
 
 
 class TestExercise11_1_4(TestCase):

@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter17.exercise17_3_6 import effective_stack_enqueue, effective_stack_dequeue
+from datastructures.array import Array
 from datastructures.stack import Stack
 
 
@@ -19,7 +20,7 @@ class TestExercise17_3_6(TestCase):
         stack1 = Stack(get_random_array(size=capacity), top=random.randint(0, capacity - 1))
         stack2 = Stack(get_random_array(size=capacity), top=random.randint(0, capacity))
         x = random.randint(0, 999)
-        expected_elements = get_queue_elements(stack1, stack2) + [x]
+        expected_elements = get_queue_elements(stack1, stack2) + Array.of(x)
 
         effective_stack_enqueue(stack1, x)
 

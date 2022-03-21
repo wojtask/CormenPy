@@ -7,7 +7,7 @@ def lcs_length_(X, Y):
     n = Y.length
     if m < n:
         return lcs_length_(Y, X)
-    c = Array([Array.indexed(0, n), Array.indexed(0, n)], start=0)
+    c = Array.of(Array.indexed(0, n), Array.indexed(0, n), start=0)
     for j in between(0, n):
         c[0, j] = 0
     c[1, 0] = 0

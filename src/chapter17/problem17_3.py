@@ -3,7 +3,7 @@ from datastructures.binary_tree import NodeWithSize
 
 
 def _subtree_inorder_keys(x):
-    return Array() if x is None else _subtree_inorder_keys(x.left) + [x.key] + _subtree_inorder_keys(x.right)
+    return Array() if x is None else _subtree_inorder_keys(x.left) + Array.of(x.key) + _subtree_inorder_keys(x.right)
 
 
 def _balance_node(x, A, p, r):
