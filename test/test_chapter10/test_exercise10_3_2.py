@@ -1,10 +1,50 @@
+import random
 from unittest import TestCase
 
 from hamcrest import *
 
 from chapter10.exercise10_3_2 import single_array_allocate_object, single_array_free_object
 from datastructures.array import Array
-from list_util import get_random_single_array_list, assert_single_array_list_consistent
+from datastructures.list import SingleArrayList
+from util import between
+
+
+def get_random_single_array_list(min_size=1, max_size=10, max_value=999):
+    list_size = random.randint(min_size, max_size)
+    array_size = 3 * random.randint(list_size, max_size)
+    A = Array.indexed(1, array_size)
+    list_indexes = random.sample(between(1, array_size, step=3), list_size)
+
+    head = prev_index = None
+    for index in list_indexes:
+        A[index] = random.randint(0, max_value)
+        if prev_index is None:
+            head = index
+        else:
+            A[prev_index + 1] = index
+            A[index + 2] = prev_index
+        prev_index = index
+
+    free_indexes = Array(i for i in between(1, array_size, step=3) if i not in list_indexes).shuffle()
+
+    free = prev_free_index = None
+    for free_index in free_indexes:
+        if prev_free_index is None:
+            free = free_index
+        else:
+            A[prev_free_index + 1] = free_index
+        prev_free_index = free_index
+
+    return SingleArrayList(A, head, free)
+
+
+def assert_single_array_list_consistent(array_list):
+    prev_idx = None
+    idx = array_list.head
+    while idx is not None:
+        assert_that(array_list.A[idx + 2] == prev_idx)
+        prev_idx = idx
+        idx = array_list.A[idx + 1]
 
 
 class TestExercise10_3_2(TestCase):

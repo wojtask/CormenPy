@@ -93,8 +93,9 @@ def assert_binary_search_subtree(subtree_root, sentinel):
         assert_binary_search_subtree(subtree_root.right, sentinel)
 
 
-def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, node_ctor=rb.Node, sentinel=rb.Node(None)):
+def get_random_red_black_tree(black_height=3, min_value=0, max_value=999, node_ctor=rb.Node, with_sentinel=True):
     nodes = Array()
+    sentinel = node_ctor(None) if with_sentinel else None
     tree = RedBlackTree(get_random_red_black_subtree_with_black_root(black_height, nodes, node_ctor, sentinel),
                         sentinel)
     tree_size = nodes.length
@@ -214,7 +215,7 @@ def assert_subtreap(subtree_root):
 
 
 def get_random_os_tree(black_height=3, max_value=999):
-    tree = get_random_red_black_tree(black_height, max_value=max_value, node_ctor=rb.OSNode, sentinel=rb.OSNode(None))
+    tree = get_random_red_black_tree(black_height, max_value=max_value, node_ctor=rb.OSNode)
     augment_to_os_tree(tree)
     return tree
 
@@ -253,8 +254,7 @@ def assert_os_subtree(subtree_root, sentinel):
 def get_random_interval_tree(black_height=3, max_value=999):
     # max_value is treated as the upper bound for high endpoints
     # the procedure generates intervals of lengths at most (.1 * max_value)
-    tree = get_random_red_black_tree(black_height, max_value=int(.9 * max_value), node_ctor=rb.IntervalNode,
-                                     sentinel=rb.IntervalNode(None, None))
+    tree = get_random_red_black_tree(black_height, max_value=int(.9 * max_value), node_ctor=rb.IntervalNode)
     inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
     tree_size = inorder_nodes.length
     # overwrite the previous keys, allow to non-unique keys and intervals

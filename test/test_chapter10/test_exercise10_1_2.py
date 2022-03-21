@@ -9,11 +9,11 @@ from datastructures.array import Array
 
 
 def get_left_stack_elements(array):
-    return array[1:array.left_top]
+    return array[:array.left_top]
 
 
 def get_right_stack_elements(array):
-    return array[array.right_top:array.length]
+    return array[array.right_top:]
 
 
 class TestExercise10_1_2(TestCase):

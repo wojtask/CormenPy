@@ -39,7 +39,7 @@ class TestProblem13_2(TestCase):
         assert_that(tree.bh, is_(equal_to(actual_black_height)))
 
     def test_joinable_rb_delete(self):
-        tree = get_random_red_black_tree(sentinel=None)
+        tree = get_random_red_black_tree(with_sentinel=False)
         tree.bh = get_black_height(tree.root)
         inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         inorder_keys = get_binary_search_tree_inorder_keys(tree)
@@ -60,13 +60,13 @@ class TestProblem13_2(TestCase):
 
     def test_rb_join(self):
         tree1 = get_random_red_black_tree(black_height=random.randint(0, 4),
-                                          min_value=0, max_value=999, sentinel=None)
+                                          min_value=0, max_value=999, with_sentinel=False)
         tree1.bh = get_black_height(tree1.root)
         inorder_keys1 = get_binary_search_tree_inorder_keys(tree1)
         middle_key = random.randint(1000, 1999)
         x = Node(middle_key)
         tree2 = get_random_red_black_tree(black_height=random.randint(0, 4),
-                                          min_value=2000, max_value=2999, sentinel=None)
+                                          min_value=2000, max_value=2999, with_sentinel=False)
         tree2.bh = get_black_height(tree2.root)
         inorder_keys2 = get_binary_search_tree_inorder_keys(tree2)
 
