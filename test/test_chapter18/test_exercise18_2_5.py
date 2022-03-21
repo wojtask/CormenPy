@@ -5,7 +5,6 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter18.exercise18_2_5 import b_tree_capacious_leaves_insert, b_tree_capacious_leaves_create
-from chapter18.textbook18_2 import b_tree_create
 from datastructures.array import Array
 from datastructures.b_tree import BTree
 from util import between
@@ -38,12 +37,12 @@ def get_b_tree_with_capacious_leaves_keys(tree):
 def get_b_subtree_with_capacious_leaves_keys(node):
     if node.leaf:
         return node.key[:node.n]
-    elements = Array()
+    keys = Array()
     for i in between(1, node.n):
-        elements += get_b_subtree_with_capacious_leaves_keys(node.c[i])
-        elements.append(node.key[i])
-    elements += get_b_subtree_with_capacious_leaves_keys(node.c[node.n + 1])
-    return elements
+        keys += get_b_subtree_with_capacious_leaves_keys(node.c[i])
+        keys.append(node.key[i])
+    keys += get_b_subtree_with_capacious_leaves_keys(node.c[node.n + 1])
+    return keys
 
 
 class TestExercise18_2_5(TestCase):
@@ -58,8 +57,7 @@ class TestExercise18_2_5(TestCase):
         b_tree_capacious_leaves_create(tree, t)
         assert_b_tree_with_capacious_leaves(tree, t)
 
-        max_key_value = 10000
-        keys = get_random_array(size=1000, max_value=max_key_value, unique=True)
+        keys = get_random_array(size=20, unique=True)
         keys_in_tree = Array()
         for key in keys:
             b_tree_capacious_leaves_insert(tree, key, t)

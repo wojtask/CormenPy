@@ -4,7 +4,7 @@ from hamcrest import *
 
 from chapter18.textbook18_2 import b_tree_search, b_tree_create, b_tree_split_child, b_tree_insert
 from datastructures import b_tree
-from datastructures.b_tree import BTree, allocate_node, GuardedArray
+from datastructures.b_tree import BTree, allocate_node
 
 
 def get_b_tree():

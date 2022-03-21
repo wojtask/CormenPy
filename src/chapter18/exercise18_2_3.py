@@ -24,7 +24,7 @@ def b_tree_predecessor(T, x, i):
     k = x.key[i]
     k_ = None
     y = T.root
-    while y != x:
+    while y is not x:
         j = 1
         while j <= y.n and k > y.key[j]:
             j += 1
