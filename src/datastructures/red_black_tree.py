@@ -23,7 +23,7 @@ class RedBlackTree(binary_tree.BinaryTree):
             self.nil.left = self.nil.right = self.nil
         if root is None:
             self.root = self.nil
-        else:
+        elif hasattr(root, 'p'):
             self.root.p = self.nil
 
 

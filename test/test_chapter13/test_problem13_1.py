@@ -10,22 +10,6 @@ from tree_util import assert_binary_search_tree, get_binary_search_tree_inorder_
     get_random_red_black_tree, get_binary_search_tree_inorder_nodes
 
 
-def transform_tree_to_parentless_tree(tree):
-    parentless_sentinel = ParentlessNode(None)
-    tree.root = transform_subtree_to_parentless_subtree(tree.root, tree.nil, parentless_sentinel)
-    tree.nil = parentless_sentinel
-
-
-def transform_subtree_to_parentless_subtree(subtree_root, sentinel, parentless_sentinel):
-    if subtree_root is sentinel:
-        return parentless_sentinel
-    return ParentlessNode(subtree_root.key, data=subtree_root.data, color=subtree_root.color,
-                          left=transform_subtree_to_parentless_subtree(subtree_root.left, sentinel,
-                                                                       parentless_sentinel),
-                          right=transform_subtree_to_parentless_subtree(subtree_root.right, sentinel,
-                                                                        parentless_sentinel))
-
-
 class TestProblem13_1(TestCase):
 
     def test_persistent_tree_insert(self):
@@ -57,8 +41,7 @@ class TestProblem13_1(TestCase):
             tree = new_tree
 
     def test_persistent_rb_delete(self):
-        tree = get_random_red_black_tree()
-        transform_tree_to_parentless_tree(tree)
+        tree = get_random_red_black_tree(node_ctor=ParentlessNode)
         inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
         inorder_keys = get_binary_search_tree_inorder_keys(tree)
 

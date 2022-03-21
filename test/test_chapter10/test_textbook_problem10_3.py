@@ -6,7 +6,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter10.textbook_problem10_3 import compact_list_search
 from datastructures.array import Array
-from list_util import get_random_compact_list
+from test_chapter10.test_exercise10_3_4 import get_random_compact_list
 
 
 def make_compact_list_keys_sorted(compact_list):

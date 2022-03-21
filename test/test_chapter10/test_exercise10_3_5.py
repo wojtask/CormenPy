@@ -4,7 +4,7 @@ from hamcrest import *
 
 from chapter10.exercise10_3_5 import compactify_list
 from datastructures.array import Array
-from list_util import get_random_multiple_array_list
+from test_chapter10.test_textbook10_3 import get_random_multiple_array_list
 
 
 def make_free_list_doubly_linked(array_list):

@@ -6,6 +6,7 @@ from datastructures import red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
 from datastructures.red_black_tree import Color, RedBlackTree
+from datastructures.stack import Stack
 
 
 def new_node(k):
@@ -36,8 +37,7 @@ def persistent_tree_insert(T, k):
 
 def persistent_rb_insert(T, z):
     path_length = _get_path_length_from_root_to_node(T, z)
-    S = Array.indexed(1, path_length + 1)
-    S.top = 0
+    S = Stack(Array.indexed(1, path_length + 1))
     y = T.nil
     x = T.root
     T_ = RedBlackTree(sentinel=T.nil)

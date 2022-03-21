@@ -1,12 +1,12 @@
 from chapter10.textbook10_1 import push, pop
 from datastructures.array import Array
 from datastructures.red_black_tree import Color
+from datastructures.stack import Stack
 
 
 def parentless_rb_insert(T, z):
     path_length = _get_path_length_from_root_to_leaf(T, z)
-    S = Array.indexed(1, path_length + 1)
-    S.top = 0
+    S = Stack(Array.indexed(1, path_length + 1))
     y = T.nil
     push(S, y)
     x = T.root
