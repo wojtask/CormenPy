@@ -30,7 +30,7 @@ class TestExercise10_1_4(TestCase):
         if (queue.head == 1 and queue.tail == queue.length) or queue.head == queue.tail + 1:
             assert_that(calling(enqueue_).with_args(queue, x), raises(ValueError, 'overflow'))
         else:
-            expected_elements = Array(queue) + [x]
+            expected_elements = Array(queue) + Array.of(x)
 
             enqueue_(queue, x)
 

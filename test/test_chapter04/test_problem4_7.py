@@ -11,9 +11,9 @@ from util import between
 
 
 def random_monge_array(m, n):
-    monge = Array([get_random_array(size=n, max_value=999)])  # the first row
+    monge = Array.of(get_random_array(size=n, max_value=999))  # the first row
     for i in between(2, m):
-        row = Array(random.randint(0, 999))  # the first element in the next row can be anything
+        row = Array.of(random.randint(0, 999))  # the first element in the next row can be anything
         for j in between(2, n):
             upper_bound = row[j - 1] + monge[i - 1, j] - monge[i - 1, j - 1]  # but later ones should be bounded
             row.append(random.randint(upper_bound - 100, upper_bound))

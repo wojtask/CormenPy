@@ -43,8 +43,8 @@ class TestTextbook15_1(TestCase):
 
     def test_fastest_way(self):
         n = random.randint(1, 10)
-        a = Array([get_random_array(size=n), get_random_array(size=n)])
-        t = Array([get_random_array(size=n - 1), get_random_array(size=n - 1)])
+        a = Array.of(get_random_array(size=n), get_random_array(size=n))
+        t = Array.of(get_random_array(size=n - 1), get_random_array(size=n - 1))
         e = get_random_array(size=2)
         x = get_random_array(size=2)
 
@@ -57,10 +57,10 @@ class TestTextbook15_1(TestCase):
 
     def test_print_stations(self):
         n = random.randint(1, 10)
-        l = Array([Array.indexed(1, n), Array.indexed(1, n)])
+        l = Array.of(Array.indexed(1, n), Array.indexed(1, n))
         l[1, 1], l[2, 1] = 0, 0
         for i in between(2, n):
-            l[1, i], l[2, i] = Array(((1, 1), (1, 2), (2, 2))).random_choice()
+            l[1, i], l[2, i] = Array.of((1, 1), (1, 2), (2, 2)).random_choice()
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 

@@ -30,7 +30,7 @@ class TestTextbook10_1(TestCase):
         size = 10
         stack = Stack(get_random_array(size=size), top=random.randint(0, size - 1))
         x = random.randint(0, 999)
-        expected_keys = Array(x, stack)
+        expected_keys = Array.of(x) + stack
 
         push(stack, x)
 
@@ -63,7 +63,7 @@ class TestTextbook10_1(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_keys = Array(queue, x)
+        expected_keys = Array(queue) + Array.of(x)
 
         enqueue(queue, x)
 

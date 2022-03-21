@@ -18,7 +18,7 @@ class TestExercise10_2_2(TestCase):
         singly_linked_list_push(linked_list, x)
 
         actual_keys = linked_list.as_keys_array()
-        expected_keys = Array(x) + original_keys
+        expected_keys = Array.of(x) + original_keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_pop(self):

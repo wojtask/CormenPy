@@ -38,7 +38,7 @@ def sorted_list_heap_extract_min(heap):
 
 
 def sorted_list_min_heap_union(heap1, heap2):
-    merged_heaps = merge_sorted_lists(Array((heap1, heap2)))
+    merged_heaps = merge_sorted_lists(Array.of(heap1, heap2))
     x = merged_heaps.head
     while x is not None:
         y = x.next
@@ -102,7 +102,7 @@ def list_min_heap_union(heap1, heap2):
         new_min = heap1.head
     else:
         new_min = heap2.head
-    heap1_keys = []
+    heap1_keys = Array()
     x = heap1.head
     while x is not None:
         heap1_keys.append(x.key)
@@ -112,7 +112,7 @@ def list_min_heap_union(heap1, heap2):
     x = heap2.head
     while x is not None:
         y = x.next
-        if heap1_keys == [] or perfect_hashing_search(hash_table, x.key, h) is None:
+        if not heap1_keys or perfect_hashing_search(hash_table, x.key, h) is None:
             singly_linked_list_insert(heap1, x)
         x = y
     singly_linked_list_delete(heap1, new_min)

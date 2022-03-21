@@ -3,8 +3,8 @@ from util import between, rbetween
 
 
 def fastest_way(a, t, e, x, n):
-    f = Array([Array.indexed(1, n), Array.indexed(1, n)])
-    l = Array([Array.indexed(1, n), Array.indexed(1, n)])
+    f = Array.of(Array.indexed(1, n), Array.indexed(1, n))
+    l = Array.of(Array.indexed(1, n), Array.indexed(1, n))
     f[1, 1] = e[1] + a[1, 1]
     f[2, 1] = e[2] + a[2, 1]
     for j in between(2, n):

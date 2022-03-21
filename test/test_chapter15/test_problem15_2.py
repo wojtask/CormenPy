@@ -14,12 +14,12 @@ from util import between
 
 def get_lines_break_minimum_cost_bruteforce(word_lengths, line_capacity, division=None, word_id=2):
     if not division:
-        division = Array(1)
+        division = Array.of(1)
     n = word_lengths.length
     min_cost = get_cost_of_lines_break(division, word_lengths, line_capacity)
     while word_id <= n:
         min_cost = min(min_cost, get_lines_break_minimum_cost_bruteforce(
-            word_lengths, line_capacity, division + [word_id], word_id + 1))
+            word_lengths, line_capacity, division + Array.of(word_id), word_id + 1))
         word_id += 1
     return min_cost
 

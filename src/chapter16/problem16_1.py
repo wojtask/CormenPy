@@ -6,7 +6,7 @@ from util import rbetween, between
 
 def greedy_make_change(n):
     C = Array.indexed(1, 6)
-    d = Array(1, 2, 5, 10, 20, 50)
+    d = Array.of(1, 2, 5, 10, 20, 50)
     for i in rbetween(d.length, 1):
         C[i] = math.floor(n / d[i])
         n %= d[i]

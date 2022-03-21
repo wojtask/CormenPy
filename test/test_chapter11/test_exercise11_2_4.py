@@ -6,10 +6,10 @@ from array_util import get_random_array
 from chapter11.exercise11_2_4 import in_place_chained_hash_insert, in_place_chained_hash_search, \
     in_place_chained_hash_delete
 from datastructures.array import Array
+from datastructures.essential import Element
 from datastructures.hash_table import FreePosition
 from hash_table_util import modular_hash
 from util import between
-from datastructures.essential import Element
 
 
 def assert_in_place_hash_table_clear(table):

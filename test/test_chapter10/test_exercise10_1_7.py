@@ -20,7 +20,7 @@ class TestExercise10_1_7(TestCase):
             queue.tail = queue.head
 
         x = random.randint(0, 999)
-        expected_elements = Array(queue) + [x]
+        expected_elements = Array(queue) + Array.of(x)
 
         queue_push(queue, x)
 

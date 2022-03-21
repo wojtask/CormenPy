@@ -6,7 +6,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter17.exercise17_2_3 import increment_, reset
-from datastructures.array import ResettableCounter
+from datastructures.array import ResettableCounter, Array
 from test_chapter02.test_exercise2_1_4 import bits_to_number
 
 
@@ -18,7 +18,8 @@ class TestExercise17_2_3(TestCase):
         if highest == -1:
             counter = ResettableCounter([0] * k)
         else:
-            counter = ResettableCounter(get_random_array(size=highest, max_value=1) + [1] + [0] * (k - 1 - highest))
+            counter = ResettableCounter(
+                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)))
         counter.highest = highest
         original = copy.deepcopy(counter)
 
@@ -40,7 +41,8 @@ class TestExercise17_2_3(TestCase):
         if highest == -1:
             counter = ResettableCounter([0] * k)
         else:
-            counter = ResettableCounter(get_random_array(size=highest, max_value=1) + [1] + [0] * (k - 1 - highest))
+            counter = ResettableCounter(
+                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)))
         counter.highest = highest
 
         reset(counter)

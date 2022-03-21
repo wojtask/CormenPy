@@ -4,8 +4,8 @@ from util import between
 
 def dynamic_activity_selector(s, f):
     n = s.length - 2
-    c = Array([Array.indexed(0, n + 1) for _ in between(0, n + 1)], start=0)
-    A = Array([Array.indexed(0, n + 1) for _ in between(0, n + 1)], start=0)
+    c = Array((Array.indexed(0, n + 1) for _ in between(0, n + 1)), start=0)
+    A = Array((Array.indexed(0, n + 1) for _ in between(0, n + 1)), start=0)
     for l in between(2, n + 2):
         for i in between(0, n - l + 2):
             j = i + l - 1

@@ -6,20 +6,20 @@ from util import between
 
 
 class Array(MutableSequence):
-    def __init__(self, *elements, start=1):
-        self.elements = []
-        for element in elements:
-            try:
-                iter(element)
-                self.elements.extend(list(element) or [])
-            except TypeError:
-                self.elements.append(element)
+    def __init__(self, elements=None, start=1):
+        if elements is None:
+            elements = []
+        self.elements = list(elements)
         self.length = len(self.elements)
         self.start = start
 
     @classmethod
     def indexed(cls, _from, _to):
         return cls([None] * (_to - _from + 1), start=_from)
+
+    @classmethod
+    def of(cls, *elements, start=1):
+        return Array(list(elements), start=start)
 
     def __getitem__(self, index):
         if isinstance(index, int):
@@ -101,6 +101,6 @@ class Array(MutableSequence):
 
 
 class ResettableCounter(Array):
-    def __init__(self, *elements):
-        super().__init__(*elements, start=0)
+    def __init__(self, elements):
+        super().__init__(elements, start=0)
         self.highest = -1

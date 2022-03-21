@@ -13,13 +13,13 @@ def perfect_hashing_init(K):
     m = K.length
     T = Array.indexed(0, m - 1)
     h = _get_random_universal_hash_function(p, m)
-    mapped_keys = [[] for _ in between(1, m)]
+    mapped_keys = Array((Array(start=0) for _ in between(1, m)), start=0)
     for k in K:
         mapped_keys[h(k)].append(k)
     secondary_sizes = [len(keys) ** 2 for keys in mapped_keys]
     for j, size in enumerate(secondary_sizes):
         if size == 1:
-            T[j] = (lambda _: 0, Array(mapped_keys[j][0], start=0))
+            T[j] = (lambda _: 0, Array.of(mapped_keys[j][0], start=0))
         elif size > 1:
             h_ = None
             S = None

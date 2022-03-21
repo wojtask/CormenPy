@@ -8,7 +8,7 @@ from datastructures.array import Array
 class TestArray(TestCase):
 
     def setUp(self):
-        self.array = Array(4, 5, 1, 0, 2)
+        self.array = Array.of(4, 5, 1, 0, 2)
 
     def test_has_correct_length(self):
         assert_that(self.array.length, is_(equal_to(5)))
@@ -31,17 +31,17 @@ class TestArray(TestCase):
 
     def test_gets_infix_subarray(self):
         actual_subarray = self.array[3:4]
-        expected_subarray = Array(1, 0)
+        expected_subarray = Array.of(1, 0)
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_gets_prefix_subarray(self):
         actual_subarray = self.array[:4]
-        expected_subarray = Array(4, 5, 1, 0)
+        expected_subarray = Array.of(4, 5, 1, 0)
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_gets_suffix_subarray(self):
         actual_subarray = self.array[3:]
-        expected_subarray = Array(1, 0, 2)
+        expected_subarray = Array.of(1, 0, 2)
         assert_that(actual_subarray, is_(equal_to(expected_subarray)))
 
     def test_addressing_by_invalid_indexes(self):
@@ -52,7 +52,7 @@ class TestArray(TestCase):
         self.fail()
 
     def test_instantiate_with_custom_start_index(self):
-        array = Array(4, 5, 1, 0, 2, start=2)
+        array = Array.of(4, 5, 1, 0, 2, start=2)
         assert_that(array.length, is_(equal_to(5)))
         assert_that(array.start, is_(equal_to(2)))
         assert_that(array[4], is_(equal_to(1)))

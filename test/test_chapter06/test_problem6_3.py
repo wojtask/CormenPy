@@ -16,12 +16,12 @@ def random_young_tableau(max_value=999):
     rows = random.randint(1, 5)
     columns = random.randint(1, 5)
     row = get_random_array(size=columns, max_value=max_value)  # the first row
-    young = Array([Array(x if x <= threshold else math.inf for x in row).sort()])
+    young = Array.of(Array(x if x <= threshold else math.inf for x in row).sort())
     for i in between(2, rows):
         if young[i - 1, 1] < math.inf:
-            row = Array(random.randint(young[i - 1, 1], max_value))
+            row = Array.of(random.randint(young[i - 1, 1], max_value))
         else:
-            row = Array(math.inf)
+            row = Array.of(math.inf)
         for j in between(2, columns):
             bound = max(row[j - 1], young[i - 1, j])
             if bound < math.inf:

@@ -15,8 +15,8 @@ def activity_scheduler(s, f):
     B = RedBlackTree()
     # events contains triples (a, b, c) where a = 0 if the event is finish of an activity and 1 if it is start,
     # b as the activity number, and c as the start time or the finish time
-    events = Array([(0, i + 1, finish_time) for i, finish_time in enumerate(f)] +
-                   [(1, i + 1, start_time) for i, start_time in enumerate(s)])
+    events = Array((0, i + 1, finish_time) for i, finish_time in enumerate(f)) + \
+        Array((1, i + 1, start_time) for i, start_time in enumerate(s))
     events.sort(key=lambda e: (e[2], e[0]))
     for e in events:
         if e[0] == 1:

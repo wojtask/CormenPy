@@ -20,7 +20,7 @@ class TestExercise10_2_1(TestCase):
         singly_linked_list_insert(linked_list, new_node)
 
         actual_keys = linked_list.as_keys_array()
-        expected_keys = Array(new_key) + original_keys
+        expected_keys = Array.of(new_key) + original_keys
         assert_that(actual_keys, is_(equal_to(expected_keys)))
 
     def test_singly_linked_list_delete(self):

@@ -20,7 +20,7 @@ class TestExercise10_1_5(TestCase):
             deque.tail = deque.head
 
         x = random.randint(0, 999)
-        expected_elements = Array(x) + deque
+        expected_elements = Array.of(x) + deque
 
         head_enqueue(deque, x)
 
@@ -54,7 +54,7 @@ class TestExercise10_1_5(TestCase):
             deque.tail = deque.head
 
         x = random.randint(0, 999)
-        expected_elements = Array(deque) + [x]
+        expected_elements = Array(deque) + Array.of(x)
 
         tail_enqueue(deque, x)
 
