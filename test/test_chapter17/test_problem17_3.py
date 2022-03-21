@@ -2,7 +2,8 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter17.problem17_3 import balance_subtree, NodeWithSize
+from chapter17.problem17_3 import balance_subtree
+from datastructures.binary_tree import NodeWithSize
 from tree_util import get_random_binary_search_tree, assert_binary_search_tree, get_binary_search_tree_inorder_nodes
 
 

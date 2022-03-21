@@ -5,7 +5,7 @@ from hamcrest import *
 
 from chapter14.exercise14_3_3 import min_interval_search
 from chapter14.textbook14_3 import overlap
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 

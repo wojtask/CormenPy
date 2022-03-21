@@ -4,7 +4,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from chapter14.exercise14_3_2 import open_interval_search, open_overlap
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from tree_util import get_random_interval_tree, get_binary_search_tree_inorder_nodes
 
 

@@ -1,11 +1,4 @@
-from datastructures.array import Array
 from util import between
-
-
-class ResettableCounter(Array):
-    def __init__(self, *elements):
-        super().__init__(*elements, start=0)
-        self.highest = -1
 
 
 def increment_(A):

@@ -1,24 +1,8 @@
 from chapter06.exercise6_5_3 import min_heap_insert, heap_minimum, heap_extract_min, heap_decrease_key
 from datastructures.array import Array
+from datastructures.essential import Activity
 from datastructures.heap import Heap
 from util import between
-
-
-class Activity:
-    def __init__(self, id, processing_time, release_time):
-        self.id = id
-        self.p = processing_time
-        self.r = release_time
-
-    def __lt__(self, other):
-        if isinstance(other, float):
-            return self.p < other
-        return self.p < other.p
-
-    def __gt__(self, other):
-        if isinstance(other, float):
-            return self.p > other
-        return self.p > other.p
 
 
 def act_schedule(p):

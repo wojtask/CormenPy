@@ -44,8 +44,8 @@ class OSNode(Node):
 
 
 class AugmentedOSNode(OSNode):
-    def __init__(self, key, data=None, left=None, right=None):
-        super().__init__(key, data, left, right)
+    def __init__(self, key):
+        super().__init__(key)
         self.min = self
         self.max = self
         self.pred = self
@@ -60,16 +60,16 @@ class IntervalNode(Node):
 
 
 class MinGapNode(Node):
-    def __init__(self, key, data=None, left=None, right=None):
-        super().__init__(key, data, left, right)
+    def __init__(self, key):
+        super().__init__(key)
         self.min_key = math.inf
         self.max_key = -math.inf
         self.min_gap = math.inf
 
 
 class IntervalPomNode(Node):
-    def __init__(self, key, left=None, right=None):
-        super().__init__(key, left, right)
+    def __init__(self, key):
+        super().__init__(key)
         self.low = 0
         self.high = 0
         self.sum = 0

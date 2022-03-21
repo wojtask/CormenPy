@@ -7,7 +7,8 @@ from chapter06.exercise6_5_6 import priority_enqueue, priority_dequeue, priority
 from datastructures.array import Array
 from datastructures.heap import Heap
 from heap_util import get_random_min_heap, get_random_max_heap
-from util import Element, between
+from util import between
+from datastructures.essential import Element
 
 
 class TestExercise6_5_6(TestCase):

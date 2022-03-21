@@ -7,7 +7,7 @@ from hamcrest import *
 from chapter14.exercise14_3_7 import rectangles_overlap
 from chapter14.textbook14_3 import overlap
 from datastructures.array import Array
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from util import between
 
 

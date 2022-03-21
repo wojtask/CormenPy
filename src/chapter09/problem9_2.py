@@ -2,7 +2,7 @@ import math
 
 from chapter09.textbook9_3 import select
 from datastructures.array import Array
-from datastructures.point_2d import Point2D
+from datastructures.essential import Point2D
 from util import between
 
 

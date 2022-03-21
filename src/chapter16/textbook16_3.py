@@ -2,25 +2,9 @@ import math
 
 from chapter06.exercise6_2_2 import min_heapify
 from chapter06.exercise6_5_3 import heap_extract_min, min_heap_insert
-from datastructures.binary_tree import ParentlessNode
+from datastructures.binary_tree import HuffmanNode
 from datastructures.heap import Heap
 from util import between, rbetween
-
-
-class HuffmanNode(ParentlessNode):
-    def __init__(self, character=None, frequency=0):
-        super().__init__(frequency, character)
-        self.f = frequency
-
-    def __lt__(self, other):
-        if isinstance(other, float):
-            return self.f < other
-        return self.f < other.f
-
-    def __gt__(self, other):
-        if isinstance(other, float):
-            return self.f > other
-        return self.f > other.f
 
 
 def huffman(C):

@@ -5,7 +5,8 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_array
-from chapter17.exercise17_2_3 import increment_, reset, ResettableCounter
+from chapter17.exercise17_2_3 import increment_, reset
+from datastructures.array import ResettableCounter
 from test_chapter02.test_exercise2_1_4 import bits_to_number
 
 

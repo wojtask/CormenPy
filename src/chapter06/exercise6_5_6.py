@@ -1,7 +1,7 @@
 import math
 
 from chapter06.textbook6_1 import parent, left, right
-from util import Element
+from datastructures.essential import Element
 
 
 def priority_enqueue(Q, x):

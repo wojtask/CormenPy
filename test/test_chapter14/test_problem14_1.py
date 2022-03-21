@@ -6,7 +6,7 @@ from hamcrest import *
 from chapter14.problem14_1 import interval_pom_insert, find_pom, interval_pom_delete
 from chapter14.textbook14_3 import overlap
 from datastructures.array import Array
-from datastructures.interval import Interval
+from datastructures.essential import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalPomNode
 from tree_util import assert_interval_pom_tree
 from util import between

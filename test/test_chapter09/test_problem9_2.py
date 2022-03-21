@@ -7,7 +7,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter09.problem9_2 import weighted_median_using_sorting, weighted_median, post_office_manhattan
 from datastructures.array import Array
-from datastructures.point_2d import Point2D
+from datastructures.essential import Point2D
 from util import between
 
 
