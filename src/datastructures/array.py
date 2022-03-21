@@ -6,7 +6,7 @@ from util import between
 
 
 class Array(MutableSequence):
-    def __init__(self, *elements, **kwargs):
+    def __init__(self, *elements, start=1):
         self.elements = []
         for element in elements:
             try:
@@ -15,7 +15,7 @@ class Array(MutableSequence):
             except TypeError:
                 self.elements.append(element)
         self.length = len(self.elements)
-        self.start = kwargs['start'] if 'start' in kwargs else 1
+        self.start = start
 
     @classmethod
     def indexed(cls, _from, _to):

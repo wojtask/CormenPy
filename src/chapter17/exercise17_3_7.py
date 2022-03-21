@@ -4,12 +4,12 @@ from datastructures.array import Array
 
 
 def _transform_to_array(S):
-    elements = []
+    A = Array()
     x = S.head
     while x is not None:
-        elements.append(x.key)
+        A.append(x.key)
         x = x.next
-    return Array(elements)
+    return A
 
 
 def dlh_insert(S, x):

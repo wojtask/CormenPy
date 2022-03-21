@@ -35,10 +35,10 @@ def get_binary_search_subtree_inorder_nodes(subtree_root, sentinel):
         + get_binary_search_subtree_inorder_nodes(subtree_root.right, sentinel)
 
 
-def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999):
+def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999, node_ctor=bt.Node):
     tree_size = random.randint(min_size, max_size)
     inorder_keys = get_random_array(size=tree_size, min_value=0, max_value=max_value, unique=True).sort()
-    inorder_nodes = Array(bt.Node(key) for key in inorder_keys)
+    inorder_nodes = Array(node_ctor(key) for key in inorder_keys)
     return BinaryTree(get_random_binary_search_subtree(inorder_nodes))
 
 

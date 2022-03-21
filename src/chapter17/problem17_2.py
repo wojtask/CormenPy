@@ -18,11 +18,11 @@ def dynamic_binary_insert(A, x):
     B = Array(x)
     i = 0
     while A[i].length != 0:
-        B = Array(A[i].elements + B.elements)
+        B = A[i] + B
         merge(B, 1, A[i].length, B.length)
         A[i] = Array()
         i += 1
-    A[i] = Array(B.elements)
+    A[i] = Array(B)
 
 
 def dynamic_binary_delete(A, x):
