@@ -146,7 +146,7 @@ class TestProblem18_2(TestCase):
         keys = get_random_array(size=20, unique=True)
         for key in keys:
             tree_2_3_4_insert(tree, key)
-        split_key = random.choice(keys.elements)
+        split_key = keys.random_choice()
 
         actual_tree1, actual_tree2 = tree_2_3_4_split(tree, split_key)
 

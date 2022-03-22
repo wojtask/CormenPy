@@ -7,7 +7,7 @@ from util import between
 
 
 def small_order_select(A, i):
-    B = Array(A.elements)
+    B = Array(A)
     idx = _small_order_select(B, 1, B.length, i)
     return B[idx]
 

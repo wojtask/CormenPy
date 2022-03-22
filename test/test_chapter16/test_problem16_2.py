@@ -38,7 +38,7 @@ def get_min_schedule(activities, schedule, time):
                 activities.pop(i)
                 deleted = True
             schedule = get_min_schedule(activities, schedule, time + 1)
-            cost = sum(schedule.elements)
+            cost = sum(schedule)
             if cost < min_schedule_cost:
                 min_schedule_cost = cost
                 min_schedule = copy.deepcopy(schedule)
@@ -49,7 +49,7 @@ def get_min_schedule(activities, schedule, time):
             earliest_future_release_time = min(earliest_future_release_time, activity.r)
     if earliest_future_release_time < math.inf:
         schedule = get_min_schedule(activities, schedule, earliest_future_release_time)
-        if sum(schedule.elements) < min_schedule_cost:
+        if sum(schedule) < min_schedule_cost:
             return copy.deepcopy(schedule)
     return min_schedule
 
@@ -69,7 +69,7 @@ class TestProblem16_2(TestCase):
 
         actual_schedule = act_schedule(processing_times)
 
-        actual_min_act = sum(actual_schedule.elements) / actual_schedule.length
+        actual_min_act = sum(actual_schedule) / actual_schedule.length
         expected_min_act = get_min_act_bruteforce(original_processing_times)
         assert_that(actual_min_act, is_(equal_to(expected_min_act)))
 
@@ -88,6 +88,6 @@ class TestProblem16_2(TestCase):
 
         for i in between(1, n):
             assert_that(actual_schedule[i], is_(greater_than(release_times[i])))
-        actual_min_act = sum(actual_schedule.elements) / actual_schedule.length
+        actual_min_act = sum(actual_schedule) / actual_schedule.length
         expected_min_act = get_min_preemptive_act_bruteforce(original_processing_times, original_release_times)
         assert_that(actual_min_act, is_(equal_to(expected_min_act)))

@@ -4,10 +4,10 @@ from util import between, rbetween
 
 def _sort_jobs_by_deadlines(a, t, p, d):
     sorted_tuples = sorted(zip(a, t, p, d), key=lambda x: x[3])
-    a.elements = [x[0] for x in sorted_tuples]
-    t.elements = [x[1] for x in sorted_tuples]
-    p.elements = [x[2] for x in sorted_tuples]
-    d.elements = [x[3] for x in sorted_tuples]
+    a[:] = Array(x[0] for x in sorted_tuples)
+    t[:] = Array(x[1] for x in sorted_tuples)
+    p[:] = Array(x[2] for x in sorted_tuples)
+    d[:] = Array(x[3] for x in sorted_tuples)
 
 
 def jobs_scheduling(t, p, d):

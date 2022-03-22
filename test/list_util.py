@@ -4,7 +4,8 @@ from hamcrest import *
 
 from array_util import get_random_array
 from datastructures.array import Array
-from datastructures.list import List, SinglyLinkedNode, DoublyLinkedNode, XORNode, XORList, ListWithSentinel
+from datastructures.list import List, SinglyLinkedNode, DoublyLinkedNode, XORNode, XORList, ListWithSentinel, \
+    ListWithTail
 
 
 def get_random_singly_linked_list(min_size=1, max_size=20, max_value=999):
@@ -46,6 +47,21 @@ def get_random_doubly_linked_list_with_sentinel(min_size=1, max_size=20, max_val
         node.prev = prev_node
         node.next = linked_list.nil
         linked_list.nil.prev = node
+        prev_node = node
+    return linked_list
+
+
+def get_random_singly_linked_list_with_tail(min_size=1, max_size=20, max_value=999):
+    keys = get_random_array(min_size=min_size, max_size=max_size, min_value=0, max_value=max_value)
+    nodes = Array(SinglyLinkedNode(key) for key in keys)
+    linked_list = ListWithTail()
+    prev_node = linked_list.head
+    for node in nodes:
+        if prev_node is None:
+            linked_list.head = node
+        else:
+            prev_node.next = node
+        linked_list.tail = node
         prev_node = node
     return linked_list
 

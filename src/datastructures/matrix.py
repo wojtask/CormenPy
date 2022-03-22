@@ -3,7 +3,7 @@ class Matrix:
         self.elements = list(list(row) for row in elements)
         if len(elements) > 0:
             self.rows = len(elements)
-            self.columns = len(elements[0])
+            self.columns = len(self.elements[0])
         else:
             self.rows = self.columns = 0
 

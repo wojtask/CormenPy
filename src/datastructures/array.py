@@ -101,6 +101,6 @@ class Array(MutableSequence):
 
 
 class ResettableCounter(Array):
-    def __init__(self, elements):
+    def __init__(self, elements, highest=-1):
         super().__init__(elements, start=0)
-        self.highest = -1
+        self.highest = highest

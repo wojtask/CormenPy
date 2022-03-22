@@ -1,10 +1,10 @@
 from chapter10.textbook10_1 import stack_empty, push, pop
 from datastructures.array import Array
+from datastructures.stack import Stack
 
 
 def iterative_inorder_tree_walk(T):
-    S = Array.indexed(1, _get_tree_size(T.root))
-    S.top = 0
+    S = Stack(Array.indexed(1, _get_tree_size(T.root)))
     x = T.root
     while not stack_empty(S) or x is not None:
         if x is not None:

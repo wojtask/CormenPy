@@ -8,7 +8,7 @@ from datastructures import binary_tree as bt, red_black_tree as rb
 from datastructures.array import Array
 from datastructures.binary_tree import BinaryTree
 from datastructures.essential import Interval
-from datastructures.red_black_tree import RedBlackTree, Color
+from datastructures.red_black_tree import RedBlackTree, Color, JoinableRedBlackTree
 
 
 def get_binary_search_tree_inorder_keys(tree):
@@ -143,7 +143,7 @@ def fill_subtree_with_keys(subtree_root, inorder_keys, sentinel):
 def get_subtree_size(subtree_root, sentinel):
     if subtree_root is sentinel:
         return 0
-    return 1 + get_subtree_size(subtree_root.left, sentinel) + get_subtree_size(subtree_root.right, sentinel)
+    return get_subtree_size(subtree_root.left, sentinel) + get_subtree_size(subtree_root.right, sentinel) + 1
 
 
 def assert_red_black_tree(tree):
@@ -182,6 +182,16 @@ def assert_red_black_property_5(subtree_root, sentinel):
             right_bh += 1
     assert_that(left_bh, is_(equal_to(right_bh)))
     return left_bh
+
+
+def get_random_joinable_red_black_tree(black_height=3, min_value=0, max_value=999):
+    nodes = Array()
+    tree = JoinableRedBlackTree(get_random_red_black_subtree_with_black_root(black_height, nodes, rb.Node, None),
+                                bh=black_height)
+    tree_size = nodes.length
+    inorder_keys = get_random_array(size=tree_size, min_value=min_value, max_value=max_value, unique=True).sort()
+    fill_subtree_with_keys(tree.root, inorder_keys, None)
+    return tree
 
 
 def assert_avl_tree(tree):

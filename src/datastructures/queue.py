@@ -2,12 +2,12 @@ from datastructures.array import Array
 
 
 class Queue(Array):
-    def __init__(self, *elements, head=1, tail=1):
-        if head < 1 or head > len(*elements):
+    def __init__(self, elements, head=1, tail=1):
+        if head < 1 or head > len(elements):
             raise IndexError('Invalid head attribute')
-        if tail < 1 or tail > len(*elements):
+        if tail < 1 or tail > len(elements):
             raise IndexError('Invalid tail attribute')
-        super().__init__(*elements)
+        super().__init__(elements)
         self.head = head
         self.tail = tail
 

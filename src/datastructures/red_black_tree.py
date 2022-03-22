@@ -18,13 +18,13 @@ class Node(binary_tree.Node):
 class RedBlackTree(binary_tree.BinaryTree):
     def __init__(self, root=None, sentinel=Node(None)):
         super().__init__(root)
-        self.nil = sentinel
         if sentinel is not None:
+            self.nil = sentinel
             self.nil.left = self.nil.right = self.nil
-        if root is None:
-            self.root = self.nil
-        elif hasattr(root, 'p'):
-            self.root.p = self.nil
+            if root is None:
+                self.root = self.nil
+            elif hasattr(root, 'p'):
+                self.root.p = self.nil
 
 
 class ParentlessNode(binary_tree.ParentlessNode):
@@ -35,6 +35,12 @@ class ParentlessNode(binary_tree.ParentlessNode):
     @classmethod
     def clone(cls, node):
         return cls(node.key, node.data, node.left, node.right, node.color)
+
+
+class JoinableRedBlackTree(RedBlackTree):
+    def __init__(self, root=None, bh=0):
+        super().__init__(root=root, sentinel=None)
+        self.bh = bh
 
 
 class OSNode(Node):

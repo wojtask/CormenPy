@@ -18,7 +18,7 @@ class TestRedBlackTree(TestCase):
         tree = RedBlackTree(sentinel=None)
 
         assert_that(tree.root, is_(none()))
-        assert_that(tree.nil, is_(none()))
+        assert_that(hasattr(tree, 'nil'), is_(False))
 
     def test_create_red_black_tree(self):
         sentinel = Node(None)
