@@ -54,9 +54,9 @@ class TestProblem15_6(TestCase):
 
     def test_checkerboard(self):
         n = random.randint(1, 8)
-        # profit[i, j] contains a triple (a, b, c), where the profit of moving from square of coords (i, j):
-        # to square of coords (i+1, j-1) is a, to square of coords (i+1, j) is b, to square of coords (i+1, j+1) is c,
-        # where (i, j) means i-th row from the bottom and j-th column from the left
+        # profit[i, j] contains a triple (a, b, c), where the profit of moving from square of coordinates (i, j):
+        # to square of coordinates (i+1, j-1) is a, to square of coordinates (i+1, j) is b, to square of coordinates
+        # (i+1, j+1) is c, where (i, j) means i-th row from the bottom and j-th column from the left
         profit = Array(Array.indexed(1, n) for _ in between(1, n - 1))
         for i in between(1, n - 1):
             profit[i, 1] = (None, random.randint(-100, 100), random.randint(-100, 100))

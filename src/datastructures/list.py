@@ -73,6 +73,12 @@ class ListWithSentinel:
         return Array(node.key for node in self)
 
 
+class ListWithTail(List):
+    def __init__(self):
+        super().__init__()
+        self.tail = None
+
+
 class XORNode:
     def __init__(self, key, xor_list):
         self.key = key

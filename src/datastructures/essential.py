@@ -8,6 +8,16 @@ class Element:
             return self.key == other.key and self.data == other.data
         return NotImplemented
 
+    def __lt__(self, other):
+        if isinstance(other, float):
+            return self.key < other
+        return self.key < other.key
+
+    def __gt__(self, other):
+        if isinstance(other, float):
+            return self.key > other
+        return self.key > other.key
+
     def __hash__(self):
         return hash((self.key, self.data))
 

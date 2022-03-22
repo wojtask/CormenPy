@@ -15,7 +15,7 @@ from util import between
 
 
 def get_random_matrix(rows, columns):
-    return Matrix([[random.randint(0, 999) for _ in between(1, columns)] for _ in between(1, rows)])
+    return Matrix(Array(Array(random.randint(0, 999) for _ in between(1, columns)) for _ in between(1, rows)))
 
 
 def get_minimum_matrix_product_cost(dimensions, i, j):
@@ -62,8 +62,8 @@ class TestTextbook15_2(TestCase):
             actual_product = matrix_multiply(matrix1, matrix2)
             assert_that(actual_product.rows, is_(equal_to(rows1)))
             assert_that(actual_product.columns, is_(equal_to(columns2)))
-            expected_product = numpy.dot(matrix1.elements, matrix2.elements)
-            assert_that(actual_product.elements, is_(equal_to(expected_product.tolist())))
+            expected_product = Matrix(numpy.dot(matrix1.elements, matrix2.elements).tolist())
+            assert_that(actual_product, is_(equal_to(expected_product)))
 
     def test_matrix_chain_order(self):
         n = random.randint(1, 10)

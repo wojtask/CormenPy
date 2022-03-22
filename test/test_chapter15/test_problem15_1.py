@@ -44,9 +44,9 @@ class TestProblem15_1(TestCase):
 
     def test_bitonic_tsp(self):
         n = random.randint(3, 12)
-        xcoords = get_random_array(size=n)
-        ycoords = get_random_array(size=n)
-        points = Array(Point2D(x, y) for x, y in zip(xcoords, ycoords))
+        x_coordinates = get_random_array(size=n)
+        y_coordinates = get_random_array(size=n)
+        points = Array(Point2D(x, y) for x, y in zip(x_coordinates, y_coordinates))
         captured_output = io.StringIO()
 
         actual_path_lengths, optimal_paths = bitonic_tsp(points)

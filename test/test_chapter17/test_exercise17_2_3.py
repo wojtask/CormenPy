@@ -19,8 +19,7 @@ class TestExercise17_2_3(TestCase):
             counter = ResettableCounter([0] * k)
         else:
             counter = ResettableCounter(
-                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)))
-        counter.highest = highest
+                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)), highest)
         original = copy.deepcopy(counter)
 
         increment_(counter)
@@ -42,8 +41,7 @@ class TestExercise17_2_3(TestCase):
             counter = ResettableCounter([0] * k)
         else:
             counter = ResettableCounter(
-                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)))
-        counter.highest = highest
+                get_random_array(size=highest, max_value=1) + Array.of(1) + Array([0] * (k - 1 - highest)), highest)
 
         reset(counter)
 
