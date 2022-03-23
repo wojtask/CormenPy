@@ -17,6 +17,8 @@ class TestTextbookProblem16_4(TestCase):
 
         actual_schedule = tasks_scheduling_(deadlines, penalties)
 
+        assert_that(deadlines.is_modified(), is_(False))
+        assert_that(penalties.is_modified(), is_(False))
         schedule_ids = decode_tasks(actual_schedule)
         expected_min_total_penalty = get_min_total_penalty_bruteforce(deadlines, penalties)
         actual_total_penalty = get_total_penalty(schedule_ids, deadlines, penalties)

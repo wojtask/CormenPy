@@ -1,4 +1,3 @@
-import copy
 import random
 from unittest import TestCase
 
@@ -17,9 +16,7 @@ class TestExercise2_1_4(TestCase):
     def test_binary_add(self):
         n = random.randint(1, 20)
         array1 = get_random_array(size=n, max_value=1)
-        original1 = copy.deepcopy(array1)
         array2 = get_random_array(size=n, max_value=1)
-        original2 = copy.deepcopy(array2)
 
         actual_sum_bits = binary_add(array1, array2)
 
@@ -28,5 +25,5 @@ class TestExercise2_1_4(TestCase):
         number2 = bits_to_number(array2)
         expected_sum = number1 + number2
         assert_that(expected_sum, is_(equal_to(actual_sum)))
-        assert_that(array1, is_(equal_to(original1)))
-        assert_that(array2, is_(equal_to(original2)))
+        assert_that(array1.is_modified(), is_(False))
+        assert_that(array2.is_modified(), is_(False))

@@ -44,6 +44,8 @@ class TestExercise16_2_2(TestCase):
         with redirect_stdout(captured_output):
             print_knapsack(actual_knapsack, weights, n, max_weight)
 
+        assert_that(weights.is_modified(), is_(False))
+        assert_that(values.is_modified(), is_(False))
         expected_knapsack_value = knapsack_bruteforce(weights, values, max_weight)
         assert_that(actual_knapsack[n, max_weight], is_(equal_to(expected_knapsack_value)))
         actual_items = Array(

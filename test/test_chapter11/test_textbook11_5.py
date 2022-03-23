@@ -1,4 +1,3 @@
-import copy
 from unittest import TestCase
 
 from hamcrest import *
@@ -16,7 +15,7 @@ class TestTextbook11_5(TestCase):
 
         table, h = perfect_hashing_init(keys)
 
-        original = copy.deepcopy(table)
+        table.save_state()
         for key in between(0, max_value):
             actual_found = perfect_hashing_search(table, key, h)
             if key in keys:
@@ -25,4 +24,4 @@ class TestTextbook11_5(TestCase):
                 assert_that(table[j][1][j_], is_(equal_to(key)))
             else:
                 assert_that(actual_found, is_(none()))
-            assert_that(table, is_(equal_to(original)))
+            assert_that(table.is_modified(), is_(False))

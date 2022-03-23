@@ -42,7 +42,7 @@ def assert_multiple_array_list_consistent(array_list):
     prev_idx = None
     idx = array_list.head
     while idx is not None:
-        assert_that(array_list.prev[idx] == prev_idx)
+        assert_that(array_list.prev[idx], is_(equal_to(prev_idx)))
         prev_idx = idx
         idx = array_list.next[idx]
 

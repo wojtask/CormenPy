@@ -30,7 +30,7 @@ def get_random_direct_address_table():
     table = Array.indexed(0, table_size - 1)
     for element in elements:
         table[element.key] = element
-    return table
+    return table.save_state()
 
 
 def get_random_bit_vector():
@@ -54,7 +54,7 @@ def get_random_chained_direct_address_table():
             head.prev = element
         element.next = head
         table[element.key] = element
-    return table
+    return table.save_state()
 
 
 def get_random_chained_hash_table(max_value=999):
@@ -71,7 +71,7 @@ def get_random_chained_hash_table(max_value=999):
             head.prev = element
         element.next = head
         table[h(element.key)] = element
-    return table, h
+    return table.save_state(), h
 
 
 def get_chained_hash_table_elements(table):
@@ -96,7 +96,7 @@ def get_random_huge_array(max_value=999):
         stack_array[i] = Element(key)
     stack_array.top = keys.length
 
-    return huge_array, stack_array
+    return huge_array.save_state(), stack_array.save_state()
 
 
 def assert_huge_array_consistent(huge_array, stack_array):
@@ -127,7 +127,7 @@ def random_hash_table(h, table_size, max_value):
         while table[h(key, i)] is not None:
             i += 1
         table[h(key, i)] = key
-    return table
+    return table.save_state()
 
 
 def get_hash_table_keys(table):

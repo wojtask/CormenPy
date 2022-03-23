@@ -12,7 +12,7 @@ class TestExercise6_5_7(TestCase):
 
     def test_max_heap_delete(self):
         heap = get_random_max_heap()
-        original = Array(heap)
+        original_elements = Array(heap)
         i = random.randint(1, heap.heap_size)
         key_to_delete = heap[i]
 
@@ -20,5 +20,5 @@ class TestExercise6_5_7(TestCase):
 
         assert_that(actual_deleted_key, is_(equal_to(key_to_delete)))
         assert_max_heap(heap)
-        original.remove(key_to_delete)
-        assert_that(heap, contains_inanyorder(*original))
+        original_elements.remove(key_to_delete)
+        assert_that(heap, contains_inanyorder(*original_elements))

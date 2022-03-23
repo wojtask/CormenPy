@@ -4,7 +4,8 @@ from hamcrest import *
 
 from chapter17.problem17_3 import balance_subtree
 from datastructures.binary_tree import NodeWithSize
-from tree_util import get_random_binary_search_tree, assert_binary_search_tree, get_binary_search_tree_inorder_nodes
+from tree_util import get_random_binary_search_tree, assert_binary_search_tree, get_binary_search_tree_inorder_nodes, \
+    get_binary_search_tree_inorder_keys
 
 
 def assign_size_attributes(node):
@@ -37,9 +38,12 @@ class TestProblem17_3(TestCase):
         tree = get_random_binary_search_tree(node_ctor=NodeWithSize)
         assign_size_attributes(tree.root)
         inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = get_binary_search_tree_inorder_keys(tree)
         node = inorder_nodes.random_choice()
 
         actual_balanced_node = balance_subtree(tree, node)
 
         assert_binary_search_tree(tree)
         assert_subtree_weight_balanced(actual_balanced_node)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(inorder_keys)))

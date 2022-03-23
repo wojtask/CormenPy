@@ -16,14 +16,16 @@ class TestExercise16_2_3(TestCase):
 
     def test_greedy_knapsack(self):
         n = random.randint(1, 15)
-        weights = get_random_array(size=n).sort()
-        values = get_random_array(size=n).sort(reverse=True)
+        weights = get_random_array(size=n).sort().save_state()
+        values = get_random_array(size=n).sort(reverse=True).save_state()
         max_weight = random.randint(1, n * 200)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
             actual_knapsack_value = greedy_knapsack(weights, values, max_weight)
 
+        assert_that(weights.is_modified(), is_(False))
+        assert_that(values.is_modified(), is_(False))
         expected_knapsack_value = knapsack_bruteforce(weights, values, max_weight)
         assert_that(actual_knapsack_value, is_(equal_to(expected_knapsack_value)))
         actual_items = Array(

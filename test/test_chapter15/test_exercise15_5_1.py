@@ -52,5 +52,7 @@ class TestExercise15_5_1(TestCase):
         with redirect_stdout(captured_output):
             construct_optimal_bst(root)
 
+        assert_that(p.is_modified(), is_(False))
+        assert_that(q.is_modified(), is_(False))
         actual_output = Array(captured_output.getvalue().splitlines())
         assert_optimal_bst_output(actual_output, root)

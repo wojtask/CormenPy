@@ -7,14 +7,14 @@ from hamcrest import *
 
 from chapter14.exercise14_2_5 import rb_enumerate
 from datastructures.array import Array
-from tree_util import get_random_red_black_tree, get_binary_search_tree_inorder_nodes
+from tree_util import get_random_red_black_tree, get_binary_search_tree_inorder_keys
 
 
 class TestExercise14_2_5(TestCase):
 
     def test_rb_enumerate(self):
         tree = get_random_red_black_tree()
-        inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = get_binary_search_tree_inorder_keys(tree)
         lower_bound = random.randint(0, 999)
         upper_bound = random.randint(0, 999)
         if lower_bound > upper_bound:
@@ -29,5 +29,5 @@ class TestExercise14_2_5(TestCase):
         for x in actual_output:
             assert_that(x, is_(greater_than_or_equal_to(lower_bound)))
             assert_that(x, is_(less_than_or_equal_to(upper_bound)))
-        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
-        assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(inorder_keys)))

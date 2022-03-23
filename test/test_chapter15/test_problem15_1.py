@@ -1,3 +1,4 @@
+import copy
 import io
 import itertools
 import math
@@ -16,6 +17,7 @@ from util import between, rbetween
 
 
 def get_shortest_bitonic_path_length_bruteforce(points):
+    points.sort(key=lambda p: p.x)
     n = points.length
     min_length = math.inf
     for k in between(0, n - 2):
@@ -47,13 +49,14 @@ class TestProblem15_1(TestCase):
         x_coordinates = get_random_array(size=n)
         y_coordinates = get_random_array(size=n)
         points = Array(Point2D(x, y) for x, y in zip(x_coordinates, y_coordinates))
+        original_points = copy.deepcopy(points)
         captured_output = io.StringIO()
 
         actual_path_lengths, optimal_paths = bitonic_tsp(points)
         with redirect_stdout(captured_output):
             print_bitonic_path(points, optimal_paths)
 
-        expected_bitonic_path_length = get_shortest_bitonic_path_length_bruteforce(points)
+        expected_bitonic_path_length = get_shortest_bitonic_path_length_bruteforce(original_points)
         assert_that(actual_path_lengths[n, n], is_(close_to(expected_bitonic_path_length, 1e-7)))
         pattern = re.compile(r'\(([+-]?(\d*\.)?\d+), ([+-]?(\d*\.)?\d+)\)')
         actual_bitonic_path = Array(Point2D(float(pattern.match(point).group(1)), float(pattern.match(point).group(3)))

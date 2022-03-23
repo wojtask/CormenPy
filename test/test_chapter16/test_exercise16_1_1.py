@@ -18,5 +18,7 @@ class TestExercise16_1_1(TestCase):
 
         actual_activities_ids = decode_activities(actual_activities)
         assert_that(activities_compatible(actual_activities_ids, start_times, finish_times))
+        assert_that(start_times.is_modified(), is_(False))
+        assert_that(finish_times.is_modified(), is_(False))
         expected_activities = activity_selector_bruteforce(start_times, finish_times)
         assert_that(actual_activities, has_length(expected_activities))

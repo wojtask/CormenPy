@@ -12,12 +12,11 @@ class TestTextbook6_5(TestCase):
 
     def test_heap_maximum(self):
         heap = get_random_max_heap()
-        original = copy.deepcopy(heap)
 
         actual_max = heap_maximum(heap)
 
-        assert_that(actual_max, is_(equal_to(max(original))))
-        assert_that(heap, is_(equal_to(original)))
+        assert_that(heap.is_modified(), is_(False))
+        assert_that(actual_max, is_(equal_to(max(heap))))
 
     def test_extract_max(self):
         heap = get_random_max_heap()

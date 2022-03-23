@@ -20,6 +20,10 @@ class TestExercise15_1_4(TestCase):
 
         actual_assembly_time, lines, last_line = fastest_way_(a, t, e, x, n)
 
+        assert_that(a.is_modified(), is_(False))
+        assert_that(t.is_modified(), is_(False))
+        assert_that(e.is_modified(), is_(False))
+        assert_that(x.is_modified(), is_(False))
         expected_assembly_time = get_fastest_way_bruteforce(a, t, e, x, n)
         assert_that(actual_assembly_time, is_(equal_to(expected_assembly_time)))
         expected_assembly_time = get_assembly_time_based_on_lines(lines, last_line, a, t, e, x, n)

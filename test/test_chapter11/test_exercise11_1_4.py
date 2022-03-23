@@ -14,8 +14,6 @@ class TestExercise11_1_4(TestCase):
     def test_huge_array_search(self):
         max_value = 20
         huge_array, stack_array = get_random_huge_array(max_value=max_value)
-        original_huge_array = copy.deepcopy(huge_array)
-        original_stack_array = copy.deepcopy(stack_array)
         key_to_find = random.randint(0, max_value)
 
         actual_found = huge_array_search(huge_array, stack_array, key_to_find)
@@ -24,8 +22,8 @@ class TestExercise11_1_4(TestCase):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
-        assert_that(original_huge_array, is_(equal_to(huge_array)))
-        assert_that(original_stack_array, is_(equal_to(stack_array)))
+        assert_that(huge_array.is_modified(), is_(False))
+        assert_that(stack_array.is_modified(), is_(False))
 
     def test_huge_array_insert(self):
         huge_array, stack_array = get_random_huge_array()

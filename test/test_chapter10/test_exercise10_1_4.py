@@ -17,6 +17,7 @@ class TestExercise10_1_4(TestCase):
 
         actual_empty = queue_empty(queue)
 
+        assert_that(queue.is_modified(), is_(False))
         if queue.head == queue.tail:
             assert_that(actual_empty, is_(True))
         else:

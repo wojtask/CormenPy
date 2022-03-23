@@ -6,7 +6,7 @@ from hamcrest import *
 
 from chapter12.exercise12_1_4 import preorder_tree_walk, postorder_tree_walk
 from datastructures.array import Array
-from tree_util import get_random_binary_search_tree
+from tree_util import get_random_binary_search_tree, get_binary_search_tree_inorder_keys
 
 
 def assert_preorder_tree_keys(tree, keys):
@@ -41,6 +41,7 @@ class TestExercise12_1_4(TestCase):
 
     def test_preorder_tree_walk(self):
         tree = get_random_binary_search_tree()
+        original_keys = get_binary_search_tree_inorder_keys(tree)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -48,9 +49,12 @@ class TestExercise12_1_4(TestCase):
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
         assert_preorder_tree_keys(tree, actual_output)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(original_keys)))
 
     def test_postorder_tree_walk(self):
         tree = get_random_binary_search_tree()
+        original_keys = get_binary_search_tree_inorder_keys(tree)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -58,3 +62,5 @@ class TestExercise12_1_4(TestCase):
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
         assert_postorder_tree_keys(tree, actual_output)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(original_keys)))

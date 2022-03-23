@@ -24,8 +24,8 @@ class TestTextbook14_1(TestCase):
         assert_that(actual_order_statistic, is_in(inorder_nodes))
         expected_order_statistic = inorder_keys[i]
         assert_that(actual_order_statistic.key, is_(equal_to(expected_order_statistic)))
-        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
-        assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(inorder_keys)))
 
     def test_os_rank(self):
         tree = get_random_os_tree()
@@ -37,8 +37,8 @@ class TestTextbook14_1(TestCase):
 
         expected_ranks = Array(i for i, key in enumerate(inorder_keys, start=1) if key == node_to_find.key)
         assert_that(actual_rank, is_in(expected_ranks))
-        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
-        assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(inorder_keys)))
 
     def test_os_insert(self):
         keys = get_random_array(size=20)

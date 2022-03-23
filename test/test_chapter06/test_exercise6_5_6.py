@@ -47,32 +47,32 @@ class TestExercise6_5_6(TestCase):
 
     def test_priority_push(self):
         size = random.randint(5, 20)
-        fifo_queue = PriorityQueueStack(Array.indexed(1, size))
+        stack = PriorityQueueStack(Array.indexed(1, size))
         nelements = random.randint(1, size)
 
         for i in between(1, nelements):
             new_element = Element(None, 'element %d' % i)
-            priority_push(fifo_queue, new_element)
+            priority_push(stack, new_element)
 
-        for element in fifo_queue:
+        for element in stack:
             assert_that(element.data, is_(equal_to('element %d' % element.key)))
-        assert_that(fifo_queue.rank, is_(equal_to(nelements + 1)))
+        assert_that(stack.rank, is_(equal_to(nelements + 1)))
 
     def test_priority_pop(self):
         rank = 100
         max_heap = get_random_max_heap()
-        fifo_queue = PriorityQueueStack(max_heap, heap_size=max_heap.heap_size, rank=rank)
+        stack = PriorityQueueStack(max_heap, heap_size=max_heap.heap_size, rank=rank)
         # transform the numbers in the queue to elements with keys and data
         expected_elements = Array()
-        for i in between(1, fifo_queue.heap_size):
-            fifo_queue[i] = Element(fifo_queue[i], 'element %d' % fifo_queue[i])
-            expected_elements.append(fifo_queue[i])
+        for i in between(1, stack.heap_size):
+            stack[i] = Element(stack[i], 'element %d' % stack[i])
+            expected_elements.append(stack[i])
 
-        expected_deleted = max(fifo_queue, key=lambda e: e.key)
+        expected_deleted = max(stack, key=lambda e: e.key)
         expected_elements.remove(expected_deleted)
 
-        actual_deleted = priority_pop(fifo_queue)
+        actual_deleted = priority_pop(stack)
 
         assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-        assert_that(fifo_queue.rank, is_(equal_to(rank)))
-        assert_that(fifo_queue, contains_inanyorder(*expected_elements))
+        assert_that(stack.rank, is_(equal_to(rank)))
+        assert_that(stack, contains_inanyorder(*expected_elements))

@@ -1,5 +1,9 @@
-class Matrix:
+from util import ModificationDetectable
+
+
+class Matrix(ModificationDetectable):
     def __init__(self, elements):
+        super().__init__()
         self.elements = list(list(row) for row in elements)
         if len(elements) > 0:
             self.rows = len(elements)
@@ -20,6 +24,7 @@ class Matrix:
     def __setitem__(self, indexes, item):
         i, j = indexes
         self.elements[i - 1][j - 1] = item
+        self._modified = True
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

@@ -18,7 +18,6 @@ class TestTextbook11_1(TestCase):
 
     def test_direct_address_search(self):
         table = get_random_direct_address_table()
-        original = copy.deepcopy(table)
         key_to_find = random.randint(0, table.length - 1)
 
         actual_found = direct_address_search(table, key_to_find)
@@ -28,7 +27,7 @@ class TestTextbook11_1(TestCase):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
-        assert_that(table, is_(equal_to(original)))
+        assert_that(table.is_modified(), is_(False))
 
     def test_direct_address_insert(self):
         table = get_random_direct_address_table()

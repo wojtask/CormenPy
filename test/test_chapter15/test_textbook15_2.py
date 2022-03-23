@@ -60,6 +60,8 @@ class TestTextbook15_2(TestCase):
                         raises(ValueError, 'incompatible dimensions'))
         else:
             actual_product = matrix_multiply(matrix1, matrix2)
+            assert_that(matrix1.is_modified(), is_(False))
+            assert_that(matrix2.is_modified(), is_(False))
             assert_that(actual_product.rows, is_(equal_to(rows1)))
             assert_that(actual_product.columns, is_(equal_to(columns2)))
             expected_product = Matrix(numpy.dot(matrix1.elements, matrix2.elements).tolist())
@@ -71,6 +73,7 @@ class TestTextbook15_2(TestCase):
 
         actual_minimum_costs, optimal_solution = matrix_chain_order(dimensions)
 
+        assert_that(dimensions.is_modified(), is_(False))
         expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
         assert_that(actual_minimum_costs[1, n], is_(equal_to(expected_minimum_cost)))
         expected_minimum_cost = get_matrix_product_cost_from_solution(optimal_solution, dimensions, 1, n)
@@ -82,11 +85,13 @@ class TestTextbook15_2(TestCase):
         for i in between(1, n - 1):
             for j in between(i + 1, n):
                 s[i, j] = random.randint(i, j - 1)
+        s.save_state()
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
             print_optimal_parens(s, 1, n)
 
+        assert_that(s.is_modified(), is_(False))
         actual_output = Array(captured_output.getvalue().splitlines()[0])
         expected_output = Array(get_optimal_parens_bruteforce(s, 1, n))
         assert_that(actual_output, is_(equal_to(expected_output)))

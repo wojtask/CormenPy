@@ -1,4 +1,3 @@
-import copy
 import itertools
 import math
 import random
@@ -62,25 +61,25 @@ class TestTextbook16_1(TestCase):
     def test_recursive_activity_selector(self):
         n = random.randint(1, 15)
         start_times, finish_times = get_activities_sorted_by_finish_time(n)
-        original_start_times = copy.deepcopy(start_times)
-        original_finish_times = copy.deepcopy(finish_times)
 
         actual_activities = recursive_activity_selector(start_times, finish_times, 0, n)
 
         actual_activities_ids = decode_activities(actual_activities)
         assert_that(activities_compatible(actual_activities_ids, start_times, finish_times))
-        expected_activities_size = activity_selector_bruteforce(original_start_times, original_finish_times)
+        assert_that(start_times.is_modified(), is_(False))
+        assert_that(finish_times.is_modified(), is_(False))
+        expected_activities_size = activity_selector_bruteforce(start_times, finish_times)
         assert_that(actual_activities, has_length(expected_activities_size))
 
     def test_greedy_activity_selector(self):
         n = random.randint(1, 15)
         start_times, finish_times = get_activities_sorted_by_finish_time(n)
-        original_start_times = copy.deepcopy(start_times)
-        original_finish_times = copy.deepcopy(finish_times)
 
         actual_activities = greedy_activity_selector(start_times, finish_times)
 
         actual_activities_ids = decode_activities(actual_activities)
         assert_that(activities_compatible(actual_activities_ids, start_times, finish_times))
-        expected_activities_size = activity_selector_bruteforce(original_start_times, original_finish_times)
+        assert_that(start_times.is_modified(), is_(False))
+        assert_that(finish_times.is_modified(), is_(False))
+        expected_activities_size = activity_selector_bruteforce(start_times, finish_times)
         assert_that(actual_activities, has_length(expected_activities_size))

@@ -1,4 +1,3 @@
-import copy
 import random
 from unittest import TestCase
 
@@ -15,11 +14,10 @@ class TestProblem2_3(TestCase):
     def test_polynomial_evaluate(self):
         n = random.randint(1, 20)
         coefficients = Array((random.uniform(-2.0, 2.0) for _ in between(1, n)), start=0)
-        original = copy.deepcopy(coefficients)
         x = random.uniform(-2.0, 2.0)
 
         actual_result = polynomial_evaluate(coefficients, x)
 
         expected_result = float(polynomial.polyval(x, coefficients))
         assert_that(actual_result, is_(close_to(expected_result, 1e-7)))
-        assert_that(coefficients, is_(equal_to(original)))
+        assert_that(coefficients.is_modified(), is_(False))

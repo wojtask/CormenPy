@@ -61,12 +61,18 @@ class TestTextbook15_1(TestCase):
         l[1, 1], l[2, 1] = 0, 0
         for i in between(2, n):
             l[1, i], l[2, i] = Array.of((1, 1), (1, 2), (2, 2)).random_choice()
+        l.save_state()
+        l[1].save_state()
+        l[2].save_state()
         l_star = random.randint(1, 2)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
             print_stations(l, l_star, n)
 
+        assert_that(l.is_modified(), is_(False))
+        assert_that(l[1].is_modified(), is_(False))
+        assert_that(l[2].is_modified(), is_(False))
         actual_output = Array(captured_output.getvalue().splitlines())
         expected_output = Array()
         i = l_star

@@ -13,17 +13,16 @@ class TestExercise11_1_3(TestCase):
 
     def test_direct_address_search_(self):
         table = get_random_chained_direct_address_table()
-        original = copy.deepcopy(table)
         key_to_find = random.randint(0, table.length - 1)
 
         actual_found = direct_address_search_(table, key_to_find)
 
-        original_elements = get_chained_hash_table_elements(original)
-        if key_to_find in (element.key for element in original_elements):
+        assert_that(table.is_modified(), is_(False))
+        elements = get_chained_hash_table_elements(table)
+        if key_to_find in (element.key for element in elements):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
-        assert_that(table, is_(equal_to(original)))
 
     def test_direct_address_insert_(self):
         table = get_random_chained_direct_address_table()

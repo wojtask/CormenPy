@@ -2,11 +2,12 @@ import random
 from builtins import len
 from collections.abc import MutableSequence
 
-from util import between
+from util import between, ModificationDetectable
 
 
-class Array(MutableSequence):
+class Array(MutableSequence, ModificationDetectable):
     def __init__(self, elements=None, start=1):
+        super().__init__()
         if elements is None:
             elements = []
         self.elements = list(elements)
@@ -51,10 +52,12 @@ class Array(MutableSequence):
             self[index[0]][index[1]] = value
         else:
             raise TypeError('Invalid type of index used for indexing Array')
+        self._modified = True
 
     def __delitem__(self, index):
         del self.elements[index - self.start]
         self.length -= 1
+        self._modified = True
 
     def __len__(self):
         return self.length
@@ -84,16 +87,19 @@ class Array(MutableSequence):
     def insert(self, index, value):
         self.elements.insert(index - self.start, value)
         self.length += 1
+        self._modified = True
 
     def append(self, value):
         self.insert(self.length + 1, value)
 
     def sort(self, **kwargs):
         self.elements.sort(**kwargs)
+        self._modified = True
         return self
 
     def shuffle(self):
         random.shuffle(self.elements)
+        self._modified = True
         return self
 
     def random_choice(self):

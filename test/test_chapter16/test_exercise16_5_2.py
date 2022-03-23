@@ -26,5 +26,6 @@ class TestExercise16_5_2(TestCase):
 
         actual_result = tasks_independent(deadlines, n)
 
+        assert_that(deadlines.is_modified(), is_(False))
         expected_result = tasks_independent_bruteforce(deadlines)
         assert_that(actual_result, is_(equal_to(expected_result)))
