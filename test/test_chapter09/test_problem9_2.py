@@ -1,4 +1,5 @@
 import copy
+import numpy as np
 import random
 from unittest import TestCase
 
@@ -60,6 +61,8 @@ class TestProblem9_2(TestCase):
         actual_post_office = post_office_manhattan(array, weights)
 
         actual_post_office_distance_sum = get_weighted_distance_sum(actual_post_office, array, weights)
-        for point in original_array:
-            point_distance_sum = get_weighted_distance_sum(point, original_array, original_weights)
-            assert_that(actual_post_office_distance_sum, is_(less_than_or_equal_to(point_distance_sum)))
+        for x in np.arange(-5.0, 5.0, 0.1):
+            for y in np.arange(-5.0, 5.0, 0.1):
+                point = Point2D(x, y)
+                point_distance_sum = get_weighted_distance_sum(point, original_array, original_weights)
+                assert_that(actual_post_office_distance_sum, is_(less_than_or_equal_to(point_distance_sum)))
