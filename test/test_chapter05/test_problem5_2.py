@@ -1,4 +1,3 @@
-import copy
 import random
 from unittest import TestCase
 
@@ -12,7 +11,6 @@ class TestProblem5_2(TestCase):
 
     def test_random_search(self):
         array = get_random_array(min_size=10, max_size=20, max_value=20)
-        original = copy.deepcopy(array)
         v = random.randint(0, 20)
 
         actual_index = random_search(array, v)
@@ -21,4 +19,4 @@ class TestProblem5_2(TestCase):
             assert_that(array[actual_index], is_(equal_to(v)))
         else:
             assert_that(v not in array)
-        assert_that(array, is_(equal_to(original)))
+        assert_that(array.is_modified(), is_(False))

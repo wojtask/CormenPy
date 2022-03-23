@@ -39,6 +39,7 @@ class TestExercise16_2_4(TestCase):
 
         actual_stops = greedy_refueling(stations, n)
 
+        assert_that(stations.is_modified(), is_(False))
         valid = stops_valid(actual_stops, stations, n)
         assert_that(valid, is_(True))
         expected_min_stops = refueling_bruteforce(stations, n)

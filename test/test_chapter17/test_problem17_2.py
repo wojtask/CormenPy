@@ -17,7 +17,7 @@ def _create_arrays():
         if random.randint(0, 1) == 0:
             arrays[i] = Array()
         else:
-            arrays[i] = get_random_array(size=2 ** i, max_value=2 ** (k - 1)).sort()
+            arrays[i] = get_random_array(size=2 ** i, max_value=2 ** (k - 1)).sort().save_state()
     return arrays
 
 
@@ -35,6 +35,8 @@ class TestProblem17_2(TestCase):
         else:
             for i in between(0, k - 1):
                 assert_that(element, not_(is_in(arrays[i])))
+        for i in between(0, k - 1):
+            assert_that(arrays[i].is_modified(), is_(False))
 
     def test_dynamic_binary_insert(self):
         arrays = _create_arrays()

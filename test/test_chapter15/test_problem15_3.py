@@ -124,6 +124,8 @@ class TestProblem15_3(TestCase):
         with redirect_stdout(captured_output):
             print_operations(actual_op, actual_left, actual_right, len1, len2)
 
+        assert_that(word1.is_modified(), is_(False))
+        assert_that(word2.is_modified(), is_(False))
         expected_cost = get_edit_distance_bruteforce(word1, word2, cost)
         assert_that(actual_costs[len1, len2], is_(equal_to(expected_cost)))
         actual_operations = Array(captured_output.getvalue().splitlines())
@@ -139,5 +141,7 @@ class TestProblem15_3(TestCase):
 
         actual_score, _, _, _ = optimal_alignment(word1, word2)
 
+        assert_that(word1.is_modified(), is_(False))
+        assert_that(word2.is_modified(), is_(False))
         expected_score = get_optimal_alignment_bruteforce(word1, word2)
         assert_that(actual_score, is_(equal_to(expected_score)))

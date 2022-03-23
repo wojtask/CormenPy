@@ -25,17 +25,16 @@ class TestTextbook11_2(TestCase):
 
     def test_chained_hash_search(self):
         table, h = get_random_chained_hash_table(max_value=10)
-        original = copy.deepcopy(table)
         key_to_find = random.randint(0, 10)
 
         actual_found = chained_hash_search(table, key_to_find, h)
 
-        original_elements = get_chained_hash_table_elements(original)
+        assert_that(table.is_modified(), is_(False))
+        original_elements = get_chained_hash_table_elements(table)
         if key_to_find in (element.key for element in original_elements):
             assert_that(actual_found.key, is_(equal_to(key_to_find)))
         else:
             assert_that(actual_found, is_(none()))
-        assert_that(table, is_(equal_to(original)))
 
     def test_chained_hash_delete(self):
         table, h = get_random_chained_hash_table()

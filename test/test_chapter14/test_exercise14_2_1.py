@@ -7,7 +7,7 @@ from chapter13.textbook13_2 import rb_minimum, rb_maximum, rb_predecessor, rb_su
 from chapter14.exercise14_2_1 import effective_os_insert, effective_os_minimum, effective_os_maximum, \
     effective_os_predecessor, effective_os_successor, effective_os_delete
 from datastructures.red_black_tree import RedBlackTree, AugmentedOSNode
-from tree_util import get_binary_search_tree_inorder_nodes, assert_os_tree
+from tree_util import get_binary_search_tree_inorder_nodes, assert_os_tree, get_binary_search_tree_inorder_keys
 
 
 class TestExercise14_2_1(TestCase):
@@ -23,6 +23,7 @@ class TestExercise14_2_1(TestCase):
 
         while inorder_nodes:
             assert_os_tree(tree)
+            inorder_keys = get_binary_search_tree_inorder_keys(tree)
             actual_minimum = effective_os_minimum(tree)
             actual_maximum = effective_os_maximum(tree)
             expected_minimum = rb_minimum(tree.root, sentinel=tree.nil)
@@ -37,6 +38,8 @@ class TestExercise14_2_1(TestCase):
             expected_successor = rb_successor(node, sentinel=tree.nil)
             assert_that(actual_predecessor, is_(expected_predecessor))
             assert_that(actual_successor, is_(expected_successor))
+            actual_keys = get_binary_search_tree_inorder_keys(tree)
+            assert_that(inorder_keys, is_(equal_to(actual_keys)))
 
             effective_os_delete(tree, node)
 

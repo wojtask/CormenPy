@@ -1,3 +1,4 @@
+import copy
 import itertools
 import random
 from unittest import TestCase
@@ -31,9 +32,11 @@ class TestExercise16_2_7(TestCase):
         n = random.randint(1, 8)
         bases = get_random_array(size=n, min_value=1, max_value=10)
         exponents = get_random_array(size=n, min_value=1, max_value=10)
+        original_bases = copy.deepcopy(bases)
+        original_exponents = copy.deepcopy(exponents)
 
         sets_reordering(bases, exponents)
 
         actual_score = get_score(bases, exponents)
-        expected_score = sets_reordering_bruteforce(bases, exponents)
+        expected_score = sets_reordering_bruteforce(original_bases, original_exponents)
         assert_that(actual_score, is_(equal_to(expected_score)))

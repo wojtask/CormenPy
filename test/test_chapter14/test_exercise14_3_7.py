@@ -1,4 +1,3 @@
-import copy
 import random
 from unittest import TestCase
 
@@ -22,7 +21,7 @@ class TestExercise14_3_7(TestCase):
             high_endpoint_x = low_endpoint_x + random.randint(1, 100)
             high_endpoint_y = low_endpoint_y + random.randint(1, 100)
             rectangles.append((Interval(low_endpoint_x, high_endpoint_x), Interval(low_endpoint_y, high_endpoint_y)))
-        original = copy.deepcopy(rectangles)
+        rectangles.save_state()
 
         actual_overlap = rectangles_overlap(rectangles)
 
@@ -32,4 +31,4 @@ class TestExercise14_3_7(TestCase):
                 if overlap(rectangles[i][0], rectangles[j][0]) and overlap(rectangles[i][1], rectangles[j][1]):
                     expected_overlap = True
         assert_that(actual_overlap, is_(expected_overlap))
-        assert_that(rectangles, is_(equal_to(original)))
+        assert_that(rectangles.is_modified(), is_(False))

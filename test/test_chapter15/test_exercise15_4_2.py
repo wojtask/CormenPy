@@ -24,6 +24,8 @@ class TestExercise15_4_2(TestCase):
             print_lcs_(actual_maximum_lengths, sequence1, sequence2, sequence1.length, sequence2.length)
             print()  # a blank line after the output
 
+        assert_that(sequence1.is_modified(), is_(False))
+        assert_that(sequence2.is_modified(), is_(False))
         expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_lengths[sequence1.length, sequence2.length], is_(equal_to(expected_maximum_length)))
         actual_lcs = Array(captured_output.getvalue().splitlines()[0])

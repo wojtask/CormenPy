@@ -23,7 +23,8 @@ def assert_quantiles(a_set, k, elements):
 def assert_valid_subarray_length(n, k, subarray_length):
     expected_low_subarray_length = math.floor((n - (k - 1)) / k)
     expected_high_subarray_length = math.ceil((n - (k - 1)) / k)
-    assert_that(subarray_length == expected_low_subarray_length or subarray_length == expected_high_subarray_length)
+    assert_that(subarray_length,
+                any_of(equal_to(expected_low_subarray_length), equal_to(expected_high_subarray_length)))
 
 
 class TestExercise9_3_6(TestCase):

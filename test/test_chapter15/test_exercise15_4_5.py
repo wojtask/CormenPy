@@ -38,6 +38,7 @@ class TestExercise15_4_5(TestCase):
         with redirect_stdout(captured_output):
             print_lis(terms, sequence, last_term)
 
+        assert_that(sequence.is_modified(), is_(False))
         expected_maximum_length = get_maximum_lis_length_bruteforce(sequence)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
         actual_lis = Array(int(x) for x in captured_output.getvalue().splitlines())

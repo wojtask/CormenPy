@@ -16,15 +16,14 @@ class TestTextbook10_1(TestCase):
     def test_stack_empty(self):
         size = 3
         stack = Stack(get_random_array(size=size), top=random.randint(0, size))
-        original = copy.deepcopy(stack)
 
         actual_empty = stack_empty(stack)
 
+        assert_that(stack.is_modified(), is_(False))
         if stack.top == 0:
             assert_that(actual_empty, is_(True))
         else:
             assert_that(actual_empty, is_(False))
-        assert_that(stack, is_(equal_to(original)))
 
     def test_push(self):
         size = 10

@@ -19,6 +19,7 @@ class TestTextbook15_3(TestCase):
 
         actual_minimum_cost = recursive_matrix_chain(dimensions, m, 1, n)
 
+        assert_that(dimensions.is_modified(), is_(False))
         expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
         assert_that(actual_minimum_cost, is_(equal_to(expected_minimum_cost)))
 
@@ -28,5 +29,6 @@ class TestTextbook15_3(TestCase):
 
         actual_minimum_cost = memoized_matrix_chain(dimensions)
 
+        assert_that(dimensions.is_modified(), is_(False))
         expected_minimum_cost = get_minimum_matrix_product_cost(dimensions, 1, n)
         assert_that(actual_minimum_cost, is_(equal_to(expected_minimum_cost)))

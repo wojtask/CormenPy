@@ -5,6 +5,7 @@ from hamcrest import *
 
 from array_util import get_random_array
 from chapter14.textbook14_3 import interval_search, overlap, interval_insert, interval_delete
+from datastructures.array import Array
 from datastructures.essential import Interval
 from datastructures.red_black_tree import RedBlackTree, IntervalNode
 from tree_util import get_binary_search_tree_inorder_keys, get_binary_search_tree_inorder_nodes, \
@@ -44,6 +45,7 @@ class TestTextbook14_3(TestCase):
     def test_interval_search(self):
         tree = get_random_interval_tree()
         inorder_nodes = get_binary_search_tree_inorder_nodes(tree)
+        inorder_keys = Array(node.int for node in inorder_nodes)
         low_endpoint = random.randint(0, 949)
         high_endpoint = low_endpoint + random.randint(0, 50)
         interval = Interval(low_endpoint, high_endpoint)
@@ -55,5 +57,5 @@ class TestTextbook14_3(TestCase):
         else:
             for node in inorder_nodes:
                 assert_that(overlap(node.int, interval), is_(False))
-        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
-        assert_that(actual_nodes, is_(equal_to(inorder_nodes)))
+        actual_keys = Array(node.int for node in inorder_nodes)
+        assert_that(actual_keys, is_(equal_to(inorder_keys)))

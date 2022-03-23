@@ -17,6 +17,8 @@ class TestExercise15_4_4(TestCase):
 
         actual_maximum_length = lcs_length_(sequence1, sequence2)
 
+        assert_that(sequence1.is_modified(), is_(False))
+        assert_that(sequence2.is_modified(), is_(False))
         expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))
 
@@ -26,5 +28,7 @@ class TestExercise15_4_4(TestCase):
 
         actual_maximum_length = lcs_length__(sequence1, sequence2)
 
+        assert_that(sequence1.is_modified(), is_(False))
+        assert_that(sequence2.is_modified(), is_(False))
         expected_maximum_length = get_maximum_lcs_length_bruteforce(sequence1, sequence2)
         assert_that(actual_maximum_length, is_(equal_to(expected_maximum_length)))

@@ -6,7 +6,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter14.exercise14_3_6 import min_gap_insert, min_gap_search, min_gap_delete, min_gap
 from datastructures.red_black_tree import RedBlackTree, MinGapNode
-from tree_util import get_binary_search_tree_inorder_nodes
+from tree_util import get_binary_search_tree_inorder_nodes, get_binary_search_tree_inorder_keys
 
 
 def get_expected_min_gap(keys):
@@ -39,6 +39,8 @@ class TestExercise14_3_6(TestCase):
 
             min_gap_delete(tree, node)
 
+            inorder_keys = get_binary_search_tree_inorder_keys(tree)
+
             actual_found = min_gap_search(tree, key)
             assert_that(actual_found, is_(tree.nil))
 
@@ -46,4 +48,6 @@ class TestExercise14_3_6(TestCase):
 
             expected_min_gap = get_expected_min_gap(keys)
             assert_that(actual_min_gap, is_(equal_to(expected_min_gap)))
+            actual_keys = get_binary_search_tree_inorder_keys(tree)
+            assert_that(inorder_keys, is_(equal_to(actual_keys)))
             inorder_nodes = get_binary_search_tree_inorder_nodes(tree)

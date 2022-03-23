@@ -1,4 +1,3 @@
-import copy
 import random
 from unittest import TestCase
 
@@ -26,11 +25,10 @@ class TestProblem4_7(TestCase):
     def test_monge_minimums(self):
         m = random.randint(1, 10)
         n = random.randint(1, 10)
-        monge_array = random_monge_array(m, n)
-        original = copy.deepcopy(monge_array)
+        monge_array = random_monge_array(m, n).save_state()
 
         actual_minimums = monge_minimums(monge_array)
 
         expected_minimums = Array(min(row) for row in monge_array)
         assert_that(actual_minimums, is_(equal_to(expected_minimums)))
-        assert_that(monge_array, is_(equal_to(original)))
+        assert_that(monge_array.is_modified(), is_(False))

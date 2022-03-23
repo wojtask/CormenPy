@@ -53,6 +53,7 @@ class TestProblem15_2(TestCase):
         with redirect_stdout(captured_output):
             print_lines(words_division, n)
 
+        assert_that(word_lengths.is_modified(), is_(False))
         expected_cost = get_lines_break_minimum_cost_bruteforce(word_lengths, line_capacity)
         assert_that(actual_costs[n], is_(equal_to(expected_cost)))
         actual_lines_break = Array(int(first_word) for first_word in captured_output.getvalue().splitlines())

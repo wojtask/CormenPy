@@ -18,7 +18,7 @@ def get_probabilities_for_optimal_bst():
         p[i] /= total
     for i in between(0, n):
         q[i] /= total
-    return p, q
+    return p.save_state(), q.save_state()
 
 
 def assert_root_array_consistent(root):

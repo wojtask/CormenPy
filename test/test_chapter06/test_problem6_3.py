@@ -119,8 +119,7 @@ class TestProblem6_3(TestCase):
         assert_that(array, is_(equal_to(expected_array)))
 
     def test_young_search(self):
-        young = random_young_tableau(max_value=20)
-        original = copy.deepcopy(young)
+        young = random_young_tableau(max_value=20).save_state()
         m, n = young.length, young[1].length
         v = random.randint(0, 20)
 
@@ -130,4 +129,4 @@ class TestProblem6_3(TestCase):
             assert_that(actual_found, is_(True))
         else:
             assert_that(actual_found, is_(False))
-        assert_that(young, is_(equal_to(original)))
+        assert_that(young.is_modified(), is_(False))

@@ -14,6 +14,8 @@ class TestExercise15_5_4(TestCase):
 
         e, root = effective_optimal_bst(p, q, p.length)
 
+        assert_that(p.is_modified(), is_(False))
+        assert_that(q.is_modified(), is_(False))
         assert_root_array_consistent(root)
         expected_minimum_cost = get_minimum_bst_cost_bruteforce(p, q)
         actual_minimum_cost = get_bst_cost(root, p, q)

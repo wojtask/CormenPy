@@ -57,6 +57,8 @@ class TestTextbook16_5(TestCase):
 
         actual_schedule = tasks_scheduling(deadlines, penalties)
 
+        assert_that(deadlines.is_modified(), is_(False))
+        assert_that(penalties.is_modified(), is_(False))
         schedule_ids = decode_tasks(actual_schedule)
         assert_canonical_form(schedule_ids, deadlines)
         expected_min_total_penalty = get_min_total_penalty_bruteforce(deadlines, penalties)

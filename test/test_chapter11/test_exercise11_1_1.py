@@ -1,4 +1,3 @@
-import copy
 from unittest import TestCase
 
 from hamcrest import *
@@ -12,7 +11,6 @@ class TestExercise11_1_1(TestCase):
 
     def test_direct_address_maximum(self):
         table = get_random_direct_address_table()
-        original = copy.deepcopy(table)
 
         actual_maximum = direct_address_maximum(table)
 
@@ -22,4 +20,4 @@ class TestExercise11_1_1(TestCase):
             assert_that(actual_maximum.key, is_(equal_to(expected_maximum)))
         else:
             assert_that(actual_maximum, is_(none()))
-        assert_that(table, is_(equal_to(original)))
+        assert_that(table.is_modified(), is_(False))

@@ -22,3 +22,5 @@ class TestExercise10_4_5(TestCase):
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
         expected_output = original_keys.sort()
         assert_that(actual_output, is_(equal_to(expected_output)))
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(original_keys)))

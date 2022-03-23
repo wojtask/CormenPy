@@ -6,7 +6,7 @@ from hamcrest import *
 
 from chapter12.textbook12_1 import inorder_tree_walk
 from datastructures.array import Array
-from tree_util import get_random_binary_search_tree
+from tree_util import get_random_binary_search_tree, get_binary_search_tree_inorder_keys
 
 
 def assert_inorder_tree_keys(tree, keys):
@@ -27,6 +27,7 @@ class TestTextbook12_1(TestCase):
 
     def test_inorder_tree_walk(self):
         tree = get_random_binary_search_tree()
+        original_keys = get_binary_search_tree_inorder_keys(tree)
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
@@ -34,3 +35,5 @@ class TestTextbook12_1(TestCase):
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
         assert_inorder_tree_keys(tree, actual_output)
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(actual_keys, is_(equal_to(original_keys)))

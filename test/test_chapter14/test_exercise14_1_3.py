@@ -20,5 +20,5 @@ class TestExercise14_1_3(TestCase):
         assert_that(actual_order_statistic, is_in(inorder_nodes))
         expected_order_statistic = inorder_keys.sort()[i]
         assert_that(actual_order_statistic.key, is_(equal_to(expected_order_statistic)))
-        actual_nodes = get_binary_search_tree_inorder_nodes(tree)
-        assert_that(inorder_nodes, is_(equal_to(actual_nodes)))
+        actual_keys = get_binary_search_tree_inorder_keys(tree)
+        assert_that(inorder_keys, is_(equal_to(actual_keys)))
