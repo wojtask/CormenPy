@@ -24,7 +24,8 @@ def merge_inversions(A, p, q, r):
     for j in between(1, n2):
         R[j] = A[q + j]
     L[n1 + 1] = R[n2 + 1] = math.inf
-    i = j = 1
+    i = 1
+    j = 1
     inversions = 0
     for k in between(p, r):
         if L[i] <= R[j]:
