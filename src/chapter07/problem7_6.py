@@ -1,4 +1,3 @@
-from chapter05.exercise5_1_2 import random
 from util import between, rbetween
 
 
@@ -10,8 +9,6 @@ def fuzzy_sort(A, p, r):
 
 
 def fuzzy_partition(A, p, r):
-    j = random(p, r)
-    A[r], A[j] = A[j], A[r]
     x = A[r].low
     i = p - 1
     for j in between(p, r - 1):
