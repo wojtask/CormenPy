@@ -2,16 +2,12 @@ from datastructures.array import Array
 from util import between
 
 
-def bitwise_sort(A):
-    n = A.length
+def bit_sort(A):
     i = 1
-    j = n
-    while i < j:
-        A[i], A[j] = A[j], A[i]
-        while i <= n and A[i] == 0:
+    for j in between(1, A.length):
+        if A[j] == 0:
+            A[i], A[j] = A[j], A[i]
             i += 1
-        while j >= 1 and A[j] == 1:
-            j -= 1
 
 
 def counting_sort_in_place(A, k):
