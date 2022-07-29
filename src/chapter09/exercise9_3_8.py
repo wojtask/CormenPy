@@ -1,9 +1,9 @@
 import math
 
 
-def two_arrays_median(X, pX, rX, Y, pY, rY):
-    if rX - pX <= 1:
-        return min(max(X[pX], Y[pY]), min(X[rX], Y[rY]))
+def joint_median(X, pX, rX, Y, pY, rY):
+    if pX == rX:
+        return min(X[pX], Y[pY])
     qX = math.floor((pX + rX) / 2)
     qX_ = math.ceil((pX + rX) / 2)
     qY = math.floor((pY + rY) / 2)
@@ -11,6 +11,6 @@ def two_arrays_median(X, pX, rX, Y, pY, rY):
     if X[qX] == Y[qY]:
         return X[qX]
     if X[qX] < Y[qY]:
-        return two_arrays_median(X, qX, rX, Y, pY, qY_)
+        return joint_median(X, qX_, rX, Y, pY, qY)
     else:
-        return two_arrays_median(X, pX, qX_, Y, qY, rY)
+        return joint_median(X, pX, qX, Y, qY_, rY)
