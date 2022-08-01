@@ -5,7 +5,7 @@ from unittest import TestCase
 from hamcrest import *
 
 from array_util import get_random_array
-from chapter09.exercise9_3_7 import median_neighbors, median_nearest
+from chapter09.exercise9_3_7 import median_neighbors, closest_to_median
 from datastructures.array import Array
 
 
@@ -27,23 +27,23 @@ class TestExercise9_3_7(TestCase):
         actual_neighbors = median_neighbors(array, k)
 
         expected_neighbors = get_expected_neighbors(original, k)
-        assert_that(expected_neighbors, is_(equal_to(actual_neighbors)))
+        assert_that(expected_neighbors, is_(equal_to(set(actual_neighbors))))
 
-    def test_median_nearest(self):
+    def test_closest_to_median(self):
         array = get_random_array(max_value=30, unique=True)
         original = copy.deepcopy(array)
         n = array.length
         k = random.randint(1, n)
 
-        actual_nearest = median_nearest(array, k)
+        actual_closest = closest_to_median(array, k)
 
         median = original.sort()[(n + 1) // 2]
         distances = Array((x, abs(x - median)) for x in original)
         sorted_distances = distances.sort(key=lambda p: p[1])
-        expected_nearest = {p[0] for p in sorted_distances[:k]}
+        expected_closest = {p[0] for p in sorted_distances[:k]}
         # also add (k+1)-th number if its distance to the median is equal to one of the k elements already taken
         if k < n and sorted_distances[k + 1][1] == sorted_distances[k][1]:
-            expected_nearest |= {sorted_distances[k + 1][0]}
+            expected_closest |= {sorted_distances[k + 1][0]}
 
-        assert_that(actual_nearest, has_length(k))
-        assert_that(actual_nearest.issubset(expected_nearest))
+        assert_that(actual_closest, has_length(k))
+        assert_that(actual_closest.issubset(expected_closest))

@@ -7,27 +7,23 @@ from util import between
 
 def median_neighbors(A, k):
     n = A.length
-    m = math.floor((n + 1) / 2)
-    leftmost = select(A, 1, n, m - math.floor((k - 1) / 2))
-    rightmost = select(A, 1, n, m + math.ceil((k - 1) / 2))
-    N = set()
-    for i in between(1, n):
-        if leftmost <= A[i] <= rightmost:
-            N.add(A[i])
-    return N
+    l = math.floor((n + 1) / 2) - math.floor((k - 1) / 2)
+    select(A, 1, n, l)
+    select(A, l, n, k)
+    return A[l:l + k - 1]
 
 
-def median_nearest(A, k):
+def closest_to_median(A, k):
     n = A.length
     x = select(A, 1, n, math.floor((n + 1) / 2))
-    dist = Array.indexed(1, n)
+    D = Array.indexed(1, n)
     for i in between(1, n):
-        dist[i] = abs(A[i] - x)
-    y = select(dist, 1, n, k)
-    N = set()
+        D[i] = abs(A[i] - x)
+    dk = select(D, 1, n, k)
+    C = set()
     for i in between(1, n):
-        if abs(A[i] - x) <= y:
-            N.add(A[i])
-    if len(N) == k + 1:
-        N.remove(x + y)
-    return N
+        if abs(A[i] - x) <= dk:
+            C.add(A[i])
+    if len(C) == k + 1:
+        C.remove(x + dk)
+    return C
