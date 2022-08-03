@@ -3,7 +3,11 @@ from datastructures.array import Array
 from util import between
 
 
-def select_for_duplicates(A, p, r, i):
+def optimal_pipeline_location(A):
+    return _select_for_duplicates(Array(well.y for well in A), 1, A.length, (A.length + 1) // 2)
+
+
+def _select_for_duplicates(A, p, r, i):
     n = r - p + 1
     if n == 1:
         return A[p]
@@ -11,19 +15,19 @@ def select_for_duplicates(A, p, r, i):
     for group in fives:
         insertion_sort(group)
     medians = Array(group[(group.length + 1) // 2] for group in fives)
-    x = select_for_duplicates(medians, 1, medians.length, (medians.length + 1) // 2)
-    q1, q2 = three_way_partition_around(A, p, r, x)
+    x = _select_for_duplicates(medians, 1, medians.length, (medians.length + 1) // 2)
+    q1, q2 = _three_way_partition_around(A, p, r, x)
     k1 = q1 - p + 1
     k2 = q2 - p + 1
     if k1 <= i <= k2:
         return x
     elif i < k1:
-        return select_for_duplicates(A, p, q1 - 1, i)
+        return _select_for_duplicates(A, p, q1 - 1, i)
     else:
-        return select_for_duplicates(A, q2 + 1, r, i - k2)
+        return _select_for_duplicates(A, q2 + 1, r, i - k2)
 
 
-def three_way_partition_around(A, p, r, x):
+def _three_way_partition_around(A, p, r, x):
     i = p
     j = p
     k = r
