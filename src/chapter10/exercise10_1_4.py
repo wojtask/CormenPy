@@ -1,6 +1,12 @@
 from chapter10.textbook10_1 import enqueue, dequeue
 
 
+def dequeue_(Q):
+    if queue_empty(Q):
+        raise ValueError('underflow')
+    return dequeue(Q)
+
+
 def queue_empty(Q):
     if Q.head == Q.tail:
         return True
@@ -9,14 +15,13 @@ def queue_empty(Q):
 
 
 def enqueue_(Q, x):
-    if Q.head == Q.tail + 1:
-        raise ValueError('overflow')
-    if Q.head == 1 and Q.tail == Q.length:
+    if queue_full(Q):
         raise ValueError('overflow')
     enqueue(Q, x)
 
 
-def dequeue_(Q):
-    if queue_empty(Q):
-        raise ValueError('underflow')
-    return dequeue(Q)
+def queue_full(Q):
+    if Q.head == Q.tail + 1 or (Q.head == 1 and Q.tail == Q.length):
+        return True
+    else:
+        return False
