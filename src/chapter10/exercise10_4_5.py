@@ -8,16 +8,16 @@ def stackless_inorder_visit(x):
 
 def stackless_inorder_tree_walk(T):
     prev = None
-    curr = T.root
-    while curr is not None:
-        if prev is curr.p:
-            if curr.left is not None:
-                next = curr.left
+    x = T.root
+    while x is not None:
+        if prev is x.p:
+            if x.left is not None:
+                next = x.left
             else:
-                next = stackless_inorder_visit(curr)
-        elif prev is curr.left:
-            next = stackless_inorder_visit(curr)
+                next = stackless_inorder_visit(x)
+        elif prev is x.left:
+            next = stackless_inorder_visit(x)
         else:
-            next = curr.p
-        prev = curr
-        curr = next
+            next = x.p
+        prev = x
+        x = next
