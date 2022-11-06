@@ -27,8 +27,6 @@ def get_random_compact_list(min_size=1, max_size=10, max_value=999):
         prev_index = index
 
     free = list_size + 1 if list_size < array_size else None
-    for free_index in between(list_size + 2, array_size):
-        next[free_index - 1] = free_index
 
     return MultipleArrayList(key, next, prev, head, free)
 
