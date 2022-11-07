@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter10.exercise10_2_1 import singly_linked_list_insert, singly_linked_list_delete
+from chapter10.exercise10_2_1 import singly_linked_list_insert, singly_linked_list_delete, singly_linked_list_delete_
 from datastructures.array import Array
 from datastructures.list import SinglyLinkedNode
 from list_util import get_random_singly_linked_list
@@ -28,9 +28,21 @@ class TestExercise10_2_1(TestCase):
         original_nodes = linked_list.as_nodes_array()
         original_keys = linked_list.as_keys_array()
         node_to_delete = original_nodes.random_choice()
+        original_keys.remove(node_to_delete.key)
 
         singly_linked_list_delete(linked_list, node_to_delete)
 
         actual_keys = linked_list.as_keys_array()
+        assert_that(actual_keys, is_(equal_to(original_keys)))
+
+    def test_singly_linked_list_delete_(self):
+        linked_list = get_random_singly_linked_list(max_size=5)
+        original_nodes = linked_list.as_nodes_array()
+        original_keys = linked_list.as_keys_array()
+        node_to_delete = original_nodes.random_choice()
         original_keys.remove(node_to_delete.key)
+
+        singly_linked_list_delete_(linked_list, node_to_delete)
+
+        actual_keys = linked_list.as_keys_array()
         assert_that(actual_keys, is_(equal_to(original_keys)))

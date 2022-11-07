@@ -1,23 +1,18 @@
 from datastructures.array import Array
+from datastructures.essential import Element
 
 
-class SinglyLinkedNode:
-    def __init__(self, key):
-        self.key = key
+class SinglyLinkedNode(Element):
+    def __init__(self, key, data=None):
+        super().__init__(key, data)
         self.next = None
 
-    def __repr__(self):
-        return self.key
 
-
-class DoublyLinkedNode:
-    def __init__(self, key):
-        self.key = key
+class DoublyLinkedNode(Element):
+    def __init__(self, key, data=None):
+        super().__init__(key, data)
         self.prev = None
         self.next = None
-
-    def __repr__(self):
-        return self.key
 
 
 class List:
