@@ -16,7 +16,10 @@ class TestExercise11_1_2(TestCase):
 
         actual_found = bit_vector_search(bit_vector, key_to_find)
 
-        assert_that(actual_found, is_(equal_to(bit_vector[key_to_find])))
+        if bit_vector[key_to_find] == 1:
+            assert_that(actual_found, is_(equal_to(key_to_find)))
+        else:
+            assert_that(actual_found, is_(None))
         assert_that(bit_vector.is_modified(), is_(False))
 
     def test_bit_vector_insert(self):
