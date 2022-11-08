@@ -1,5 +1,5 @@
 def bit_vector_search(V, k):
-    return V[k]
+    return k if V[k] == 1 else None
 
 
 def bit_vector_insert(V, k):
