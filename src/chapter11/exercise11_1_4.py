@@ -14,7 +14,6 @@ def huge_array_insert(T, S, x):
 
 
 def huge_array_delete(T, S, x):
-    k = x.key
     y = pop(S)
-    S[T[k]] = y
-    T[y.key] = T[k]
+    S[T[x.key]] = y
+    T[y.key] = T[x.key]
