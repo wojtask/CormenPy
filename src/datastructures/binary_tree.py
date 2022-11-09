@@ -34,7 +34,7 @@ class RadixNode:
         self.in_tree = False
 
 
-class AVLNode(Node):
+class AVLNode(ParentlessNode):
     def __init__(self, key):
         super().__init__(key)
         self.h = 0
