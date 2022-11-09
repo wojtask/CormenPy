@@ -7,10 +7,7 @@ def rb_join_point(T1, T2):
     y = T1.root
     b = T1.bh
     while b > T2.bh:
-        if y.right is not None:
-            y = y.right
-        else:
-            y = y.left
+        y = y.right
         if y is None or y.color == Color.BLACK:
             b -= 1
     return y
@@ -20,10 +17,7 @@ def rb_symmetric_join_point(T1, T2):
     y = T2.root
     b = T2.bh
     while b > T1.bh:
-        if y.left is not None:
-            y = y.left
-        else:
-            y = y.right
+        y = y.left
         if y is None or y.color == Color.BLACK:
             b -= 1
     return y
@@ -35,36 +29,32 @@ def rb_join(T1, x, T2):
         if T2.root is None:
             joinable_rb_insert(T1, x)
             return T1
-        T.root = x
-        T.bh = T1.bh
         y = rb_join_point(T1, T2)
         x.left = y
         x.right = T2.root
         if y is not T1.root:
-            if y is y.p.left:
-                y.p.left = x
-            else:
-                y.p.right = x
+            y.p.right = x
             T.root = T1.root
             x.p = y.p
+        else:
+            T.root = x
         T2.root.p = y.p = x
+        T.bh = T1.bh
     else:
         if T1.root is None:
             joinable_rb_insert(T2, x)
             return T2
-        T.root = x
-        T.bh = T2.bh
         y = rb_symmetric_join_point(T1, T2)
         x.right = y
         x.left = T1.root
         if y is not T2.root:
-            if y is y.p.right:
-                y.p.right = x
-            else:
-                y.p.left = x
+            y.p.left = x
             T.root = T2.root
             x.p = y.p
+        else:
+            T.root = x
         T1.root.p = y.p = x
+        T.bh = T2.bh
     x.color = Color.RED
     joinable_rb_insert_fixup(T, x)
     return T
