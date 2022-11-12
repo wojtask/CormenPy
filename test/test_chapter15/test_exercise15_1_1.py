@@ -5,14 +5,14 @@ from unittest import TestCase
 
 from hamcrest import *
 
-from chapter15.exercise15_1_1 import print_stations_
+from chapter15.exercise15_1_1 import print_stations_increasing
 from datastructures.array import Array
 from util import between, rbetween
 
 
 class TestExercise15_1_1(TestCase):
 
-    def test_print_stations_(self):
+    def test_print_stations_increasing(self):
         n = random.randint(1, 10)
         l = Array.of(Array.indexed(1, n), Array.indexed(1, n))
         l[1, 1], l[2, 1] = 0, 0
@@ -25,7 +25,7 @@ class TestExercise15_1_1(TestCase):
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
-            print_stations_(l, l_star, n)
+            print_stations_increasing(l, l_star, n)
 
         assert_that(l.is_modified(), is_(False))
         assert_that(l[1].is_modified(), is_(False))
