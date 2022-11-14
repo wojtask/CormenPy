@@ -4,7 +4,7 @@ from datastructures.array import Array
 from util import between
 
 
-def lis_length_(X):
+def lmis_length(X):
     n = X.length
     a = Array.indexed(0, n)
     b = Array.indexed(1, n)
@@ -25,3 +25,9 @@ def lis_length_(X):
         if k > m:
             m = k
     return m, b, a[m]
+
+
+def print_lmis(b, X, i):
+    if b[i] > 0:
+        print_lmis(b, X, b[i])
+    print(X[i])
