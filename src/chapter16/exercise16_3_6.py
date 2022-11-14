@@ -9,9 +9,10 @@ from util import between
 
 def ternary_huffman(C):
     n = len(C)
-    if n % 2 == 0:
-        C.add(('#', 0))
-    Q = _build_min_priority_queue(C)
+    if n % 2 == 1:
+        Q = _build_min_priority_queue(C)
+    else:
+        Q = _build_min_priority_queue(C | {('#', 0)})
     for i in between(1, math.floor(n / 2)):
         w = TernaryHuffmanNode()
         w.left = x = heap_extract_min(Q)
@@ -22,7 +23,7 @@ def ternary_huffman(C):
     return heap_extract_min(Q)
 
 
-def _build_min_priority_queue(C):
-    A = Heap(TernaryHuffmanNode(c[0], c[1]) for c in C)
+def _build_min_priority_queue(characters):
+    A = Heap(TernaryHuffmanNode(c[0], c[1]) for c in characters)
     _build_min_heap(A)
     return A
