@@ -1,7 +1,8 @@
+from util import between
+
+
 def linear_search(A, v):
-    i = 1
-    while i <= A.length and A[i] != v:
-        i += 1
-    if i <= A.length:
-        return i
+    for i in between(1, A.length):
+        if A[i] == v:
+            return i
     return None
