@@ -15,8 +15,8 @@ class TestExercise2_1_4(TestCase):
 
     def test_binary_add(self):
         n = random.randint(1, 20)
-        array1 = get_random_array(size=n, max_value=1)
-        array2 = get_random_array(size=n, max_value=1)
+        array1 = get_random_array(start=0, size=n, max_value=1)
+        array2 = get_random_array(start=0, size=n, max_value=1)
 
         actual_sum_bits = binary_add(array1, array2)
 
