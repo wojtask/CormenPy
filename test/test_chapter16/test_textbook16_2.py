@@ -39,4 +39,5 @@ class TestTextbook16_2(TestCase):
         assert_that(sum(actual_knapsack), is_(less_than_or_equal_to(max_weight)))
         actual_knapsack_value = sum(part_item_value(actual_knapsack[i], weights[i], values[i]) for i in between(1, n))
         knapsack_value_bound = fractional_knapsack_heuristic(original_weights, original_values, max_weight)
-        assert_that(actual_knapsack_value, is_(greater_than_or_equal_to(knapsack_value_bound)))
+        assert_that(actual_knapsack_value,
+                    is_(any_of(greater_than(knapsack_value_bound), close_to(knapsack_value_bound, 1e-10))))
