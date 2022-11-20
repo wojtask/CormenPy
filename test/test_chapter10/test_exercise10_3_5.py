@@ -8,10 +8,10 @@ from test_chapter10.test_textbook10_3 import get_random_multiple_array_list
 
 
 def make_free_list_doubly_linked(array_list):
-    if not array_list.free:
+    if array_list.free is None:
         return
     x = array_list.free
-    while array_list.next[x]:
+    while array_list.next[x] is not None:
         array_list.prev[array_list.next[x]] = x
         x = array_list.next[x]
 
