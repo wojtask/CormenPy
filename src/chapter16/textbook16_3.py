@@ -1,5 +1,3 @@
-import math
-
 from chapter06.exercise6_2_2 import min_heapify
 from chapter06.exercise6_5_3 import heap_extract_min, min_heap_insert
 from datastructures.binary_tree import HuffmanNode
@@ -27,5 +25,5 @@ def _build_min_priority_queue(C):
 
 def _build_min_heap(A):
     A.heap_size = A.length
-    for i in rbetween(math.floor(A.length / 2), 1):
+    for i in rbetween(A.length // 2, 1):
         min_heapify(A, i)

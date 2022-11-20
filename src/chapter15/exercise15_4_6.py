@@ -1,5 +1,3 @@
-import math
-
 from datastructures.array import Array
 from util import between
 
@@ -15,7 +13,7 @@ def lmis_length(X):
         k = 1
         l = m
         while k <= l:
-            j = math.floor((k + l) / 2)
+            j = (k + l) // 2
             if X[a[j]] <= X[i]:
                 k = j + 1
             else:

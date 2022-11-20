@@ -1,8 +1,10 @@
 import math
 
+from util import ceildiv
+
 
 def multiary_parent(d, i):
-    return math.ceil((i - 1) / d)
+    return ceildiv(i - 1, d)
 
 
 def multiary_child(d, i, k):

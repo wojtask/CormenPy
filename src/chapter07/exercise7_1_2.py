@@ -12,6 +12,6 @@ def fair_partition(A, p, r):
             i += 1
             A[i], A[j] = A[j], A[i]
     if equal == r - p:
-        return (p + r) / 2
+        return (p + r) // 2
     A[i + 1], A[r] = A[r], A[i + 1]
     return i + 1

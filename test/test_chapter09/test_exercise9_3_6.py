@@ -1,5 +1,4 @@
 import copy
-import math
 import random
 from unittest import TestCase
 
@@ -8,7 +7,7 @@ from hamcrest import *
 from array_util import get_random_array
 from chapter09.exercise9_3_6 import quantiles
 from datastructures.array import Array
-from util import between
+from util import between, ceildiv
 
 
 def assert_quantiles(a_set, k, elements):
@@ -21,8 +20,8 @@ def assert_quantiles(a_set, k, elements):
 
 
 def assert_valid_subarray_length(n, k, subarray_length):
-    expected_low_subarray_length = math.floor((n - (k - 1)) / k)
-    expected_high_subarray_length = math.ceil((n - (k - 1)) / k)
+    expected_low_subarray_length = (n - (k - 1)) // k
+    expected_high_subarray_length = ceildiv(n - (k - 1), k)
     assert_that(subarray_length,
                 any_of(equal_to(expected_low_subarray_length), equal_to(expected_high_subarray_length)))
 
