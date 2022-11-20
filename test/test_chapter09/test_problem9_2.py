@@ -1,4 +1,5 @@
 import copy
+import unittest
 from unittest import TestCase
 
 from hamcrest import *
@@ -29,6 +30,7 @@ class TestProblem9_2(TestCase):
 
         assert_weighted_median(actual_weighted_median, original_array, original_weights)
 
+    @unittest.skip('flaky test, restore it once https://github.com/wojtask/CormenPy/issues/17 is resolved')
     def test_weighted_median(self):
         array = get_random_array(unique=True)
         original_array = copy.deepcopy(array)
