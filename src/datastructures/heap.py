@@ -35,9 +35,3 @@ class PriorityQueueFIFO(Heap):
     def __init__(self, elements, heap_size=0, rank=1):
         super().__init__(elements, heap_size=heap_size)
         self.rank = rank
-
-
-class PriorityQueueStack(Heap):
-    def __init__(self, elements, heap_size=0, rank=1):
-        super().__init__(elements, heap_size=heap_size)
-        self.rank = rank
