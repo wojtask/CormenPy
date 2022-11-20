@@ -15,7 +15,7 @@ class TestExercise7_1_2(TestCase):
 
         pivot = fair_partition(array, 1, array.length)
 
-        expected_pivot = (1 + array.length) / 2
+        expected_pivot = (1 + array.length) // 2
         assert_that(pivot, is_(equal_to(expected_pivot)))
         assert_that(array, is_(equal_to(original)))
 

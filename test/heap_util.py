@@ -1,22 +1,21 @@
-import math
 import random
 
 from hamcrest import *
 
 from datastructures.array import Array
 from datastructures.heap import Heap
-from util import between
+from util import between, ceildiv
 
 
 def assert_max_heap(heap, arity=2):
     for i in between(2, heap.heap_size):
-        parent_idx = math.ceil((i - 1) / arity)
+        parent_idx = ceildiv(i - 1, arity)
         assert_that(heap[parent_idx], is_(greater_than_or_equal_to(heap[i])))
 
 
 def assert_min_heap(heap, arity=2):
     for i in between(2, heap.heap_size):
-        parent_idx = math.ceil((i - 1) / arity)
+        parent_idx = ceildiv(i - 1, arity)
         assert_that(heap[parent_idx], is_(less_than_or_equal_to(heap[i])))
 
 

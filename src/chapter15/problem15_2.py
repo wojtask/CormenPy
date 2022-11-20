@@ -1,7 +1,7 @@
 import math
 
 from datastructures.array import Array
-from util import between
+from util import between, ceildiv
 
 
 def break_lines(l, M):
@@ -15,7 +15,7 @@ def break_lines(l, M):
     c[0] = 0
     for j in between(1, n):
         c[j] = math.inf
-        j0 = max(1, j - math.ceil(M / 2) + 1)
+        j0 = max(1, j - ceildiv(M, 2) + 1)
         for i in between(j0, j):
             extras = M - j + i - (L[j] - L[i - 1])
             if extras < 0:

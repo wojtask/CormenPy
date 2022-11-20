@@ -1,5 +1,3 @@
-import math
-
 from chapter09.textbook9_3 import select
 from chapter16.textbook16_2 import _sort_by_value_per_weight_unit
 from datastructures.array import Array
@@ -26,7 +24,7 @@ def _effective_fractional_knapsack(items, K, W):
     if n == 0:
         return K
     unit_values = Array(item.value / item.weight for item in items)
-    m = select(unit_values, 1, n, math.floor((n + 1) / 2))
+    m = select(unit_values, 1, n, (n + 1) // 2)
     G = Array(item for item in items if item.value / item.weight > m)
     E = Array(item for item in items if item.value / item.weight == m)
     L = Array(item for item in items if item.value / item.weight < m)

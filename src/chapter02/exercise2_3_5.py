@@ -1,10 +1,7 @@
-import math
-
-
 def recursive_binary_search(A, v, low, high):
     if low > high:
         return None
-    mid = math.floor((low + high) / 2)
+    mid = (low + high) // 2
     if v == A[mid]:
         return mid
     if v < A[mid]:
@@ -17,7 +14,7 @@ def iterative_binary_search(A, v):
     low = 1
     high = A.length
     while low <= high:
-        mid = math.floor((low + high) / 2)
+        mid = (low + high) // 2
         if v == A[mid]:
             return mid
         if v < A[mid]:

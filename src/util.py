@@ -9,6 +9,10 @@ def rbetween(start, end):
     return range(start, end - 1, -1)
 
 
+def ceildiv(a, b):
+    return -(a // -b)
+
+
 class ModificationDetectable:
     def __init__(self):
         self._modified = False

@@ -1,5 +1,3 @@
-import math
-
 from chapter09.textbook9_3 import select
 from datastructures.array import Array
 from util import between
@@ -7,7 +5,7 @@ from util import between
 
 def median_neighbors(A, k):
     n = A.length
-    l = math.floor((n + 1) / 2) - math.floor((k - 1) / 2)
+    l = (n + 1) // 2 - (k - 1) // 2
     select(A, 1, n, l)
     select(A, l, n, k)
     return A[l:l + k - 1]
@@ -15,7 +13,7 @@ def median_neighbors(A, k):
 
 def closest_to_median(A, k):
     n = A.length
-    x = select(A, 1, n, math.floor((n + 1) / 2))
+    x = select(A, 1, n, (n + 1) // 2)
     D = Array.indexed(1, n)
     for i in between(1, n):
         D[i] = abs(A[i] - x)

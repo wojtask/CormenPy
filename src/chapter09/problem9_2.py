@@ -1,5 +1,3 @@
-import math
-
 from chapter02.textbook2_1 import insertion_sort
 from chapter09.textbook9_3 import select
 from datastructures.array import Array
@@ -26,7 +24,7 @@ def weighted_median(A, w, p, r):
     if p == r:
         return A[p]
     _select_with_weights(A, w, p, r, (p + r) // 2)
-    q = math.floor((p + r) / 2)
+    q = (p + r) // 2
     WL = 0
     for i in between(p, q - 1):
         WL += w[i]

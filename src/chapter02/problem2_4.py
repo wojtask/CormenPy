@@ -7,7 +7,7 @@ from util import between
 def count_inversions(A, p, r):
     inversions = 0
     if p < r:
-        q = math.floor((p + r) / 2)
+        q = (p + r) // 2
         inversions += count_inversions(A, p, q)
         inversions += count_inversions(A, q + 1, r)
         inversions += merge_inversions(A, p, q, r)

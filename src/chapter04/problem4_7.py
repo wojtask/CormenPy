@@ -1,7 +1,5 @@
-import math
-
 from datastructures.array import Array
-from util import between
+from util import between, ceildiv
 
 
 def monge_minimums(A):
@@ -23,7 +21,7 @@ def _monge_minimums_indices(A):
     minimums_indices = Array.indexed(1, m)
     for j in between(1, m // 2):
         minimums_indices[2 * j] = minimums_indices_even_rows[j]
-    for j in between(1, math.ceil(m / 2)):
+    for j in between(1, ceildiv(m, 2)):
         i = 2 * j - 1
         prev_minimum_index = minimums_indices[i - 1] if i > 1 else 1
         next_minimum_index = minimums_indices[i + 1] if i < m else n

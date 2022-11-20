@@ -1,8 +1,5 @@
-import math
-
-
 def parent(i):
-    return math.floor(i / 2)
+    return i // 2
 
 
 def left(i):

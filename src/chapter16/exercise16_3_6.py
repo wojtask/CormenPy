@@ -1,5 +1,3 @@
-import math
-
 from chapter06.exercise6_5_3 import heap_extract_min, min_heap_insert
 from chapter16.textbook16_3 import _build_min_heap
 from datastructures.binary_tree import TernaryHuffmanNode
@@ -13,7 +11,7 @@ def ternary_huffman(C):
         Q = _build_min_priority_queue(C)
     else:
         Q = _build_min_priority_queue(C | {('#', 0)})
-    for i in between(1, math.floor(n / 2)):
+    for i in between(1, n // 2):
         w = TernaryHuffmanNode()
         w.left = x = heap_extract_min(Q)
         w.middle = y = heap_extract_min(Q)
