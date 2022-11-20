@@ -6,7 +6,7 @@ from hamcrest import *
 from chapter06.exercise6_5_6 import priority_enqueue, priority_dequeue, priority_push, priority_pop
 from datastructures.array import Array
 from datastructures.essential import Element
-from datastructures.heap import PriorityQueueFIFO, PriorityQueueStack
+from datastructures.heap import PriorityQueueFIFO, Heap
 from heap_util import get_random_min_heap, get_random_max_heap
 from util import between
 
@@ -47,7 +47,7 @@ class TestExercise6_5_6(TestCase):
 
     def test_priority_push(self):
         size = random.randint(5, 20)
-        stack = PriorityQueueStack(Array.indexed(1, size))
+        stack = Heap(Array.indexed(1, size))
         nelements = random.randint(1, size)
 
         for i in between(1, nelements):
@@ -56,12 +56,9 @@ class TestExercise6_5_6(TestCase):
 
         for element in stack:
             assert_that(element.data, is_(equal_to('element %d' % element.key)))
-        assert_that(stack.rank, is_(equal_to(nelements + 1)))
 
     def test_priority_pop(self):
-        rank = 100
-        max_heap = get_random_max_heap()
-        stack = PriorityQueueStack(max_heap, heap_size=max_heap.heap_size, rank=rank)
+        stack = get_random_max_heap()
         # transform the numbers in the queue to elements with keys and data
         expected_elements = Array()
         for i in between(1, stack.heap_size):
@@ -74,5 +71,4 @@ class TestExercise6_5_6(TestCase):
         actual_deleted = priority_pop(stack)
 
         assert_that(actual_deleted, is_(equal_to(expected_deleted)))
-        assert_that(stack.rank, is_(equal_to(rank)))
         assert_that(stack, contains_inanyorder(*expected_elements))
