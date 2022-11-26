@@ -7,7 +7,7 @@ def rev(k, a):
     return int(bin(a)[2:].zfill(k)[::-1], 2)
 
 
-def bit_reversal(A):
+def bit_reversal_permutation(A):
     n = A.length
     k = int(math.log2(n))
     for i in between(1, n - 2):
@@ -24,7 +24,7 @@ def bit_reversed_increment(a, k):
     return a | m
 
 
-def bit_reversal_(A):
+def bit_reversal_permutation_(A):
     n = A.length
     k = int(math.log2(n))
     j = 0
