@@ -26,13 +26,13 @@ def lcs_length(X, Y):
     return c, b
 
 
-def print_lcs(b, X, i, j):
+def print_lcs(b, X, i, j, end=''):
     if i == 0 or j == 0:
         return
     if b[i, j] == '↖':
-        print_lcs(b, X, i - 1, j - 1)
-        print(X[i], end='')
+        print_lcs(b, X, i - 1, j - 1, end=end)
+        print(X[i], end=end)
     elif b[i, j] == '↑':
-        print_lcs(b, X, i - 1, j)
+        print_lcs(b, X, i - 1, j, end=end)
     else:
-        print_lcs(b, X, i, j - 1)
+        print_lcs(b, X, i, j - 1, end=end)
