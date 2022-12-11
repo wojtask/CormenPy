@@ -1,8 +1,8 @@
 from chapter06.exercise6_5_8 import merge_sorted_lists
 from chapter10.exercise10_2_1 import singly_linked_list_insert, singly_linked_list_delete
-from chapter11.textbook11_5 import perfect_hashing_search, perfect_hashing_init
+from chapter10.exercise10_2_3 import singly_linked_list_enqueue
 from datastructures.array import Array
-from datastructures.list import List, SinglyLinkedNode
+from datastructures.list import List, SinglyLinkedNode, ListWithTail
 
 
 def sorted_list_make_min_heap():
@@ -49,9 +49,7 @@ def sorted_list_min_heap_union(heap1, heap2):
 
 
 def list_make_min_heap():
-    heap = List()
-    heap.tail = None
-    return heap
+    return ListWithTail()
 
 
 def list_min_heap_insert(heap, key):
@@ -93,31 +91,46 @@ def list_heap_extract_min(heap):
     return min
 
 
-def list_min_heap_union(heap1, heap2):
-    if heap1.head is None:
-        return heap2
-    if heap2.head is None:
-        return heap1
-    if heap1.head.key < heap2.head.key:
-        new_min = heap1.head
-    else:
-        new_min = heap2.head
-    heap1_keys = Array()
-    x = heap1.head
-    while x is not None:
-        heap1_keys.append(x.key)
+def _merge_list(p, q, r):
+    x = p
+    y = q.next
+    merged_list = ListWithTail()
+    while x is not q.next and y is not r.next:
+        if x.key <= y.key:
+            singly_linked_list_enqueue(merged_list, x.key)
+            x = x.next
+        else:
+            singly_linked_list_enqueue(merged_list, y.key)
+            y = y.next
+    while x is not q.next:
+        singly_linked_list_enqueue(merged_list, x.key)
         x = x.next
-    if heap1_keys:
-        hash_table, h = perfect_hashing_init(Array(heap1_keys))
-    x = heap2.head
-    while x is not None:
-        y = x.next
-        if not heap1_keys or perfect_hashing_search(hash_table, x.key, h) is None:
-            singly_linked_list_insert(heap1, x)
-        x = y
-    singly_linked_list_delete(heap1, new_min)
-    singly_linked_list_insert(heap1, new_min)
-    return heap1
+    while y is not r.next:
+        singly_linked_list_enqueue(merged_list, y.key)
+        y = y.next
+    x = p
+    z = merged_list.head
+    while z is not None:
+        x.key = z.key
+        x = x.next
+        z = z.next
+
+
+def _merge_sort_list(p, r):
+    if p is not None and p is not r:
+        q = qq = p
+        while qq is not r and qq.next is not r:
+            q = q.next
+            qq = qq.next.next
+        _merge_sort_list(p, q)
+        _merge_sort_list(q.next, r)
+        _merge_list(p, q, r)
+
+
+def list_min_heap_union(heap1, heap2):
+    _merge_sort_list(heap1.head, heap1.tail)
+    _merge_sort_list(heap2.head, heap2.tail)
+    return sorted_list_min_heap_union(heap1, heap2)
 
 
 def list_min_heap_disjoint_union(heap1, heap2):
