@@ -19,13 +19,13 @@ def checkerboard(n, p):
             if j < n and g[i - 1, j + 1] + p((i - 1, j + 1), (i, j)) > g[i, j]:
                 g[i, j] = g[i - 1, j + 1] + p((i - 1, j + 1), (i, j))
                 m[i, j] = j + 1
-    result = -math.inf
+    max_gain = -math.inf
     m_star = 1
     for j in between(1, n):
-        if g[n, j] > result:
-            result = g[n, j]
+        if g[n, j] > max_gain:
+            max_gain = g[n, j]
             m_star = j
-    return result, m, m_star
+    return max_gain, m, m_star
 
 
 def print_moves(m, i, j):

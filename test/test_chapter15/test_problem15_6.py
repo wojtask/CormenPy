@@ -19,10 +19,10 @@ def checkerboard_profit(profit, x, y):
 
 
 def get_optimal_checkerboard_path_bruteforce(n, predicate):
-    max_profit = -math.inf
+    maximum_gain = -math.inf
     for j in between(1, n):
-        max_profit = max(max_profit, get_optimal_checkerboard_subpath_bruteforce((1, j), n, predicate))
-    return max_profit
+        maximum_gain = max(maximum_gain, get_optimal_checkerboard_subpath_bruteforce((1, j), n, predicate))
+    return maximum_gain
 
 
 def get_optimal_checkerboard_subpath_bruteforce(x, n, predicate):
@@ -65,11 +65,11 @@ class TestProblem15_6(TestCase):
             profit[i, n] = (random.randint(-100, 100), random.randint(-100, 100), None)
         captured_output = io.StringIO()
 
-        actual_maximum_profit, squares, last_square = checkerboard(n, lambda x, y: checkerboard_profit(profit, x, y))
+        actual_maximum_gain, squares, last_square = checkerboard(n, lambda x, y: checkerboard_profit(profit, x, y))
         with redirect_stdout(captured_output):
             print_moves(squares, n, last_square)
 
-        expected_maximum_profit = \
+        expected_maximum_gain = \
             get_optimal_checkerboard_path_bruteforce(n, lambda x, y: checkerboard_profit(profit, x, y))
-        assert_that(actual_maximum_profit, is_(equal_to(expected_maximum_profit)))
-        assert_squares_path(n, Array(captured_output.getvalue().splitlines()), profit, expected_maximum_profit)
+        assert_that(actual_maximum_gain, is_(equal_to(expected_maximum_gain)))
+        assert_squares_path(n, Array(captured_output.getvalue().splitlines()), profit, expected_maximum_gain)
