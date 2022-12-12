@@ -9,7 +9,7 @@ from hash_table_util import get_random_hash_table_linear_probing, get_hash_table
 
 class TestExercise11_4_2(TestCase):
 
-    def test_hash_delete(self):
+    def test_hash_delete_positive(self):
         table, h = get_random_hash_table_linear_probing()
         original_keys = get_hash_table_keys(table)
         # make sure the table is not empty
@@ -23,6 +23,23 @@ class TestExercise11_4_2(TestCase):
 
         actual_keys = get_hash_table_keys(table)
         original_keys.remove(key_to_delete)
+        assert_that(actual_keys, contains_inanyorder(*original_keys))
+
+    def test_hash_delete_random(self):
+        table, h = get_random_hash_table_linear_probing()
+        original_keys = get_hash_table_keys(table)
+        # make sure the table is not empty
+        if not original_keys:
+            key = random.randint(0, 999)
+            original_keys.append(key)
+            table[h(key, 0)] = key
+        key_to_delete = random.randint(0, 999)
+
+        hash_delete(table, key_to_delete, h)
+
+        actual_keys = get_hash_table_keys(table)
+        if key_to_delete in original_keys:
+            original_keys.remove(key_to_delete)
         assert_that(actual_keys, contains_inanyorder(*original_keys))
 
     def test_hash_insert_(self):
