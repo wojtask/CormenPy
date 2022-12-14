@@ -7,8 +7,8 @@ from array_util import get_random_array
 from chapter14.textbook14_1 import os_select, os_rank, os_insert, os_delete
 from datastructures.array import Array
 from datastructures.red_black_tree import RedBlackTree, OSNode
-from tree_util import get_random_os_tree, assert_os_tree, assert_parent_pointers_consistent, \
-    get_binary_search_tree_inorder_keys, get_binary_search_tree_inorder_nodes
+from tree_util import get_random_os_tree, assert_os_tree, get_binary_search_tree_inorder_keys, \
+    get_binary_search_tree_inorder_nodes
 
 
 class TestTextbook14_1(TestCase):
@@ -49,7 +49,6 @@ class TestTextbook14_1(TestCase):
 
             assert_os_tree(tree)
             assert_that(tree.root.size, is_(equal_to(i)))
-            assert_parent_pointers_consistent(tree)
 
         actual_keys = get_binary_search_tree_inorder_keys(tree)
         assert_that(actual_keys, contains_inanyorder(*keys))
@@ -66,7 +65,6 @@ class TestTextbook14_1(TestCase):
             os_delete(tree, node)
 
             assert_os_tree(tree)
-            assert_parent_pointers_consistent(tree)
             assert_that(tree.root.size, is_(equal_to(inorder_nodes.length - 1)))
             actual_keys = get_binary_search_tree_inorder_keys(tree)
             assert_that(actual_keys, contains_inanyorder(*inorder_keys))

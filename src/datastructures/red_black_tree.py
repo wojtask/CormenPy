@@ -21,6 +21,8 @@ class RedBlackTree(binary_tree.BinaryTree):
         if sentinel is not None:
             self.nil = sentinel
             self.nil.left = self.nil.right = self.nil
+            if hasattr(sentinel, 'p'):
+                self.nil.p = self.nil
             if root is None:
                 self.root = self.nil
             elif hasattr(root, 'p'):
@@ -47,6 +49,12 @@ class OSNode(Node):
     def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
         super().__init__(key, data, left, right, color)
         self.size = 0
+
+
+class RankedOSNode(Node):
+    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
+        super().__init__(key, data, left, right, color)
+        self.rank = None
 
 
 class AugmentedOSNode(OSNode):

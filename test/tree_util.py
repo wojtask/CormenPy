@@ -261,6 +261,44 @@ def assert_os_subtree(subtree_root, sentinel):
         assert_os_subtree(subtree_root.right, sentinel)
 
 
+def get_random_ranked_os_tree(black_height=3, max_value=999):
+    tree = get_random_red_black_tree(black_height, max_value=max_value, node_ctor=rb.RankedOSNode)
+    augment_to_ranked_os_tree(tree)
+    return tree
+
+
+def augment_to_ranked_os_tree(tree):
+    if tree.root is not tree.nil:
+        augment_to_ranked_os_subtree(tree.root, tree.nil)
+
+
+def augment_to_ranked_os_subtree(subtree_root, sentinel):
+    left_size = right_size = 0
+    if subtree_root.left is not sentinel:
+        left_size = augment_to_ranked_os_subtree(subtree_root.left, sentinel)
+    if subtree_root.right is not sentinel:
+        right_size = augment_to_ranked_os_subtree(subtree_root.right, sentinel)
+    subtree_root.rank = left_size + 1
+    return left_size + right_size + 1
+
+
+def assert_ranked_os_tree(tree):
+    assert_red_black_tree(tree)
+    assert_parent_pointers_consistent(tree)
+    if tree.root is not tree.nil:
+        assert_ranked_os_subtree(tree.root, tree.nil)
+
+
+def assert_ranked_os_subtree(subtree_root, sentinel):
+    left_size = right_size = 0
+    if subtree_root.left is not sentinel:
+        left_size = assert_ranked_os_subtree(subtree_root.left, sentinel)
+    if subtree_root.right is not sentinel:
+        right_size = assert_ranked_os_subtree(subtree_root.right, sentinel)
+    assert_that(subtree_root.rank, is_(equal_to(left_size + 1)))
+    return left_size + right_size + 1
+
+
 def get_random_interval_tree(black_height=3, max_value=999):
     # max_value is treated as the upper bound for high endpoints
     # the procedure generates intervals of lengths at most (.1 * max_value)
