@@ -1,16 +1,9 @@
-from util import ceildiv
-
-
 def joint_median(X, pX, rX, Y, pY, rY):
-    if pX == rX:
+    n = rX - pX + 1
+    if n == 1:
         return min(X[pX], Y[pY])
-    qX = (pX + rX) // 2
-    qX_ = ceildiv(pX + rX, 2)
-    qY = (pY + rY) // 2
-    qY_ = ceildiv(pY + rY, 2)
-    if X[qX] == Y[qY]:
-        return X[qX]
-    if X[qX] < Y[qY]:
-        return joint_median(X, qX_, rX, Y, pY, qY)
+    m = (n + 1) // 2
+    if X[pX + m - 1] < Y[pY + m - 1]:
+        return joint_median(X, rX - m + 1, rX, Y, pY, pY + m - 1)
     else:
-        return joint_median(X, pX, qX, Y, qY_, rY)
+        return joint_median(X, pX, pX + m - 1, Y, rY - m + 1, rY)
