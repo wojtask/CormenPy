@@ -40,7 +40,7 @@ class TestProblem15_7(TestCase):
         n = random.randint(1, 8)
         times = get_random_array(size=n, min_value=1, max_value=n)
         profits = get_random_array(size=n)
-        deadlines = Array(random.randint(times[j], n ** 2 + 10) for j in between(1, n))
+        deadlines = Array(random.randint(times[j], n ** 2) for j in between(1, n))
         original_times = copy.deepcopy(times)
         original_profits = copy.deepcopy(profits)
         original_deadlines = copy.deepcopy(deadlines)

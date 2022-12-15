@@ -14,20 +14,18 @@ def jobs_scheduling(t, p, d):
     n = p.length
     a = Array(between(1, n))
     _sort_jobs_by_deadlines(a, t, p, d)
-    for i in between(1, n):
-        d[i] = min(d[i], n ** 2)
     P = Array.indexed(0, d[n])
     s = Array(Array.indexed(0, d[n]) for _ in between(1, n))
-    for j in between(0, d[n]):
-        P[j] = 0
+    for k in between(0, d[n]):
+        P[k] = 0
     for i in between(1, n):
-        for j in between(0, d[n]):
-            s[i, j] = 0
+        for k in between(0, d[n]):
+            s[i, k] = 0
     for i in between(1, n):
-        for j in rbetween(d[n], t[i]):
-            if P[min(j, d[i]) - t[i]] + p[i] > P[j]:
-                P[j] = P[min(j, d[i]) - t[i]] + p[i]
-                s[i, j] = 1
+        for k in rbetween(d[n], t[i]):
+            if P[min(k, d[i]) - t[i]] + p[i] > P[k]:
+                P[k] = P[min(k, d[i]) - t[i]] + p[i]
+                s[i, k] = 1
     return P, s, a
 
 
