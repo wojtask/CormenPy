@@ -57,13 +57,11 @@ class RankedOSNode(Node):
         self.rank = None
 
 
-class AugmentedOSNode(OSNode):
+class ChainedOSNode(OSNode):
     def __init__(self, key):
         super().__init__(key)
-        self.min = self
-        self.max = self
-        self.pred = self
-        self.succ = self
+        self.prev = self
+        self.next = self
 
 
 class IntervalNode(Node):
