@@ -64,6 +64,12 @@ class ChainedOSNode(OSNode):
         self.next = self
 
 
+class BHNode(Node):
+    def __init__(self, key, data=None, left=None, right=None, color=Color.BLACK):
+        super().__init__(key, data, left, right, color)
+        self.bh = 0
+
+
 class IntervalNode(Node):
     def __init__(self, key, interval=None, left=None, right=None, color=Color.BLACK):
         super().__init__(key, None, left, right, color)

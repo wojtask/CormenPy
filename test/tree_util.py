@@ -171,7 +171,7 @@ def assert_red_black_property_4(subtree_root, sentinel):
 
 
 def assert_red_black_property_5(subtree_root, sentinel):
-    left_bh = right_bh = 0
+    left_bh = right_bh = 1
     if subtree_root.left is not sentinel:
         left_bh = assert_red_black_property_5(subtree_root.left, sentinel)
         if subtree_root.left.color == Color.BLACK:
