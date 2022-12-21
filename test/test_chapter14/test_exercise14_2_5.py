@@ -23,7 +23,7 @@ class TestExercise14_2_5(TestCase):
         captured_output = io.StringIO()
 
         with redirect_stdout(captured_output):
-            rb_enumerate(tree, tree.root, lower_bound, upper_bound)
+            rb_enumerate(tree, lower_bound, upper_bound)
 
         actual_output = Array(int(x) for x in captured_output.getvalue().splitlines())
         for x in actual_output:
