@@ -1,17 +1,14 @@
-from chapter14.textbook14_3 import interval_search, overlap
+from chapter14.textbook14_3 import overlap
 
 
-def min_interval_search(T, i):
-    x = interval_search(T, i)
-    if x is not T.nil:
-        y = x.left
-        while y is not T.nil:
-            if overlap(i, y.int):
-                x = y
-                y = x.left
-            else:
-                if y.left is not T.nil and y.left.max >= i.low:
-                    y = y.left
-                else:
-                    y = y.right
-    return x
+def interval_search_lowest(T, i):
+    x = T.root
+    y = T.nil
+    while x is not T.nil:
+        if overlap(i, x.int) and (y is T.nil or x.int.low < y.int.low):
+            y = x
+        if x.left is not T.nil and x.left.max >= i.low:
+            x = x.left
+        else:
+            x = x.right
+    return y
