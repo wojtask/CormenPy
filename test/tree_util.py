@@ -19,8 +19,8 @@ def get_binary_search_subtree_inorder_keys(subtree_root, sentinel):
     if subtree_root is sentinel:
         return Array()
     return get_binary_search_subtree_inorder_keys(subtree_root.left, sentinel) \
-        + Array.of(subtree_root.key) \
-        + get_binary_search_subtree_inorder_keys(subtree_root.right, sentinel)
+           + Array.of(subtree_root.key) \
+           + get_binary_search_subtree_inorder_keys(subtree_root.right, sentinel)
 
 
 def get_binary_search_tree_inorder_nodes(tree):
@@ -31,8 +31,8 @@ def get_binary_search_subtree_inorder_nodes(subtree_root, sentinel):
     if subtree_root is sentinel:
         return Array()
     return get_binary_search_subtree_inorder_nodes(subtree_root.left, sentinel) \
-        + Array.of(subtree_root) \
-        + get_binary_search_subtree_inorder_nodes(subtree_root.right, sentinel)
+           + Array.of(subtree_root) \
+           + get_binary_search_subtree_inorder_nodes(subtree_root.right, sentinel)
 
 
 def get_random_binary_search_tree(min_size=1, max_size=20, max_value=999, node_ctor=bt.Node):
@@ -364,16 +364,17 @@ def assert_interval_pom_tree(tree):
 
 
 def assert_interval_pom_subtree(subtree_root, sentinel):
-    assert_that(subtree_root.sum,
-                is_(equal_to(subtree_root.left.sum + (subtree_root.low - subtree_root.high) + subtree_root.right.sum)))
-    assert_that(subtree_root.max, is_(equal_to(max(subtree_root.left.max,
-                                                   subtree_root.left.sum + subtree_root.low,
-                                                   subtree_root.left.sum +
-                                                   (subtree_root.low - subtree_root.high) +
-                                                   subtree_root.right.max))))
-    if subtree_root.max == subtree_root.left.max:
+    assert_that(subtree_root.overlap,
+                is_(equal_to(
+                    subtree_root.left.overlap + (subtree_root.low - subtree_root.high) + subtree_root.right.overlap)))
+    assert_that(subtree_root.max_overlap, is_(equal_to(max(subtree_root.left.max_overlap,
+                                                           subtree_root.left.overlap + subtree_root.low,
+                                                           subtree_root.left.overlap +
+                                                           (subtree_root.low - subtree_root.high) +
+                                                           subtree_root.right.max_overlap))))
+    if subtree_root.max_overlap == subtree_root.left.max_overlap:
         assert_that(subtree_root.pom, is_(equal_to(subtree_root.left.pom)))
-    elif subtree_root.max == subtree_root.left.sum + subtree_root.low:
+    elif subtree_root.max_overlap == subtree_root.left.overlap + subtree_root.low:
         assert_that(subtree_root.pom, is_(equal_to(subtree_root.key)))
     else:
         assert_that(subtree_root.pom, is_(equal_to(subtree_root.right.pom)))

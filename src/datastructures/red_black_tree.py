@@ -90,6 +90,6 @@ class IntervalPomNode(Node):
         super().__init__(key)
         self.low = 0
         self.high = 0
-        self.sum = 0
-        self.max = -math.inf
+        self.overlap = 0
+        self.max_overlap = -math.inf
         self.pom = None

@@ -54,8 +54,8 @@ def _interval_pom_insert_node(T, z):
             y.right = z
     z.left = z.right = T.nil
     z.color = Color.RED
-    z.sum = z.low - z.high
-    z.max = z.low
+    z.overlap = z.low - z.high
+    z.max_overlap = z.low
     z.pom = z.key
     x = y
     while x is not T.nil:
@@ -65,11 +65,11 @@ def _interval_pom_insert_node(T, z):
 
 
 def _update_additional_fields(x):
-    x.sum = x.left.sum + (x.low - x.high) + x.right.sum
-    x.max = max(x.left.max, x.left.sum + x.low, x.left.sum + (x.low - x.high) + x.right.max)
-    if x.max == x.left.max:
+    x.overlap = x.left.overlap + (x.low - x.high) + x.right.overlap
+    x.max_overlap = max(x.left.max_overlap, x.left.overlap + x.low, x.left.overlap + (x.low - x.high) + x.right.max_overlap)
+    if x.max_overlap == x.left.max_overlap:
         x.pom = x.left.pom
-    elif x.max == x.left.sum + x.low:
+    elif x.max_overlap == x.left.overlap + x.low:
         x.pom = x.key
     else:
         x.pom = x.right.pom
@@ -239,8 +239,8 @@ def _copy_all_fields(z, y):
     y.data = z.data
     y.low = z.low
     y.high = z.high
-    y.sum = z.sum
-    y.max = z.max
+    y.overlap = z.overlap
+    y.max_overlap = z.max_overlap
     y.pom = z.pom
     y.color = z.color
     y.left = z.left
