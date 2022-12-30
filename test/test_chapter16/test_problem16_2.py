@@ -78,16 +78,13 @@ class TestProblem16_2(TestCase):
         processing_times = get_random_array(size=n, min_value=1, max_value=3)
         release_times = get_random_array(size=n, max_value=15)
         # sort activities by release time
-        sorted_tuples = sorted(zip(processing_times, release_times), key=lambda x: x[1])
-        processing_times, release_times = Array(x[0] for x in sorted_tuples), Array(x[1] for x in sorted_tuples)
-        release_times.append(math.inf)
-        original_processing_times = copy.deepcopy(processing_times)
-        original_release_times = copy.deepcopy(release_times)
+        times = sorted(zip(processing_times, release_times), key=lambda x: x[1])
+        sorted_processing_times, sorted_release_times = Array(x[0] for x in times), Array(x[1] for x in times)
 
         actual_schedule = preemptive_act_schedule(processing_times, release_times)
 
         for i in between(1, n):
-            assert_that(actual_schedule[i], is_(greater_than(release_times[i])))
+            assert_that(actual_schedule[i], is_(greater_than(sorted_release_times[i])))
         actual_min_act = sum(actual_schedule) / actual_schedule.length
-        expected_min_act = get_min_preemptive_act_bruteforce(original_processing_times, original_release_times)
+        expected_min_act = get_min_preemptive_act_bruteforce(sorted_processing_times, sorted_release_times)
         assert_that(actual_min_act, is_(equal_to(expected_min_act)))

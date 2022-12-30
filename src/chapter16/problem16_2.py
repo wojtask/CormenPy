@@ -1,3 +1,5 @@
+import math
+
 from chapter06.exercise6_5_3 import min_heap_insert, heap_minimum, heap_extract_min, heap_decrease_key
 from datastructures.array import Array
 from datastructures.essential import Activity
@@ -19,6 +21,9 @@ def preemptive_act_schedule(p, r):
     n = p.length
     Q = Heap(Array.indexed(1, n))
     c = Array.indexed(1, n)
+    times = sorted(zip(p, r), key=lambda x: x[1])
+    p, r = Array(x[0] for x in times), Array(x[1] for x in times)
+    r.append(math.inf)
     for i in between(1, n):
         t = r[i]
         min_heap_insert(Q, Activity(i, p[i], r[i]))
