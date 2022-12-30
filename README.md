@@ -1,6 +1,11 @@
 # CormenPy
 ![Build & test](https://github.com/wojtask/CormenPy/actions/workflows/build.yml/badge.svg)
 
+Since Jan 1, 2023 this project is **frozen**, so no noncritical modifications are applied.
+Instead, [the successor project](https://github.com/wojtask/clrs4e-implementations) is actively developed.
+
+---
+
 **CormenPy** provides implementations of algorithms and data structures from *Introduction to Algorithms*, ed. 2
 by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein.
 It also contains implementations from *Introduction to Algorithms – Solutions to exercises and problems*
